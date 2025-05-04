@@ -18,13 +18,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
@@ -40,51 +40,90 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Debug-windows-x86_64\Engine\</OutDir>
     <IntDir>..\bin-int\Debug-windows-x86_64\Engine\</IntDir>
     <TargetName>Engine</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Release-windows-x86_64\Engine\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\Engine\</IntDir>
     <TargetName>Engine</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\extern\SFML\include;..\extern\ImGui;..\extern\sol2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\bin\Debug-windows-x86_64\Engine\Engine.lib</ImportLibrary>
     </Link>
-    <Lib>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+    <PostBuildEvent>
+      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-graphics-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-window-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-system-3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\extern\SFML\include;..\extern\ImGui;..\extern\sol2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\bin\Release-windows-x86_64\Engine\Engine.lib</ImportLibrary>
     </Link>
-    <Lib>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+    <PostBuildEvent>
+      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-graphics-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-window-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-system-3.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
+    <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
+    <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
+    <ClInclude Include="include\Core\GameEngine.h" />
+    <ClInclude Include="include\ECS\Entity.h" />
+    <ClInclude Include="include\ECS\EntityMemoryPool.h" />
+    <ClInclude Include="include\ECS\IComponent.h" />
+    <ClInclude Include="include\ECS\ISystem.h" />
+    <ClInclude Include="include\EngineAPI.h" />
+    <ClInclude Include="include\Math\Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\extern\ImGui-SFML\imgui-SFML.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Core\GameEngine.cpp" />
+    <ClCompile Include="src\ECS\Entity.cpp" />
+    <ClCompile Include="src\ECS\EntityMemoryPool.cpp" />
+    <ClCompile Include="src\ECS\ISystem.cpp" />
+    <ClCompile Include="src\Math\Vec2.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

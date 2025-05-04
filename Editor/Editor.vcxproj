@@ -57,32 +57,60 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Engine;..\extern\ImGui;..\extern\SFML\include;..\extern\sol2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;ImGui-SFML.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Debug-windows-x86_64\Editor\sfml-graphics-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Debug-windows-x86_64\Editor\sfml-window-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Debug-windows-x86_64\Editor\sfml-system-3.dll
+copy /B /Y ..\bin\Debug-windows-x86_64\Engine\Engine.dll ..\bin\Debug-windows-x86_64\Editor\Engine.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\Engine;..\extern\ImGui;..\extern\SFML\include;..\extern\sol2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;ImGui-SFML.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Release-windows-x86_64\Editor\sfml-graphics-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Release-windows-x86_64\Editor\sfml-window-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-windows-x86_64\Editor\sfml-system-3.dll
+copy /B /Y ..\bin\Release-windows-x86_64\Engine\Engine.dll ..\bin\Release-windows-x86_64\Editor\Engine.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
+    <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
+    <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\extern\ImGui-SFML\imgui-SFML.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}</Project>

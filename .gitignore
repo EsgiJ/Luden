@@ -1,5 +1,90 @@
-"bin/" 
-"bin-int/" 
-"*sln" 
-"*.vcxproj*" 
-"*.sln" 
+# Solution and project files
+*.sln
+*.vcxproj*
+*.vcxproj.user
+*.suo
+
+# Build directories
+bin/
+bin-int/
+build/
+out/
+x64/
+x86/
+Debug/
+Release/
+
+# Executables and libraries
+*.exe
+*.dll
+*.so
+*.dylib
+*.lib
+*.a
+
+# Debug and profiling files
+*.pdb
+*.idb
+*.ilk
+*.exp
+*.obj
+*.iobj
+*.ipdb
+*.pgd
+*.gcda
+*.gcno
+
+# Visual Studio files
+.vs/
+*.user
+*.tlog
+*.log
+*.ipch
+*.VC.db*
+*.opendb
+*.sdf
+*.sbr
+*.bsc
+
+# Editor and IDE files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Premake generated files
+*.make
+Makefile
+*.workspace
+*.project
+
+# Game and editor specific
+Editor/imgui.ini
+*.sav
+*.save
+*.import
+*.material
+*.meta
+
+# External dependencies
+extern/
+!extern/**/README.md
+
+# Local config files
+local.properties
+local_settings.*
+.env
+.env.local
+
+# Backup files
+*.backup.*
+*.backup.json

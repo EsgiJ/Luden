@@ -5,81 +5,155 @@ workspace "LudenEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
--- ENGINE
+-- ENGINE PROJECT (DLL)
 project "Engine"
     location "Engine"
-    kind "StaticLib"
+    kind "SharedLib"
     language "C++"
     cppdialect "C++20"
-    staticruntime "on"
+    staticruntime "off"
+    defines { "ENGINE_EXPORTS" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files {
-        "%{prj.name}/**.h",
-        "%{prj.name}/**.cpp"
+    files 
+    {
+        "Engine/src/**.cpp",
+        "Engine/include/**.h",
+        "extern/imgui/*.cpp",
+        "extern/ImGui-SFML/*.cpp",
+        "extern/ImGui-SFML/*.h"
     }
 
     includedirs {
+        "Engine/include",
+        "extern/imgui",
+        "extern/ImGui-SFML",
         "extern/SFML/include",
-        "extern/ImGui",
-        "extern/sol2/include"
+        "extern/sol2/single"
+    }
+
+    libdirs {
+        "extern/SFML/build/lib/Release"
     }
 
     links {
-        "sfml-graphics", "sfml-window", "sfml-system"
+        "sfml-graphics",
+        "sfml-window",
+        "sfml-system",
+        "opengl32"
     }
 
--- EDITOR
+    vpaths 
+    {
+        -- Engine headers
+        ["Headers/Core"]     = "Engine/include/Core/**.h",
+        ["Headers/ECS"]      = "Engine/include/ECS/**.cpp",
+        ["Headers/Graphics"] = "Engine/include/Graphics/**.h",
+        ["Headers/Input"]    = "Engine/include/Input/**.h",
+        ["Headers/Math"]     = "Engine/include/Math/**.h",
+        ["Headers/Utils"]    = "Engine/include/Utils/**.h",
+    
+        -- Engine sources
+        ["Source/Core"]      = "Engine/src/Core/**.cpp",
+        ["Source/ECS"]      = "Engine/src/ECS/**.cpp",
+        ["Source/Graphics"]  = "Engine/src/Graphics/**.cpp",
+        ["Source/Input"]     = "Engine/src/Input/**.cpp",
+        ["Source/Math"]      = "Engine/src/Math/**.cpp",
+        ["Source/Utils"]     = "Engine/src/Utils/**.cpp",
+    
+        -- ImGui files
+        ["Extern/ImGui/Source"]     = "extern/imgui/**.cpp",
+        ["Extern/ImGui/Header"]     = "extern/imgui/**.h",
+    
+        -- ImGui-SFML files
+        ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
+        ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h"
+    }
+
+    filter "system:windows"
+    postbuildcommands {
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll"
+    }
+
+-- EDITOR PROJECT
 project "Editor"
     location "Editor"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++20"
-    staticruntime "on"
+    staticruntime "off"
+    dependson { "Engine" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/**.h",
-        "%{prj.name}/**.cpp"
+        "Editor/**.h",
+        "Editor/**.cpp",
+        "extern/imgui/*.cpp",
+        "extern/ImGui-SFML/*.cpp",
+        "extern/ImGui-SFML/*.h"
     }
 
     includedirs {
-        "Engine",
-        "extern/ImGui",
+        "Editor",
+        "Engine/include",
+        "extern/imgui",
+        "extern/ImGui-SFML",
         "extern/SFML/include",
-        "extern/sol2/include"
+        "extern/sol2/single",
+        "extern/Lua"
+    }
+
+    libdirs {
+        "extern/SFML/build/lib/Release"
     }
 
     links {
         "Engine",
-        "sfml-graphics", "sfml-window", "sfml-system",
-        "ImGui-SFML"
+        "sfml-graphics",
+        "sfml-window",
+        "sfml-system",
+        "opengl32"
     }
 
--- GAME
+    postbuildcommands {
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
+        "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
+    }
+
+-- GAME PROJECT
 project "Game"
     location "Game"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++20"
-    staticruntime "on"
+    staticruntime "off"
+    dependson { "Engine" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/**.h",
-        "%{prj.name}/**.cpp"
+        "Game/**.h",
+        "Game/**.cpp"
     }
 
     includedirs {
-        "Engine"
+        "Game",
+        "Engine/include"
     }
 
     links {
         "Engine"
+    }
+
+    postbuildcommands {
+        "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
     }
