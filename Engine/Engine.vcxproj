@@ -110,6 +110,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClInclude Include="include\ECS\ISystem.h" />
     <ClInclude Include="include\EngineAPI.h" />
     <ClInclude Include="include\Math\Vec2.h" />
+    <ClInclude Include="include\Scene\Scene.h" />
+    <ClInclude Include="include\Scene\Scene_Menu.h" />
+    <ClInclude Include="include\Scene\Scene_Zelda.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\extern\ImGui-SFML\imgui-SFML.cpp" />
@@ -123,6 +126,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClCompile Include="src\ECS\EntityMemoryPool.cpp" />
     <ClCompile Include="src\ECS\ISystem.cpp" />
     <ClCompile Include="src\Math\Vec2.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Scene\Scene_Menu.cpp" />
+    <ClCompile Include="src\Scene\Scene_Zelda.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

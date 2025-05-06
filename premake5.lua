@@ -49,11 +49,12 @@ project "Engine"
     {
         -- Engine headers
         ["Headers/Core"]     = "Engine/include/Core/**.h",
-        ["Headers/ECS"]      = "Engine/include/ECS/**.cpp",
+        ["Headers/ECS"]      = "Engine/include/ECS/**.h",
         ["Headers/Graphics"] = "Engine/include/Graphics/**.h",
         ["Headers/Input"]    = "Engine/include/Input/**.h",
         ["Headers/Math"]     = "Engine/include/Math/**.h",
         ["Headers/Utils"]    = "Engine/include/Utils/**.h",
+        ["Headers/Scene"]    = "Engine/include/Scene/**.h",
     
         -- Engine sources
         ["Source/Core"]      = "Engine/src/Core/**.cpp",
@@ -62,6 +63,8 @@ project "Engine"
         ["Source/Input"]     = "Engine/src/Input/**.cpp",
         ["Source/Math"]      = "Engine/src/Math/**.cpp",
         ["Source/Utils"]     = "Engine/src/Utils/**.cpp",
+        ["Source/Scene"]     = "Engine/src/Scene/**.cpp",
+
     
         -- ImGui files
         ["Extern/ImGui/Source"]     = "extern/imgui/**.cpp",

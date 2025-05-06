@@ -1,42 +1,58 @@
-// Engine/include/Luden/Core/GameEngine.h
 #pragma once
 
+#include <string>
 #include <memory>
-#include <SFML/Graphics.hpp>
+#include <map>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+
+#include "Scene/Scene.h"
+#include "Core/Assets.h"
 #include "EngineAPI.h"
 
+namespace Luden {
 
-namespace Luden 
-{
-	class ENGINE_API GameEngine
-	{
-	public:
-		// Singleton access
-		static GameEngine& Get();
+	using SceneMap = std::map<std::string, std::shared_ptr<Scene>>;
 
-		// Initialization and run
-		void Initialize(unsigned int width, unsigned int height, const std::string& title);
-		void Run();
-		void Shutdown();
-
-		// Window access
-		sf::RenderWindow& GetWindow();
-		bool IsRunning() const;
-
+	class ENGINE_API GameEngine {
 	private:
-		GameEngine();
+		static GameEngine* s_Instance;
+
+		GameEngine(const std::string& assetPath);
 		~GameEngine();
 
+		void Init(const std::string& assetPath);
+
+		sf::RenderWindow m_Window;
+		sf::Clock m_Clock;
+		std::vector<Asset> m_Assets;
+
+		std::string m_CurrentSceneName;
+		SceneMap m_SceneMap;
+
+		bool m_IsRunning = true;
+
+		void ProcessInput();
+
+	public:
+		static void Initialize(const std::string& assetPath);
+		static GameEngine& Get();
+		static void Shutdown();
 		GameEngine(const GameEngine&) = delete;
 		GameEngine& operator=(const GameEngine&) = delete;
 
-		void ProcessEvents();
-		void Update(float deltaTime);
-		void Render();
+		void Run();
+
+		void ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent = false);
+		std::shared_ptr<Scene> GetCurrentScene();
+		bool IsRunning() const;
+		void Quit();
+
+		sf::RenderWindow& GetWindow();
+		Assets& GetAssets();
 
 	private:
-		sf::RenderWindow m_Window;
-		bool m_IsRunning = false;
-		bool m_IsInitialized = false;
+		void Update();
 	};
-}
+
+} // namespace Luden
