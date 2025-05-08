@@ -4,7 +4,7 @@
 #include <tuple>
 
 #include "EngineAPI.h"
-#include "ECS/EntityMemoryPool.h"
+#include "ECS/EntityManager.h"
 
 namespace Luden 
 {
@@ -14,7 +14,7 @@ namespace Luden
 	{
 	private:
 		friend class EntityManager;
-		friend class EntityMemoryPool;
+		friend class EntityManager;
 
 		EntityID m_ID = 0;
 
@@ -33,27 +33,27 @@ namespace Luden
 		template<class T>
 		bool Has() const 
 		{
-			return EntityMemoryPool::Instance().HasComponent<T>(m_ID);
+			return EntityManager::Instance().HasComponent<T>(m_ID);
 		}
 
 		template<class T, typename... TArgs>
 		T& Add(TArgs &&... mArgs) {
-			return EntityMemoryPool::Instance().AddComponent<T>(m_ID, std::forward<TArgs>(mArgs)...);
+			return EntityManager::Instance().AddComponent<T>(m_ID, std::forward<TArgs>(mArgs)...);
 		}
 
 		template<class T>
 		T& Get() {
-			return EntityMemoryPool::Instance().GetComponent<T>(m_ID);
+			return EntityManager::Instance().GetComponent<T>(m_ID);
 		}
 
 		template<class T>
 		const T& Get() const {
-			return EntityMemoryPool::Instance().GetComponent<T>(m_ID);
+			return EntityManager::Instance().GetComponent<T>(m_ID);
 		}
 
 		template<class T>
 		void Remove() const {
-			return EntityMemoryPool::Instance().RemoveComponent<T>(m_ID);
+			return EntityManager::Instance().RemoveComponent<T>(m_ID);
 		}
 
 		std::vector<void*> GetAllComponents();

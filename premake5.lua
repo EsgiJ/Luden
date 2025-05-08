@@ -48,6 +48,7 @@ project "Engine"
     vpaths 
     {
         -- Engine headers
+        ["Headers/Asset"]     = "Engine/include/Asset/**.h",
         ["Headers/Core"]     = "Engine/include/Core/**.h",
         ["Headers/ECS"]      = "Engine/include/ECS/**.h",
         ["Headers/Graphics"] = "Engine/include/Graphics/**.h",
@@ -57,6 +58,7 @@ project "Engine"
         ["Headers/Scene"]    = "Engine/include/Scene/**.h",
     
         -- Engine sources
+        ["Source/Asset"]      = "Engine/src/Asset/**.cpp",
         ["Source/Core"]      = "Engine/src/Core/**.cpp",
         ["Source/ECS"]      = "Engine/src/ECS/**.cpp",
         ["Source/Graphics"]  = "Engine/src/Graphics/**.cpp",

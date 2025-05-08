@@ -103,12 +103,14 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
+    <ClInclude Include="include\Asset\Asset.h" />
     <ClInclude Include="include\Core\GameEngine.h" />
     <ClInclude Include="include\ECS\Entity.h" />
-    <ClInclude Include="include\ECS\EntityMemoryPool.h" />
+    <ClInclude Include="include\ECS\EntityManager.h" />
     <ClInclude Include="include\ECS\IComponent.h" />
     <ClInclude Include="include\ECS\ISystem.h" />
     <ClInclude Include="include\EngineAPI.h" />
+    <ClInclude Include="include\Input\Action.h" />
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\Scene_Menu.h" />
@@ -121,14 +123,17 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Asset\Asset.cpp" />
     <ClCompile Include="src\Core\GameEngine.cpp" />
     <ClCompile Include="src\ECS\Entity.cpp" />
-    <ClCompile Include="src\ECS\EntityMemoryPool.cpp" />
+    <ClCompile Include="src\ECS\EntityManager.cpp" />
     <ClCompile Include="src\ECS\ISystem.cpp" />
+    <ClCompile Include="src\Input\Action.cpp" />
     <ClCompile Include="src\Math\Vec2.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Scene_Menu.cpp" />
     <ClCompile Include="src\Scene\Scene_Zelda.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

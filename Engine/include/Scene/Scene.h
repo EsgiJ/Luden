@@ -6,7 +6,7 @@
 #include <string>
 
 #include "Core/Action.h"
-#include "ECS/EntityMemoryPool.h"
+#include "ECS/EntityManager.h"
 #include "EngineAPI.h"
 #include "Math/Vec2.h"
 
@@ -18,7 +18,7 @@ namespace Luden {
 	class ENGINE_API Scene {
 	protected:
 		GameEngine* m_Game = nullptr;
-		EntityMemoryPool m_EntityManager;
+		EntityManager m_EntityManager;
 
 		ActionMap m_ActionMap;
 		bool m_Paused = false;

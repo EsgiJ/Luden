@@ -13,13 +13,13 @@ class Scene_Menu : public Luden::Scene {
 
 	std::vector<std::string> m_LevelPaths;
 
-	void init();
+	void Init();
 
 public:
 	Scene_Menu(Luden::GameEngine* game);
 
 	void sRender() override;
 	void sDoAction(const Action& action) override;
-	void update() override;
-	void onEnd() override;
+	void Update() override;
+	void OnEnd() override;
 };

@@ -106,5 +106,4 @@ namespace Luden {
 	std::vector<Asset>& GameEngine::GetAssets() {
 		return m_Assets;
 	}
-
-} // namespace Luden
+}
