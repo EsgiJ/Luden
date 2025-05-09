@@ -1,4 +1,5 @@
 #include "Core/GameEngine.h"
+#include "Asset/Asset.h"
 #include <imgui-SFML.h>
 #include <iostream>
 
@@ -12,13 +13,13 @@ namespace Luden {
 
 	GameEngine::~GameEngine()
 	{
-		SFML::Shutdown();
+		ImGui::SFML::Shutdown();
 	}
 
 	void GameEngine::Init(const std::string& assetPath) {
 		m_Assets.LoadFromFile(assetPath);
 
-		m_Window.create(sf::VideoMode(1280, 720), "Luden Engine");
+		m_Window.create(sf::VideoMode(sf::Vector2u(1280, 720)), "Luden Engine", sf::State::Fullscreen);
 		m_Window.setFramerateLimit(60);
 
 		if (!ImGui::SFML::Init(m_Window)) {
@@ -29,8 +30,10 @@ namespace Luden {
 		ChangeScene("MainMenu", std::make_shared<Scene>(this));
 	}
 
-	void GameEngine::Initialize(const std::string& assetPath) {
-		if (!s_Instance) {  nbvcvbnmb
+	void GameEngine::Initialize(const std::string& assetPath) 
+	{
+		if (!s_Instance) 
+		{
 			s_Instance = new GameEngine(assetPath);
 		}
 	}
@@ -50,7 +53,7 @@ namespace Luden {
 	}
 
 	void GameEngine::Run() {
-		while (IsRunning()) {
+		/*Wwhile (IsRunning()) {
 			ProcessInput();
 			ImGui::SFML::Update(m_Window, m_Clock.restart());
 
@@ -61,7 +64,7 @@ namespace Luden {
 			RageEditor::Get().Update(); // ImGui Editor UI
 			ImGui::SFML::Render(m_Window);
 			m_Window.display();
-		}
+		}*/
 	}
 
 	void GameEngine::ProcessInput() {
@@ -73,8 +76,8 @@ namespace Luden {
 			}
 
 			if (ImGui::GetIO().WantCaptureMouse) continue;
-			GetCurrentScene()->HandleEvent(event);*/
-		}
+			GetCurrentScene()->HandleEvent(event);
+		}*/
 	}
 
 	void GameEngine::Update() {
@@ -103,7 +106,7 @@ namespace Luden {
 		return m_Window;
 	}
 
-	std::vector<Asset>& GameEngine::GetAssets() {
+	Assets& GameEngine::GetAssets() {
 		return m_Assets;
 	}
 }

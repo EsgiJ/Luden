@@ -37,8 +37,9 @@ namespace Luden
 		}
 
 		template<class T, typename... TArgs>
-		T& Add(TArgs &&... mArgs) {
-			return EntityManager::Instance().AddComponent<T>(m_ID, std::forward<TArgs>(mArgs)...);
+		T& Add(TArgs&&... mArgs) {
+			auto& component = EntityManager::Instance().AddComponent<T>(m_ID, std::forward<TArgs>(mArgs...));
+			return component;
 		}
 
 		template<class T>

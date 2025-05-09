@@ -3,6 +3,7 @@
 #include "Core/GameEngine.h"
 #include "Scene/Scene_Zelda.h"
 #include <SFML/Graphics/View.hpp>
+#include <SFML/Window.hpp>
 #include <iostream>
 
 namespace Luden 
@@ -15,19 +16,19 @@ namespace Luden
 	void Scene_Menu::Init() 
 	{
 		sf::View view = m_Game->GetWindow().getView();
-		view.setCenter(
+		view.setCenter(sf::Vector2f(
 			static_cast<float>(m_Game->GetWindow().getSize().x) / 2.0f,
-			static_cast<float>(m_Game->GetWindow().getSize().y) / 2.0f
+			static_cast<float>(m_Game->GetWindow().getSize().y) / 2.0f)
 		);
 		m_Game->GetWindow().setView(view);
 
-		RegisterAction(sf::Keyboard::W, "UP");
-		RegisterAction(sf::Keyboard::S, "DOWN");
-		RegisterAction(sf::Keyboard::D, "PLAY");
-		RegisterAction(sf::Keyboard::M, "MUTE");
-		RegisterAction(sf::Keyboard::Escape, "QUIT");
+		RegisterAction(sf::Keyboard::Key::W, "UP");
+		RegisterAction(sf::Keyboard::Key::S, "DOWN");
+		RegisterAction(sf::Keyboard::Key::D, "PLAY");
+		RegisterAction(sf::Keyboard::Key::M, "MUTE");
+		RegisterAction(sf::Keyboard::Key::Escape, "QUIT");
 
-		m_TitleMusic = m_Game->GetAssets()
+		m_TitleMusic = m_Game->GetAssets().GetSound("STitleTheme");
 		m_TitleMusic.setLooping(true);
 		m_TitleMusic.play();
 
@@ -37,10 +38,10 @@ namespace Luden
 		m_MenuText.setFont(m_Game->GetAssets().GetFont("Mario"));
 		m_MenuText.setCharacterSize(titleSize);
 		m_MenuText.setFillColor(sf::Color::Black);
-		m_MenuText.setPosition(
+		m_MenuText.setPosition(sf::Vector2f(
 			float(m_Game->GetWindow().getSize().x) / 2.0f - float(titleSize * (m_Title.length() + 1)) / 2.0f,
 			float(titleSize * 3)
-		);
+		));
 
 		m_MenuStrings = { "LEVEL 1", "LEVEL 2", "LEVEL 3" };
 		m_LevelPaths = {
@@ -51,7 +52,7 @@ namespace Luden
 
 		for (size_t i = 0; i < m_MenuStrings.size(); i++) 
 		{
-			sf::Text text(m_MenuStrings[i], m_Game->GetAssets().GetFont("Mario"), 26);
+			sf::Text text(m_Game->GetAssets().GetFont("Mario"), m_MenuStrings[i], 26);
 			text.setFillColor(sf::Color::Black);
 			m_MenuItems.push_back(text);
 		}
@@ -86,7 +87,7 @@ namespace Luden
 			}
 			else if (action.Name() == "MUTE") 
 			{
-				if (m_TitleMusic.getStatus() == sf::Music::Playing) 
+				if (m_TitleMusic.getStatus() == sf::SoundSource::Status::Playing) 
 				{
 					m_TitleMusic.stop();
 				}
@@ -101,7 +102,7 @@ namespace Luden
 		}
 	}
 
-	void Scene_Menu::SRender() 
+	void Scene_Menu::sRender() 
 	{
 		m_Game->GetWindow().clear(sf::Color(100, 100, 255));
 		m_Game->GetWindow().draw(m_MenuText);
@@ -110,16 +111,16 @@ namespace Luden
 		{
 			auto& item = m_MenuItems[i];
 			item.setFillColor(i == m_SelectedMenuIndex ? sf::Color::White : sf::Color::Black);
-			item.setPosition(
+			item.setPosition(sf::Vector2f(
 				float(m_Game->GetWindow().getSize().x) / 2.0f - float(26 * (m_MenuStrings[i].length() + 1)) / 2.0f,
-				m_MenuText.getGlobalBounds().top + 10.0f + 30.0f * float(i + 1)
-			);
+				m_MenuText.getGlobalBounds().position.x + 10.0f + 30.0f * float(i + 1)
+			));
 			m_Game->GetWindow().draw(item);
 		}
 
-		sf::Text help("W:UP  S:DOWN  D:PLAY  M:MUTE  ESC:QUIT", m_Game->GetAssets().GetFont("Mario"), 20);
+		sf::Text help(m_Game->GetAssets().GetFont("Mario"), "W:UP  S:DOWN  D:PLAY  M:MUTE  ESC:QUIT", 20);
 		help.setFillColor(sf::Color::Black);
-		help.setPosition(20, float(m_Game->GetWindow().getSize().y) - 40);
+		help.setPosition(sf::Vector2f(20, float(m_Game->GetWindow().getSize().y) - 40));
 		m_Game->GetWindow().draw(help);
 	}
 }

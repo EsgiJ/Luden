@@ -17,7 +17,7 @@ namespace Luden
 		m_Paused = paused;
 	}
 
-	void Scene::sDoAction(const Action& action)
+	void Scene::DoAction(const Action& action)
 	{
 		sDoAction(action);
 	}
@@ -31,9 +31,9 @@ namespace Luden
 		}
 	}
 
-	void Scene::RegisterAction(int inputKey, const std::string& actionName)
+	void Scene::RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName)
 	{
-		m_ActionMap[inputKey] = actionName;
+		m_ActionMap[static_cast<int>(inputKey)] = actionName;
 	}
 
 	float Scene::Width() const
@@ -60,14 +60,14 @@ namespace Luden
 	{
 		return m_ActionMap;
 	}
-
-	void Scene::DrawLine(const Vec2& p1, const Vec2& p2)
+	
+	void Scene::DrawLine(const Math::Vec2& p1, const Math::Vec2& p2)
 	{
 		sf::Vertex line[] = {
 			sf::Vertex(sf::Vector2f(p1.x, p1.y)),
 			sf::Vertex(sf::Vector2f(p2.x, p2.y))
 		};
 
-		m_Game->GetWindow().draw(line, 2, sf::Lines);
+		m_Game->GetWindow().draw(line, 2, sf::PrimitiveType::Lines);
 	}
 }

@@ -22,31 +22,34 @@ namespace Luden {
 		m_GridText.setCharacterSize(12);
 		m_GridText.setFont(m_Game->GetAssets().GetFont("Tech"));
 
-		RegisterAction(sf::Keyboard::Escape, "QUIT");
-		RegisterAction(sf::Keyboard::P, "PAUSE");
-		RegisterAction(sf::Keyboard::Y, "TOGGLE_FOLLOW");
-		RegisterAction(sf::Keyboard::T, "TOGGLE_TEXTURE");
-		RegisterAction(sf::Keyboard::C, "TOGGLE_COLLISION");
-		RegisterAction(sf::Keyboard::G, "TOGGLE_GRID");
+		RegisterAction(sf::Keyboard::Key::Escape, "QUIT");
+		RegisterAction(sf::Keyboard::Key::P, "PAUSE");
+		RegisterAction(sf::Keyboard::Key::Y, "TOGGLE_FOLLOW");
+		RegisterAction(sf::Keyboard::Key::T, "TOGGLE_TEXTURE");
+		RegisterAction(sf::Keyboard::Key::C, "TOGGLE_COLLISION");
+		RegisterAction(sf::Keyboard::Key::G, "TOGGLE_GRID");
 
-		RegisterAction(sf::Keyboard::W, "UP");
-		RegisterAction(sf::Keyboard::S, "DOWN");
-		RegisterAction(sf::Keyboard::A, "LEFT");
-		RegisterAction(sf::Keyboard::D, "RIGHT");
-		RegisterAction(sf::Keyboard::Space, "ATTACK");
+		RegisterAction(sf::Keyboard::Key::W, "UP");
+		RegisterAction(sf::Keyboard::Key::S, "DOWN");
+		RegisterAction(sf::Keyboard::Key::A, "LEFT");
+		RegisterAction(sf::Keyboard::Key::D, "RIGHT");
+		RegisterAction(sf::Keyboard::Key::Space, "ATTACK");
 	}
 
 	void Scene_Zelda::LoadLevel(const std::string& fileName) 
-
+	{
 		std::ifstream file(fileName);
-		if (!file) {
+		if (!file) 
+		{
 			std::cerr << "Scene_Zelda::LoadLevel failed: " << fileName << std::endl;
 			return;
 		}
 
 		std::string entityType;
-		while (file >> entityType) {
-			if (entityType == "Tile") {
+		while (file >> entityType) 
+		{
+			if (entityType == "Tile") 
+			{
 				std::string animationName;
 				int roomX, roomY, tileX, tileY, blockMovement, blockVision;
 				file >> animationName >> roomX >> roomY >> tileX >> tileY >> blockMovement >> blockVision;
@@ -57,10 +60,12 @@ namespace Luden {
 				tile.Add<CBoundingBox>(tile.Get<CTransform>().pos, tile.Get<CAnimation>().animation.GetSize(), blockMovement, blockVision);
 				tile.Add<CDraggable>();
 			}
-			else if (entityType == "NPC") {
+			else if (entityType == "NPC") 
+			{
 				// benzer NPC yükleme kodlarý buraya gelir...
 			}
-			else if (entityType == "Player") {
+			else if (entityType == "Player") 
+			{
 				file >> m_PlayerConfig.X >> m_PlayerConfig.Y >> m_PlayerConfig.CX >> m_PlayerConfig.CY >> m_PlayerConfig.SPEED >> m_PlayerConfig.HEALTH;
 				SpawnPlayer();
 			}
@@ -70,14 +75,16 @@ namespace Luden {
 		}
 	}
 
-	vec2 Scene_Zelda::GetPosition(int rx, int ry, int tx, int ty) const {
+	Math::Vec2 Scene_Zelda::GetPosition(int rx, int ry, int tx, int ty) const 
+	{
 		return {
 			rx * Width() + m_GridSize.x * tx - m_GridSize.x / 2.0f,
 			ry * Height() + m_GridSize.y * ty - m_GridSize.y / 2.0f
 		};
 	}
 
-	void Scene_Zelda::SpawnPlayer() {
+	void Scene_Zelda::SpawnPlayer()
+	{
 		auto player = EntityManager::Instance().AddEntity("player");
 		player.Add<CTransform>(Math::Vec2(m_PlayerConfig.X, m_PlayerConfig.Y));
 		player.Add<CAnimation>(m_Game->GetAssets().GetAnimation("LinkStandDown"), true);
@@ -87,14 +94,17 @@ namespace Luden {
 		player.Add<CState>("stand_down");
 	}
 
-	std::shared_ptr<Entity> Scene_Zelda::player() {
-		for (const auto& e : m_entityManager.GetEntities("player")) {
+	std::shared_ptr<Entity> Scene_Zelda::player() 
+	{
+		for (const auto& e : EntityManager::Instance().GetEntities()) 
+		{
 			return e;
 		}
 		return nullptr;
 	}
 
-	vec2 Scene_Zelda::WindowToWorld(const vec2& pos) {
+	Math::Vec2 Scene_Zelda::WindowToWorld(const Math::Vec2& pos) 
+	{
 		auto view = m_Game->GetWindow().getView();
 		float wx = view.getCenter().x - Width() / 2.0f;
 		float wy = view.getCenter().y - Height() / 2.0f;
@@ -111,17 +121,16 @@ namespace Luden {
 	}
 
 	void Scene_Zelda::sDoAction(const Action& action) {
-		if (action.type() == "START") {
-			if (action.name() == "QUIT") OnEnd();
-			else if (action.name() == "TOGGLE_TEXTURE") m_DrawTextures = !m_DrawTextures;
-			else if (action.name() == "TOGGLE_COLLISION") m_DrawCollision = !m_DrawCollision;
-			else if (action.name() == "TOGGLE_GRID") m_DrawGrid = !m_DrawGrid;
+		if (action.Type() == "START") {
+			if (action.Name() == "QUIT") OnEnd();
+			else if (action.Name() == "TOGGLE_TEXTURE") m_DrawTextures = !m_DrawTextures;
+			else if (action.Name() == "TOGGLE_COLLISION") m_DrawCollision = !m_DrawCollision;
+			else if (action.Name() == "TOGGLE_GRID") m_DrawGrid = !m_DrawGrid;
 		}
 	}
 
 	void Scene_Zelda::Update() {
 		if (m_Paused) return;
-		EntityManager::Instance().Update();
 		sGUI();
 		sRender();
 		m_CurrentFrame++;
@@ -129,12 +138,12 @@ namespace Luden {
 
 	void Scene_Zelda::sRender() {
 		m_Game->GetWindow().clear(sf::Color(60, 60, 60));
-		// render entities here...
+		// render entities
 		m_Game->GetWindow().display();
 	}
 
 	void Scene_Zelda::OnEnd() {
-		// Scene bitiþinde yapýlacak iþlemler (örn: sahne deðiþimi)
+		// TODO
 	}
 
 }

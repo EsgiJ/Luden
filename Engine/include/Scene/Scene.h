@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "Core/Action.h"
+#include "Input/Action.h"
 #include "ECS/EntityManager.h"
 #include "EngineAPI.h"
 #include "Math/Vec2.h"
@@ -18,7 +18,6 @@ namespace Luden {
 	class ENGINE_API Scene {
 	protected:
 		GameEngine* m_Game = nullptr;
-		EntityManager m_EntityManager;
 
 		ActionMap m_ActionMap;
 		bool m_Paused = false;
@@ -35,12 +34,12 @@ namespace Luden {
 
 		virtual void Update() = 0;
 		virtual void HandleAction(const Action& action) = 0;
-		virtual void Render() = 0;
+		virtual void sRender() = 0;
 		virtual void sDoAction(const Action& action) = 0;
 
 		virtual void DoAction(const Action& action);
 		void Simulate(size_t frames);
-		void RegisterAction(int inputKey, const std::string& actionName);
+		void RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName);
 
 		[[nodiscard]] float Width() const;
 		[[nodiscard]] float Height() const;
@@ -48,7 +47,7 @@ namespace Luden {
 		[[nodiscard]] bool HasEnded() const;
 		[[nodiscard]] const ActionMap& GetActionMap() const;
 
-		void DrawLine(const Vec2& p1, const Vec2& p2);
+		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);
 	};
 
 }

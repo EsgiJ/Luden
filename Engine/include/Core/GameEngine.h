@@ -7,7 +7,7 @@
 #include <SFML/System/Clock.hpp>
 
 #include "Scene/Scene.h"
-#include "Core/Assets.h"
+#include "Asset/Asset.h"
 #include "EngineAPI.h"
 
 namespace Luden {
@@ -25,7 +25,7 @@ namespace Luden {
 
 		sf::RenderWindow m_Window;
 		sf::Clock m_Clock;
-		std::vector<Asset> m_Assets;
+		Assets m_Assets;
 
 		std::string m_CurrentSceneName;
 		SceneMap m_SceneMap;
@@ -54,5 +54,4 @@ namespace Luden {
 	private:
 		void Update();
 	};
-
-} // namespace Luden
+} 

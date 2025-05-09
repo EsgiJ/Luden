@@ -110,8 +110,10 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClInclude Include="include\ECS\IComponent.h" />
     <ClInclude Include="include\ECS\ISystem.h" />
     <ClInclude Include="include\EngineAPI.h" />
+    <ClInclude Include="include\Graphics\Animation.h" />
     <ClInclude Include="include\Input\Action.h" />
     <ClInclude Include="include\Math\Vec2.h" />
+    <ClInclude Include="include\Physics\Physics.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\Scene_Menu.h" />
     <ClInclude Include="include\Scene\Scene_Zelda.h" />
@@ -128,8 +130,10 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClCompile Include="src\ECS\Entity.cpp" />
     <ClCompile Include="src\ECS\EntityManager.cpp" />
     <ClCompile Include="src\ECS\ISystem.cpp" />
+    <ClCompile Include="src\Graphics\Animation.cpp" />
     <ClCompile Include="src\Input\Action.cpp" />
     <ClCompile Include="src\Math\Vec2.cpp" />
+    <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Scene_Menu.cpp" />
     <ClCompile Include="src\Scene\Scene_Zelda.cpp" />

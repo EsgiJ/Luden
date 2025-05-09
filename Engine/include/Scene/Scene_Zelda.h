@@ -6,7 +6,7 @@
 
 namespace Luden
 {
-	class Scene_Zelda : public Luden::Scene {
+	class Scene_Zelda : public Scene {
 		std::string m_LevelPath;
 		sf::Text m_GridText;
 		Math::Vec2 m_MousePos;
@@ -17,7 +17,8 @@ namespace Luden
 		bool m_DrawGrid = false;
 		bool m_Follow = false;
 
-		struct PlayerConfig {
+		struct PlayerConfig 
+		{
 			float X, Y, CX, CY, SPEED;
 			int HEALTH;
 		} m_PlayerConfig;
@@ -28,10 +29,10 @@ namespace Luden
 		void SpawnSword(std::shared_ptr<Luden::Entity> entity);
 
 		std::shared_ptr<Luden::Entity> player();
-		vec2 GetPosition(int rx, int ry, int tx, int ty) const;
-		vec2 GetRoomXY(const vec2& pos);
-		vec2 WindowToWorld(const vec2& pos);
-		void ChangePlayerStateTo(const std::string& state, const vec2& facing);
+		Math::Vec2 GetPosition(int rx, int ry, int tx, int ty) const;
+		Math::Vec2 GetRoomXY(const Math::Vec2& pos);
+		Math::Vec2 WindowToWorld(const Math::Vec2& pos);
+		void ChangePlayerStateTo(const std::string& state, const Math::Vec2& facing);
 
 		void sDrag();
 		void sCamera();

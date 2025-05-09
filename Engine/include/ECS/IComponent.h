@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math/Vec2.h"
+#include "Graphics/Animation.h"
 #include "EngineAPI.h"
 #include <vector>
 
@@ -86,12 +87,12 @@ namespace Luden
 
 	struct ENGINE_API CAnimation : public IComponent {
 	public:
-		Animation animation;
+		Graphics::Animation animation;
 		bool repeat = false;
 
 		CAnimation() = default;
 
-		CAnimation(Animation a, bool r) : animation(std::move(a)), repeat(r) {}
+		CAnimation(Graphics::Animation a, bool r) : animation(std::move(a)), repeat(r) {}
 	};
 
 	struct ENGINE_API CInvincibility : public IComponent {
@@ -148,7 +149,7 @@ namespace Luden
 
 		CTransform() = default;
 
-		explicit CTransform(const vec2& p) : pos(p) {}
+		explicit CTransform(const Math::Vec2& p) : pos(p) {}
 
 		CTransform(const Math::Vec2& p, const Math::Vec2& speed, const Math::Vec2& s, float a)
 			: pos(p), prevPos(p), velocity(speed), scale(s), angle(a) {

@@ -56,6 +56,7 @@ project "Engine"
         ["Headers/Math"]     = "Engine/include/Math/**.h",
         ["Headers/Utils"]    = "Engine/include/Utils/**.h",
         ["Headers/Scene"]    = "Engine/include/Scene/**.h",
+        ["Headers/Physics"]    = "Engine/include/Physics/**.h",
     
         -- Engine sources
         ["Source/Asset"]      = "Engine/src/Asset/**.cpp",
@@ -65,7 +66,7 @@ project "Engine"
         ["Source/Input"]     = "Engine/src/Input/**.cpp",
         ["Source/Math"]      = "Engine/src/Math/**.cpp",
         ["Source/Utils"]     = "Engine/src/Utils/**.cpp",
-        ["Source/Scene"]     = "Engine/src/Scene/**.cpp",
+        ["Source/Physics"]     = "Engine/src/Physics/**.cpp",
 
     
         -- ImGui files
