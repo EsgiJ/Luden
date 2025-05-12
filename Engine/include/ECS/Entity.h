@@ -1,19 +1,23 @@
 #pragma once
+
 #include <cstdint>
 #include <string>
 #include <tuple>
+#include <vector>
 
-#include "EngineAPI.h"
+#include "ECS/IComponent.h"
 #include "ECS/EntityManager.h"
+#include "EngineAPI.h"
 
 namespace Luden 
 {
+	class EntityManager;
+
 	using EntityID = std::size_t;
 
 	class ENGINE_API Entity
 	{
 	private:
-		friend class EntityManager;
 		friend class EntityManager;
 
 		EntityID m_ID = 0;
@@ -37,8 +41,9 @@ namespace Luden
 		}
 
 		template<class T, typename... TArgs>
-		T& Add(TArgs&&... mArgs) {
-			auto& component = EntityManager::Instance().AddComponent<T>(m_ID, std::forward<TArgs>(mArgs...));
+		T& Add(TArgs&&... args)
+		{
+			auto& component = EntityManager::Instance().template AddComponent<T>(m_ID, std::forward<TArgs>(args)...);
 			return component;
 		}
 
@@ -54,10 +59,7 @@ namespace Luden
 
 		template<class T>
 		void Remove() const {
-			return EntityManager::Instance().RemoveComponent<T>(m_ID);
+			EntityManager::Instance().RemoveComponent<T>(m_ID);
 		}
-
-		std::vector<void*> GetAllComponents();
-		std::vector<const void*> GetAllComponents() const;
 	};
 }

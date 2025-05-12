@@ -5,9 +5,11 @@
 #include <memory>
 #include <string>
 
-#include "Input/Action.h"
-#include "ECS/EntityManager.h"
+#include <SFML/Window.hpp>
+
 #include "EngineAPI.h"
+#include "ECS/EntityManager.h"
+#include "Input/Action.h"
 #include "Math/Vec2.h"
 
 namespace Luden {
@@ -24,7 +26,6 @@ namespace Luden {
 		bool m_HasEnded = false;
 		size_t m_CurrentFrame = 0;
 
-		virtual void OnEnd() = 0;
 		void SetPaused(bool paused);
 
 	public:
@@ -33,9 +34,9 @@ namespace Luden {
 		virtual ~Scene() = default;
 
 		virtual void Update() = 0;
-		virtual void HandleAction(const Action& action) = 0;
 		virtual void sRender() = 0;
 		virtual void sDoAction(const Action& action) = 0;
+		virtual void OnEnd() = 0;
 
 		virtual void DoAction(const Action& action);
 		void Simulate(size_t frames);

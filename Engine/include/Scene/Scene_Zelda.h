@@ -1,12 +1,17 @@
 #pragma once
-#include "Scene/Scene.h"
-#include "ECS/Entity.h"
-#include <SFML/Graphics/Text.hpp>
+
 #include <memory>
+
+#include <SFML/Graphics/Text.hpp>
+
+#include "Core/GameEngine.h"
+#include "ECS/Entity.h"
+#include "Scene/Scene.h"
 
 namespace Luden
 {
-	class Scene_Zelda : public Scene {
+	class Scene_Zelda : public Scene 
+	{
 		std::string m_LevelPath;
 		sf::Text m_GridText;
 		Math::Vec2 m_MousePos;
@@ -26,9 +31,9 @@ namespace Luden
 		void Init(const std::string& levelPath);
 		void LoadLevel(const std::string& fileName);
 		void SpawnPlayer();
-		void SpawnSword(std::shared_ptr<Luden::Entity> entity);
+		void SpawnSword(const Entity& entity);
 
-		std::shared_ptr<Luden::Entity> player();
+		void player();
 		Math::Vec2 GetPosition(int rx, int ry, int tx, int ty) const;
 		Math::Vec2 GetRoomXY(const Math::Vec2& pos);
 		Math::Vec2 WindowToWorld(const Math::Vec2& pos);
@@ -46,7 +51,6 @@ namespace Luden
 		void sDoAction(const Action& action) override;
 		void OnEnd() override;
 
-		// NOT: AI, Status, Animation, Collision gibi system fonksiyonlarý burada tanýmlanabilir
 		void sAI();
 		void sStatus();
 		void sAnimation();

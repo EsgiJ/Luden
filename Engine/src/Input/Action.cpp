@@ -1,4 +1,5 @@
 #include "Input/Action.h"
+
 #include <sstream>
 
 namespace Luden {

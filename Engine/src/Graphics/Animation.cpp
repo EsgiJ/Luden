@@ -1,14 +1,13 @@
+#include "Graphics/Animation.h"
+
 #include <cmath>
 #include <utility>
-#include "Graphics/Animation.h"
+
 
 namespace Luden::Graphics
 {
-	Animation::Animation() = default;
-
 	Animation::Animation(const std::string& name, const sf::Texture& texture)
-		: Animation(name, texture, 1, 0) {
-	}
+		: Animation(name, texture, 1, 0) {}
 
 	Animation::Animation(const std::string& name, const sf::Texture& texture, size_t frameCount, size_t speed)
 		: m_Name(name), m_Sprite(texture), m_FrameCount(frameCount), m_CurrentFrame(0), m_Speed(speed)
@@ -17,7 +16,9 @@ namespace Luden::Graphics
 			static_cast<float>(texture.getSize().x) / static_cast<float>(frameCount),
 			static_cast<float>(texture.getSize().y)
 		);
+
 		m_Sprite.setOrigin(sf::Vector2f(m_Size.x / 2.0f, m_Size.y / 2.0f));
+
 		m_Sprite.setTextureRect(sf::IntRect(
 			sf::Vector2i(static_cast<int>(m_CurrentFrame * m_Size.x), 0),			// Origin
 			sf::Vector2i(static_cast<int>(m_Size.x), static_cast<int>(m_Size.y)))	// Width, Height
@@ -36,6 +37,8 @@ namespace Luden::Graphics
 
 	bool Animation::HasEnded() const
 	{
+		if (m_Speed == 0) return true;
+
 		return (m_CurrentFrame / m_Speed) % m_FrameCount == m_FrameCount - 1;
 	}
 

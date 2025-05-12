@@ -1,15 +1,21 @@
-// Scene_Menu.cpp
 #include "Scene/Scene_Menu.h"
-#include "Core/GameEngine.h"
-#include "Scene/Scene_Zelda.h"
+
+#include <iostream>
+
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Window.hpp>
-#include <iostream>
+
+#include "Core/GameEngine.h"
+#include "Scene/Scene_Zelda.h"
 
 namespace Luden 
 {
 
-	Scene_Menu::Scene_Menu(GameEngine* game) : Scene(game) {
+	Scene_Menu::Scene_Menu(GameEngine* game)
+		: Scene(game),
+		m_TitleMusic(m_Game->GetAssets().GetSound("STitleTheme")),
+		m_MenuText(m_Game->GetAssets().GetFont("Mario"), "")
+	{
 		Init();
 	}
 
@@ -43,16 +49,17 @@ namespace Luden
 			float(titleSize * 3)
 		));
 
-		m_MenuStrings = { "LEVEL 1", "LEVEL 2", "LEVEL 3" };
-		m_LevelPaths = {
-			"assets/config/level1.txt",
-			"assets/config/level2.txt",
-			"assets/config/level3.txt"
-		};
+		m_MenuStrings.emplace_back("LEVEL 1");
+		m_MenuStrings.emplace_back("LEVEL 2");
+		m_MenuStrings.emplace_back("LEVEL 3");
 
-		for (size_t i = 0; i < m_MenuStrings.size(); i++) 
+		m_LevelPaths.emplace_back("config/level1.txt");
+		m_LevelPaths.emplace_back("config/level2.txt");
+		m_LevelPaths.emplace_back("config/level3.txt");
+
+		for (const auto& menuString: m_MenuStrings) 
 		{
-			sf::Text text(m_Game->GetAssets().GetFont("Mario"), m_MenuStrings[i], 26);
+			sf::Text text(m_Game->GetAssets().GetFont("Mario"), menuString, 26);
 			text.setFillColor(sf::Color::Black);
 			m_MenuItems.push_back(text);
 		}
@@ -74,7 +81,7 @@ namespace Luden
 		{
 			if (action.Name() == "UP") 
 			{
-				m_SelectedMenuIndex = (m_SelectedMenuIndex > 0) ? m_SelectedMenuIndex - 1 : m_MenuStrings.size() - 1;
+				m_SelectedMenuIndex = (m_SelectedMenuIndex > 0) ? m_SelectedMenuIndex - 1 : static_cast<int>(m_MenuStrings.size()) - 1;
 			}
 			else if (action.Name() == "DOWN") 
 			{
@@ -102,7 +109,7 @@ namespace Luden
 		}
 	}
 
-	void Scene_Menu::sRender() 
+	void Scene_Menu::sRender()
 	{
 		m_Game->GetWindow().clear(sf::Color(100, 100, 255));
 		m_Game->GetWindow().draw(m_MenuText);

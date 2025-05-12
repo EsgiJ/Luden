@@ -4,13 +4,9 @@
 
 namespace Luden
 {
-	Scene::Scene() = default;
-
 	Scene::Scene(GameEngine* gameEngine)
 		: m_Game(gameEngine) {
 	}
-
-	Scene::~Scene() = default;
 
 	void Scene::SetPaused(bool paused)
 	{

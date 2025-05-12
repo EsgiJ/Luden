@@ -20,6 +20,7 @@ project "Engine"
     files 
     {
         "Engine/src/**.cpp",
+        "Engine/src/Generated/**.cpp",
         "Engine/include/**.h",
         "extern/imgui/*.cpp",
         "extern/ImGui-SFML/*.cpp",
@@ -31,58 +32,84 @@ project "Engine"
         "extern/imgui",
         "extern/ImGui-SFML",
         "extern/SFML/include",
-        "extern/sol2/single"
+        "extern/sol2/single",
+        "extern/rttr/src"
     }
 
     libdirs {
+        "extern/rttr/build/lib/Release",
         "extern/SFML/build/lib/Release"
     }
 
     links {
+        "rttr_core",
         "sfml-graphics",
         "sfml-window",
         "sfml-system",
+        "sfml-audio",
         "opengl32"
     }
 
     vpaths 
     {
         -- Engine headers
-        ["Headers/Asset"]     = "Engine/include/Asset/**.h",
-        ["Headers/Core"]     = "Engine/include/Core/**.h",
-        ["Headers/ECS"]      = "Engine/include/ECS/**.h",
-        ["Headers/Graphics"] = "Engine/include/Graphics/**.h",
-        ["Headers/Input"]    = "Engine/include/Input/**.h",
-        ["Headers/Math"]     = "Engine/include/Math/**.h",
-        ["Headers/Utils"]    = "Engine/include/Utils/**.h",
-        ["Headers/Scene"]    = "Engine/include/Scene/**.h",
-        ["Headers/Physics"]    = "Engine/include/Physics/**.h",
+        ["Headers/Asset"]       = "Engine/include/Asset/**.h",
+        ["Headers/Core"]        = "Engine/include/Core/**.h",
+        ["Headers/ECS"]         = "Engine/include/ECS/**.h",
+        ["Headers/Graphics"]    = "Engine/include/Graphics/**.h",
+        ["Headers/Input"]       = "Engine/include/Input/**.h",
+        ["Headers/Math"]        = "Engine/include/Math/**.h",
+        ["Headers/Utils"]       = "Engine/include/Utils/**.h",
+        ["Headers/Scene"]       = "Engine/include/Scene/**.h",
+        ["Headers/Physics"]     = "Engine/include/Physics/**.h",
+        ["Headers/Reflection"]  = "Engine/include/Reflection/**.h",
+
     
         -- Engine sources
-        ["Source/Asset"]      = "Engine/src/Asset/**.cpp",
-        ["Source/Core"]      = "Engine/src/Core/**.cpp",
-        ["Source/ECS"]      = "Engine/src/ECS/**.cpp",
-        ["Source/Graphics"]  = "Engine/src/Graphics/**.cpp",
-        ["Source/Input"]     = "Engine/src/Input/**.cpp",
-        ["Source/Math"]      = "Engine/src/Math/**.cpp",
-        ["Source/Utils"]     = "Engine/src/Utils/**.cpp",
-        ["Source/Physics"]     = "Engine/src/Physics/**.cpp",
+        ["Source/Asset"]        = "Engine/src/Asset/**.cpp",
+        ["Source/Core"]         = "Engine/src/Core/**.cpp",
+        ["Source/ECS"]          = "Engine/src/ECS/**.cpp",
+        ["Source/Graphics"]     = "Engine/src/Graphics/**.cpp",
+        ["Source/Input"]        = "Engine/src/Input/**.cpp",
+        ["Source/Math"]         = "Engine/src/Math/**.cpp",
+        ["Source/Utils"]        = "Engine/src/Utils/**.cpp",
+        ["Source/Scene"]        = "Engine/src/Scene/**.cpp",
+        ["Source/Physics"]      = "Engine/src/Physics/**.cpp",
+        ["Source/Generated"]      = "Engine/src/Generated/**.cpp",
 
     
         -- ImGui files
-        ["Extern/ImGui/Source"]     = "extern/imgui/**.cpp",
-        ["Extern/ImGui/Header"]     = "extern/imgui/**.h",
+        ["Extern/ImGui/Source"] = "extern/imgui/**.cpp",
+        ["Extern/ImGui/Header"] = "extern/imgui/**.h",
     
         -- ImGui-SFML files
         ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
         ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h"
+    } 
+
+    filter "system:windows"
+    prebuildcommands {
+        "echo Generating RTTR Version Header...",
+        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        "echo Generating Reflection Metadata...",
+        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+    }
+
+    filter "system:linux or system:macosx"
+    prebuildcommands {
+        "echo Generating RTTR Version Header...",
+        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        "echo Generating Reflection Metadata...",
+        "python ../Tools/ReflectionGenerator/reflection_generator.py"
     }
 
     filter "system:windows"
     postbuildcommands {
+        "{COPYFILE} ../extern/rttr/lib/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll"
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
     }
 
 -- EDITOR PROJECT
@@ -112,25 +139,47 @@ project "Editor"
         "extern/ImGui-SFML",
         "extern/SFML/include",
         "extern/sol2/single",
-        "extern/Lua"
+        "extern/Lua",
+        "extern/rttr/src"
     }
-
+    
     libdirs {
+        "extern/rttr/build/lib/Release",
         "extern/SFML/build/lib/Release"
     }
 
     links {
+        "rttr_core",
         "Engine",
         "sfml-graphics",
         "sfml-window",
         "sfml-system",
+        "sfml-audio",
         "opengl32"
     }
 
+    filter "system:windows"
+    prebuildcommands {
+        "echo Generating RTTR Version Header...",
+        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        "echo Generating Reflection Metadata...",
+        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+    }
+
+    filter "system:linux or system:macosx"
+    prebuildcommands {
+        "echo Generating RTTR Version Header...",
+        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        "echo Generating Reflection Metadata...",
+        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+    }
+
     postbuildcommands {
+        "{COPYFILE} ../extern/rttr/lib/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
+        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll",
         "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
     }
 
@@ -163,3 +212,25 @@ project "Game"
     postbuildcommands {
         "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
     }
+
+project "ReflectionGenerator"
+    location "Tools/ReflectionGenerator"
+    kind "Utility"
+    language "C++"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "Tools/ReflectionGenerator/**.py"
+    }
+
+project "RTTRVersionHeaderGenerator"
+    location "Tools/RTTRVersionHeaderGenerator"
+    kind "Utility"
+    language "C++"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "Tools/RTTRVersionHeaderGenerator/**.py"
+    }    

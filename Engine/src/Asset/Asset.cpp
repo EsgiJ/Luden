@@ -1,7 +1,5 @@
 #include "Asset/Asset.h"
-#include "SFML/Audio/Sound.hpp"
-#include "SFML/Audio/SoundBuffer.hpp"
-#include "SFML/Graphics.hpp"
+
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -53,7 +51,7 @@ namespace Luden {
 			std::cerr << "Failed to load texture: " << path << "\n";
 			exit(-1);
 		}
-		m_Textures[name] = std::move(texture);
+		m_Textures[name] = texture;
 	}
 
 	void Assets::AddFont(const std::string& name, const std::string& path) {
@@ -63,21 +61,23 @@ namespace Luden {
 			std::cerr << "Failed to load font: " << path << "\n";
 			exit(-1);
 		}
-		m_Fonts[name] = std::move(font);
+		m_Fonts[name] = font;
 	}
 
-	void Assets::AddSound(const std::string& name, const std::string& path) {
+	void Assets::AddSound(const std::string& name, const std::string& path)
+	{
 		sf::SoundBuffer buffer;
 		if (!buffer.loadFromFile(path)) {
 			std::cerr << "Failed to load sound: " << path << "\n";
 			exit(-1);
 		}
-		m_SoundBuffers[name] = std::move(buffer);
-		m_Sounds[name] = sf::Sound(m_SoundBuffers.at(name));
+		m_SoundBuffers[name] = buffer;;
+		m_Sounds.emplace(name, sf::Sound(m_SoundBuffers.at(name))); 
 	}
 
-	void Assets::AddAnimation(const std::string& name, const Graphics::Animation& animation) {
-		m_Animations[name] = animation;
+	void Assets::AddAnimation(const std::string& name, const Graphics::Animation& animation)
+	{
+		m_Animations.emplace(name, animation); 
 	}
 
 	sf::Texture& Assets::GetTexture(const std::string& name) {

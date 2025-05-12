@@ -1,5 +1,8 @@
 #include "ECS/EntityManager.h"
 
+#include "ECS/Entity.h"
+
+
 namespace Luden
 {
 	EntityManager::EntityManager(size_t maxEntities)
@@ -8,9 +11,9 @@ namespace Luden
 		m_Active.resize(maxEntities);
 
 		std::apply([maxEntities](auto&... vecs)
-			{
-				(..., vecs.resize(maxEntities));
-			}, m_Pool);
+		{
+			(..., vecs.resize(maxEntities));
+		}, m_Pool);
 	}
 
 	EntityID EntityManager::GetNextIndex()
@@ -22,7 +25,7 @@ namespace Luden
 		}
 
 		assert(false && "Entity limit reached!");
-		return MAX_ENTITIES - 1;  // Fallback, should not happen
+		return MAX_ENTITIES - 1;
 	}
 
 	Entity EntityManager::AddEntity(const std::string& tag)
@@ -36,25 +39,5 @@ namespace Luden
 	void EntityManager::DestroyEntity(EntityID entityID)
 	{
 		m_Active[entityID] = false;
-	}
-
-	std::vector<void*> EntityManager::GetAllComponents(EntityID id)
-	{
-		std::vector<void*> components;
-		std::apply([&](auto&... vecs)
-			{
-				(components.push_back(&vecs[id]), ...);
-			}, m_Pool);
-		return components;
-	}
-
-	std::vector<const void*> EntityManager::GetAllComponents(EntityID id) const
-	{
-		std::vector<const void*> components;
-		std::apply([&](const auto&... vecs)
-			{
-				(components.push_back(&vecs[id]), ...);
-			}, m_Pool);
-		return components;
 	}
 }

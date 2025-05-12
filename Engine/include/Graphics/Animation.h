@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
+
+#include <SFML/Graphics.hpp>
 
 #include "EngineAPI.h"
 #include "Math/Vec2.h"
@@ -19,7 +19,7 @@ namespace Luden::Graphics
 		std::string m_Name = "none";
 
 	public:
-		Animation();
+		Animation() = delete;
 		Animation(const std::string& name, const sf::Texture& texture);
 		Animation(const std::string& name, const sf::Texture& texture, size_t frameCount, size_t speed);
 

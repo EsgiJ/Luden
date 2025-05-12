@@ -1,16 +1,19 @@
 #pragma once
-#include "Scene/Scene.h"
+
 #include "Input/Action.h"
-#include <SFML/Graphics/Text.hpp>
+#include "Scene/Scene.h"
+
 #include <SFML/Audio/Sound.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 namespace Luden
 {
-	class Scene_Menu : public Luden::Scene {
+	class Scene_Menu : public Luden::Scene 
+	{
 		sf::Text m_MenuText;
 		std::vector<std::string> m_MenuStrings;
 		std::vector<sf::Text> m_MenuItems;
-		sf::Sound m_TitleMusic;
+		sf::Sound& m_TitleMusic;
 		std::string m_Title;
 		int m_SelectedMenuIndex = 0;
 

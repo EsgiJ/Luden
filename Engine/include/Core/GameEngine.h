@@ -1,14 +1,16 @@
 #pragma once
 
-#include <string>
-#include <memory>
 #include <map>
+#include <memory>
+#include <string>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 
-#include "Scene/Scene.h"
 #include "Asset/Asset.h"
 #include "EngineAPI.h"
+#include "Scene/Scene.h"
+
 
 namespace Luden {
 
@@ -24,8 +26,8 @@ namespace Luden {
 		void Init(const std::string& assetPath);
 
 		sf::RenderWindow m_Window;
-		sf::Clock m_Clock;
-		Assets m_Assets;
+		sf::Clock m_DeltaClock;
+		Assets  m_Assets;
 
 		std::string m_CurrentSceneName;
 		SceneMap m_SceneMap;
@@ -35,19 +37,19 @@ namespace Luden {
 		void ProcessInput();
 
 	public:
-		static void Initialize(const std::string& assetPath);
-		static GameEngine& Get();
-		static void Shutdown();
 		GameEngine(const GameEngine&) = delete;
 		GameEngine& operator=(const GameEngine&) = delete;
 
+		static void Initialize(const std::string& assetPath);
+		static void Shutdown();
 		void Run();
-
-		void ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent = false);
-		std::shared_ptr<Scene> GetCurrentScene();
 		bool IsRunning() const;
 		void Quit();
 
+		void ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent = false);
+		
+		std::shared_ptr<Scene> GetCurrentScene();
+		static GameEngine& Get();
 		sf::RenderWindow& GetWindow();
 		Assets& GetAssets();
 

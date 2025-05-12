@@ -1,0 +1,3 @@
+[submodule "extern/rttr"]
+	path = extern/rttr
+	url = https://github.com/rttrorg/rttr

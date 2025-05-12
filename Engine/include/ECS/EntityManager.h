@@ -1,32 +1,34 @@
 #pragma once
 
-#include <vector>
+#include <cassert>
+#include <memory>
 #include <string>
 #include <tuple>
-#include <memory>
-#include <cassert>
+#include <vector>
 
-#include "ECS/Entity.h"
-#include "ECS/IComponent.h"
+#include "ECS/Components/Components.h"
 
 #define MAX_ENTITIES 100000
 
 namespace Luden
 {
+	class Entity;
+	using EntityID = std::size_t;
+
 	using EntityComponentVectorTuple = std::tuple<
-		std::vector<CTransform>,
-		std::vector<CLifespan>,
-		std::vector<CDamage>,
-		std::vector<CInvincibility>,
-		std::vector<CHealth>,
-		std::vector<CInput>,
-		std::vector<CBoundingBox>,
-		std::vector<CAnimation>,
-		std::vector<CGravity>,
-		std::vector<CState>,
-		std::vector<CFollowPlayer>,
-		std::vector<CPatrol>,
-		std::vector<CDraggable>
+		std::vector<Luden::CDamage>,
+		std::vector<Luden::CDraggable>,
+		std::vector<Luden::CFollowPlayer>,
+		std::vector<Luden::CGravity>,
+		std::vector<Luden::CHealth>,
+		std::vector<Luden::CInput>,
+		std::vector<Luden::CBoundingBox>,
+		std::vector<Luden::CAnimation>,
+		std::vector<Luden::CLifespan>,
+		std::vector<Luden::CInvincibility>,
+		std::vector<Luden::CPatrol>,
+		std::vector<Luden::CState>,
+		std::vector<Luden::CTransform>
 	>;
 
 	class ENGINE_API EntityManager
@@ -86,8 +88,5 @@ namespace Luden
 		}
 
 		Entity AddEntity(const std::string& tag);
-
-		std::vector<void*> GetAllComponents(EntityID id);
-		std::vector<const void*> GetAllComponents(EntityID id) const;
 	};
 }

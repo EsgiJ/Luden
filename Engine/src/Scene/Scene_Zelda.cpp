@@ -1,6 +1,6 @@
 #include "Scene/Scene_Zelda.h"
 #include "Core/GameEngine.h"
-#include "ECS/IComponent.h"
+#include "ECS/Components/Components.h"
 #include "ECS/EntityManager.h"
 #include "Physics/Physics.h"
 
@@ -9,14 +9,17 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-namespace Luden {
-
+namespace Luden 
+{
 	Scene_Zelda::Scene_Zelda(GameEngine* game, std::string& levelPath)
-		: Scene(game), m_LevelPath(levelPath) {
+		: Scene(game), m_LevelPath(levelPath),
+		m_GridText(m_Game->GetAssets().GetFont("Tech"), "")
+	{
 		Init(m_LevelPath);
 	}
 
-	void Scene_Zelda::Init(const std::string& levelPath) {
+	void Scene_Zelda::Init(const std::string& levelPath) 
+	{
 		LoadLevel(levelPath);
 
 		m_GridText.setCharacterSize(12);
@@ -57,7 +60,7 @@ namespace Luden {
 				auto tile = EntityManager::Instance().AddEntity("Tile");
 				tile.Add<CAnimation>(m_Game->GetAssets().GetAnimation(animationName), true);
 				tile.Add<CTransform>(GetPosition(roomX, roomY, tileX, tileY));
-				tile.Add<CBoundingBox>(tile.Get<CTransform>().pos, tile.Get<CAnimation>().animation.GetSize(), blockMovement, blockVision);
+				tile.Add<CBoundingBox>(tile.Get<CTransform>().pos, tile.Get<CAnimation>().animation->GetSize(), blockMovement, blockVision);
 				tile.Add<CDraggable>();
 			}
 			else if (entityType == "NPC") 
@@ -83,8 +86,14 @@ namespace Luden {
 		};
 	}
 
+	Math::Vec2 Scene_Zelda::GetRoomXY(const Math::Vec2& pos)
+	{
+		return Math::Vec2();
+	}
+
 	void Scene_Zelda::SpawnPlayer()
 	{
+		/*
 		auto player = EntityManager::Instance().AddEntity("player");
 		player.Add<CTransform>(Math::Vec2(m_PlayerConfig.X, m_PlayerConfig.Y));
 		player.Add<CAnimation>(m_Game->GetAssets().GetAnimation("LinkStandDown"), true);
@@ -92,16 +101,18 @@ namespace Luden {
 		player.Add<CDraggable>();
 		player.Add<CHealth>(m_PlayerConfig.HEALTH, m_PlayerConfig.HEALTH);
 		player.Add<CState>("stand_down");
+		*/
 	}
 
-	std::shared_ptr<Entity> Scene_Zelda::player() 
+	void Scene_Zelda::SpawnSword(const Entity& entity)
 	{
-		for (const auto& e : EntityManager::Instance().GetEntities()) 
-		{
-			return e;
-		}
-		return nullptr;
 	}
+
+	void Scene_Zelda::player()
+	{
+		return;
+	}
+
 
 	Math::Vec2 Scene_Zelda::WindowToWorld(const Math::Vec2& pos) 
 	{
@@ -111,7 +122,20 @@ namespace Luden {
 		return { pos.x + wx, pos.y + wy };
 	}
 
-	void Scene_Zelda::sGUI() {
+	void Scene_Zelda::ChangePlayerStateTo(const std::string& state, const Math::Vec2& facing)
+	{
+	}
+
+	void Scene_Zelda::sDrag()
+	{
+	}
+
+	void Scene_Zelda::sCamera()
+	{
+	}
+
+	void Scene_Zelda::sGUI()
+	{
 		ImGui::Begin("Scene - Zelda");
 		ImGui::Checkbox("Draw Textures", &m_DrawTextures);
 		ImGui::Checkbox("Draw Collision", &m_DrawCollision);
@@ -121,7 +145,8 @@ namespace Luden {
 	}
 
 	void Scene_Zelda::sDoAction(const Action& action) {
-		if (action.Type() == "START") {
+		if (action.Type() == "START") 
+		{
 			if (action.Name() == "QUIT") OnEnd();
 			else if (action.Name() == "TOGGLE_TEXTURE") m_DrawTextures = !m_DrawTextures;
 			else if (action.Name() == "TOGGLE_COLLISION") m_DrawCollision = !m_DrawCollision;
@@ -145,5 +170,19 @@ namespace Luden {
 	void Scene_Zelda::OnEnd() {
 		// TODO
 	}
-
+	void Scene_Zelda::sAI()
+	{
+	}
+	void Scene_Zelda::sStatus()
+	{
+	}
+	void Scene_Zelda::sAnimation()
+	{
+	}
+	void Scene_Zelda::sCollision()
+	{
+	}
+	void Scene_Zelda::sMovement()
+	{
+	}
 }

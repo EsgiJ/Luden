@@ -2,9 +2,10 @@
 
 #include <map>
 #include <string>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+
+#include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "EngineAPI.h"
 #include "Graphics/Animation.h"
@@ -13,13 +14,17 @@ namespace Luden {
 
 	class ENGINE_API Assets 
 	{
-		std::map<std::string, sf::Texture>     m_Textures;
-		std::map<std::string, sf::Font>        m_Fonts;
+		std::map<std::string, sf::Texture>	m_Textures;
+		std::map<std::string, sf::Font>	m_Fonts;
 		std::map<std::string, sf::SoundBuffer> m_SoundBuffers;
-		std::map<std::string, sf::Sound>       m_Sounds;
-		std::map<std::string, Graphics::Animation>       m_Animations;
+		std::map<std::string, sf::Sound> m_Sounds;
+		std::map<std::string, Graphics::Animation> m_Animations;
 
 	public:
+		Assets() = default;
+
+		~Assets() = default;
+
 		void LoadFromFile(const std::string& path);
 
 		void AddTexture(const std::string& name, const std::string& path);
