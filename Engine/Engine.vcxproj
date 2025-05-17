@@ -58,22 +58,25 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\rttr\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rttr_core.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\rttr\build\lib\Release;..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Debug-windows-x86_64\Engine\Engine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-graphics-3.dll
+      <Command>copy /B /Y ..\extern\rttr\build\bin\Release\rttr_core.dll ..\bin\Debug-windows-x86_64\Engine\rttr_core.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-graphics-3.dll
 copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-window-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-system-3.dll</Command>
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-system-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-audio-3.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -81,22 +84,25 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Debug-windo
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\rttr\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rttr_core.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\rttr\build\lib\Release;..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Release-windows-x86_64\Engine\Engine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-graphics-3.dll
+      <Command>copy /B /Y ..\extern\rttr\build\bin\Release\rttr_core.dll ..\bin\Release-windows-x86_64\Engine\rttr_core.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-graphics-3.dll
 copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-window-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-system-3.dll</Command>
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-system-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-audio-3.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -105,6 +111,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
     <ClInclude Include="include\Asset\Asset.h" />
     <ClInclude Include="include\Core\GameEngine.h" />
+    <ClInclude Include="include\ECS\Components\Components.h" />
     <ClInclude Include="include\ECS\Entity.h" />
     <ClInclude Include="include\ECS\EntityManager.h" />
     <ClInclude Include="include\ECS\IComponent.h" />
@@ -114,6 +121,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClInclude Include="include\Input\Action.h" />
     <ClInclude Include="include\Math\Vec2.h" />
     <ClInclude Include="include\Physics\Physics.h" />
+    <ClInclude Include="include\Reflection\ReflectionMacros.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\Scene_Menu.h" />
     <ClInclude Include="include\Scene\Scene_Zelda.h" />
@@ -130,6 +138,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-win
     <ClCompile Include="src\ECS\Entity.cpp" />
     <ClCompile Include="src\ECS\EntityManager.cpp" />
     <ClCompile Include="src\ECS\ISystem.cpp" />
+    <ClCompile Include="src\Generated\Reflection.gen.cpp" />
     <ClCompile Include="src\Graphics\Animation.cpp" />
     <ClCompile Include="src\Input\Action.cpp" />
     <ClCompile Include="src\Math\Vec2.cpp" />

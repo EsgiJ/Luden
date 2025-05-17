@@ -5,11 +5,16 @@
 
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <rttr/rttr_enable.h>
+#include <rttr/registration_friend.h>
 
 namespace Luden
 {
-	class Scene_Menu : public Luden::Scene 
+	class ENGINE_API Scene_Menu : public Luden::Scene 
 	{
+		RTTR_ENABLE(Scene)
+		RTTR_REGISTRATION_FRIEND
+
 		sf::Text m_MenuText;
 		std::vector<std::string> m_MenuStrings;
 		std::vector<sf::Text> m_MenuItems;

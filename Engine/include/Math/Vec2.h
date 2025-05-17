@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EngineAPI.h"
+#include "Reflection/ReflectionMacros.h"
 
 namespace Luden::Math
 {
@@ -40,7 +41,7 @@ namespace Luden::Math
 		Vec2 Normalize();
 	};
 
-	struct Point2 {
+	struct ENGINE_API Point2 {
 		float x = 0;
 		float y = 0;
 

@@ -6,14 +6,18 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
+#include <rttr/registration_friend.h>
 
 #include "EngineAPI.h"
 #include "Graphics/Animation.h"
+#include "Reflection/ReflectionMacros.h"
 
 namespace Luden {
 
 	class ENGINE_API Assets 
 	{
+		RTTR_REGISTRATION_FRIEND
+
 		std::map<std::string, sf::Texture>	m_Textures;
 		std::map<std::string, sf::Font>	m_Fonts;
 		std::map<std::string, sf::SoundBuffer> m_SoundBuffers;

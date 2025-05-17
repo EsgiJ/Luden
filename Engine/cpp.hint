@@ -1,0 +1,6 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define PROPERTY()
+#define RTTR_REGISTRATION
+#define RTTR_REGISTRATION static void rttr_auto_register_reflection_function_(); namespace { struct rttr__auto__register__ { rttr__auto__register__() { rttr_auto_register_reflection_function_(); } }; } static const rttr__auto__register__ RTTR_CAT(auto_register__, __LINE__); static void rttr_auto_register_reflection_function_()

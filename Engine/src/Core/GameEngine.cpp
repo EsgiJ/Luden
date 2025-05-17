@@ -24,7 +24,7 @@ namespace Luden {
 	void GameEngine::Init(const std::string& assetPath) {
 		m_Assets.LoadFromFile(assetPath);
 
-		m_Window.create(sf::VideoMode(sf::Vector2u(1280, 720)), "Luden Engine", sf::State::Fullscreen);
+		m_Window.create(sf::VideoMode(sf::Vector2u(1280, 720)), "Luden Engine");
 		m_Window.setFramerateLimit(60);
 
 		if (!ImGui::SFML::Init(m_Window)) {

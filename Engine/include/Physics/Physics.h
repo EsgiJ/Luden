@@ -8,7 +8,7 @@
 
 namespace Luden
 {
-	struct Intersect
+	struct ENGINE_API Intersect
 	{
 		bool hit = false;
 		Math::Vec2 position = { 0.0f, 0.0f };
@@ -22,7 +22,7 @@ namespace Luden
 		NONE
 	};
 
-	struct RectOverlap {
+	struct ENGINE_API RectOverlap {
 		ODirection m_Direction = ODirection::NONE;
 		Math::Vec2 m_Overlap = { 0.0f, 0.0f };
 	};

@@ -3,6 +3,8 @@
 #include <memory>
 
 #include <SFML/Graphics/Text.hpp>
+#include <rttr/rttr_enable.h>
+#include <rttr/registration_friend.h>
 
 #include "Core/GameEngine.h"
 #include "ECS/Entity.h"
@@ -10,8 +12,11 @@
 
 namespace Luden
 {
-	class Scene_Zelda : public Scene 
+	class ENGINE_API Scene_Zelda : public Scene 
 	{
+		RTTR_ENABLE(Scene)
+		RTTR_REGISTRATION_FRIEND
+
 		std::string m_LevelPath;
 		sf::Text m_GridText;
 		Math::Vec2 m_MousePos;
@@ -22,7 +27,7 @@ namespace Luden
 		bool m_DrawGrid = false;
 		bool m_Follow = false;
 
-		struct PlayerConfig 
+		struct ENGINE_API PlayerConfig 
 		{
 			float X, Y, CX, CY, SPEED;
 			int HEALTH;

@@ -5,6 +5,8 @@
 #include <tuple>
 #include <vector>
 
+#include <rttr/registration_friend.h>
+
 #include "ECS/IComponent.h"
 #include "ECS/EntityManager.h"
 #include "EngineAPI.h"
@@ -17,6 +19,8 @@ namespace Luden
 
 	class ENGINE_API Entity
 	{
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		friend class EntityManager;
 

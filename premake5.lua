@@ -75,7 +75,7 @@ project "Engine"
         ["Source/Utils"]        = "Engine/src/Utils/**.cpp",
         ["Source/Scene"]        = "Engine/src/Scene/**.cpp",
         ["Source/Physics"]      = "Engine/src/Physics/**.cpp",
-        ["Source/Generated"]      = "Engine/src/Generated/**.cpp",
+        ["Source/Generated"]      = "Engine/src/Generated/**.gen.cpp",
 
     
         -- ImGui files
@@ -88,24 +88,25 @@ project "Engine"
     } 
 
     filter "system:windows"
+    buildoptions { "/bigobj" }
     prebuildcommands {
-        "echo Generating RTTR Version Header...",
-        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
-        "echo Generating Reflection Metadata...",
-        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+        --"echo Generating RTTR Version Header...",
+        --"python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        --"echo Generating Reflection Metadata...",
+        --"python ../Tools/ReflectionGenerator/reflection_generator.py"
     }
 
     filter "system:linux or system:macosx"
     prebuildcommands {
-        "echo Generating RTTR Version Header...",
-        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
-        "echo Generating Reflection Metadata...",
-        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+        --"echo Generating RTTR Version Header...",
+        --"python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        --"echo Generating Reflection Metadata...",
+        --"python ../Tools/ReflectionGenerator/reflection_generator.py"
     }
 
     filter "system:windows"
     postbuildcommands {
-        "{COPYFILE} ../extern/rttr/lib/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
+        "{COPYFILE} ../extern/rttr/build/bin/Release/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
@@ -120,6 +121,7 @@ project "Editor"
     cppdialect "C++20"
     staticruntime "off"
     dependson { "Engine" }
+    defines { "EDITOR_EXPORTS" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -133,7 +135,7 @@ project "Editor"
     }
 
     includedirs {
-        "Editor",
+        "Editor/include",
         "Engine/include",
         "extern/imgui",
         "extern/ImGui-SFML",
@@ -158,24 +160,47 @@ project "Editor"
         "opengl32"
     }
 
+        vpaths 
+    {
+        -- Engine headers
+        ["Headers/Core"]        = "Editor/include/Core/**.h",
+        ["Headers/GUI"]         = "Editor/include/GUI/**.h",
+        ["Headers/Panels"]      = "Editor/include/Panels/**.h",
+        ["Headers/Utils"]       = "Editor/include/Utils/**.h",
+
+        -- Engine sources
+        ["Source/Core"]         = "Editor/src/Core/**.cpp",
+        ["Source/GUI"]          = "Editor/src/GUI/**.cpp",
+        ["Source/Panels"]       = "Editor/src/Panels/**.cpp",
+        ["Source/Utils"]        = "Editor/src/Utils/**.cpp",
+
+        -- ImGui files
+        ["Extern/ImGui/Source"] = "extern/imgui/**.cpp",
+        ["Extern/ImGui/Header"] = "extern/imgui/**.h",
+    
+        -- ImGui-SFML files
+        ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
+        ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h"
+    } 
+
     filter "system:windows"
     prebuildcommands {
-        "echo Generating RTTR Version Header...",
-        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
-        "echo Generating Reflection Metadata...",
-        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+        --"echo Generating RTTR Version Header...",
+        --"python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        --"echo Generating Reflection Metadata...",
+        --"python ../Tools/ReflectionGenerator/reflection_generator.py"
     }
 
     filter "system:linux or system:macosx"
     prebuildcommands {
-        "echo Generating RTTR Version Header...",
-        "python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
-        "echo Generating Reflection Metadata...",
-        "python ../Tools/ReflectionGenerator/reflection_generator.py"
+        --"echo Generating RTTR Version Header...",
+        --"python ../Tools/RTTRVersionHeaderGenerator/generate_version_header.py",
+        --"echo Generating Reflection Metadata...",
+        --"python ../Tools/ReflectionGenerator/reflection_generator.py"
     }
 
     postbuildcommands {
-        "{COPYFILE} ../extern/rttr/lib/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
+        "{COPYFILE} ../extern/rttr/build/bin/Release/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",

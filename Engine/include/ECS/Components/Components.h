@@ -8,10 +8,10 @@
 
 namespace Luden
 {
-	struct ENGINE_API COMPONENT() CDamage : public IComponent 
+	struct ENGINE_API CDamage : public IComponent 
 	{
 	public:
-		PROPERTY() int damage = 1;
+		int damage = 1;
 
 		CDamage() = default;
 
@@ -19,20 +19,20 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CDraggable : public IComponent
+	struct ENGINE_API CDraggable : public IComponent
 	{
 	public:
-		PROPERTY() bool dragging = false;
+		bool dragging = false;
 
 		CDraggable() = default;
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CFollowPlayer : public IComponent
+	struct ENGINE_API CFollowPlayer : public IComponent
 	{
 	public:
-		PROPERTY() Math::Vec2 home = { 0.0f, 0.0f };
-		PROPERTY() float speed = 0.0f;
+		Math::Vec2 home = { 0.0f, 0.0f };
+		float speed = 0.0f;
 
 		CFollowPlayer() = default;
 
@@ -40,10 +40,10 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CGravity : public IComponent
+	struct ENGINE_API CGravity : public IComponent
 	{
 	public:
-		PROPERTY() float gravity = 0;
+		float gravity = 0;
 
 		CGravity() = default;
 
@@ -51,11 +51,11 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CHealth : public IComponent
+	struct ENGINE_API CHealth : public IComponent
 	{
 	public:
-		PROPERTY() int max = 1;
-		PROPERTY() int current = 1;
+		int max = 1;
+		int current = 1;
 
 		CHealth() = default;
 
@@ -63,29 +63,29 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CInput : public IComponent
+	struct ENGINE_API CInput : public IComponent
 	{
 	public:
-		PROPERTY() bool up = false;
-		PROPERTY() bool down = false;
-		PROPERTY() bool left = false;
-		PROPERTY() bool right = false;
-		PROPERTY() bool attack = false;
-		PROPERTY() bool canAttack = true;
+		bool up = false;
+		bool down = false;
+		bool left = false;
+		bool right = false;
+		bool attack = false;
+		bool canAttack = true;
 
 		CInput() = default;
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CBoundingBox : public IComponent
+	struct ENGINE_API CBoundingBox : public IComponent
 	{
 	public:
-		PROPERTY() Math::Vec2 size;
-		PROPERTY() Math::Vec2 halfSize;
-		PROPERTY() Math::Vec2 center;
-		PROPERTY() Math::Vec2 prevCenter;
-		PROPERTY() bool blockMove = false;
-		PROPERTY() bool blockVision = false;
+		Math::Vec2 size;
+		Math::Vec2 halfSize;
+		Math::Vec2 center;
+		Math::Vec2 prevCenter;
+		bool blockMove = false;
+		bool blockVision = false;
 
 		CBoundingBox() = default;
 
@@ -94,11 +94,11 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CAnimation : public IComponent
+	struct ENGINE_API CAnimation : public IComponent
 	{
 	public:
-		PROPERTY() Graphics::Animation* animation = nullptr;
-		PROPERTY() bool repeat = false;
+		Graphics::Animation* animation = nullptr;
+		bool repeat = false;
 
 		CAnimation() = default;
 
@@ -106,10 +106,10 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CInvincibility : public IComponent
+	struct ENGINE_API CInvincibility : public IComponent
 	{
 	public:
-		PROPERTY() int iframes = 1;
+		int iframes = 1;
 
 		CInvincibility() = default;
 
@@ -117,11 +117,11 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CLifespan : public IComponent
+	struct ENGINE_API CLifespan : public IComponent
 	{
 	public:
-		PROPERTY() int lifespan = 0;
-		PROPERTY() int frameCreated = 0;
+		int lifespan = 0;
+		int frameCreated = 0;
 
 		CLifespan() = default;
 
@@ -130,11 +130,11 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CPatrol : public IComponent
+	struct ENGINE_API CPatrol : public IComponent
 	{
 	public:
-		PROPERTY() std::vector<Math::Vec2> positions;
-		PROPERTY() size_t currentPosition = 0;
+		std::vector<Math::Vec2> positions;
+		size_t currentPosition = 0;
 		float speed = 0;
 
 		CPatrol() = default;
@@ -143,11 +143,11 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CState : public IComponent
+	struct ENGINE_API CState : public IComponent
 	{
 	public:
-		PROPERTY() std::string state = "stand";
-		PROPERTY() std::string previousState = "stand";
+		std::string state = "stand";
+		std::string previousState = "stand";
 		bool changeAnimation = false;
 
 		CState() = default;
@@ -156,15 +156,15 @@ namespace Luden
 		RTTR_ENABLE(IComponent);
 	};
 
-	struct ENGINE_API COMPONENT() CTransform : public IComponent
+	struct ENGINE_API CTransform : public IComponent
 	{
 	public:
-		PROPERTY() Math::Vec2 pos = { 0.0f, 0.0f };
-		PROPERTY() Math::Vec2 prevPos = { 0.0f, 0.0f };
-		PROPERTY() Math::Vec2 velocity = { 0.0f, 0.0f };
-		PROPERTY() Math::Vec2 scale = { 1.0f, 1.0f };
-		PROPERTY() Math::Vec2 facing = { 0.0f, 1.0f };
-		PROPERTY() float angle = 0;
+		Math::Vec2 pos = { 0.0f, 0.0f };
+		Math::Vec2 prevPos = { 0.0f, 0.0f };
+		Math::Vec2 velocity = { 0.0f, 0.0f };
+		Math::Vec2 scale = { 1.0f, 1.0f };
+		Math::Vec2 facing = { 0.0f, 1.0f };
+		float angle = 0;
 
 		CTransform() = default;
 

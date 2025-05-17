@@ -3,14 +3,18 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <rttr/registration_friend.h>
 
 #include "EngineAPI.h"
 #include "Math/Vec2.h"
+#include "Reflection/ReflectionMacros.h"
 
 namespace Luden::Graphics
 {
 	class ENGINE_API Animation
 	{
+		RTTR_REGISTRATION_FRIEND
+
 		sf::Sprite m_Sprite;
 		size_t m_FrameCount = 1;
 		size_t m_CurrentFrame = 0;

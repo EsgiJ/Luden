@@ -8,10 +8,10 @@
 
 namespace Luden 
 {
-	struct ENGINE_API COMPONENT() IComponent 
+	struct ENGINE_API IComponent 
 	{
 	public:
-		PROPERTY() bool has = false;
+		bool has = false;
 		RTTR_ENABLE();
 	};
 }

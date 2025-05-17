@@ -6,6 +6,8 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
+#include <rttr/registration_friend.h>
+#include <rttr/rttr_enable.h>
 
 #include "Asset/Asset.h"
 #include "EngineAPI.h"
@@ -18,6 +20,8 @@ namespace Luden {
 
 	class ENGINE_API GameEngine {
 	private:
+		RTTR_ENABLE()
+		RTTR_REGISTRATION_FRIEND
 		static GameEngine* s_Instance;
 
 		GameEngine(const std::string& assetPath);

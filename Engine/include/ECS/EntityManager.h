@@ -6,7 +6,10 @@
 #include <tuple>
 #include <vector>
 
+#include <rttr/registration_friend.h>
+
 #include "ECS/Components/Components.h"
+#include "Reflection/ReflectionMacros.h"
 
 #define MAX_ENTITIES 100000
 
@@ -33,6 +36,8 @@ namespace Luden
 
 	class ENGINE_API EntityManager
 	{
+		RTTR_REGISTRATION_FRIEND
+
 		size_t m_NumEntities = 0;
 		EntityComponentVectorTuple m_Pool;
 		std::vector<std::string> m_Tags;

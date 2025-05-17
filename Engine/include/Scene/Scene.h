@@ -6,6 +6,8 @@
 #include <string>
 
 #include <SFML/Window.hpp>
+#include <rttr/registration_friend.h>
+#include <rttr/rttr_enable.h>
 
 #include "EngineAPI.h"
 #include "ECS/EntityManager.h"
@@ -18,6 +20,8 @@ namespace Luden {
 	using ActionMap = std::map<int, std::string>;
 
 	class ENGINE_API Scene {
+		RTTR_ENABLE()
+		RTTR_REGISTRATION_FRIEND
 	protected:
 		GameEngine* m_Game = nullptr;
 
