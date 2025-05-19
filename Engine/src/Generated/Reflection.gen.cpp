@@ -1,20 +1,44 @@
 #include <rttr/registration>
+#include <rttr/enumeration.h>
 using namespace rttr;
 
-#include "../../include/ECS/Components/Components.h"
-#include "../../include/ECS/IComponent.h"
-#include "../../include/Asset/Asset.h"
-#include "../../include/Input/Action.h"
-#include "../../include/ECS/Entity.h"
-#include "../../include/ECS/EntityManager.h"
-#include "../../include/Core/GameEngine.h"
-#include "../../include/Scene/Scene.h"
-#include "../../include/Scene/Scene_Menu.h"
-#include "../../include/Scene/Scene_Zelda.h"
-#include "../../include/ECS/ISystem.h"
+#include "ECS/Components/Components.h"
+#include "ECS/IComponent.h"
+#include "Asset/Asset.h"
+#include "Input/Action.h"
+#include "ECS/Entity.h"
+#include "ECS/EntityManager.h"
+#include "Core/GameEngine.h"
+#include "Physics/Physics.h"
+#include "Scene/Scene.h"
+#include "Scene/Scene_Menu.h"
+#include "Scene/Scene_Zelda.h"
+#include "ECS/ISystem.h"
 
 RTTR_REGISTRATION
 {
+	registration::class_<std::string>("std::string");
+	registration::class_<std::vector<std::string>>("std::vector<std::string>");
+
+	// Direction
+	registration::enumeration<Luden::ODirection>("Direction")
+		(
+			value("Up", Luden::ODirection::UP),
+			value("Down", Luden::ODirection::DOWN),
+			value("Left", Luden::ODirection::LEFT),
+			value("Right", Luden::ODirection::RIGHT)
+		);
+
+	// Player Config
+	registration::class_<Luden::Scene_Zelda::PlayerConfig>("PlayerConfig")
+		.property("x", &Luden::Scene_Zelda::PlayerConfig::X)
+		.property("y", &Luden::Scene_Zelda::PlayerConfig::Y)
+		.property("cx", &Luden::Scene_Zelda::PlayerConfig::CX)
+		.property("cy", &Luden::Scene_Zelda::PlayerConfig::CY)
+		.property("speed", &Luden::Scene_Zelda::PlayerConfig::SPEED)
+		.property("hp", &Luden::Scene_Zelda::PlayerConfig::HEALTH);
+
+	// IComponent
 	registration::class_<Luden::IComponent>("IComponent")
 		.property("has", &Luden::IComponent::has)
 		(
@@ -216,15 +240,12 @@ RTTR_REGISTRATION
 	// EntityManager
 	registration::class_<Luden::EntityManager>("EntityManager")
 		.property("m_NumEntities", &Luden::EntityManager::m_NumEntities)
-		.property("m_Pool", &Luden::EntityManager::m_Pool)
 		.property("m_Tags", &Luden::EntityManager::m_Tags)
 		.property("m_Active", &Luden::EntityManager::m_Active);
 
 	// GameEngine
 	registration::class_<Luden::GameEngine>("GameEngine")
-		//.method("GetWindow", &Luden::GameEngine::GetWindow)
 		.method("GetAssets", &Luden::GameEngine::GetAssets)
-		//.property("m_Window", &Luden::GameEngine::m_Window)
 		.property("m_DeltaClock", &Luden::GameEngine::m_DeltaClock)
 		.property("m_Assets", &Luden::GameEngine::m_Assets)
 		.property("m_CurrentSceneName", &Luden::GameEngine::m_CurrentSceneName)

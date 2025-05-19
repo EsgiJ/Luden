@@ -5,6 +5,7 @@
 #include "Math/Vec2.h"
 #include "Reflection/ReflectionMacros.h"
 #include <rttr/registration.h>
+#include <rttr/rttr_enable.h>
 
 namespace Luden
 {
@@ -97,12 +98,12 @@ namespace Luden
 	struct ENGINE_API CAnimation : public IComponent
 	{
 	public:
-		Graphics::Animation* animation = nullptr;
+		Graphics::Animation animation;
 		bool repeat = false;
 
 		CAnimation() = default;
 
-		CAnimation(Graphics::Animation a, bool r) : animation(&a), repeat(r) {}
+		CAnimation(Graphics::Animation a, bool r) : animation(a), repeat(r) {}
 		RTTR_ENABLE(IComponent);
 	};
 

@@ -29,7 +29,7 @@ namespace Luden
 	public:
 		Scene_Menu(Luden::GameEngine* game);
 
-		void sRender() override;
+		void sRender(sf::RenderTarget& target) override;
 		void sDoAction(const Action& action) override;
 		void Update() override;
 		void OnEnd() override;

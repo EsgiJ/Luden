@@ -41,7 +41,7 @@ namespace Luden
 		size_t m_NumEntities = 0;
 		EntityComponentVectorTuple m_Pool;
 		std::vector<std::string> m_Tags;
-		std::vector<bool> m_Active;
+		std::vector<uint8_t> m_Active;
 
 		EntityManager(size_t maxEntities);
 		EntityID GetNextIndex();
@@ -93,5 +93,8 @@ namespace Luden
 		}
 
 		Entity AddEntity(const std::string& tag);
+
+		std::vector<Entity> GetEntitiesByTag(const std::string& tag);
+		std::vector<Entity> GetAllEntities() const;
 	};
 }

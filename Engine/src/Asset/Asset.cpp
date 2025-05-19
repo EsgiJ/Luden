@@ -51,7 +51,7 @@ namespace Luden {
 			std::cerr << "Failed to load texture: " << path << "\n";
 			exit(-1);
 		}
-		m_Textures[name] = texture;
+		m_Textures.emplace(name, texture);
 	}
 
 	void Assets::AddFont(const std::string& name, const std::string& path) {
@@ -61,7 +61,7 @@ namespace Luden {
 			std::cerr << "Failed to load font: " << path << "\n";
 			exit(-1);
 		}
-		m_Fonts[name] = font;
+		m_Fonts.emplace(name, font);
 	}
 
 	void Assets::AddSound(const std::string& name, const std::string& path)
@@ -71,7 +71,7 @@ namespace Luden {
 			std::cerr << "Failed to load sound: " << path << "\n";
 			exit(-1);
 		}
-		m_SoundBuffers[name] = buffer;;
+		m_SoundBuffers.emplace(name, buffer);
 		m_Sounds.emplace(name, sf::Sound(m_SoundBuffers.at(name))); 
 	}
 
@@ -98,6 +98,26 @@ namespace Luden {
 	Graphics::Animation& Assets::GetAnimation(const std::string& name) {
 		assert(m_Animations.find(name) != m_Animations.end() && "Animation not found!");
 		return m_Animations.at(name);
+	}
+
+	const std::map<std::string, Graphics::Animation>& Assets::GetAnimations() const {
+		return m_Animations;
+	}
+
+	const std::map<std::string, sf::Texture>& Assets::GetTextures() const {
+		return m_Textures;
+	}
+
+	const std::map<std::string, sf::Font>& Assets::GetFonts() const {
+		return m_Fonts;
+	}
+
+	const std::map<std::string, sf::Sound>& Assets::GetSounds() const {
+		return m_Sounds;
+	}
+
+	const std::map<std::string, sf::SoundBuffer>& Assets::GetSoundBuffers() const {
+		return m_SoundBuffers;
 	}
 
 } 

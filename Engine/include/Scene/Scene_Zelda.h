@@ -23,8 +23,8 @@ namespace Luden
 		Math::Vec2 m_GridSize = { 64, 64 };
 
 		bool m_DrawTextures = true;
-		bool m_DrawCollision = false;
-		bool m_DrawGrid = false;
+		bool m_DrawCollision = true;
+		bool m_DrawGrid = true;
 		bool m_Follow = false;
 
 		struct ENGINE_API PlayerConfig 
@@ -38,7 +38,8 @@ namespace Luden
 		void SpawnPlayer();
 		void SpawnSword(const Entity& entity);
 
-		void player();
+		Entity& Player();
+		void AnimatePlayer();
 		Math::Vec2 GetPosition(int rx, int ry, int tx, int ty) const;
 		Math::Vec2 GetRoomXY(const Math::Vec2& pos);
 		Math::Vec2 WindowToWorld(const Math::Vec2& pos);
@@ -49,10 +50,10 @@ namespace Luden
 		void sGUI();
 
 	public:
-		Scene_Zelda(Luden::GameEngine* game, std::string& levelPath);
+		Scene_Zelda(Luden::GameEngine* game, const std::string& levelPath);
 
 		void Update() override;
-		void sRender() override;
+		void sRender(sf::RenderTarget& target) override;
 		void sDoAction(const Action& action) override;
 		void OnEnd() override;
 

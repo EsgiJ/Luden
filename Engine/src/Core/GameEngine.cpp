@@ -7,13 +7,15 @@
 
 #include "Asset/Asset.h"
 #include "Scene/Scene_Menu.h"
+#include "Scene/Scene_Zelda.h"
 
 namespace Luden {
 
 	GameEngine* GameEngine::s_Instance = nullptr;
 
-	GameEngine::GameEngine(const std::string& assetPath) {
-		Init(assetPath);
+	GameEngine::GameEngine(const std::string& assetPath, bool headless) 
+	{
+		Init(assetPath, headless);
 	}
 
 	GameEngine::~GameEngine()
@@ -21,55 +23,43 @@ namespace Luden {
 		ImGui::SFML::Shutdown();
 	}
 
-	void GameEngine::Init(const std::string& assetPath) {
+	void GameEngine::Init(const std::string& assetPath, bool headless) 
+	{
 		m_Assets.LoadFromFile(assetPath);
 
-		m_Window.create(sf::VideoMode(sf::Vector2u(1280, 720)), "Luden Engine");
-		m_Window.setFramerateLimit(60);
-
-		if (!ImGui::SFML::Init(m_Window)) {
-			std::cerr << "ImGui-SFML initialization failed!" << std::endl;
-		}
-
 		// Default scene
-		ChangeScene("MainMenu", std::make_shared<Scene_Menu>(this));
+		ChangeScene("Menu", std::make_shared<Scene_Menu>(this));
+
+		if (headless)
+			return;
 	}
 
-	void GameEngine::Initialize(const std::string& assetPath) 
+	void GameEngine::Initialize(const std::string& assetPath, bool headless)
 	{
-		if (!s_Instance) 
-		{
-			s_Instance = new GameEngine(assetPath);
-		}
+		if (!s_Instance)
+			s_Instance = new GameEngine(assetPath, headless);
 	}
 
-	void GameEngine::Run() {
-		while (IsRunning()) {
-			ProcessInput();
-			ImGui::SFML::Update(m_Window, m_DeltaClock.restart());
-			Update();
-			ImGui::SFML::Render(m_Window);
-			m_Window.display();
-		}
+	void GameEngine::Run()
+	{
 	}
 
-	void GameEngine::Update() {
+	void GameEngine::Update(float)
+	{
 		GetCurrentScene()->Update();
 	}
 
-	void GameEngine::ProcessInput()
+	void GameEngine::ProcessInput(const std::vector<sf::Event>& events, bool wantCaptureMouse)
 	{
-		while (const std::optional<sf::Event> event = m_Window.pollEvent())
+		for (const auto& event : events)
 		{
-			ImGui::SFML::ProcessEvent(m_Window, *event);
-
-			if (event->is<sf::Event::Closed>())
+			if (event.is<sf::Event::Closed>())
 			{
 				Quit();
 				return;
 			}
 
-			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+			if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
 			{
 				if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 					Quit();
@@ -81,7 +71,7 @@ namespace Luden {
 					GetCurrentScene()->DoAction(Action(it->second, "START"));
 			}
 
-			if (const auto* keyReleased = event->getIf<sf::Event::KeyReleased>())
+			if (const auto* keyReleased = event.getIf<sf::Event::KeyReleased>())
 			{
 				const auto& actionMap = GetCurrentScene()->GetActionMap();
 				auto keyCode = static_cast<int>(keyReleased->code);
@@ -89,17 +79,16 @@ namespace Luden {
 				if (it != actionMap.end())
 					GetCurrentScene()->DoAction(Action(it->second, "END"));
 			}
+			if (!wantCaptureMouse)
+				continue;
 
-			if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>())
+			if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>())
 			{
 				Math::Vec2 pos = { static_cast<float>(mouseMoved->position.x), static_cast<float>(mouseMoved->position.y) };
 				GetCurrentScene()->DoAction(Action("MOUSE_MOVE", pos));
 			}
 
-			if (ImGui::GetIO().WantCaptureMouse)
-				continue;
-
-			if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>())
+			if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>())
 			{
 				Math::Vec2 pos = { static_cast<float>(mousePressed->position.x), static_cast<float>(mousePressed->position.y) };
 				std::string button;
@@ -117,7 +106,7 @@ namespace Luden {
 				}
 			}
 
-			if (const auto* mouseReleased = event->getIf<sf::Event::MouseButtonReleased>())
+			if (const auto* mouseReleased = event.getIf<sf::Event::MouseButtonReleased>())
 			{
 				Math::Vec2 pos = { static_cast<float>(mouseReleased->position.x), static_cast<float>(mouseReleased->position.y) };
 				std::string button;
@@ -136,14 +125,20 @@ namespace Luden {
 
 	bool GameEngine::IsRunning() const 
 	{
-		return m_IsRunning && m_Window.isOpen();
+		return m_IsRunning;
 	}
 
 	void GameEngine::Quit() 
 	{
 		m_IsRunning = false;
-		m_Window.close();
 	}
+
+	void GameEngine::Render(sf::RenderTarget& target)
+	{
+		if (auto scene = GetCurrentScene())
+			scene->sRender(target);
+	}
+
 
 	void GameEngine::Shutdown() 
 	{

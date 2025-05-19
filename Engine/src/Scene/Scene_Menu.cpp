@@ -67,7 +67,7 @@ namespace Luden
 
 	void Scene_Menu::Update() 
 	{
-		sRender();
+		//sRender(m_Game->GetWindow());
 	}
 
 	void Scene_Menu::OnEnd() 
@@ -109,25 +109,25 @@ namespace Luden
 		}
 	}
 
-	void Scene_Menu::sRender()
+	void Scene_Menu::sRender(sf::RenderTarget& target)
 	{
-		m_Game->GetWindow().clear(sf::Color(100, 100, 255));
-		m_Game->GetWindow().draw(m_MenuText);
+		target.clear(sf::Color(100, 100, 255));
+		target.draw(m_MenuText);
 
-		for (size_t i = 0; i < m_MenuItems.size(); i++) 
+		for (size_t i = 0; i < m_MenuItems.size(); i++)
 		{
 			auto& item = m_MenuItems[i];
 			item.setFillColor(i == m_SelectedMenuIndex ? sf::Color::White : sf::Color::Black);
 			item.setPosition(sf::Vector2f(
-				float(m_Game->GetWindow().getSize().x) / 2.0f - float(26 * (m_MenuStrings[i].length() + 1)) / 2.0f,
+				float(target.getSize().x) / 2.0f - float(26 * (m_MenuStrings[i].length() + 1)) / 2.0f,
 				m_MenuText.getGlobalBounds().position.x + 10.0f + 30.0f * float(i + 1)
 			));
-			m_Game->GetWindow().draw(item);
+			target.draw(item);
 		}
 
 		sf::Text help(m_Game->GetAssets().GetFont("Mario"), "W:UP  S:DOWN  D:PLAY  M:MUTE  ESC:QUIT", 20);
 		help.setFillColor(sf::Color::Black);
 		help.setPosition(sf::Vector2f(20, float(m_Game->GetWindow().getSize().y) - 40));
-		m_Game->GetWindow().draw(help);
+		target.draw(help);
 	}
 }

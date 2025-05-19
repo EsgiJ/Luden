@@ -1,0 +1,30 @@
+#include "Core/EditorState.h"
+
+namespace Luden::Editor
+{
+	EditorStateManager& EditorStateManager::Get()
+	{
+		static EditorStateManager instance;
+		return instance;
+	}
+
+	EditorMode EditorStateManager::GetEditorMode()
+	{
+		return EditorMode();
+	}
+
+	void EditorStateManager::SetEditorMode(EditorMode editorMode)
+	{
+		m_State.m_Mode = editorMode;
+	}
+
+	EditorState& Editor::EditorStateManager::GetState()
+	{
+		return m_State;
+	}
+	const EditorState& Editor::EditorStateManager::GetState() const
+	{
+		return m_State;
+	}
+}
+

@@ -1,5 +1,8 @@
-#include <SFML/Graphics.hpp>
 #include "Core/GameEngine.h"
+
+#include <iostream>
+
+#include <SFML/Graphics.hpp>
 
 namespace Luden
 {

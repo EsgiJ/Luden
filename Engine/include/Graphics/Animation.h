@@ -21,9 +21,9 @@ namespace Luden::Graphics
 		size_t m_Speed = 0;
 		Math::Vec2 m_Size = { 1, 1 };
 		std::string m_Name = "none";
-
+		sf::Texture m_Texture;
 	public:
-		Animation() = delete;
+		Animation();
 		Animation(const std::string& name, const sf::Texture& texture);
 		Animation(const std::string& name, const sf::Texture& texture, size_t frameCount, size_t speed);
 

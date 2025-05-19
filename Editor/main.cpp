@@ -7,6 +7,7 @@ int main() {
 	Luden::Editor::EditorApp editorApp;
 	editorApp.Init();
 	editorApp.Run();
+
 	return 0;
 }
 

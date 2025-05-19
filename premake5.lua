@@ -33,7 +33,8 @@ project "Engine"
         "extern/ImGui-SFML",
         "extern/SFML/include",
         "extern/sol2/single",
-        "extern/rttr/src"
+        "extern/rttr/src",
+        "extern/json/include"
     }
 
     libdirs {
@@ -142,7 +143,8 @@ project "Editor"
         "extern/SFML/include",
         "extern/sol2/single",
         "extern/Lua",
-        "extern/rttr/src"
+        "extern/rttr/src",
+        "extern/json/include"
     }
     
     libdirs {
@@ -199,14 +201,19 @@ project "Editor"
         --"python ../Tools/ReflectionGenerator/reflection_generator.py"
     }
 
-    postbuildcommands {
-        "{COPYFILE} ../extern/rttr/build/bin/Release/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll",
-        "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
-    }
+filter "system:windows"
+  postbuildcommands {
+    "{MKDIR} \"%{cfg.targetdir}\"",
+
+    -- copy RTTR & SFML DLLs
+    "{COPYFILE} \"..\\extern\\rttr\\build\\bin\\Release\\rttr_core.dll\" \"%{cfg.targetdir}\\rttr_core.dll\"",
+    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-graphics-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-3.dll\"",
+    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-window-3.dll\"  \"%{cfg.targetdir}\\sfml-window-3.dll\"",
+    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-system-3.dll\"  \"%{cfg.targetdir}\\sfml-system-3.dll\"",
+    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-audio-3.dll\"   \"%{cfg.targetdir}\\sfml-audio-3.dll\"",
+
+    "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
+  }
 
 -- GAME PROJECT
 project "Game"

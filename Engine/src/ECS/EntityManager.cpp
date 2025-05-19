@@ -32,12 +32,38 @@ namespace Luden
 	{
 		EntityID index = GetNextIndex();
 		m_Tags[index] = tag;
-		m_Active[index] = true;
+		m_Active[index] = 1;
 		return Entity(index);
+	}
+
+	std::vector<Entity> EntityManager::GetEntitiesByTag(const std::string& tag)
+	{
+		std::vector<Entity> result;
+		for (EntityID i = 0; i < m_Tags.size(); ++i)
+		{
+			if (m_Active[i] && m_Tags[i] == tag)
+			{
+				result.emplace_back(Entity(i));
+			}
+		}
+		return result;
+	}
+
+	std::vector<Entity> EntityManager::GetAllEntities() const
+	{
+		std::vector<Entity> result;
+		for (EntityID i = 0; i < MAX_ENTITIES; ++i)
+		{
+			if (m_Active[i])
+			{
+				result.emplace_back(Entity(i));
+			}
+		}
+		return result;
 	}
 
 	void EntityManager::DestroyEntity(EntityID entityID)
 	{
-		m_Active[entityID] = false;
+		m_Active[entityID] = 0;
 	}
 }

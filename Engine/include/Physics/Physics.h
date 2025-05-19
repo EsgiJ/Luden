@@ -14,7 +14,8 @@ namespace Luden
 		Math::Vec2 position = { 0.0f, 0.0f };
 	};
 
-	enum struct ODirection {
+	enum struct ODirection 
+	{
 		UP,
 		DOWN,
 		LEFT,
@@ -22,7 +23,8 @@ namespace Luden
 		NONE
 	};
 
-	struct ENGINE_API RectOverlap {
+	struct ENGINE_API RectOverlap 
+	{
 		ODirection m_Direction = ODirection::NONE;
 		Math::Vec2 m_Overlap = { 0.0f, 0.0f };
 	};
@@ -30,17 +32,17 @@ namespace Luden
 	class ENGINE_API Physics
 	{
 	public:
-		static Math::Vec2 GetOverlap(const std::shared_ptr<Entity>& a, const std::shared_ptr<Entity>& b);
+		static Math::Vec2 GetOverlap(const Entity& a, const Entity& b);
 
-		static Math::Vec2 GetPreviousOverlap(const std::shared_ptr<Entity>& a, const std::shared_ptr<Entity>& b);
+		static Math::Vec2 GetPreviousOverlap(const Entity& a, const Entity& b);
 
-		static bool IsInside(const Math::Vec2& pos, const std::shared_ptr<Entity>& entity);
+		static bool IsInside(const Math::Vec2& pos, const Entity& entity);
 
 		static Intersect LineIntersect(const Math::Vec2& a, const Math::Vec2& b, const Math::Vec2& c, const Math::Vec2& d);
 
-		static bool EntityIntersect(const Math::Vec2& a, const Math::Vec2& b, const std::shared_ptr<Entity>& entity);
+		static bool EntityIntersect(const Math::Vec2& a, const Math::Vec2& b, const Entity& entity);
 
-		static RectOverlap AIsNearB(const std::shared_ptr<Entity>& a, const std::shared_ptr<Entity>& b, const Math::Vec2& maxDist);
+		static RectOverlap AIsNearB(const Entity& a, const Entity& b, const Math::Vec2& maxDist);
 
 		static Math::Vec2 GetSpeedAB(const Math::Vec2& posA, const Math::Vec2& posB, float speed);
 	};

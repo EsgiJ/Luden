@@ -29,8 +29,7 @@ namespace Luden {
 		bool m_Paused = false;
 		bool m_HasEnded = false;
 		size_t m_CurrentFrame = 0;
-
-		void SetPaused(bool paused);
+		sf::RenderTexture m_ViewportTexture;
 
 	public:
 		Scene() = default;
@@ -38,7 +37,7 @@ namespace Luden {
 		virtual ~Scene() = default;
 
 		virtual void Update() = 0;
-		virtual void sRender() = 0;
+		virtual void sRender(sf::RenderTarget& target) = 0;
 		virtual void sDoAction(const Action& action) = 0;
 		virtual void OnEnd() = 0;
 
@@ -51,6 +50,8 @@ namespace Luden {
 		[[nodiscard]] size_t CurrentFrame() const;
 		[[nodiscard]] bool HasEnded() const;
 		[[nodiscard]] const ActionMap& GetActionMap() const;
+
+		void SetPaused(bool paused);
 
 		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);
 	};

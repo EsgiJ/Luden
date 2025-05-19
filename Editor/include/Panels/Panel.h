@@ -13,14 +13,15 @@ namespace Luden::Editor
 	{
 		RTTR_ENABLE()
 		RTTR_REGISTRATION_FRIEND
-	protected:
-		std::string m_Name;
-
 	public:
 		Panel(const std::string& name);
 		virtual ~Panel() = default;
 
 		virtual void Render() = 0;
 		const std::string& GetName() const;
+
+		bool m_Visible = true;
+	protected:
+		std::string m_Name;
 	};
 }

@@ -40,6 +40,13 @@ namespace Luden {
 		sf::Font& GetFont(const std::string& name);
 		sf::Sound& GetSound(const std::string& name);
 		Graphics::Animation& GetAnimation(const std::string& name);
+
+		const std::map<std::string, Graphics::Animation>& GetAnimations() const;
+		const std::map<std::string, sf::Texture>& GetTextures() const;
+		const std::map<std::string, sf::Font>& GetFonts() const;
+		const std::map<std::string, sf::Sound>& GetSounds() const;
+		const std::map<std::string, sf::SoundBuffer>& GetSoundBuffers() const;
+
 	};
 
 }

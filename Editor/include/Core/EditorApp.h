@@ -26,9 +26,9 @@ namespace Luden::Editor
 		void Shutdown();
 
 	private:
-		void Update(float dt);
 		void Render();
 		void RenderDockSpace();
+		void RenderModeToolbar();
 		void HandleInput();
 
 	private:
@@ -36,6 +36,7 @@ namespace Luden::Editor
 		sf::Clock m_DeltaClock;
 		std::vector<std::unique_ptr<Panel>> m_Panels;
 		bool m_IsRunning = false;
+		bool m_LayoutBuilt = false;
 
 		sf::RenderTexture m_ViewportTexture;
 		ImTextureID m_ViewportTextureID = 0;
