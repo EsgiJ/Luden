@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\rttr\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\rttr\src;..\extern\json\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -69,13 +69,22 @@
       <AdditionalDependencies>rttr_core.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\extern\rttr\build\lib\Release;..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT EXIST "..\bin\Debug-windows-x86_64\Editor" (mkdir "..\bin\Debug-windows-x86_64\Editor")
+copy /B /Y "..\extern\rttr\build\bin\Release\rttr_core.dll" "..\bin\Debug-windows-x86_64\Editor\rttr_core.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-graphics-3.dll" "..\bin\Debug-windows-x86_64\Editor\sfml-graphics-3.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-window-3.dll"  "..\bin\Debug-windows-x86_64\Editor\sfml-window-3.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-system-3.dll"  "..\bin\Debug-windows-x86_64\Editor\sfml-system-3.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-audio-3.dll"   "..\bin\Debug-windows-x86_64\Editor\sfml-audio-3.dll"
+copy /B /Y "..\bin\Debug-windows-x86_64\Engine\Engine.dll" "..\bin\Debug-windows-x86_64\Editor\Engine.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\rttr\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\rttr\src;..\extern\json\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -86,6 +95,15 @@
       <AdditionalDependencies>rttr_core.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\extern\rttr\build\lib\Release;..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT EXIST "..\bin\Release-windows-x86_64\Editor" (mkdir "..\bin\Release-windows-x86_64\Editor")
+copy /B /Y "..\extern\rttr\build\bin\Release\rttr_core.dll" "..\bin\Release-windows-x86_64\Editor\rttr_core.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-graphics-3.dll" "..\bin\Release-windows-x86_64\Editor\sfml-graphics-3.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-window-3.dll"  "..\bin\Release-windows-x86_64\Editor\sfml-window-3.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-system-3.dll"  "..\bin\Release-windows-x86_64\Editor\sfml-system-3.dll"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-audio-3.dll"   "..\bin\Release-windows-x86_64\Editor\sfml-audio-3.dll"
+copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-windows-x86_64\Editor\Engine.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />

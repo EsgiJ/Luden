@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "ECS/EntityManager.h"
+#include "ECS/EntityMemoryPool.h"
 
 namespace Luden
 {
@@ -11,12 +11,12 @@ namespace Luden
 
 	bool Entity::IsActive() const 
 	{
-		return EntityManager::Instance().IsActive(m_ID);
+		return EntityMemoryPool::Instance().IsActive(m_ID);
 	}
 
 	const std::string& Entity::Tag() const 
 	{
-		return EntityManager::Instance().GetTag(m_ID);
+		return EntityMemoryPool::Instance().GetTag(m_ID);
 	}
 
 	size_t Entity::Id() const 
@@ -26,6 +26,6 @@ namespace Luden
 
 	void Entity::Destroy() 
 	{
-		EntityManager::Instance().DestroyEntity(m_ID);
+		EntityMemoryPool::Instance().DestroyEntity(m_ID);
 	}
 }

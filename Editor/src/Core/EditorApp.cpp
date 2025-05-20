@@ -34,10 +34,7 @@ namespace Luden::Editor {
 			p->m_Visible = (it != loaded.m_PanelStates.end()) ? it->second : true;
 		}
 
-		//Initialize Engine
-		GameEngine::Initialize("config/assets.txt", true);
-
-		m_Window.create(sf::VideoMode(sf::Vector2u(1280, 720)), "Luden Editor");
+		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor");
 		m_Window.setFramerateLimit(60);
 		if (!m_ViewportTexture.resize({ 1280, 720 }))
 			throw std::runtime_error("Failed to resize viewport texture");
@@ -51,31 +48,30 @@ namespace Luden::Editor {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		m_IsRunning = true;
+
+		ImGuiContext* ctx = ImGui::GetCurrentContext();
+
+		//Initialize Engine
+		GameEngine::Initialize(m_Window, ctx, "config/assets.txt", true);
 	}
 
 	void EditorApp::Run() {
-		std::vector<sf::Event> sfEvents;
 		while (m_IsRunning && m_Window.isOpen()) {
-			sfEvents.clear();
-			while (const std::optional<sf::Event> event = m_Window.pollEvent()) {
-				if (event.has_value())
-				{
-					sfEvents.emplace_back(event.value());
-					ImGui::SFML::ProcessEvent(m_Window, event.value());
-				}
-
-				if (event->is<sf::Event::Closed>())
-					m_IsRunning = false;
-			}
 
 			float dt = m_DeltaClock.restart().asSeconds();
+
+			if (!EditorStateManager::Get().IsPlayMode())
+			{
+				HandleInput();
+			}
+
 			ImGui::SFML::Update(m_Window, sf::seconds(dt));
 
 			if (EditorStateManager::Get().IsPlayMode()) {
-				GameEngine::Get().ProcessInput(sfEvents, ImGui::GetIO().WantCaptureMouse);
+				GameEngine::Get().ProcessInput();
 				GameEngine::Get().Update(dt);
-				GameEngine::Get().Render(m_ViewportTexture);
 			}
+			GameEngine::Get().Render(m_ViewportTexture);
 
 			RenderDockSpace();
 			RenderModeToolbar();
@@ -97,7 +93,6 @@ namespace Luden::Editor {
 
 		ImGui::SFML::Shutdown();
 		if (m_Window.isOpen()) m_Window.close();
-		GameEngine::Shutdown();
 	}
 
 	void EditorApp::Render() {
@@ -189,9 +184,11 @@ namespace Luden::Editor {
 	void EditorApp::HandleInput() {
 		while (auto evt = m_Window.pollEvent()) {
 			ImGui::SFML::ProcessEvent(m_Window, *evt);
+
 			if (evt->is<sf::Event::Closed>())
 				m_IsRunning = false;
 		}
 	}
+
 
 } // namespace Luden::Editor

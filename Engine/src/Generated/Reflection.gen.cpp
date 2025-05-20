@@ -7,7 +7,7 @@ using namespace rttr;
 #include "Asset/Asset.h"
 #include "Input/Action.h"
 #include "ECS/Entity.h"
-#include "ECS/EntityManager.h"
+#include "ECS/EntityMemoryPool.h"
 #include "Core/GameEngine.h"
 #include "Physics/Physics.h"
 #include "Scene/Scene.h"
@@ -19,6 +19,7 @@ RTTR_REGISTRATION
 {
 	registration::class_<std::string>("std::string");
 	registration::class_<std::vector<std::string>>("std::vector<std::string>");
+	registration::class_<std::vector<bool>>("std::vector<bool>");
 
 	// Direction
 	registration::enumeration<Luden::ODirection>("Direction")
@@ -237,11 +238,11 @@ RTTR_REGISTRATION
 	registration::class_<Luden::Entity>("Entity")
 		.property("m_ID", &Luden::Entity::m_ID);
 
-	// EntityManager
-	registration::class_<Luden::EntityManager>("EntityManager")
-		.property("m_NumEntities", &Luden::EntityManager::m_NumEntities)
-		.property("m_Tags", &Luden::EntityManager::m_Tags)
-		.property("m_Active", &Luden::EntityManager::m_Active);
+	// EntityMemoryPool
+	registration::class_<Luden::EntityMemoryPool>("EntityMemoryPool")
+		.property("m_NumEntities", &Luden::EntityMemoryPool::m_NumEntities)
+		.property("m_Tags", &Luden::EntityMemoryPool::m_Tags)
+		.property("m_Active", &Luden::EntityMemoryPool::m_Active);
 
 	// GameEngine
 	registration::class_<Luden::GameEngine>("GameEngine")

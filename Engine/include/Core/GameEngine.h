@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 
+#include <imgui_internal.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <rttr/registration_friend.h>
@@ -25,7 +26,7 @@ namespace Luden {
 		GameEngine(const GameEngine&) = delete;
 		GameEngine& operator=(const GameEngine&) = delete;
 
-		static void Initialize(const std::string& assetPath, bool headless = false);
+		static void Initialize(sf::RenderWindow& window, ImGuiContext* context, const std::string& assetPath, bool headless);
 		static GameEngine& Get();
 		static void Shutdown();
 
@@ -35,7 +36,7 @@ namespace Luden {
 
 		void Update(float dt);
 		void Render(sf::RenderTarget& target);
-		void ProcessInput(const std::vector<sf::Event>& events, bool wantCaptureMouse);
+		void ProcessInput();
 
 		void ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent = false);
 		std::shared_ptr<Scene> GetCurrentScene();
@@ -43,14 +44,14 @@ namespace Luden {
 		Assets& GetAssets();
 
 	private:
-		GameEngine(const std::string& assetPath, bool headless);
+		GameEngine(sf::RenderWindow& window, const std::string& assetPath, bool headless);
 		~GameEngine();
 
 		static GameEngine* s_Instance;
 
 		void Init(const std::string& assetPath, bool headless);
 
-		sf::RenderWindow m_Window;
+		sf::RenderWindow* m_Window = nullptr;
 		sf::Clock m_DeltaClock;
 		Assets m_Assets;
 

@@ -1,69 +1,53 @@
 #include "ECS/EntityManager.h"
 
-#include "ECS/Entity.h"
+#include "ECS/EntityMemoryPool.h"
+
+#include <algorithm>
 
 
 namespace Luden
 {
-	EntityManager::EntityManager(size_t maxEntities)
-	{
-		m_Tags.resize(maxEntities);
-		m_Active.resize(maxEntities);
+	EntityManager::EntityManager() = default;
 
-		std::apply([maxEntities](auto&... vecs)
-		{
-			(..., vecs.resize(maxEntities));
-		}, m_Pool);
-	}
-
-	EntityID EntityManager::GetNextIndex()
-	{
-		for (EntityID i = 0; i < MAX_ENTITIES; ++i)
-		{
-			if (!m_Active[i])
-				return i;
+	void EntityManager::Update() {
+		for (const auto& entity : m_entitiesToAdd) {
+			m_entities.push_back(entity);
+			m_entityMap[entity.Tag()].push_back(entity);
 		}
+		m_entitiesToAdd.clear();
 
-		assert(false && "Entity limit reached!");
-		return MAX_ENTITIES - 1;
+		RemoveDeadEntities(m_entities);
+
+		for (auto& [tag, entityVec] : m_entityMap) {
+			RemoveDeadEntities(entityVec);
+		}
 	}
 
-	Entity EntityManager::AddEntity(const std::string& tag)
-	{
-		EntityID index = GetNextIndex();
-		m_Tags[index] = tag;
-		m_Active[index] = 1;
-		return Entity(index);
-	}
-
-	std::vector<Entity> EntityManager::GetEntitiesByTag(const std::string& tag)
-	{
-		std::vector<Entity> result;
-		for (EntityID i = 0; i < m_Tags.size(); ++i)
-		{
-			if (m_Active[i] && m_Tags[i] == tag)
-			{
-				result.emplace_back(Entity(i));
+	void EntityManager::RemoveDeadEntities(EntityVec& vec) {
+		std::erase_if(
+			vec,
+			[](const Entity& entity) {
+				return !entity.IsActive();
 			}
-		}
-		return result;
+		);
 	}
 
-	std::vector<Entity> EntityManager::GetAllEntities() const
-	{
-		std::vector<Entity> result;
-		for (EntityID i = 0; i < MAX_ENTITIES; ++i)
-		{
-			if (m_Active[i])
-			{
-				result.emplace_back(Entity(i));
-			}
-		}
-		return result;
+	Entity EntityManager::AddEntity(const std::string& tag) {
+		Entity entity = EntityMemoryPool::Instance().AddEntity(tag);
+		m_entitiesToAdd.push_back(entity);
+
+		return entity;
 	}
 
-	void EntityManager::DestroyEntity(EntityID entityID)
-	{
-		m_Active[entityID] = 0;
+	EntityVec& EntityManager::GetEntities() {
+		return m_entities;
+	}
+
+	EntityVec& EntityManager::GetEntities(const std::string& tag) {
+		return m_entityMap[tag];
+	}
+
+	const EntityMap& EntityManager::GetEntityMap() {
+		return m_entityMap;
 	}
 }

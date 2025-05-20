@@ -2,7 +2,7 @@
 
 #include "Core/GameEngine.h"
 #include "ECS/Components/Components.h"
-#include "ECS/EntityManager.h"
+#include "ECS/EntityMemoryPool.h"
 #include "Physics/Physics.h"
 #include "Scene/Scene_Menu.h"
 
@@ -61,8 +61,7 @@ namespace Luden
 				int roomX, roomY, tileX, tileY, blockMovement, blockVision;
 				file >> animationName >> roomX >> roomY >> tileX >> tileY >> blockMovement >> blockVision;
 
-				std::cout << std::endl << "Tile Entity: " << animationName << " " << roomX << " " << roomY << " " << tileX << " " << tileY << " " << blockMovement << " " << blockVision << std::endl;
-				auto tile = EntityManager::Instance().AddEntity("Tile");
+				auto tile = m_EntityManager.AddEntity("Tile");
 				tile.Add<CAnimation>(m_Game->GetAssets().GetAnimation(animationName), true);
 				tile.Add<CTransform>(GetPosition(roomX, roomY, tileX, tileY));
 
@@ -82,7 +81,7 @@ namespace Luden
 				file >> animationName >> roomX >> roomY >> tileX >> tileY;
 				file >> blockMovement >> blockVision >> maxHealth >> damage >> aiType;
 
-				auto npc = EntityManager::Instance().AddEntity("NPC");
+				auto npc = m_EntityManager.AddEntity("NPC");
 				npc.Add<CAnimation>(m_Game->GetAssets().GetAnimation(animationName), true);
 				npc.Add<CTransform>(GetPosition(roomX, roomY, tileX, tileY));
 				npc.Add<CBoundingBox>(npc.Get<CTransform>().pos, Math::Vec2(63.0f, 63.0f), false, false);
@@ -140,7 +139,7 @@ namespace Luden
 		if (!m_Game)
 		{
 			std::cerr << "[Scene_Zelda::GetRoomXY] m_Game is null!" << std::endl;
-			return Math::Vec2(0, 0);
+			return { 0, 0 };
 		}
 
 		sf::Vector2u winSize(1280, 720);
@@ -151,12 +150,12 @@ namespace Luden
 		int roomY = static_cast<int>(pos.y) / static_cast<int>(winSize.y);
 		if (pos.x < 0) roomX--;
 		if (pos.y < 0) roomY--;
-		return Math::Vec2(static_cast<float>(roomX), static_cast<float>(roomY));
+		return { static_cast<float>(roomX), static_cast<float>(roomY) };
 	}
 
 	void Scene_Zelda::SpawnPlayer()
 	{
-		auto player = EntityManager::Instance().AddEntity("Player");
+		auto player = m_EntityManager.AddEntity("Player");
 
 		player.Add<CTransform>(Math::Vec2(m_PlayerConfig.X, m_PlayerConfig.Y));
 		player.Add<CAnimation>(m_Game->GetAssets().GetAnimation("LinkStandDown"), true);
@@ -167,17 +166,17 @@ namespace Luden
 		);
 		player.Add<CHealth>(m_PlayerConfig.HEALTH, m_PlayerConfig.HEALTH / 2);
 		player.Add<CState>("stand_down");
+		player.Add<CInput>();
 	}
 
 
 	void Scene_Zelda::SpawnSword(const Entity& entity)
 	{
-		auto sword = EntityManager::Instance().AddEntity("Sword");
+		auto sword = m_EntityManager.AddEntity("Sword");
 
 		// lifespan: 8 frame
 		sword.Add<CLifespan>(8, m_CurrentFrame);
 
-		// spawn pos = facing yönüne göre oyuncunun önüne
 		const auto& transform = entity.Get<CTransform>();
 		const auto& box = entity.Get<CBoundingBox>();
 
@@ -211,7 +210,7 @@ namespace Luden
 
 	Entity& Scene_Zelda::Player()
 	{
-		for (auto& e: EntityManager::Instance().GetEntitiesByTag("Player"))
+		for (auto& e: m_EntityManager.GetEntities("Player"))
 		{
 			return e;
 		};
@@ -295,7 +294,7 @@ namespace Luden
 
 	void Scene_Zelda::ChangePlayerStateTo(const std::string& state, const Math::Vec2& facing)
 	{
-		auto player = EntityManager::Instance().GetEntitiesByTag("Player");
+		auto player = m_EntityManager.GetEntities("Player");
 		if (player.empty()) return;
 
 		auto& p = player[0];
@@ -339,7 +338,7 @@ namespace Luden
 
 	void Scene_Zelda::sDrag()
 	{
-		for (auto& entity : EntityManager::Instance().GetAllEntities())
+		for (auto& entity : m_EntityManager.GetEntities())
 		{
 			if (entity.Has<CDraggable>() && entity.Get<CDraggable>().dragging)
 			{
@@ -419,7 +418,7 @@ namespace Luden
 
 						if (ImGui::ImageButton(name.c_str(), anim.GetSprite(), size, sf::Color::Transparent, sf::Color::White)) 
 						{
-							auto tile = EntityManager::Instance().AddEntity("Tile");
+							auto tile = m_EntityManager.GetEntities("Tile");
 							tile.Add<CAnimation>(m_Game->GetAssets().GetAnimation(name), true);
 							auto view = m_Game->GetWindow().getView().getCenter();
 							if (!m_Game->GetWindow().isOpen())
@@ -462,7 +461,7 @@ namespace Luden
 			else if (action.Name() == "TOGGLE_FOLLOW") m_Follow = !m_Follow;
 			else if (action.Name() == "LEFT_CLICK") {
 				Math::Vec2 worldPos = WindowToWorld(m_MousePos);
-				for (auto& e : EntityManager::Instance().GetAllEntities()) 
+				for (auto& e : m_EntityManager.GetEntities())
 				{
 					if (!e.Has<CDraggable>()) continue;
 
@@ -506,6 +505,7 @@ namespace Luden
 
 	void Scene_Zelda::Update() 
 	{
+		m_EntityManager.Update();
 
 		if (!m_Paused) 
 		{
@@ -529,12 +529,10 @@ namespace Luden
 		// -- Entity Texture & Animation Drawing --
 		if (m_DrawTextures)
 		{
-			for (auto& e : EntityManager::Instance().GetAllEntities())
+			for (auto& e : m_EntityManager.GetEntities())
 			{
-				std::cout << "Received all entities!" << std::endl;
 				if (!e.Has<CTransform>()) continue;
 
-				std::cout << "Entity has a transform component!" << std::endl;
 				auto& transform = e.Get<CTransform>();
 				sf::Color c = sf::Color::White;
 				if (e.Has<CInvincibility>())
@@ -542,7 +540,6 @@ namespace Luden
 
 				if (e.Has<CAnimation>())
 				{
-					std::cout << "Tag: " << e.Tag() <<", Entity has a animation component!" << std::endl;
 					auto& animation = e.Get<CAnimation>().animation;
 					auto& sprite = animation.GetSprite();
 					sprite.setPosition(sf::Vector2(transform.pos.x, transform.pos.y));
@@ -554,7 +551,7 @@ namespace Luden
 			}
 
 			// -- Entity Health Bar Drawing --
-			for (auto& e : EntityManager::Instance().GetAllEntities())
+			for (auto& e : m_EntityManager.GetEntities())
 			{
 				if (!e.Has<CTransform>() || !e.Has<CHealth>()) continue;
 
@@ -619,7 +616,7 @@ namespace Luden
 	}
 
 	void Scene_Zelda::sAI() {
-		for (auto& npc : EntityManager::Instance().GetEntitiesByTag("NPC")) 
+		for (auto& npc : m_EntityManager.GetEntities("NPC"))
 		{
 			Entity p = Player();
 			if (!p.IsActive()) return;
@@ -630,7 +627,7 @@ namespace Luden
 			if (GetRoomXY(pPos) == GetRoomXY(npcPos) && npc.Has<CFollowPlayer>()) 
 			{
 				bool blockVision = false;
-				for (const auto& tile : EntityManager::Instance().GetEntitiesByTag("Tile")) 
+				for (const auto& tile : m_EntityManager.GetEntities("Tile"))
 				{
 					if (tile.Has<CBoundingBox>() && tile.Get<CBoundingBox>().blockVision && Physics::EntityIntersect(pPos, npcPos, tile)) 
 					{
@@ -669,7 +666,7 @@ namespace Luden
 	}
 
 	void Scene_Zelda::sStatus() {
-		for (auto& e : EntityManager::Instance().GetAllEntities()) {
+		for (auto& e : m_EntityManager.GetEntities()) {
 			if (e.Has<CLifespan>()) {
 				if (m_CurrentFrame - e.Get<CLifespan>().frameCreated > e.Get<CLifespan>().lifespan) {
 					e.Destroy();
@@ -686,7 +683,7 @@ namespace Luden
 	void Scene_Zelda::sAnimation() {
 		AnimatePlayer();
 
-		for (auto& e : EntityManager::Instance().GetAllEntities()) {
+		for (auto& e : m_EntityManager.GetEntities()) {
 			if (e.Has<CAnimation>()) {
 				e.Get<CAnimation>().animation.Update();
 			}
@@ -698,7 +695,7 @@ namespace Luden
 		if (!p.IsActive()) return;
 
 		// player and tiles
-		for (auto& tile : EntityManager::Instance().GetEntitiesByTag("Tile")) {
+		for (auto& tile : m_EntityManager.GetEntities("Tile")) {
 			RectOverlap ro = Physics::AIsNearB(p, tile, m_GridSize);
 
 			switch (ro.m_Direction) {
@@ -732,7 +729,7 @@ namespace Luden
 
 			// heart
 			if (tile.Has<CAnimation>() && tile.Get<CAnimation>().animation.GetName() == "TileHeart") {
-				for (auto& e : EntityManager::Instance().GetAllEntities()) {
+				for (auto& e : m_EntityManager.GetEntities()) {
 					if (!e.Has<CHealth>()) continue;
 					if (Physics::GetOverlap(tile, e).x > 0 && Physics::GetOverlap(tile, e).y > 0) {
 						e.Get<CHealth>().current = e.Get<CHealth>().max;
@@ -744,7 +741,7 @@ namespace Luden
 		}
 
 		// player and NPCs
-		for (auto& npc : EntityManager::Instance().GetEntitiesByTag("NPC")) {
+		for (auto& npc : m_EntityManager.GetEntities("NPC")) {
 			RectOverlap ro = Physics::AIsNearB(npc, p, m_GridSize);
 
 			switch (ro.m_Direction) {
@@ -795,7 +792,7 @@ namespace Luden
 			}
 
 			// npc and sword
-			for (auto& sword : EntityManager::Instance().GetEntitiesByTag("Sword")) 
+			for (auto& sword : m_EntityManager.GetEntities("Sword"))
 			{
 				if (!sword.Has<CDamage>()) continue;
 
@@ -814,7 +811,7 @@ namespace Luden
 			}
 
 			// npc and tiles
-			for (auto& tile : EntityManager::Instance().GetEntitiesByTag("Tile")) {
+			for (auto& tile : m_EntityManager.GetEntities("Tile")) {
 				RectOverlap tro = Physics::AIsNearB(npc, tile, m_GridSize);
 
 				if (!tile.Has<CBoundingBox>() || !tile.Get<CBoundingBox>().blockMove) continue;
@@ -853,17 +850,21 @@ namespace Luden
 		auto& transform = player.Get<CTransform>();
 		transform.velocity = Math::Vec2(0, 0);
 
-		if (input.up)    transform.velocity.y -= m_PlayerConfig.SPEED;
-		if (input.down)  transform.velocity.y += m_PlayerConfig.SPEED;
-		if (input.left)  transform.velocity.x -= m_PlayerConfig.SPEED;
-		if (input.right) transform.velocity.x += m_PlayerConfig.SPEED;
+		if (input.up)    
+			transform.velocity.y -= m_PlayerConfig.SPEED;
+		if (input.down)  
+			transform.velocity.y += m_PlayerConfig.SPEED;
+		if (input.left)  
+			transform.velocity.x -= m_PlayerConfig.SPEED;
+		if (input.right) 
+			transform.velocity.x += m_PlayerConfig.SPEED;
 
-		if (input.attack && EntityManager::Instance().GetEntitiesByTag("Sword").empty()) 
+		if (input.attack && m_EntityManager.GetEntities("Sword").empty())
 		{
 			SpawnSword(player);
 		}
 
-		for (auto& e : EntityManager::Instance().GetAllEntities()) 
+		for (auto& e : m_EntityManager.GetEntities())
 		{
 			if (!e.Has<CTransform>()) continue;
 

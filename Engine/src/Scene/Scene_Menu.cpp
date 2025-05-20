@@ -67,7 +67,7 @@ namespace Luden
 
 	void Scene_Menu::Update() 
 	{
-		//sRender(m_Game->GetWindow());
+		m_EntityManager.Update();
 	}
 
 	void Scene_Menu::OnEnd() 

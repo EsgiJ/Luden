@@ -56,6 +56,16 @@ namespace Luden
 	{
 		return m_ActionMap;
 	}
+
+	EntityManager& Scene::GetEntityManager()
+	{
+		return m_EntityManager;
+	}
+
+	const EntityManager& Scene::GetEntityManager() const
+	{
+		return m_EntityManager;
+	}
 	
 	void Scene::DrawLine(const Math::Vec2& p1, const Math::Vec2& p2)
 	{

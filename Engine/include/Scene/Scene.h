@@ -10,6 +10,7 @@
 #include <rttr/rttr_enable.h>
 
 #include "EngineAPI.h"
+#include "ECS/EntityMemoryPool.h"
 #include "ECS/EntityManager.h"
 #include "Input/Action.h"
 #include "Math/Vec2.h"
@@ -25,6 +26,7 @@ namespace Luden {
 	protected:
 		GameEngine* m_Game = nullptr;
 
+		EntityManager m_EntityManager;
 		ActionMap m_ActionMap;
 		bool m_Paused = false;
 		bool m_HasEnded = false;
@@ -51,6 +53,8 @@ namespace Luden {
 		[[nodiscard]] bool HasEnded() const;
 		[[nodiscard]] const ActionMap& GetActionMap() const;
 
+		[[nodiscard]] EntityManager& GetEntityManager();
+		[[nodiscard]] const EntityManager& GetEntityManager() const;
 		void SetPaused(bool paused);
 
 		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);

@@ -7,9 +7,6 @@
 namespace Luden
 {
 	int main() {
-		GameEngine::Initialize("config/assets.txt");
-		GameEngine::Get().Run();
-
 		return 0;
 	}
 }

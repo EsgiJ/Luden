@@ -13,7 +13,8 @@ namespace Luden {
 
 	GameEngine* GameEngine::s_Instance = nullptr;
 
-	GameEngine::GameEngine(const std::string& assetPath, bool headless) 
+	GameEngine::GameEngine(sf::RenderWindow& window, const std::string& assetPath, bool headless)
+		:	m_Window(&window)
 	{
 		Init(assetPath, headless);
 	}
@@ -34,10 +35,11 @@ namespace Luden {
 			return;
 	}
 
-	void GameEngine::Initialize(const std::string& assetPath, bool headless)
+	void GameEngine::Initialize(sf::RenderWindow& window, ImGuiContext* context, const std::string& assetPath, bool headless)
 	{
+		ImGui::SetCurrentContext(context);
 		if (!s_Instance)
-			s_Instance = new GameEngine(assetPath, headless);
+			s_Instance = new GameEngine(window, assetPath, headless);
 	}
 
 	void GameEngine::Run()
@@ -49,17 +51,24 @@ namespace Luden {
 		GetCurrentScene()->Update();
 	}
 
-	void GameEngine::ProcessInput(const std::vector<sf::Event>& events, bool wantCaptureMouse)
+	void GameEngine::ProcessInput()
 	{
-		for (const auto& event : events)
+		if (ImGui::GetCurrentContext() == nullptr)
 		{
-			if (event.is<sf::Event::Closed>())
+			throw std::runtime_error("Imgui Context doesn't exist!");
+			return;
+		}
+
+		while (const std::optional<sf::Event> event = GetWindow().pollEvent()) 
+		{
+
+			if (event->is<sf::Event::Closed>())
 			{
 				Quit();
 				return;
 			}
 
-			if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>())
+			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 			{
 				if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 					Quit();
@@ -71,7 +80,7 @@ namespace Luden {
 					GetCurrentScene()->DoAction(Action(it->second, "START"));
 			}
 
-			if (const auto* keyReleased = event.getIf<sf::Event::KeyReleased>())
+			if (const auto* keyReleased = event->getIf<sf::Event::KeyReleased>())
 			{
 				const auto& actionMap = GetCurrentScene()->GetActionMap();
 				auto keyCode = static_cast<int>(keyReleased->code);
@@ -79,16 +88,16 @@ namespace Luden {
 				if (it != actionMap.end())
 					GetCurrentScene()->DoAction(Action(it->second, "END"));
 			}
-			if (!wantCaptureMouse)
+			if (!ImGui::GetIO().WantCaptureMouse)
 				continue;
 
-			if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>())
+			if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>())
 			{
 				Math::Vec2 pos = { static_cast<float>(mouseMoved->position.x), static_cast<float>(mouseMoved->position.y) };
 				GetCurrentScene()->DoAction(Action("MOUSE_MOVE", pos));
 			}
 
-			if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>())
+			if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>())
 			{
 				Math::Vec2 pos = { static_cast<float>(mousePressed->position.x), static_cast<float>(mousePressed->position.y) };
 				std::string button;
@@ -106,7 +115,7 @@ namespace Luden {
 				}
 			}
 
-			if (const auto* mouseReleased = event.getIf<sf::Event::MouseButtonReleased>())
+			if (const auto* mouseReleased = event->getIf<sf::Event::MouseButtonReleased>())
 			{
 				Math::Vec2 pos = { static_cast<float>(mouseReleased->position.x), static_cast<float>(mouseReleased->position.y) };
 				std::string button;
@@ -168,7 +177,9 @@ namespace Luden {
 	}
 
 	sf::RenderWindow& GameEngine::GetWindow() {
-		return m_Window;
+		if (!m_Window)
+			throw std::runtime_error("RenderWindow is not set!");
+		return *m_Window;
 	}
 
 	Assets& GameEngine::GetAssets() {

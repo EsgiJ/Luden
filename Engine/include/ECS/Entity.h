@@ -8,21 +8,22 @@
 #include <rttr/registration_friend.h>
 
 #include "ECS/IComponent.h"
-#include "ECS/EntityManager.h"
+#include "ECS/EntityMemoryPool.h"
 #include "EngineAPI.h"
 
 namespace Luden 
 {
-	class EntityManager;
+	class EntityMemoryPool;
 
 	using EntityID = std::size_t;
 
 	class ENGINE_API Entity
 	{
 		RTTR_REGISTRATION_FRIEND
+		RTTR_ENABLE()
 
 	private:
-		friend class EntityManager;
+		friend class EntityMemoryPool;
 
 		EntityID m_ID = 0;
 
@@ -41,29 +42,29 @@ namespace Luden
 		template<class T>
 		bool Has() const 
 		{
-			return EntityManager::Instance().HasComponent<T>(m_ID);
+			return EntityMemoryPool::Instance().HasComponent<T>(m_ID);
 		}
 
 		template<class T, typename... TArgs>
 		T& Add(TArgs&&... args)
 		{
-			auto& component = EntityManager::Instance().template AddComponent<T>(m_ID, std::forward<TArgs>(args)...);
+			auto& component = EntityMemoryPool::Instance().template AddComponent<T>(m_ID, std::forward<TArgs>(args)...);
 			return component;
 		}
 
 		template<class T>
 		T& Get() {
-			return EntityManager::Instance().GetComponent<T>(m_ID);
+			return EntityMemoryPool::Instance().GetComponent<T>(m_ID);
 		}
 
 		template<class T>
 		const T& Get() const {
-			return EntityManager::Instance().GetComponent<T>(m_ID);
+			return EntityMemoryPool::Instance().GetComponent<T>(m_ID);
 		}
 
 		template<class T>
 		void Remove() const {
-			EntityManager::Instance().RemoveComponent<T>(m_ID);
+			EntityMemoryPool::Instance().RemoveComponent<T>(m_ID);
 		}
 	};
 }

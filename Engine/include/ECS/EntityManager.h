@@ -1,100 +1,40 @@
 #pragma once
 
-#include <cassert>
+#include <map>
 #include <memory>
-#include <string>
-#include <tuple>
 #include <vector>
 
-#include <rttr/registration_friend.h>
+#include "Entity.h"
 
-#include "ECS/Components/Components.h"
-#include "Reflection/ReflectionMacros.h"
-
-#define MAX_ENTITIES 100000
+#include "EngineAPI.h"
 
 namespace Luden
 {
-	class Entity;
-	using EntityID = std::size_t;
+	using EntityVec = std::vector<Entity>;
+	using EntityMap = std::map<std::string, EntityVec>;
 
-	using EntityComponentVectorTuple = std::tuple<
-		std::vector<Luden::CDamage>,
-		std::vector<Luden::CDraggable>,
-		std::vector<Luden::CFollowPlayer>,
-		std::vector<Luden::CGravity>,
-		std::vector<Luden::CHealth>,
-		std::vector<Luden::CInput>,
-		std::vector<Luden::CBoundingBox>,
-		std::vector<Luden::CAnimation>,
-		std::vector<Luden::CLifespan>,
-		std::vector<Luden::CInvincibility>,
-		std::vector<Luden::CPatrol>,
-		std::vector<Luden::CState>,
-		std::vector<Luden::CTransform>
-	>;
 
-	class ENGINE_API EntityManager
-	{
-		RTTR_REGISTRATION_FRIEND
+	class ENGINE_API EntityManager {
+		EntityVec m_entities;       
+		EntityVec m_entitiesToAdd;  
+		EntityMap m_entityMap;      
+		size_t m_totalEntities = 0;
 
-		size_t m_NumEntities = 0;
-		EntityComponentVectorTuple m_Pool;
-		std::vector<std::string> m_Tags;
-		std::vector<uint8_t> m_Active;
-
-		EntityManager(size_t maxEntities);
-		EntityID GetNextIndex();
+		void RemoveDeadEntities(EntityVec& vec);
 
 	public:
-		static EntityManager& Instance()
-		{
-			static EntityManager instance(MAX_ENTITIES);
-			return instance;
-		}
+		EntityManager();
 
-		void DestroyEntity(EntityID entityID);
-
-		template <typename T>
-		T& GetComponent(EntityID entityID)
-		{
-			return std::get<std::vector<T>>(m_Pool)[entityID];
-		}
-
-		template <typename T>
-		void RemoveComponent(EntityID entityID)
-		{
-			std::get<std::vector<T>>(m_Pool)[entityID].has = false;
-		}
-
-		template <typename T, typename... TArgs>
-		T& AddComponent(EntityID entityID, TArgs&&... args)
-		{
-			auto& component = GetComponent<T>(entityID);
-			component = T(std::forward<TArgs>(args)...);
-			component.has = true;
-			return component;
-		}
-
-		template <typename T>
-		bool HasComponent(EntityID entityID) const
-		{
-			return std::get<std::vector<T>>(m_Pool)[entityID].has;
-		}
-
-		const std::string& GetTag(EntityID entityID) const
-		{
-			return m_Tags[entityID];
-		}
-
-		bool IsActive(EntityID entityID) const
-		{
-			return m_Active[entityID];
-		}
+		void Update();
 
 		Entity AddEntity(const std::string& tag);
 
-		std::vector<Entity> GetEntitiesByTag(const std::string& tag);
-		std::vector<Entity> GetAllEntities() const;
+		EntityVec& GetEntities();
+
+		EntityVec& GetEntities(const std::string& tag);
+
+		const EntityMap& GetEntityMap();
 	};
 }
+
+
