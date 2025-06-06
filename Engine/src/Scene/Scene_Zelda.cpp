@@ -208,13 +208,12 @@ namespace Luden
 	}
 
 
-	Entity& Scene_Zelda::Player()
-	{
-		for (auto& e: m_EntityManager.GetEntities("Player"))
-		{
-			return e;
-		};
-	}
+        Entity& Scene_Zelda::Player()
+        {
+                auto& players = m_EntityManager.GetEntities("Player");
+                assert(!players.empty() && "Player entity does not exist!");
+                return players[0];
+        }
 
 	void Scene_Zelda::AnimatePlayer()
 	{
