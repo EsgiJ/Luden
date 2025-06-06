@@ -28,11 +28,15 @@ namespace Luden {
 
 		~Assets() = default;
 
-		void LoadFromFile(const std::string& path);
+               /// Load assets from a configuration file. Returns false on failure.
+               bool LoadFromFile(const std::string& path);
 
-		void AddTexture(const std::string& name, const std::string& path);
-		void AddFont(const std::string& name, const std::string& path);
-		void AddSound(const std::string& name, const std::string& path);
+               /// Add a single texture, font or sound. Each function returns
+               /// true on success and false when the underlying SFML load call
+               /// fails.
+               bool AddTexture(const std::string& name, const std::string& path);
+               bool AddFont(const std::string& name, const std::string& path);
+               bool AddSound(const std::string& name, const std::string& path);
 		void AddAnimation(const std::string& name, const Graphics::Animation& animation);
 
 		sf::Texture& GetTexture(const std::string& name);

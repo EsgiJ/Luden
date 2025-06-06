@@ -6,74 +6,81 @@
 
 namespace Luden {
 
-	void Assets::LoadFromFile(const std::string& path) {
-		std::ifstream file(path);
-		if (!file) {
-			std::cerr << "Could not load asset file: " << path << "\n";
-			exit(-1);
-		}
+       bool Assets::LoadFromFile(const std::string& path) {
+               std::ifstream file(path);
+               if (!file) {
+                       std::cerr << "Could not load asset file: " << path << "\n";
+                       return false;
+               }
 
 		std::string assetType;
 		while (file >> assetType) {
 			if (assetType == "Texture") {
 				std::string name, filePath;
 				file >> name >> filePath;
-				AddTexture(name, filePath);
+                               if (!AddTexture(name, filePath))
+                                       return false;
 			}
 			else if (assetType == "Font") {
 				std::string name, filePath;
 				file >> name >> filePath;
-				AddFont(name, filePath);
+                               if (!AddFont(name, filePath))
+                                       return false;
 			}
 			else if (assetType == "Sound") {
 				std::string name, filePath;
 				file >> name >> filePath;
-				AddSound(name, filePath);
+                               if (!AddSound(name, filePath))
+                                       return false;
 			}
 			else if (assetType == "Animation") {
 				std::string name, textureName;
 				int frameCount, speed;
 				file >> name >> textureName >> frameCount >> speed;
 
-				auto& texture = GetTexture(textureName);
-				AddAnimation(name, Graphics::Animation(name, texture, frameCount, speed));
+                               auto& texture = GetTexture(textureName);
+                               AddAnimation(name, Graphics::Animation(name, texture, frameCount, speed));
 			}
 			else {
-				std::cerr << "Unknown asset type: " << assetType << "\n";
-				exit(-1);
-			}
-		}
-	}
+                               std::cerr << "Unknown asset type: " << assetType << "\n";
+                               return false;
+                       }
+               }
+               return true;
+       }
 
-	void Assets::AddTexture(const std::string& name, const std::string& path) {
-		sf::Texture texture;
-		if (!texture.loadFromFile(path)) {
-			std::cerr << "Failed to load texture: " << path << "\n";
-			exit(-1);
-		}
-		m_Textures.emplace(name, texture);
-	}
+       bool Assets::AddTexture(const std::string& name, const std::string& path) {
+               sf::Texture texture;
+               if (!texture.loadFromFile(path)) {
+                       std::cerr << "Failed to load texture: " << path << "\n";
+                       return false;
+               }
+               m_Textures.emplace(name, texture);
+               return true;
+       }
 
-	void Assets::AddFont(const std::string& name, const std::string& path) {
-		sf::Font font;
-		if (!font.openFromFile(path)) 
-		{
-			std::cerr << "Failed to load font: " << path << "\n";
-			exit(-1);
-		}
-		m_Fonts.emplace(name, font);
-	}
+       bool Assets::AddFont(const std::string& name, const std::string& path) {
+               sf::Font font;
+               if (!font.openFromFile(path))
+               {
+                       std::cerr << "Failed to load font: " << path << "\n";
+                       return false;
+               }
+               m_Fonts.emplace(name, font);
+               return true;
+       }
 
-	void Assets::AddSound(const std::string& name, const std::string& path)
-	{
-		sf::SoundBuffer buffer;
-		if (!buffer.loadFromFile(path)) {
-			std::cerr << "Failed to load sound: " << path << "\n";
-			exit(-1);
-		}
-		m_SoundBuffers.emplace(name, buffer);
-		m_Sounds.emplace(name, sf::Sound(m_SoundBuffers.at(name))); 
-	}
+       bool Assets::AddSound(const std::string& name, const std::string& path)
+       {
+               sf::SoundBuffer buffer;
+               if (!buffer.loadFromFile(path)) {
+                       std::cerr << "Failed to load sound: " << path << "\n";
+                       return false;
+               }
+               m_SoundBuffers.emplace(name, buffer);
+               m_Sounds.emplace(name, sf::Sound(m_SoundBuffers.at(name)));
+               return true;
+       }
 
 	void Assets::AddAnimation(const std::string& name, const Graphics::Animation& animation)
 	{
