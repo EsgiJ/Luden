@@ -33,17 +33,14 @@ project "Engine"
         "extern/ImGui-SFML",
         "extern/SFML/include",
         "extern/sol2/single",
-        "extern/rttr/src",
         "extern/json/include"
     }
 
     libdirs {
-        "extern/rttr/build/lib/Release",
         "extern/SFML/build/lib/Release"
     }
 
     links {
-        "rttr_core",
         "sfml-graphics",
         "sfml-window",
         "sfml-system",
@@ -107,7 +104,6 @@ project "Engine"
 
     filter "system:windows"
     postbuildcommands {
-        "{COPYFILE} ../extern/rttr/build/bin/Release/rttr_core.dll %{cfg.targetdir}/rttr_core.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
         "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
@@ -143,17 +139,14 @@ project "Editor"
         "extern/SFML/include",
         "extern/sol2/single",
         "extern/Lua",
-        "extern/rttr/src",
         "extern/json/include"
     }
     
     libdirs {
-        "extern/rttr/build/lib/Release",
         "extern/SFML/build/lib/Release"
     }
 
     links {
-        "rttr_core",
         "Engine",
         "sfml-graphics",
         "sfml-window",
@@ -205,8 +198,7 @@ filter "system:windows"
   postbuildcommands {
     "{MKDIR} \"%{cfg.targetdir}\"",
 
-    -- copy RTTR & SFML DLLs
-    "{COPYFILE} \"..\\extern\\rttr\\build\\bin\\Release\\rttr_core.dll\" \"%{cfg.targetdir}\\rttr_core.dll\"",
+    -- copy SFML DLLs
     "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-graphics-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-3.dll\"",
     "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-window-3.dll\"  \"%{cfg.targetdir}\\sfml-window-3.dll\"",
     "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-system-3.dll\"  \"%{cfg.targetdir}\\sfml-system-3.dll\"",

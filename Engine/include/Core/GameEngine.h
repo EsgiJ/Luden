@@ -7,8 +7,6 @@
 #include <imgui_internal.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
-#include <rttr/registration_friend.h>
-#include <rttr/rttr_enable.h>
 
 #include "Asset/Asset.h"
 #include "EngineAPI.h"

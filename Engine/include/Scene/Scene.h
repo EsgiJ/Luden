@@ -6,8 +6,6 @@
 #include <string>
 
 #include <SFML/Window.hpp>
-#include <rttr/registration_friend.h>
-#include <rttr/rttr_enable.h>
 
 #include "EngineAPI.h"
 #include "ECS/EntityMemoryPool.h"

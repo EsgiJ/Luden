@@ -5,7 +5,6 @@
 #include <tuple>
 #include <vector>
 
-#include <rttr/registration_friend.h>
 
 #include "ECS/IComponent.h"
 #include "ECS/EntityMemoryPool.h"

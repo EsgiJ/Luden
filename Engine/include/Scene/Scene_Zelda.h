@@ -3,8 +3,6 @@
 #include <memory>
 
 #include <SFML/Graphics/Text.hpp>
-#include <rttr/rttr_enable.h>
-#include <rttr/registration_friend.h>
 
 #include "Core/GameEngine.h"
 #include "ECS/Entity.h"

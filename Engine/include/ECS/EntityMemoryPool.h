@@ -6,7 +6,6 @@
 #include <tuple>
 #include <vector>
 
-#include <rttr/registration_friend.h>
 
 #include "ECS/Components/Components.h"
 #include "Reflection/ReflectionMacros.h"

@@ -3,7 +3,6 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
-#include <rttr/registration_friend.h>
 
 #include "EngineAPI.h"
 #include "Math/Vec2.h"

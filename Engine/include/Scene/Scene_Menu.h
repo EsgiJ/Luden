@@ -5,8 +5,6 @@
 
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <rttr/rttr_enable.h>
-#include <rttr/registration_friend.h>
 
 namespace Luden
 {

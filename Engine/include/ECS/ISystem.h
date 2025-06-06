@@ -1,4 +1,3 @@
-#include <rttr/rttr_enable.h>
 
 #include "EngineAPI.h"
 #include "Reflection/ReflectionMacros.h"

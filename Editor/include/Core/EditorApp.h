@@ -8,7 +8,6 @@
 #include "imgui.h"
 #include "SFML/Graphics.hpp"
 #include "SFML/System/Clock.hpp"
-#include <rttr/registration_friend.h>
 
 #include "EditorAPI.h"
 #include "Panels/Panel.h"
