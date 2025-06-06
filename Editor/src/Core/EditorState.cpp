@@ -8,23 +8,23 @@ namespace Luden::Editor
 		return instance;
 	}
 
-	EditorMode EditorStateManager::GetEditorMode()
-	{
-		return EditorMode();
-	}
+       EditorMode EditorStateManager::GetEditorMode()
+       {
+               return m_State.m_Mode;
+       }
 
 	void EditorStateManager::SetEditorMode(EditorMode editorMode)
 	{
 		m_State.m_Mode = editorMode;
 	}
 
-	EditorState& Editor::EditorStateManager::GetState()
-	{
-		return m_State;
-	}
-	const EditorState& Editor::EditorStateManager::GetState() const
-	{
-		return m_State;
-	}
+       EditorState& EditorStateManager::GetState()
+       {
+               return m_State;
+       }
+       const EditorState& EditorStateManager::GetState() const
+       {
+               return m_State;
+       }
 }
 
