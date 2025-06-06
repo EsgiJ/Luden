@@ -139,13 +139,9 @@ project "Editor"
         "extern/SFML/include",
         "extern/sol2/single",
         "extern/Lua",
-<<<<<<< Updated upstream
-        "extern/json/include"
-=======
         "extern/rttr/src",
         "extern/json/include",
-        "extern/IconFontCppHeaders"
->>>>>>> Stashed changes
+
     }
     
     libdirs {
