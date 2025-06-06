@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include "EditorAPI.h"
 #include "Panels/Panel.h"
