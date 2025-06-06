@@ -7,9 +7,6 @@
 
 #include <iostream>
 
-#include <rttr/instance.h>
-#include <rttr/type.h>
-#include <rttr/variant.h>
 
 namespace Luden::Editor
 {

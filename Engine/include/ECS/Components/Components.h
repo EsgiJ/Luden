@@ -4,8 +4,6 @@
 #include "Graphics/Animation.h"
 #include "Math/Vec2.h"
 #include "Reflection/ReflectionMacros.h"
-#include <rttr/registration.h>
-#include <rttr/rttr_enable.h>
 
 namespace Luden
 {

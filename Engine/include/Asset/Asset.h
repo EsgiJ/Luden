@@ -6,7 +6,6 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
-#include <rttr/registration_friend.h>
 
 #include "EngineAPI.h"
 #include "Graphics/Animation.h"
