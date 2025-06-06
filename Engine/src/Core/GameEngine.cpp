@@ -24,16 +24,21 @@ namespace Luden {
 		ImGui::SFML::Shutdown();
 	}
 
-	void GameEngine::Init(const std::string& assetPath, bool headless) 
-	{
-		m_Assets.LoadFromFile(assetPath);
+       void GameEngine::Init(const std::string& assetPath, bool headless)
+       {
+               if (!m_Assets.LoadFromFile(assetPath))
+               {
+                       std::cerr << "Failed to load assets from " << assetPath << "\n";
+                       m_IsRunning = false;
+                       return;
+               }
 
-		// Default scene
-		ChangeScene("Menu", std::make_shared<Scene_Menu>(this));
+               // Default scene
+               ChangeScene("Menu", std::make_shared<Scene_Menu>(this));
 
-		if (headless)
-			return;
-	}
+               if (headless)
+                       return;
+       }
 
 	void GameEngine::Initialize(sf::RenderWindow& window, ImGuiContext* context, const std::string& assetPath, bool headless)
 	{
