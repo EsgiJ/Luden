@@ -127,7 +127,7 @@ namespace Luden
 
 		sf::Text help(m_Game->GetAssets().GetFont("Mario"), "W:UP  S:DOWN  D:PLAY  M:MUTE  ESC:QUIT", 20);
 		help.setFillColor(sf::Color::Black);
-		help.setPosition(sf::Vector2f(20, float(m_Game->GetWindow().getSize().y) - 40));
+                help.setPosition(sf::Vector2f(20, float(target.getSize().y) - 40));
 		target.draw(help);
 	}
 }

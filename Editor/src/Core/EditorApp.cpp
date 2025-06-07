@@ -107,7 +107,7 @@ namespace Luden::Editor {
 
 		if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0)
 		{
-			m_ViewportTexture = sf::RenderTexture(newSize); 
+                        m_ViewportTexture.create(newSize.x, newSize.y);
 			m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
 		}
 
@@ -184,7 +184,7 @@ namespace Luden::Editor {
 			ImGuiID dock_bottom = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Down, 0.25f, nullptr, &dock_id);
 			ImGuiID dock_center = dock_id;
 
-			// Optional: right bölümü de ikiye böl (üst: Inspector, alt: Console)
+			// Optional: right bÃ¶lÃ¼mÃ¼ de ikiye bÃ¶l (Ã¼st: Inspector, alt: Console)
 			ImGuiID dock_right_top = ImGui::DockBuilderSplitNode(dock_right, ImGuiDir_Up, 0.6f, nullptr, &dock_right);
 			ImGuiID dock_right_bottom = dock_right;
 
