@@ -5,6 +5,8 @@
 #include <string>
 
 #include <SFML/Window.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/View.hpp>
 
 #include "EngineAPI.h"
 #include "ECS/EntityMemoryPool.h"
@@ -27,8 +29,9 @@ namespace Luden {
 		ActionMap m_ActionMap;
 		bool m_Paused = false;
 		bool m_HasEnded = false;
-		size_t m_CurrentFrame = 0;
-		sf::RenderTexture m_ViewportTexture;
+               size_t m_CurrentFrame = 0;
+               sf::Vector2u m_ViewportSize{0, 0};
+               sf::View m_View;
 
 	public:
 		Scene() = default;
@@ -51,8 +54,16 @@ namespace Luden {
 		[[nodiscard]] const ActionMap& GetActionMap() const;
 
 		[[nodiscard]] EntityManager& GetEntityManager();
-		[[nodiscard]] const EntityManager& GetEntityManager() const;
-		void SetPaused(bool paused);
+                [[nodiscard]] const EntityManager& GetEntityManager() const;
+                void SetPaused(bool paused);
+               void SetViewportSize(const sf::Vector2u& size) {
+                       m_ViewportSize = size;
+                       m_View.setSize(static_cast<float>(size.x), static_cast<float>(size.y));
+                       m_View.setCenter(static_cast<float>(size.x) / 2.f, static_cast<float>(size.y) / 2.f);
+               }
+               sf::Vector2u GetViewportSize() const { return m_ViewportSize; }
+               sf::View& GetView() { return m_View; }
+               const sf::View& GetView() const { return m_View; }
 
 		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);
 	};

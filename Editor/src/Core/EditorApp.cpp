@@ -74,8 +74,7 @@ namespace Luden::Editor {
 				GameEngine::Get().ProcessInput();
 				GameEngine::Get().Update(dt);
 			}
-			GameEngine::Get().Render(m_ViewportTexture);
-
+			
 			RenderDockSpace();
 			RenderModeToolbar();
 			for (auto& panel : m_Panels) panel->Render();
@@ -99,22 +98,33 @@ namespace Luden::Editor {
 	}
 
 	void EditorApp::Render() {
-		// viewport
-		ImGui::Begin("Viewport");
+                ImGui::Begin("Viewport");
 
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		sf::Vector2u newSize((unsigned int)viewportPanelSize.x, (unsigned int)viewportPanelSize.y);
+                ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+                sf::Vector2u newSize((unsigned int)viewportPanelSize.x, (unsigned int)viewportPanelSize.y);
 
-		if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0)
-		{
-			m_ViewportTexture = sf::RenderTexture(newSize); 
-			m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
-		}
+                if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0)
+                {
+                        m_ViewportTexture.create(newSize.x, newSize.y);
+                        m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
+                }
 
+                GameEngine::Get().Render(m_ViewportTexture);
 
-		ImGui::Image(m_ViewportTextureID, viewportPanelSize, {0, 1}, {1, 0});
+                float texAspect = static_cast<float>(m_ViewportTexture.getSize().x) / m_ViewportTexture.getSize().y;
+                float panelAspect = viewportPanelSize.x / viewportPanelSize.y;
+                ImVec2 imageSize = viewportPanelSize;
+                if (panelAspect > texAspect) {
+                        imageSize.x = viewportPanelSize.y * texAspect;
+                } else if (panelAspect < texAspect) {
+                        imageSize.y = viewportPanelSize.x / texAspect;
+                }
 
-		ImGui::End();
+                ImGui::SetCursorPosX((viewportPanelSize.x - imageSize.x) / 2.0f);
+                ImGui::SetCursorPosY((viewportPanelSize.y - imageSize.y) / 2.0f);
+                ImGui::Image(m_ViewportTextureID, imageSize, {0, 1}, {1, 0});
+
+                ImGui::End();
 	}
 
 	void EditorApp::RenderDockSpace() {
@@ -184,7 +194,7 @@ namespace Luden::Editor {
 			ImGuiID dock_bottom = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Down, 0.25f, nullptr, &dock_id);
 			ImGuiID dock_center = dock_id;
 
-			// Optional: right bölümü de ikiye böl (üst: Inspector, alt: Console)
+			// Optional: right bÃ¶lÃ¼mÃ¼ de ikiye bÃ¶l (Ã¼st: Inspector, alt: Console)
 			ImGuiID dock_right_top = ImGui::DockBuilderSplitNode(dock_right, ImGuiDir_Up, 0.6f, nullptr, &dock_right);
 			ImGuiID dock_right_bottom = dock_right;
 

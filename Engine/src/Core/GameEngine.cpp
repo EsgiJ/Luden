@@ -14,7 +14,7 @@ namespace Luden {
 	GameEngine* GameEngine::s_Instance = nullptr;
 
 	GameEngine::GameEngine(sf::RenderWindow& window, const std::string& assetPath, bool headless)
-		:	m_Window(&window)
+		:       m_Window(&window), m_Headless(headless)
 	{
 		Init(assetPath, headless);
 	}
@@ -38,6 +38,11 @@ namespace Luden {
 
                if (headless)
                        return;
+
+               if (!ImGui::SFML::Init(*m_Window))
+               {
+                       std::cerr << "ImGui-SFML initialization failed!" << std::endl;
+               }
        }
 
 	void GameEngine::Initialize(sf::RenderWindow& window, ImGuiContext* context, const std::string& assetPath, bool headless)
@@ -47,9 +52,22 @@ namespace Luden {
 			s_Instance = new GameEngine(window, assetPath, headless);
 	}
 
-	void GameEngine::Run()
-	{
-	}
+        void GameEngine::Run()
+        {
+                if (m_Headless)
+                        return;
+
+                while (IsRunning() && m_Window && m_Window->isOpen())
+                {
+                        ProcessInput();
+                        float dt = m_DeltaClock.restart().asSeconds();
+                        ImGui::SFML::Update(*m_Window, sf::seconds(dt));
+                        Update(dt);
+                        Render(*m_Window);
+                        ImGui::SFML::Render(*m_Window);
+                        m_Window->display();
+                }
+        }
 
 	void GameEngine::Update(float)
 	{
@@ -147,11 +165,15 @@ namespace Luden {
 		m_IsRunning = false;
 	}
 
-	void GameEngine::Render(sf::RenderTarget& target)
-	{
-		if (auto scene = GetCurrentScene())
-			scene->sRender(target);
-	}
+        void GameEngine::Render(sf::RenderTarget& target)
+        {
+                if (auto scene = GetCurrentScene())
+                {
+                        scene->SetViewportSize(target.getSize());
+                        target.setView(scene->GetView());
+                        scene->sRender(target);
+                }
+        }
 
 
 	void GameEngine::Shutdown() 
