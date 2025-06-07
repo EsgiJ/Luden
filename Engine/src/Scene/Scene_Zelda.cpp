@@ -142,12 +142,10 @@ namespace Luden
 			return { 0, 0 };
 		}
 
-		sf::Vector2u winSize(1280, 720);
-		if (m_Game->GetWindow().isOpen())
-			winSize = m_Game->GetWindow().getSize();
+                sf::Vector2u winSize(static_cast<unsigned>(Width()), static_cast<unsigned>(Height()));
 
-		int roomX = static_cast<int>(pos.x) / static_cast<int>(winSize.x);
-		int roomY = static_cast<int>(pos.y) / static_cast<int>(winSize.y);
+                int roomX = static_cast<int>(pos.x) / static_cast<int>(winSize.x);
+                int roomY = static_cast<int>(pos.y) / static_cast<int>(winSize.y);
 		if (pos.x < 0) roomX--;
 		if (pos.y < 0) roomY--;
 		return { static_cast<float>(roomX), static_cast<float>(roomY) };
