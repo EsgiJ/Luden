@@ -21,12 +21,7 @@ namespace Luden
 
 	void Scene_Menu::Init() 
 	{
-		sf::View view = m_Game->GetWindow().getView();
-		view.setCenter(sf::Vector2f(
-			static_cast<float>(m_Game->GetWindow().getSize().x) / 2.0f,
-			static_cast<float>(m_Game->GetWindow().getSize().y) / 2.0f)
-		);
-		m_Game->GetWindow().setView(view);
+		m_View = m_Game->GetWindow().getDefaultView();
 
 		RegisterAction(sf::Keyboard::Key::W, "UP");
 		RegisterAction(sf::Keyboard::Key::S, "DOWN");
@@ -39,15 +34,9 @@ namespace Luden
 		m_TitleMusic.play();
 
 		m_Title = "Lunatics";
-		int titleSize = 30;
 		m_MenuText.setString(m_Title);
 		m_MenuText.setFont(m_Game->GetAssets().GetFont("Mario"));
-		m_MenuText.setCharacterSize(titleSize);
 		m_MenuText.setFillColor(sf::Color::Black);
-		m_MenuText.setPosition(sf::Vector2f(
-			float(m_Game->GetWindow().getSize().x) / 2.0f - float(titleSize * (m_Title.length() + 1)) / 2.0f,
-			float(titleSize * 3)
-		));
 
 		m_MenuStrings.emplace_back("LEVEL 1");
 		m_MenuStrings.emplace_back("LEVEL 2");
@@ -111,15 +100,15 @@ namespace Luden
 
 	void Scene_Menu::sRender(sf::RenderTarget& target)
 	{
-                target.clear(sf::Color(100, 100, 255));
+        target.clear(sf::Color(100, 100, 255));
 
-                // keep title centered relative to the viewport each frame
-                int titleSize = m_MenuText.getCharacterSize();
-                m_MenuText.setPosition(sf::Vector2f(
-                        float(target.getSize().x) / 2.0f - float(titleSize * (m_Title.length() + 1)) / 2.0f,
-                        float(titleSize * 3)
-                ));
-                target.draw(m_MenuText);
+        // keep title centered relative to the viewport each frame
+        int titleSize = m_MenuText.getCharacterSize();
+        m_MenuText.setPosition(sf::Vector2f(
+                float(target.getSize().x) / 2.0f - float(titleSize * (m_Title.length() + 1)) / 2.0f,
+				m_MenuText.getGlobalBounds().position.x
+        ));
+        target.draw(m_MenuText);
 
 		for (size_t i = 0; i < m_MenuItems.size(); i++)
 		{
@@ -127,14 +116,14 @@ namespace Luden
 			item.setFillColor(i == m_SelectedMenuIndex ? sf::Color::White : sf::Color::Black);
                         item.setPosition(sf::Vector2f(
                                 float(target.getSize().x) / 2.0f - float(item.getCharacterSize() * (m_MenuStrings[i].length() + 1)) / 2.0f,
-                                m_MenuText.getGlobalBounds().top + 10.0f + 30.0f * float(i + 1)
+                                m_MenuText.getGlobalBounds().position.y + 10.0f + 30.0f * float(i + 1)
                         ));
 			target.draw(item);
 		}
 
 		sf::Text help(m_Game->GetAssets().GetFont("Mario"), "W:UP  S:DOWN  D:PLAY  M:MUTE  ESC:QUIT", 20);
 		help.setFillColor(sf::Color::Black);
-                help.setPosition(sf::Vector2f(20, float(target.getSize().y) - 40));
+        help.setPosition(sf::Vector2f(20, float(target.getSize().y) - 40));
 		target.draw(help);
 	}
 }

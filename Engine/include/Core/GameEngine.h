@@ -56,7 +56,7 @@ namespace Luden {
 		std::string m_CurrentSceneName;
                 SceneMap m_SceneMap;
 
-                bool m_IsRunning = true;
-                bool m_Headless = false;
-        };
+        bool m_IsRunning = true;
+        bool m_Headless = false;
+    };
 }

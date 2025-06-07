@@ -142,10 +142,11 @@ namespace Luden
 			return { 0, 0 };
 		}
 
-                sf::Vector2u winSize(static_cast<unsigned>(Width()), static_cast<unsigned>(Height()));
+		sf::Vector2u winSize(static_cast<unsigned>(Width()), static_cast<unsigned>(Height()));
 
-                int roomX = static_cast<int>(pos.x) / static_cast<int>(winSize.x);
-                int roomY = static_cast<int>(pos.y) / static_cast<int>(winSize.y);
+		int roomX = static_cast<int>(pos.x) / static_cast<int>(winSize.x);
+		int roomY = static_cast<int>(pos.y) / static_cast<int>(winSize.y);
+
 		if (pos.x < 0) roomX--;
 		if (pos.y < 0) roomY--;
 		return { static_cast<float>(roomX), static_cast<float>(roomY) };
@@ -206,12 +207,12 @@ namespace Luden
 	}
 
 
-        Entity& Scene_Zelda::Player()
-        {
-                auto& players = m_EntityManager.GetEntities("Player");
-                assert(!players.empty() && "Player entity does not exist!");
-                return players[0];
-        }
+	Entity& Scene_Zelda::Player()
+	{
+		auto& players = m_EntityManager.GetEntities("Player");
+		assert(!players.empty() && "Player entity does not exist!");
+		return players[0];
+	}
 
 	void Scene_Zelda::AnimatePlayer()
 	{
@@ -279,15 +280,11 @@ namespace Luden
 
 	Math::Vec2 Scene_Zelda::WindowToWorld(const Math::Vec2& pos)
 	{
-		if (!m_Game || !m_Game->GetWindow().isOpen())
-			return pos;
-
-		auto view = m_Game->GetWindow().getView();
-		float wx = view.getCenter().x - Width() / 2.0f;
-		float wy = view.getCenter().y - Height() / 2.0f;
+		auto view = m_View;
+		float wx = view.getCenter().x - view.getSize().x / 2.0f;
+		float wy = view.getCenter().y - view.getSize().y / 2.0f;
 		return { pos.x + wx, pos.y + wy };
 	}
-
 
 	void Scene_Zelda::ChangePlayerStateTo(const std::string& state, const Math::Vec2& facing)
 	{
@@ -349,11 +346,6 @@ namespace Luden
 
 	void Scene_Zelda::sCamera()
 	{
-		if (!m_Game || !m_Game->GetWindow().isOpen())
-			return;
-
-		sf::View view = m_Game->GetWindow().getView();
-
 		auto p = Player();
 		if (!p.IsActive()) return;
 
@@ -361,18 +353,16 @@ namespace Luden
 
 		if (m_Follow)
 		{
-			view.setCenter(sf::Vector2f(pPos.x, pPos.y));
+			m_View.setCenter(sf::Vector2f(pPos.x, pPos.y));
 		}
 		else
 		{
 			Math::Vec2 r = GetRoomXY(pPos);
-			view.setCenter(sf::Vector2f(
+			m_View.setCenter(sf::Vector2f(
 				r.x * Width() + Width() / 2.0f,
 				r.y * Height() + Height() / 2.0f
 			));
 		}
-
-		m_Game->GetWindow().setView(view);
 	}
 
 
@@ -417,9 +407,7 @@ namespace Luden
 						{
 							auto tile = m_EntityManager.GetEntities("Tile");
 							tile.Add<CAnimation>(m_Game->GetAssets().GetAnimation(name), true);
-							auto view = m_Game->GetWindow().getView().getCenter();
-							if (!m_Game->GetWindow().isOpen())
-								view = { 640, 360 }; 
+							auto view = m_View.getCenter();
 
 							tile.Add<CTransform>(Math::Vec2(view.x, view.y));
 							tile.Add<CBoundingBox>(
@@ -462,7 +450,7 @@ namespace Luden
 				{
 					if (!e.Has<CDraggable>()) continue;
 
-					if (Physics::IsInside(worldPos, e)) 
+					if (Physics::IsInside(worldPos, e))
 					{
 						e.Get<CDraggable>().dragging = !e.Get<CDraggable>().dragging;
 					}

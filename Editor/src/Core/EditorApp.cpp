@@ -74,7 +74,6 @@ namespace Luden::Editor {
 				GameEngine::Get().ProcessInput();
 				GameEngine::Get().Update(dt);
 			}
-			GameEngine::Get().Render(m_ViewportTexture);
 
 			RenderDockSpace();
 			RenderModeToolbar();
@@ -107,12 +106,25 @@ namespace Luden::Editor {
 
 		if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0)
 		{
-                        m_ViewportTexture.create(newSize.x, newSize.y);
+			m_ViewportTexture = sf::RenderTexture(newSize);
 			m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
 		}
 
+		GameEngine::Get().Render(m_ViewportTexture);
 
-		ImGui::Image(m_ViewportTextureID, viewportPanelSize, {0, 1}, {1, 0});
+		float texAspect = static_cast<float>(m_ViewportTexture.getSize().x) / m_ViewportTexture.getSize().y;
+		float panelAspect = viewportPanelSize.x / viewportPanelSize.y;
+		ImVec2 imageSize = viewportPanelSize;
+		if (panelAspect > texAspect) {
+			imageSize.x = viewportPanelSize.y * texAspect;
+		}
+		else if (panelAspect < texAspect) {
+			imageSize.y = viewportPanelSize.x / texAspect;
+		}
+
+		ImGui::SetCursorPosX((viewportPanelSize.x - imageSize.x) / 2.0f);
+		ImGui::SetCursorPosY((viewportPanelSize.y - imageSize.y) / 2.0f);
+		ImGui::Image(m_ViewportTextureID, imageSize, { 0, 1 }, { 1, 0 });
 
 		ImGui::End();
 	}

@@ -12,7 +12,7 @@
 
 namespace Luden::Editor {
 
-	struct FolderNode {
+	struct EDITOR_API FolderNode {
 		std::string name;
 		std::vector<std::shared_ptr<FolderNode>> children;
 	};

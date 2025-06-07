@@ -13,6 +13,13 @@ namespace Luden
 		m_Paused = paused;
 	}
 
+	void Scene::SetViewportSize(const sf::Vector2u& size)
+	{
+		m_ViewportSize = size;
+		m_View.setSize({ static_cast<float>(size.x), static_cast<float>(size.y) });
+		m_View.setCenter({ static_cast<float>(size.x) / 2.f, static_cast<float>(size.y) / 2.f });
+	}
+
 	void Scene::DoAction(const Action& action)
 	{
 		sDoAction(action);
@@ -32,23 +39,23 @@ namespace Luden
 		m_ActionMap[static_cast<int>(inputKey)] = actionName;
 	}
 
-        float Scene::Width() const
-        {
-                if (m_ViewportSize.x != 0)
-                        return static_cast<float>(m_ViewportSize.x);
-                if (m_Game && m_Game->GetWindow().isOpen())
-                        return static_cast<float>(m_Game->GetWindow().getSize().x);
-                return 0.0f;
-        }
+    float Scene::Width() const
+    {
+		if (m_ViewportSize.x != 0)
+			return static_cast<float>(m_ViewportSize.x);
+		if (m_Game && m_Game->GetWindow().isOpen())
+			return static_cast<float>(m_Game->GetWindow().getSize().x);
+		return 0.0f;
+    }
 
-        float Scene::Height() const
-        {
-                if (m_ViewportSize.y != 0)
-                        return static_cast<float>(m_ViewportSize.y);
-                if (m_Game && m_Game->GetWindow().isOpen())
-                        return static_cast<float>(m_Game->GetWindow().getSize().y);
-                return 0.0f;
-        }
+    float Scene::Height() const
+    {
+            if (m_ViewportSize.y != 0)
+                    return static_cast<float>(m_ViewportSize.y);
+            if (m_Game && m_Game->GetWindow().isOpen())
+                    return static_cast<float>(m_Game->GetWindow().getSize().y);
+            return 0.0f;
+    }
 
 	size_t Scene::CurrentFrame() const
 	{
