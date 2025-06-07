@@ -54,8 +54,9 @@ namespace Luden {
 		Assets m_Assets;
 
 		std::string m_CurrentSceneName;
-		SceneMap m_SceneMap;
+                SceneMap m_SceneMap;
 
-		bool m_IsRunning = true;
-	};
-} 
+                bool m_IsRunning = true;
+                bool m_Headless = false;
+        };
+}
