@@ -106,7 +106,7 @@ namespace Luden
         int titleSize = m_MenuText.getCharacterSize();
         m_MenuText.setPosition(sf::Vector2f(
                 float(target.getSize().x) / 2.0f - float(titleSize * (m_Title.length() + 1)) / 2.0f,
-				m_MenuText.getGlobalBounds().position.x
+				target.getSize().y / 2.0f
         ));
         target.draw(m_MenuText);
 
