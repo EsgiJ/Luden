@@ -28,8 +28,6 @@ namespace Luden::Editor
 		void Render();
 		void RenderDockSpace();
 		void RenderModeToolbar();
-		void RenderTitleBar();
-		void LoadFonts();
 		void HandleInput();
 
 	private:
