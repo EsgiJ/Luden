@@ -18,8 +18,6 @@ namespace Luden {
 	using SceneMap = std::map<std::string, std::shared_ptr<Scene>>;
 
 	class ENGINE_API GameEngine {
-		RTTR_ENABLE()
-		RTTR_REGISTRATION_FRIEND
 	public:
 		GameEngine(const GameEngine&) = delete;
 		GameEngine& operator=(const GameEngine&) = delete;

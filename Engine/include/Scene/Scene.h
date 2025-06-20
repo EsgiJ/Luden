@@ -20,8 +20,6 @@ namespace Luden {
 	using ActionMap = std::map<int, std::string>;
 
 	class ENGINE_API Scene {
-		RTTR_ENABLE()
-		RTTR_REGISTRATION_FRIEND
 	protected:
 		GameEngine* m_Game = nullptr;
 

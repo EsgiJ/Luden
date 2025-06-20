@@ -35,8 +35,6 @@ namespace Luden
 
 	class ENGINE_API EntityMemoryPool
 	{
-		RTTR_REGISTRATION_FRIEND
-
 		size_t m_NumEntities = 0;
 		EntityComponentVectorTuple m_Pool;
 		std::vector<std::string> m_Tags;

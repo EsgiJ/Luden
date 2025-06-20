@@ -12,8 +12,6 @@ namespace Luden {
 	class ENGINE_API Action 
 	{
 	private:
-		RTTR_REGISTRATION_FRIEND
-
 		std::string m_Name;
 		std::string m_Type;
 		Math::Vec2 m_Pos = { 0.0f, 0.0f };

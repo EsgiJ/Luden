@@ -15,8 +15,6 @@ namespace Luden {
 
 	class ENGINE_API Assets 
 	{
-		RTTR_REGISTRATION_FRIEND
-
 		std::map<std::string, sf::Texture>	m_Textures;
 		std::map<std::string, sf::Font>	m_Fonts;
 		std::map<std::string, sf::SoundBuffer> m_SoundBuffers;

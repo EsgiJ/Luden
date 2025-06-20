@@ -210,7 +210,6 @@ namespace Luden
 	Entity& Scene_Zelda::Player()
 	{
 		auto& players = m_EntityManager.GetEntities("Player");
-		assert(!players.empty() && "Player entity does not exist!");
 		return players[0];
 	}
 

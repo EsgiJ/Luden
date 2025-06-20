@@ -10,9 +10,6 @@ namespace Luden
 {
 	class ENGINE_API Scene_Menu : public Luden::Scene 
 	{
-		RTTR_ENABLE(Scene)
-		RTTR_REGISTRATION_FRIEND
-
 		sf::Text m_MenuText;
 		std::vector<std::string> m_MenuStrings;
 		std::vector<sf::Text> m_MenuItems;

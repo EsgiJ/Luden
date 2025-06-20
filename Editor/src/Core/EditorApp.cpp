@@ -35,7 +35,7 @@ namespace Luden::Editor {
 			p->m_Visible = (it != loaded.m_PanelStates.end()) ? it->second : true;
 		}
 
-		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor");
+		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
 		m_Window.setFramerateLimit(60);
 
 		if (!m_ViewportTexture.resize({ 1280, 720 }))
@@ -45,8 +45,8 @@ namespace Luden::Editor {
 		if (!ImGui::SFML::Init(m_Window))
 			return;
 
-		ImGui::StyleColorsDark();
 		SetupImGuiStyle(true, 0.9f);
+		LoadFonts();
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
@@ -74,9 +74,9 @@ namespace Luden::Editor {
 				GameEngine::Get().ProcessInput();
 				GameEngine::Get().Update(dt);
 			}
-
 			RenderDockSpace();
-			RenderModeToolbar();
+			RenderTitleBar();
+
 			for (auto& panel : m_Panels) panel->Render();
 			Render();
 
@@ -246,6 +246,38 @@ namespace Luden::Editor {
 		}
 	}
 
+	void EditorApp::RenderTitleBar()
+	{
+		ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDocking |
+			ImGuiWindowFlags_NoSavedSettings;
+
+		ImGui::SetNextWindowPos(ImVec2(0, 0));
+		ImGui::SetNextWindowSize(ImVec2((float)m_Window.getSize().x, 25));
+
+		if (ImGui::Begin("##TitleBar", nullptr, flags))
+		{
+			ImGui::TextUnformatted("Luden Editor");
+			ImGui::SameLine(ImGui::GetWindowWidth() - 30);
+			if (ImGui::Button(ICON_FA_XMARK))
+				m_IsRunning = false;
+		}
+		ImGui::End();
+	}
+
+
+	void EditorApp::LoadFonts()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+		ImFontConfig icons_config;
+		icons_config.MergeMode = true;
+		icons_config.PixelSnapH = true;
+		io.Fonts->AddFontFromFileTTF("assets/fonts/fa-solid-900.ttf", 14.0f, &icons_config, icons_ranges);
+
+		ImGui::SFML::UpdateFontTexture();
+	}
 
 	void EditorApp::HandleInput() {
 		while (auto evt = m_Window.pollEvent()) {

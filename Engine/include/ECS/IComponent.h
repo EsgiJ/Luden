@@ -10,6 +10,5 @@ namespace Luden
 	{
 	public:
 		bool has = false;
-		RTTR_ENABLE();
 	};
 }

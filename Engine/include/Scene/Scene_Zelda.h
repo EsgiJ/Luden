@@ -12,9 +12,6 @@ namespace Luden
 {
 	class ENGINE_API Scene_Zelda : public Scene 
 	{
-		RTTR_ENABLE(Scene)
-		RTTR_REGISTRATION_FRIEND
-
 		std::string m_LevelPath;
 		sf::Text m_GridText;
 		Math::Vec2 m_MousePos;

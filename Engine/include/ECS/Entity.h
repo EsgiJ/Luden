@@ -18,9 +18,6 @@ namespace Luden
 
 	class ENGINE_API Entity
 	{
-		RTTR_REGISTRATION_FRIEND
-		RTTR_ENABLE()
-
 	private:
 		friend class EntityMemoryPool;
 

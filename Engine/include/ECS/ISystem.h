@@ -9,6 +9,5 @@ namespace Luden
 	public:
 		virtual ~ISystem() = default;
 		virtual void Update(float dt) = 0;
-		RTTR_ENABLE();
 	};
 }

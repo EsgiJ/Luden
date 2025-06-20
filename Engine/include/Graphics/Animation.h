@@ -12,7 +12,6 @@ namespace Luden::Graphics
 {
 	class ENGINE_API Animation
 	{
-		RTTR_REGISTRATION_FRIEND
 
 		sf::Sprite m_Sprite;
 		size_t m_FrameCount = 1;
