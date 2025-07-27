@@ -8,7 +8,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 
-#include "Asset/Asset.h"
+#include "Asset/AssetManager.h"
 #include "EngineAPI.h"
 #include "Scene/Scene.h"
 
@@ -37,7 +37,7 @@ namespace Luden {
 		void ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent = false);
 		std::shared_ptr<Scene> GetCurrentScene();
 		sf::RenderWindow& GetWindow();
-		Assets& GetAssets();
+		AssetManager& GetAssets();
 
 	private:
 		GameEngine(sf::RenderWindow& window, const std::string& assetPath, bool headless);
@@ -49,10 +49,10 @@ namespace Luden {
 
 		sf::RenderWindow* m_Window = nullptr;
 		sf::Clock m_DeltaClock;
-		Assets m_Assets;
+		AssetManager m_Assets;
 
 		std::string m_CurrentSceneName;
-                SceneMap m_SceneMap;
+        SceneMap m_SceneMap;
 
         bool m_IsRunning = true;
         bool m_Headless = false;

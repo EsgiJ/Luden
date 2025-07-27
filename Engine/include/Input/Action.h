@@ -2,7 +2,6 @@
 
 #include <string>
 
-
 #include "EngineAPI.h"
 #include "Math/Vec2.h"
 #include "Reflection/ReflectionMacros.h"

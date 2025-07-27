@@ -5,7 +5,7 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-#include "Asset/Asset.h"
+#include "Asset/AssetManager.h"
 #include "Scene/Scene_Menu.h"
 #include "Scene/Scene_Zelda.h"
 
@@ -208,7 +208,7 @@ namespace Luden {
 		return *m_Window;
 	}
 
-	Assets& GameEngine::GetAssets() {
+	AssetManager& GameEngine::GetAssets() {
 		return m_Assets;
 	}
 }

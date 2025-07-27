@@ -10,7 +10,6 @@ namespace Luden::Editor {
 	{
 		m_RootFolder = BuildFolderTree("Assets");
 
-		// Placeholder: bu ikonlarý TextureManager üzerinden yüklemelisin
 		m_DefaultFontIcon = 0;
 		m_DefaultSoundIcon = 0;
 	}
@@ -137,5 +136,4 @@ namespace Luden::Editor {
 		RenderInspector();
 		ImGui::End();
 	}
-
 }
