@@ -6,6 +6,11 @@ namespace Luden {
 		m_FileSystem = fs;
 	}
 
+	void ResourceManager::SetRuntimeDatabase(std::shared_ptr<RuntimeResourceDatabase> db)
+	{
+		m_RuntimeDB = db;
+	}
+
 	void ResourceManager::RegisterType(const std::string& type, ResourceFactory factory)
 	{
 		m_Factories[type] = factory;
@@ -35,6 +40,39 @@ namespace Luden {
 		resource->Init();
 
 		m_ResourceMap[id] = resource;
+		return resource;
+	}
+
+	std::shared_ptr<IResource> ResourceManager::Load(const ResourceID& uuid)
+	{
+		if (m_ResourceMap.contains(uuid))
+			return m_ResourceMap[uuid];
+
+		if (!m_FileSystem || !m_RuntimeDB)
+			return nullptr;
+
+		const std::string* type = m_RuntimeDB->GetType(uuid);
+		if (!type)
+			return nullptr;
+
+		auto it = m_Factories.find(*type);
+		if (it == m_Factories.end())
+			return nullptr;
+
+		auto uptr2 = m_FileSystem->Open(uuid, FileMode::Read);
+		if (!uptr2)
+			return nullptr;
+		std::shared_ptr<IFile> file(std::move(uptr2));
+
+		auto resource = it->second();
+		if (!resource)
+			return nullptr;
+
+		if (!resource->Load(file))
+			return nullptr;
+
+		resource->Init();
+		m_ResourceMap[uuid] = resource;
 		return resource;
 	}
 

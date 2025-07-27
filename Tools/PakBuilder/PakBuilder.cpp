@@ -65,13 +65,13 @@ namespace Luden {
 		{
 			uint16_t uuidLen = static_cast<uint16_t>(entry.uuid.size());
 			pak.write(reinterpret_cast<char*>(&uuidLen), sizeof(uint16_t));
-			pak.write(reinterpret_cast<char*>(&entry.uuid), uuidLen);
+			pak.write(entry.uuid.data(), uuidLen);
 			pak.write(reinterpret_cast<char*>(&entry.offset), sizeof(uint64_t));
 			pak.write(reinterpret_cast<char*>(&entry.size), sizeof(uint64_t));
 		}
 
 		// Rewrite index offset at beginning
-		pak.seekp(0);
+		pak.seekp(8);
 		pak.write(reinterpret_cast<char*>(&indexOffset), sizeof(uint64_t));
 		pak.close();
 

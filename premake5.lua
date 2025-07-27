@@ -262,3 +262,30 @@ project "RuntimeDatabaseBuilder"
 
     filter "system:windows"
         systemversion "latest"
+
+project "AssetImporter"
+    location "Tools/AssetImporter"
+    kind "ConsoleApp"          
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "off"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "Tools/AssetImporter/**.cpp",
+        "Tools/AssetImporter/**.h",
+        "Engine/include/**.h"
+    }
+
+    includedirs {
+        "Engine/include",
+        "Tools/AssetImporter",                    
+    }
+
+    links {                  
+    }
+
+    filter "system:windows"
+        systemversion "latest"
