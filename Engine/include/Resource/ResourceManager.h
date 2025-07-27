@@ -15,6 +15,7 @@ namespace Luden
 	class ENGINE_API ResourceManager 
 	{
 		using ResourceFactory = std::function<std::shared_ptr<IResource>()>;
+	public:
 
 		void SetFileSystem(std::shared_ptr<IFileSystem> fs);
 		void SetRuntimeDatabase(std::shared_ptr<RuntimeResourceDatabase> db);

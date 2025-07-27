@@ -9,6 +9,14 @@
 #include "Panels/SceneSettingsPanel.h"
 #include "Core/EditorState.h"
 #include "Scene/Scene_Zelda.h"
+#include "IO/DiskFileSystem.h"
+#include "Resource/RuntimeResourceDatabase.h"
+#include "Resource/ResourceManager.h"
+#include "Resource/TextureResource.h"
+#include "Resource/SoundResource.h"
+#include "Resource/FontResource.h"
+
+#include <filesystem>
 #include <iostream>
 
 #include <imgui.h>
@@ -56,6 +64,22 @@ namespace Luden::Editor {
 
 		//Initialize Engine
 		GameEngine::Initialize(m_Window, ctx, "config/assets.txt", true);
+
+		std::filesystem::path resJson = "Game/Resources/resources.json";
+		if (std::filesystem::exists(resJson))
+		{
+			auto rm = GameEngine::Get().GetResourceManager();
+			auto diskFS = std::make_shared<DiskFileSystem>();
+			rm->SetFileSystem(diskFS);
+
+			auto runtimeDb = std::make_shared<RuntimeResourceDatabase>();
+			runtimeDb->LoadFromJSON(resJson.string());
+			rm->SetRuntimeDatabase(runtimeDb);
+
+			rm->RegisterType("Texture", []() { return std::make_shared<TextureResource>(); });
+			rm->RegisterType("Sound", []() { return std::make_shared<SoundResource>(); });
+			rm->RegisterType("Font", []() { return std::make_shared<FontResource>(); });
+		}
 	}
 
 	void EditorApp::Run() {

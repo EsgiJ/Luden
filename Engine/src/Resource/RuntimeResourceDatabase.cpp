@@ -1,6 +1,7 @@
 #include "Resource/RuntimeResourceDatabase.h"
 
 #include <fstream>
+#include <nlohmann/json.hpp>
 
 namespace Luden {
 	bool RuntimeResourceDatabase::Load(const std::string& path)
@@ -26,6 +27,23 @@ namespace Luden {
 			m_Entries[uuid] = type;
 		}
 
+		return true;
+	}
+	bool RuntimeResourceDatabase::LoadFromJSON(const std::string& path)
+	{
+		std::ifstream in(path);
+		if (!in.is_open())
+			return false;
+
+		nlohmann::json j;
+		in >> j;
+
+		for (const auto& item : j["resources"])
+		{
+			std::string uuid = item["uuid"];
+			std::string type = item["type"];
+			m_Entries[uuid] = type;
+		}
 		return true;
 	}
 	const std::string* RuntimeResourceDatabase::GetType(const std::string& uuid) const

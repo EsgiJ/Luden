@@ -5,7 +5,12 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 
-#include "Asset/AssetManager.h"
+#include "Resource/ResourceManager.h"
+#include "IO/PakFileSystem.h"
+#include "Resource/RuntimeResourceDatabase.h"
+#include "Resource/TextureResource.h"
+#include "Resource/SoundResource.h"
+#include "Resource/FontResource.h"
 #include "Scene/Scene_Menu.h"
 #include "Scene/Scene_Zelda.h"
 
@@ -26,23 +31,41 @@ namespace Luden {
 
        void GameEngine::Init(const std::string& assetPath, bool headless)
        {
-               if (!m_Assets.LoadFromFile(assetPath))
-               {
-                       std::cerr << "Failed to load assets from " << assetPath << "\n";
-                       m_IsRunning = false;
-                       return;
-               }
+		   m_ResourceManager = std::make_shared<ResourceManager>();
 
-               // Default scene
-               ChangeScene("Menu", std::make_shared<Scene_Menu>(this));
+		   auto pakFS = std::make_shared<PakFileSystem>("Build/game.pak");
+		   if (!pakFS->LoadPak())
+		   {
+			   std::cerr << "Failed to load game.pak\n";
+			   m_IsRunning = false;
+			   return;
+		   }
 
-               if (headless)
-                       return;
+		   m_ResourceManager->SetFileSystem(pakFS);
 
-               if (!ImGui::SFML::Init(*m_Window))
-               {
-                       std::cerr << "ImGui-SFML initialization failed!" << std::endl;
-               }
+		   auto runtimeDB = std::make_shared<RuntimeResourceDatabase>();
+		   if (!runtimeDB->Load("Build/resources.runtimedb"))
+		   {
+			   std::cerr << "Failed to load resources.runtimedb\n";
+			   m_IsRunning = false;
+			   return;
+		   }
+		   m_ResourceManager->SetRuntimeDatabase(runtimeDB);
+
+		   m_ResourceManager->RegisterType("Texture", []() { return std::make_shared<TextureResource>(); });
+		   m_ResourceManager->RegisterType("Sound", []() { return std::make_shared<SoundResource>(); });
+		   m_ResourceManager->RegisterType("Font", []() { return std::make_shared<FontResource>(); });
+
+            // Default scene
+            ChangeScene("Menu", std::make_shared<Scene_Menu>(this));
+
+            if (headless)
+                    return;
+
+            if (!ImGui::SFML::Init(*m_Window))
+            {
+                    std::cerr << "ImGui-SFML initialization failed!" << std::endl;
+            }
        }
 
 	void GameEngine::Initialize(sf::RenderWindow& window, ImGuiContext* context, const std::string& assetPath, bool headless)
@@ -206,6 +229,11 @@ namespace Luden {
 		if (!m_Window)
 			throw std::runtime_error("RenderWindow is not set!");
 		return *m_Window;
+	}
+
+	std::shared_ptr<ResourceManager> GameEngine::GetResourceManager() const
+	{
+		return m_ResourceManager;
 	}
 
 	AssetManager& GameEngine::GetAssets() {
