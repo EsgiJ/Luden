@@ -254,7 +254,8 @@ project "RuntimeDatabaseBuilder"
 
     includedirs {
         "Engine/include",
-        "Tools/RuntimeDatabaseBuilder",                    
+        "Tools/RuntimeDatabaseBuilder",    
+        "extern/json/include"                
     }
 
     links {                  
