@@ -13,24 +13,15 @@
 #include "ECS/EntityManager.h"
 #include "Input/Action.h"
 #include "Math/Vec2.h"
+#include "Resource/Resource.h"
 
 namespace Luden {
 
 	class GameEngine;
 	using ActionMap = std::map<int, std::string>;
 
-	class ENGINE_API Scene {
-	protected:
-		GameEngine* m_Game = nullptr;
-
-		EntityManager m_EntityManager;
-		ActionMap m_ActionMap;
-		bool m_Paused = false;
-		bool m_HasEnded = false;
-		size_t m_CurrentFrame = 0;
-		sf::Vector2u m_ViewportSize{ 0, 0 };
-		sf::View m_View;
-
+	class ENGINE_API Scene : public Resource
+	{
 	public:
 		Scene() = default;
 		explicit Scene(GameEngine* gameEngine);
@@ -60,6 +51,20 @@ namespace Luden {
 		const sf::View& GetView() const { return m_View; }
 
 		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);
+
+		const std::string& GetName() const { return m_Name; }
+		void SetName(const std::string& name) { m_Name = name; }
+	protected:
+		std::shared_ptr<GameEngine> m_Game = nullptr;
+
+		EntityManager m_EntityManager;
+		ActionMap m_ActionMap;
+		bool m_Paused = false;
+		bool m_HasEnded = false;
+		size_t m_CurrentFrame = 0;
+		sf::Vector2u m_ViewportSize{ 0, 0 };
+		sf::View m_View;
+		std::string m_Name;
 	};
 
 }

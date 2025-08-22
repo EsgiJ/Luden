@@ -76,7 +76,7 @@ Editor/imgui.ini
 *.meta
 
 # External dependencies
-extern/
+/extern
 !extern/**/README.md
 
 # Local config files

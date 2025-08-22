@@ -52,10 +52,6 @@ namespace Luden {
 		   }
 		   m_ResourceManager->SetRuntimeDatabase(runtimeDB);
 
-		   m_ResourceManager->RegisterType("Texture", []() { return std::make_shared<TextureResource>(); });
-		   m_ResourceManager->RegisterType("Sound", []() { return std::make_shared<SoundResource>(); });
-		   m_ResourceManager->RegisterType("Font", []() { return std::make_shared<FontResource>(); });
-
             // Default scene
             ChangeScene("Menu", std::make_shared<Scene_Menu>(this));
 

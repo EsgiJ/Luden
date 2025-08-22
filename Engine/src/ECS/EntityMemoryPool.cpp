@@ -6,38 +6,114 @@
 namespace Luden
 {
 	EntityMemoryPool::EntityMemoryPool(size_t maxEntities)
+		: m_Capacity(maxEntities)
 	{
-		m_Tags.resize(maxEntities);
-		m_Active.resize(maxEntities);
+		m_Tags.reserve(maxEntities);
+		m_Active.reserve(maxEntities);
+		m_IDs.reserve(maxEntities);
 
-		std::apply([maxEntities](auto&... vecs)
-		{
-			(..., vecs.resize(maxEntities));
-		}, m_Pool);
+		std::apply([&](auto&... vecs)
+			{
+				(..., vecs.reserve(maxEntities));
+			}, m_Pool);
 	}
 
-	EntityID EntityMemoryPool::GetNextIndex()
+	void EntityMemoryPool::EnsureSizedFor(PoolIndex idx)
 	{
-		for (EntityID i = 0; i < MAX_ENTITIES; ++i)
-		{
-			if (!m_Active[i])
-				return i;
-		}
+		auto ensure = [idx](auto& v)
+			{
+				if (v.size() <= idx) v.resize(idx + 1);
+			};
 
-		assert(false && "Entity limit reached!");
-		return MAX_ENTITIES - 1;
+		ensure(m_Tags);
+		ensure(m_Active);
+		ensure(m_IDs);
+
+		std::apply([&](auto&... vecs)
+			{
+				(..., ensure(vecs));
+			}, m_Pool);
+	}
+
+	PoolIndex EntityMemoryPool::AcquireIndex()
+	{
+		if (!m_FreeList.empty())
+		{
+			PoolIndex idx = m_FreeList.back();
+			m_FreeList.pop_back();
+			return idx;
+		}
+		// New slot
+		PoolIndex idx = static_cast<PoolIndex>(m_Tags.size());
+		EnsureSizedFor(idx);
+		return idx;
+	}
+
+	PoolIndex EntityMemoryPool::IndexOf(const UUID& entityID) const
+	{
+		auto it = m_IdToIndex.find(entityID);
+		assert(it != m_IdToIndex.end() && "Invalid Entity UUID!");
+		return it->second;
+	}
+
+	void EntityMemoryPool::ClearComponentsAt(PoolIndex idx)
+	{
+		auto clearHas = [idx](auto& vec)
+			{
+				if (idx < vec.size())
+				{
+					vec[idx].has = false;
+				}
+			};
+
+		std::apply([&](auto&... vecs)
+			{
+				(..., clearHas(vecs));
+			}, m_Pool);
 	}
 
 	Entity EntityMemoryPool::AddEntity(const std::string& tag)
 	{
-		EntityID index = GetNextIndex();
-		m_Tags[index] = tag;
-		m_Active[index] = true;
-		return Entity(index);
+		UUID id;
+
+		PoolIndex idx = AcquireIndex();
+		EnsureSizedFor(idx);
+
+		m_Tags[idx] = tag;
+		m_Active[idx] = true;
+		m_IDs[idx] = id;
+
+		m_IdToIndex.emplace(id, idx);
+
+		++m_NumAlive;
+
+		return Entity(id);
 	}
 
-	void EntityMemoryPool::DestroyEntity(EntityID entityID)
+	void EntityMemoryPool::DestroyEntity(const UUID& entityID)
 	{
-		m_Active[entityID] = false;
+		PoolIndex idx = IndexOf(entityID);
+
+		m_Active[idx] = false;
+		ClearComponentsAt(idx);
+
+		m_IdToIndex.erase(entityID);
+
+		m_FreeList.push_back(idx);
+
+		if (m_NumAlive > 0) 
+			--m_NumAlive;
+	}
+
+	const std::string& EntityMemoryPool::GetTag(const UUID& entityID) const
+	{
+		PoolIndex idx = IndexOf(entityID);
+		return m_Tags[idx];
+	}
+
+	bool EntityMemoryPool::IsActive(const UUID& entityID) const
+	{
+		PoolIndex idx = IndexOf(entityID);
+		return m_Active[idx];
 	}
 }

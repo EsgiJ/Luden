@@ -15,13 +15,6 @@ namespace Luden
 
 
 	class ENGINE_API EntityManager {
-		EntityVec m_entities;       
-		EntityVec m_entitiesToAdd;  
-		EntityMap m_entityMap;      
-		size_t m_totalEntities = 0;
-
-		void RemoveDeadEntities(EntityVec& vec);
-
 	public:
 		EntityManager();
 
@@ -34,6 +27,14 @@ namespace Luden
 		EntityVec& GetEntities(const std::string& tag);
 
 		const EntityMap& GetEntityMap();
+
+	private:
+		EntityVec m_entities;
+		EntityVec m_entitiesToAdd;
+		EntityMap m_entityMap;
+		size_t m_totalEntities = 0;
+
+		void RemoveDeadEntities(EntityVec& vec);
 	};
 }
 

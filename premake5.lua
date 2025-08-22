@@ -24,7 +24,8 @@ project "Engine"
         "Engine/include/**.h",
         "extern/imgui/*.cpp",
         "extern/ImGui-SFML/*.cpp",
-        "extern/ImGui-SFML/*.h"
+        "extern/ImGui-SFML/*.h",
+        "extern/nativefiledialog-extended/src/nfd_common.c"
     }
 
     includedirs {
@@ -34,7 +35,8 @@ project "Engine"
         "extern/SFML/include",
         "extern/sol2/single",
         "extern/json/include",
-        "Tools"
+        "Tools",
+        "extern/nativefiledialog-extended/src/include"
     }
 
     libdirs {
@@ -52,31 +54,39 @@ project "Engine"
     vpaths 
     {
         -- Engine headers
+        ["Headers/Audio"]        = "Engine/include/Audio/**.h",
         ["Headers/Core"]        = "Engine/include/Core/**.h",
         ["Headers/ECS"]         = "Engine/include/ECS/**.h",
         ["Headers/Graphics"]    = "Engine/include/Graphics/**.h",
         ["Headers/Input"]       = "Engine/include/Input/**.h",
         ["Headers/IO"]          = "Engine/include/IO/**.h",
         ["Headers/Math"]        = "Engine/include/Math/**.h",
-        ["Headers/Utils"]       = "Engine/include/Utils/**.h",
+        ["Headers/Utilities"]       = "Engine/include/Utilities/**.h",
         ["Headers/Scene"]       = "Engine/include/Scene/**.h",
         ["Headers/Physics"]     = "Engine/include/Physics/**.h",
+        ["Headers/Project"]    = "Engine/include/Project/**.h",
         ["Headers/Reflection"]  = "Engine/include/Reflection/**.h",
         ["Headers/Resource"]    = "Engine/include/Resource/**.h",
+        ["Headers/Serialization"]    = "Engine/include/Serialization/**.h",
+
 
     
         -- Engine sources
+        ["Source/Audio"]         = "Engine/src/Audio/**.cpp",
         ["Source/Core"]         = "Engine/src/Core/**.cpp",
         ["Source/ECS"]          = "Engine/src/ECS/**.cpp",
+        ["Source/Generated"]    = "Engine/src/Generated/**.gen.cpp",
         ["Source/Graphics"]     = "Engine/src/Graphics/**.cpp",
         ["Source/Input"]        = "Engine/src/Input/**.cpp",
         ["Source/IO"]           = "Engine/src/IO/**.cpp",
         ["Source/Math"]         = "Engine/src/Math/**.cpp",
-        ["Source/Utils"]        = "Engine/src/Utils/**.cpp",
+        ["Source/Utilities"]        = "Engine/src/Utilities/**.cpp",
         ["Source/Scene"]        = "Engine/src/Scene/**.cpp",
         ["Source/Physics"]      = "Engine/src/Physics/**.cpp",
-        ["Source/Generated"]    = "Engine/src/Generated/**.gen.cpp",
+        ["Source/Project"]     = "Engine/src/Project/**.cpp",
         ["Source/Resource"]     = "Engine/src/Resource/**.cpp",
+        ["Source/Serialization"]     = "Engine/src/Serialization/**.cpp",
+
     
         -- ImGui files
         ["Extern/ImGui/Source"] = "extern/imgui/**.cpp",
@@ -88,12 +98,23 @@ project "Engine"
     } 
 
     filter "system:windows"
-    postbuildcommands {
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
-        "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
-    }
+        files { "extern/nativefiledialog-extended/src/nfd_win.cpp" }
+        links { "comdlg32", "ole32", "uuid", "shell32", "user32" }
+        postbuildcommands {
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
+        }
+    filter "system:macosx"
+        files { "extern/nativefiledialog-extended/src/nfd_cocoa.m" }
+        links { "AppKit.framework", "UniformTypeIdentifiers.framework" }
+        buildoptions { "-fobjc-arc" }
+
+    filter "system:linux"
+        files { "extern/nativefiledialog-extended/src/nfd_gtk.c" }
+        links { "gtk-3", "gobject-2.0", "glib-2.0", "gio-2.0" }
+    filter {}
 
 -- EDITOR PROJECT
 project "Editor"
@@ -207,86 +228,3 @@ project "Game"
     postbuildcommands {
         "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
     }
-
-project "PakBuilder"
-    location "Tools/PakBuilder"
-    kind "ConsoleApp"          
-    language "C++"
-    cppdialect "C++20"
-    staticruntime "off"
-
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-    files {
-        "Tools/PakBuilder/**.cpp",
-        "Tools/PakBuilder/**.h",
-        "Engine/include/**.h"
-    }
-
-    includedirs {
-        "Engine/include",
-        "Tools/PakBuilder",
-        "extern/json/include",                     
-    }
-
-    links {                  
-    }
-
-    filter "system:windows"
-        systemversion "latest"
-
-project "RuntimeDatabaseBuilder"
-    location "Tools/RuntimeDatabaseBuilder"
-    kind "ConsoleApp"          
-    language "C++"
-    cppdialect "C++20"
-    staticruntime "off"
-
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-    files {
-        "Tools/RuntimeDatabaseBuilder/**.cpp",
-        "Tools/RuntimeDatabaseBuilder/**.h",
-        "Engine/include/**.h"
-    }
-
-    includedirs {
-        "Engine/include",
-        "Tools/RuntimeDatabaseBuilder",    
-        "extern/json/include"                
-    }
-
-    links {                  
-    }
-
-    filter "system:windows"
-        systemversion "latest"
-
-project "AssetImporter"
-    location "Tools/AssetImporter"
-    kind "ConsoleApp"          
-    language "C++"
-    cppdialect "C++20"
-    staticruntime "off"
-
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-    files {
-        "Tools/AssetImporter/**.cpp",
-        "Tools/AssetImporter/**.h",
-        "Engine/include/**.h"
-    }
-
-    includedirs {
-        "Engine/include",
-        "Tools/AssetImporter",                    
-    }
-
-    links {                  
-    }
-
-    filter "system:windows"
-        systemversion "latest"

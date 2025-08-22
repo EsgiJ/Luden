@@ -92,8 +92,6 @@ namespace Luden
 		Graphics::Animation animation;
 		bool repeat = false;
 
-		CAnimation() = default;
-
 		CAnimation(Graphics::Animation a, bool r) : animation(a), repeat(r) {};
 	};
 

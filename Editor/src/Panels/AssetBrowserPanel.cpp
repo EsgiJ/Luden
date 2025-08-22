@@ -109,24 +109,31 @@ namespace Luden::Editor {
 
 		ImGui::NextColumn();
 
-		if (ImGui::BeginChild("Grid", ImVec2(0, 0), false)) {
+		if (ImGui::BeginChild("Grid", ImVec2(0, 0), false)) 
+		{
 			const int columns = 4;
-			if (ImGui::BeginTable("AssetGrid", columns)) {
-				for (auto& [key, tex] : assets.GetTextures()) {
+			if (ImGui::BeginTable("AssetGrid", columns)) 
+			{
+				/*
+				for (auto& [key, tex] : assets.GetTextures()) 
+				{
 					if (!IsAssetInSelectedFolder(key)) continue;
 					ImGui::TableNextColumn();
 					DrawThumbnailCard(key, tex.getNativeHandle(), "Texture");
 				}
-				for (auto& [key, _] : assets.GetFonts()) {
+				for (auto& [key, _] : assets.GetFonts()) 
+				{
 					if (!IsAssetInSelectedFolder(key)) continue;
 					ImGui::TableNextColumn();
 					DrawThumbnailCard(key, m_DefaultFontIcon, "Font");
 				}
-				for (auto& [key, _] : assets.GetSounds()) {
+				for (auto& [key, _] : assets.GetSounds()) 
+				{
 					if (!IsAssetInSelectedFolder(key)) continue;
 					ImGui::TableNextColumn();
 					DrawThumbnailCard(key, m_DefaultSoundIcon, "Sound");
 				}
+				*/
 				ImGui::EndTable();
 			}
 		}

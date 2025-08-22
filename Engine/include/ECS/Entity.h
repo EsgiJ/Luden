@@ -5,7 +5,7 @@
 #include <tuple>
 #include <vector>
 
-
+#include "Core/UUID.h"
 #include "ECS/IComponent.h"
 #include "ECS/EntityMemoryPool.h"
 #include "EngineAPI.h"
@@ -14,22 +14,24 @@ namespace Luden
 {
 	class EntityMemoryPool;
 
-	using EntityID = std::size_t;
+	using EntityID = UUID;
 
 	class ENGINE_API Entity
 	{
 	private:
 		friend class EntityMemoryPool;
 
-		EntityID m_ID = 0;
+		EntityID m_UUID;
 
 		Entity() = default;
-		explicit Entity(EntityID id);
+		explicit Entity(EntityID uuid);
 
 	public:
 		void Destroy();
 
-		[[nodiscard]] EntityID Id() const;
+		[[nodiscard]] EntityID UUID() const;
+
+		void SetUUID(EntityID uuid) { m_UUID = uuid; }
 
 		[[nodiscard]] bool IsActive() const;
 
@@ -38,29 +40,29 @@ namespace Luden
 		template<class T>
 		bool Has() const 
 		{
-			return EntityMemoryPool::Instance().HasComponent<T>(m_ID);
+			return EntityMemoryPool::Instance().HasComponent<T>(m_UUID);
 		}
 
 		template<class T, typename... TArgs>
 		T& Add(TArgs&&... args)
 		{
-			auto& component = EntityMemoryPool::Instance().template AddComponent<T>(m_ID, std::forward<TArgs>(args)...);
+			auto& component = EntityMemoryPool::Instance().template AddComponent<T>(m_UUID, std::forward<TArgs>(args)...);
 			return component;
 		}
 
 		template<class T>
 		T& Get() {
-			return EntityMemoryPool::Instance().GetComponent<T>(m_ID);
+			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
 		}
 
 		template<class T>
 		const T& Get() const {
-			return EntityMemoryPool::Instance().GetComponent<T>(m_ID);
+			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
 		}
 
 		template<class T>
 		void Remove() const {
-			EntityMemoryPool::Instance().RemoveComponent<T>(m_ID);
+			EntityMemoryPool::Instance().RemoveComponent<T>(m_UUID);
 		}
 	};
 }

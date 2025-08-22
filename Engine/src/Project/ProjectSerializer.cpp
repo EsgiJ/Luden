@@ -1,0 +1,54 @@
+#include "Project/ProjectSerializer.h"
+
+#include <nlohmann/json.hpp>
+#include <fstream>
+
+using json = nlohmann::json;
+namespace Luden
+{
+	ProjectSerializer::ProjectSerializer(std::shared_ptr<Project> project)
+		: m_Project(project)
+	{
+	}
+	bool ProjectSerializer::Serialize(const std::filesystem::path& path)
+	{
+		const auto& config = m_Project->GetConfig();
+
+		json jProject;
+
+		jProject["Name"] = config.Name;
+		jProject["StartScene"] = config.StartScene.string();
+		jProject["ResourceDirectory"] = config.ResourceDirectory.string();
+
+		std::ofstream out(path);
+		if (!out.is_open())
+			return false;
+
+		out << jProject.dump(4);
+		return true;
+	}
+
+	bool ProjectSerializer::Deserialize(const std::filesystem::path& path)
+	{
+		std::ifstream in(path);
+		if (!in.is_open())
+			false;
+
+		json jProject;
+		in >> jProject;
+
+		auto& config = m_Project->GetConfig();
+
+		if (jProject.contains("Name"))
+			config.Name = jProject["Name"].get<std::string>();
+
+		if (jProject.contains("StartScene"))
+			config.Name = jProject["StartScene"].get<std::filesystem::path>();
+
+		if (jProject.contains("ResourceDirectory"))
+			config.Name = jProject["ResourceDirectory"].get<std::filesystem::path>();
+
+		return true;
+	}
+}
+

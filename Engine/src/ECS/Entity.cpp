@@ -6,26 +6,26 @@
 
 namespace Luden
 {
-	Entity::Entity(EntityID id) 
-		: m_ID(id) {}
+	Entity::Entity(EntityID uuid) 
+		: m_UUID(id) {}
 
 	bool Entity::IsActive() const 
 	{
-		return EntityMemoryPool::Instance().IsActive(m_ID);
+		return EntityMemoryPool::Instance().IsActive(m_UUID);
 	}
 
 	const std::string& Entity::Tag() const 
 	{
-		return EntityMemoryPool::Instance().GetTag(m_ID);
+		return EntityMemoryPool::Instance().GetTag(m_UUID);
 	}
 
-	size_t Entity::Id() const 
+	EntityID Entity::UUID() const 
 	{
-		return m_ID;
+		return m_UUID;
 	}
 
 	void Entity::Destroy() 
 	{
-		EntityMemoryPool::Instance().DestroyEntity(m_ID);
+		EntityMemoryPool::Instance().DestroyEntity(m_UUID);
 	}
 }

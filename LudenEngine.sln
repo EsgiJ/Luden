@@ -6,18 +6,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcx
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7} = {DBC7D3B0-C769-FE86-B024-12DB9C6585D7}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssetImporter", "Tools\AssetImporter\AssetImporter.vcxproj", "{F70A500D-63CB-CB43-2C06-15C198851020}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7} = {DBC7D3B0-C769-FE86-B024-12DB9C6585D7}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PakBuilder", "Tools\PakBuilder\PakBuilder.vcxproj", "{083DBE4C-F4F4-FF99-5DFC-D8F549D39A8A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RuntimeDatabaseBuilder", "Tools\RuntimeDatabaseBuilder\RuntimeDatabaseBuilder.vcxproj", "{45C8D955-31C2-02A8-1A2F-99B806C86814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +23,6 @@ Global
 		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Debug|x64.Build.0 = Debug|x64
 		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Release|x64.ActiveCfg = Release|x64
 		{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}.Release|x64.Build.0 = Release|x64
-		{F70A500D-63CB-CB43-2C06-15C198851020}.Debug|x64.ActiveCfg = Debug|x64
-		{F70A500D-63CB-CB43-2C06-15C198851020}.Debug|x64.Build.0 = Debug|x64
-		{F70A500D-63CB-CB43-2C06-15C198851020}.Release|x64.ActiveCfg = Release|x64
-		{F70A500D-63CB-CB43-2C06-15C198851020}.Release|x64.Build.0 = Release|x64
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Debug|x64.ActiveCfg = Debug|x64
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Debug|x64.Build.0 = Debug|x64
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.Release|x64.ActiveCfg = Release|x64
@@ -41,14 +31,6 @@ Global
 		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.Build.0 = Debug|x64
 		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.ActiveCfg = Release|x64
 		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.Build.0 = Release|x64
-		{083DBE4C-F4F4-FF99-5DFC-D8F549D39A8A}.Debug|x64.ActiveCfg = Debug|x64
-		{083DBE4C-F4F4-FF99-5DFC-D8F549D39A8A}.Debug|x64.Build.0 = Debug|x64
-		{083DBE4C-F4F4-FF99-5DFC-D8F549D39A8A}.Release|x64.ActiveCfg = Release|x64
-		{083DBE4C-F4F4-FF99-5DFC-D8F549D39A8A}.Release|x64.Build.0 = Release|x64
-		{45C8D955-31C2-02A8-1A2F-99B806C86814}.Debug|x64.ActiveCfg = Debug|x64
-		{45C8D955-31C2-02A8-1A2F-99B806C86814}.Debug|x64.Build.0 = Debug|x64
-		{45C8D955-31C2-02A8-1A2F-99B806C86814}.Release|x64.ActiveCfg = Release|x64
-		{45C8D955-31C2-02A8-1A2F-99B806C86814}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

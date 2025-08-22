@@ -6,7 +6,7 @@
 #include <tuple>
 #include <vector>
 
-
+#include "Core/UUID.h"
 #include "ECS/Components/Components.h"
 #include "Reflection/ReflectionMacros.h"
 
@@ -15,7 +15,8 @@
 namespace Luden
 {
 	class Entity;
-	using EntityID = std::size_t;
+
+	using PoolIndex = std::size_t;
 
 	using EntityComponentVectorTuple = std::tuple<
 		std::vector<Luden::CDamage>,
@@ -33,16 +34,28 @@ namespace Luden
 		std::vector<Luden::CTransform>
 	>;
 
+	using EntityID = UUID;
 	class ENGINE_API EntityMemoryPool
 	{
 		size_t m_NumEntities = 0;
-		EntityComponentVectorTuple m_Pool;
-		std::vector<std::string> m_Tags;
-		std::vector<bool> m_Active;
+		EntityComponentVectorTuple	m_Pool;
+		std::vector<std::string>	m_Tags;
+		std::vector<bool>			m_Active;
+		std::vector<UUID>			m_IDs;
+
+		std::unordered_map<UUID, PoolIndex> m_IdToIndex;
+		std::vector<PoolIndex>				m_FreeList;
+
+
+		size_t m_Capacity = 0;
+		size_t m_NumAlive = 0;
 
 		EntityMemoryPool(size_t maxEntities);
-		EntityID GetNextIndex();
 
+		PoolIndex AcquireIndex();
+		void EnsureSizedFor(PoolIndex index);
+		PoolIndex IndexOf(const UUID& entityID) const;
+		void ClearComponentsAt(PoolIndex index);
 	public:
 		static EntityMemoryPool& Instance()
 		{
@@ -50,45 +63,43 @@ namespace Luden
 			return instance;
 		}
 
-		void DestroyEntity(EntityID entityID);
+		Entity AddEntity(const std::string& tag);
+		void DestroyEntity(const EntityID& entityID);
+
+
+		const std::string& GetTag(const UUID& entityID) const;
+		bool IsActive(const EntityID& entityID) const;
 
 		template <typename T>
-		T& GetComponent(EntityID entityID)
+		T& GetComponent(const EntityID& entityID)
 		{
-			return std::get<std::vector<T>>(m_Pool)[entityID];
+			PoolIndex index = IndexOf(entityID);
+			return std::get<std::vector<T>>(m_Pool)[index];
 		}
 
 		template <typename T>
-		void RemoveComponent(EntityID entityID)
+		void RemoveComponent(const EntityID& entityID)
 		{
-			std::get<std::vector<T>>(m_Pool)[entityID].has = false;
+			PoolIndex index = IndexOf(entityID);
+			std::get<std::vector<T>>(m_Pool)[index].has = false;
 		}
 
 		template <typename T, typename... TArgs>
-		T& AddComponent(EntityID entityID, TArgs&&... args)
+		T& AddComponent(const EntityID& entityID, TArgs&&... args)
 		{
-			auto& component = GetComponent<T>(entityID);
+			PoolIndex index = IndexOf(entityID);
+
+			auto& component = GetComponent<T>(index);
 			component = T(std::forward<TArgs>(args)...);
 			component.has = true;
 			return component;
 		}
 
 		template <typename T>
-		bool HasComponent(EntityID entityID) const
+		bool HasComponent(const EntityID& entityID) const
 		{
-			return std::get<std::vector<T>>(m_Pool)[entityID].has;
+			PoolIndex index = IndexOf(entityID);
+			return std::get<std::vector<T>>(m_Pool)[index].has;
 		}
-
-		const std::string& GetTag(EntityID entityID) const
-		{
-			return m_Tags[entityID];
-		}
-
-		bool IsActive(EntityID entityID) const
-		{
-			return m_Active[entityID];
-		}
-
-		Entity AddEntity(const std::string& tag);
 	};
 }
