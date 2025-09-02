@@ -2,14 +2,12 @@
 
 #include "Resource/ResourceManagerBase.h"
 #include "Resource/ResourceMetadata.h"
+#include "Resource/ResourceRegistry.h"
 #include "EngineAPI.h"
 
 
 namespace Luden
 {
-
-	using ResourceRegistry = std::unordered_map<ResourceHandle, ResourceMetadata>;
-
 	class ENGINE_API EditorResourceManager : public ResourceManagerBase
 	{
 	public:
@@ -37,7 +35,7 @@ namespace Luden
 
 		// ------------- Editor-only ----------------
 		ResourceMetadata GetMetadata(ResourceHandle resourceHandle);
-		void SetMetadata(ResourceHandle handle, const ResourceMetadata& metadata);
+		void SetMetadata(ResourceHandle resourceHandle, const ResourceMetadata& metadata);
 		const ResourceMetadata& GetMetadata(const std::filesystem::path& filepath);
 
 		ResourceHandle ImportResource(const std::filesystem::path& filepath);

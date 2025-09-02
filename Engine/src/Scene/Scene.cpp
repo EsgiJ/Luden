@@ -4,10 +4,6 @@
 
 namespace Luden
 {
-	Scene::Scene(GameEngine* gameEngine)
-		: m_Game(gameEngine) {
-	}
-
 	void Scene::SetPaused(bool paused)
 	{
 		m_Paused = paused;
@@ -43,8 +39,8 @@ namespace Luden
     {
 		if (m_ViewportSize.x != 0)
 			return static_cast<float>(m_ViewportSize.x);
-		if (m_Game && m_Game->GetWindow().isOpen())
-			return static_cast<float>(m_Game->GetWindow().getSize().x);
+		if (GameEngine::Get().GetWindow().isOpen())
+			return static_cast<float>(GameEngine::Get().GetWindow().getSize().x);
 		return 0.0f;
     }
 
@@ -52,8 +48,8 @@ namespace Luden
     {
             if (m_ViewportSize.y != 0)
                     return static_cast<float>(m_ViewportSize.y);
-            if (m_Game && m_Game->GetWindow().isOpen())
-                    return static_cast<float>(m_Game->GetWindow().getSize().y);
+            if (GameEngine::Get().GetWindow().isOpen())
+                    return static_cast<float>(GameEngine::Get().GetWindow().getSize().y);
             return 0.0f;
     }
 
@@ -89,6 +85,83 @@ namespace Luden
 			sf::Vertex(sf::Vector2f(p2.x, p2.y))
 		};
 
-		m_Game->GetWindow().draw(line, 2, sf::PrimitiveType::Lines);
+		GameEngine::Get().GetWindow().draw(line, 2, sf::PrimitiveType::Lines);
 	}
+
+	std::unordered_set<ResourceHandle> Scene::GetResourceList()
+	{
+		std::unordered_set<ResourceHandle> resourceList;
+
+		for (auto& entity: m_EntityManager.GetEntities())
+		{
+			//Animation
+			for (auto animation: Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Animation))
+			{
+				resourceList.insert(animation);
+			}
+
+			//Font 
+			for (auto font : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Font))
+			{
+				resourceList.insert(font);
+			}
+
+			//CDamage Component
+			for (auto audio : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Audio))
+			{
+				resourceList.insert(audio);
+			}
+
+			//CDamage Component
+			for (auto scene : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Scene))
+			{
+				resourceList.insert(scene);
+			}
+
+			//CDamage Component
+			for (auto texture : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Texture))
+			{
+				resourceList.insert(texture);
+			}
+		}
+
+		return resourceList;
+	}
+
+	Entity Scene::CreateEntity(const std::string& tag)
+	{
+		return m_EntityManager.AddEntity(tag);
+	}
+
+	void Scene::DestroyEntity(const Entity& entity)
+	{
+		DestroyEntity(entity.UUID());
+	}
+
+	void Scene::DestroyEntity(const UUID& entityID)
+	{
+		m_EntityManager.DestroyEntity(entityID);
+	}
+	//TODO:
+	/*
+	Entity Scene::DuplicateEntity(const Entity& entity)
+	{
+		return Entity();
+	}
+
+	Entity Scene::GetEntityWithUUID(const UUID& uuid) const
+	{
+		return Entity();
+	}
+
+	Entity Scene::TryGetEntityWithUUID(const UUID& uuid)
+	{
+		return Entity();
+	}
+
+	Entity Scene::TryGetEntityWithTag(const std::string& tag)
+	{
+		return Entity();
+	}
+	*/
 }

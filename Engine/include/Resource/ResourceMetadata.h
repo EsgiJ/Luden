@@ -17,10 +17,10 @@ namespace Luden
 		Loading = 3
 	};
 
-	struct ENGINE_API ResourceMetadata
+	struct ResourceMetadata
 	{
 		ResourceHandle Handle = 0;
-		ResourceType Type;
+		ResourceType Type = ResourceType::None;
 		std::filesystem::path FilePath;
 
 		ResourceStatus Status = ResourceStatus::None;

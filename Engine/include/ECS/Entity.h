@@ -18,14 +18,6 @@ namespace Luden
 
 	class ENGINE_API Entity
 	{
-	private:
-		friend class EntityMemoryPool;
-
-		EntityID m_UUID;
-
-		Entity() = default;
-		explicit Entity(EntityID uuid);
-
 	public:
 		void Destroy();
 
@@ -64,5 +56,13 @@ namespace Luden
 		void Remove() const {
 			EntityMemoryPool::Instance().RemoveComponent<T>(m_UUID);
 		}
+
+	private:
+		Entity();
+		explicit Entity(EntityID uuid);
+
+		EntityID m_UUID;
+
+		friend class EntityMemoryPool;
 	};
 }

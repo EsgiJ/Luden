@@ -7,6 +7,7 @@
 #include "IO/FileSystem.h"
 #include "Project/Project.h"
 #include "Resource/ResourceManager.h"
+#include "Scene/Scene.h"
 #include "Scene/SceneSerializer.h"
 
 #include <SFML/Graphics.hpp>
@@ -32,16 +33,28 @@ namespace Luden
 	{
 		outInfo.Offset = stream.GetStreamPosition();
 
-		auto metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
-		std::shared_ptr<Texture> texture = ResourceManager::GetResource<Texture>(handle);
-		outInfo.Size = TextureRuntimeSerializer::SerializeTextureToFile(texture, stream);
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(handle);
+		Buffer textureData = FileSystem::ReadBytes(path);
+		stream.WriteBuffer(textureData);
+
+		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
 		return true;
 	}
 
 	std::shared_ptr<Resource> TextureSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
 	{
 		stream.SetStreamPosition(resourceInfo.PackedOffset);
-		return TextureRuntimeSerializer::DeserializeTexture(stream);
+
+		Buffer textureData;
+		stream.ReadBuffer(textureData);
+
+		auto texture = std::make_shared <Texture>();
+		sf::Texture sfTexture;
+		if (!sfTexture.loadFromMemory(textureData.Data, textureData.GetSize()))
+			return nullptr;
+
+		texture->SetTexture(sfTexture);
+		return texture;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -76,8 +89,6 @@ namespace Luden
 	{
 		stream.SetStreamPosition(resourceInfo.PackedOffset);
 
-		std::string name;
-		stream.ReadString(name);
 		Buffer fontData;
 		stream.ReadBuffer(fontData);
 
@@ -202,19 +213,92 @@ namespace Luden
 		return false;
 	}
 
-	std::shared_ptr<Resource> SceneResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
-	{
-		// Not implemented
-		return nullptr;
-	}
-
 	std::shared_ptr<Scene> SceneResourceSerializer::DeserializeSceneFromResourcePack(FileStreamReader& stream, const ResourcePackFile::SceneInfo& sceneInfo) const
 	{
-		std::shared_ptr<Scene> scene = std::shared_ptr<Scene>();
+		std::shared_ptr<Scene> scene = std::make_shared<Scene>();
 		SceneSerializer serializer(scene);
 		if (serializer.DeserializeFromResourcePack(stream, sceneInfo))
 			return scene;
 
 		return nullptr;
 	}
+
+//////////////////////////////////////////////////////////////////////////////////
+// AnimationResourceSerializer
+//////////////////////////////////////////////////////////////////////////////////
+
+	void AnimationResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const
+	{
+		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
+
+		// JSON 
+		nlohmann::json j;
+		j["Name"] = anim->GetName();
+		j["FrameCount"] = anim->GetFrameCount();
+		j["Size"] = { anim->GetSize().x, anim->GetSize().y };
+		j["TextureHandle"] = static_cast<uint64_t>(anim->GetTextureHandle());
+
+		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
+		out << j.dump(4);
+	}
+
+	bool AnimationResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	{
+		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
+
+		std::ifstream in(metadata.FilePath);
+		if (!in.is_open())
+			return false;
+
+		nlohmann::json j;
+		in >> j;
+
+		std::string name = j["Name"];
+		size_t frameCount = j["FrameCount"];
+		Math::Vec2 size = { j["Size"][0], j["Size"][1] };
+		ResourceHandle textureHandle = j["TextureHandle"].get<uint64_t>();
+
+		anim->SetName(name);
+		anim->SetFrameCount(frameCount);
+		anim->SetSize(size);
+		anim->SetTextureHandle(textureHandle);
+		anim->SetSprite(Graphics::Animation::MakeSpriteFromHandle(textureHandle));
+
+		return true;
+	}
+
+	bool AnimationResourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
+	{
+		outInfo.Offset = stream.GetStreamPosition();
+
+		std::shared_ptr<Graphics::Animation> anim = ResourceManager::GetResource<Graphics::Animation>(handle);
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(handle);
+		Buffer animData = FileSystem::ReadBytes(path);
+		stream.WriteBuffer(animData);
+
+		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
+		return true;
+	}
+
+	std::shared_ptr<Resource> AnimationResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	{
+		stream.SetStreamPosition(resourceInfo.PackedOffset);
+
+		Buffer animData;
+		stream.ReadBuffer(animData);
+
+		nlohmann::json j = nlohmann::json::parse(std::string((char*)animData.Data, animData.GetSize()));
+
+		std::string name = j["Name"].get<std::string>();
+		size_t frameCount = j["FrameCount"].get<size_t>();
+		size_t speed = j["Speed"].get<size_t>();
+		Math::Vec2 size = { j["Size"][0], j["Size"][1] };
+		ResourceHandle textureHandle = j["TextureHandle"].get<uint64_t>();
+
+		auto anim = std::make_shared<Graphics::Animation>(name, textureHandle, frameCount, speed);
+		anim->SetSize(size);
+
+		return anim;
+	}
+
 }

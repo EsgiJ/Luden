@@ -145,8 +145,8 @@ project "Editor"
         "extern/SFML/include",
         "extern/sol2/single",
         "extern/Lua",
-        "extern/rttr/src",
         "extern/json/include",
+        "extern/IconFontCppHeaders",
         "Tools"
     }
     

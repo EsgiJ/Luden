@@ -16,7 +16,7 @@ namespace Luden
 		static void Init();
 		static void Serialize(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource);
 		static void Serialize(const std::shared_ptr<Resource> resource);
-		static void TryLoadData(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource);
+		static bool TryLoadData(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource);
 
 		static bool SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo outInfo);
 		static std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo);

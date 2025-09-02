@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\json\include;..\extern\IconFontCppHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\json\include;..\extern\IconFontCppHeaders;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -83,7 +83,7 @@ copy /B /Y "..\bin\Debug-windows-x86_64\Engine\Engine.dll" "..\bin\Debug-windows
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>EDITOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\json\include;..\extern\IconFontCppHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\Engine\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\Lua;..\extern\json\include;..\extern\IconFontCppHeaders;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -111,11 +111,11 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClInclude Include="include\Core\EditorState.h" />
     <ClInclude Include="include\EditorAPI.h" />
     <ClInclude Include="include\GUI\ImGuiStyle.h" />
-    <ClInclude Include="include\Panels\AssetBrowserPanel.h" />
     <ClInclude Include="include\Panels\ConsolePanel.h" />
     <ClInclude Include="include\Panels\InspectorPanel.h" />
     <ClInclude Include="include\Panels\Panel.h" />
     <ClInclude Include="include\Panels\ProfilerPanel.h" />
+    <ClInclude Include="include\Panels\ResourceBrowserPanel.h" />
     <ClInclude Include="include\Panels\SceneHierarchyPanel.h" />
     <ClInclude Include="include\Panels\SceneSettingsPanel.h" />
   </ItemGroup>
@@ -129,11 +129,11 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Core\EditorApp.cpp" />
     <ClCompile Include="src\Core\EditorState.cpp" />
-    <ClCompile Include="src\Panels\AssetBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\ConsolePanel.cpp" />
     <ClCompile Include="src\Panels\InspectorPanel.cpp" />
     <ClCompile Include="src\Panels\Panel.cpp" />
     <ClCompile Include="src\Panels\ProfilerPanel.cpp" />
+    <ClCompile Include="src\Panels\ResourceBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Panels\SceneSettingsPanel.cpp" />
   </ItemGroup>

@@ -1,5 +1,6 @@
 #include "Physics/Physics.h"
 
+#include "Project/Project.h"
 #include "ECS/Components/Components.h"
 
 namespace Luden
@@ -28,8 +29,10 @@ namespace Luden
 
 	bool Physics::IsInside(const Math::Vec2& pos, const Entity& entity)
 	{
-		auto anim = entity.Get<CAnimation>().animation;
-		Math::Vec2 size = anim.GetSize();
+		auto cAnim = entity.Get<CAnimation>();
+		auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(cAnim.animationHandle));
+
+		Math::Vec2 size = anim->GetSize();
 		Math::Vec2 ePos = entity.Get<CTransform>().pos;
 
 		return (pos.x > ePos.x - size.x / 2 && 

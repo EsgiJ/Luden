@@ -5,8 +5,11 @@
 #include "Resource/ResourceMetadata.h"
 #include "Serialization/ResourcePackFile.h"
 
+#include <memory>
+
 namespace Luden
 {
+	class Scene;
 
 	struct ENGINE_API ResourceSerializationInfo
 	{
@@ -41,7 +44,7 @@ namespace Luden
 		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
-		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const = 0;
+		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
 
 	class AudioFileSourceSerializer : public ResourceSerializer
@@ -81,10 +84,10 @@ namespace Luden
 	class AnimationResourceSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override {}
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override;
 		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
-		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const = 0;
+		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
 }

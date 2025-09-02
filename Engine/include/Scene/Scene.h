@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_set>
 
 #include <SFML/Window.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -11,6 +12,7 @@
 #include "EngineAPI.h"
 #include "ECS/EntityMemoryPool.h"
 #include "ECS/EntityManager.h"
+#include "ECS/Entity.h"
 #include "Input/Action.h"
 #include "Math/Vec2.h"
 #include "Resource/Resource.h"
@@ -24,7 +26,6 @@ namespace Luden {
 	{
 	public:
 		Scene() = default;
-		explicit Scene(GameEngine* gameEngine);
 		virtual ~Scene() = default;
 
 		virtual void Update() = 0;
@@ -54,9 +55,28 @@ namespace Luden {
 
 		const std::string& GetName() const { return m_Name; }
 		void SetName(const std::string& name) { m_Name = name; }
-	protected:
-		std::shared_ptr<GameEngine> m_Game = nullptr;
 
+		std::unordered_set<ResourceHandle> GetResourceList();
+
+		//Entity Methods
+		Entity CreateEntity(const std::string& tag = "");
+		void DestroyEntity(const Entity& entity);
+		void DestroyEntity(const UUID& entityID);
+		//TODO:
+		/*
+		Entity DuplicateEntity(const Entity& entity);
+
+		// return entity with id as specified. entity is expected to exist (runtime error if it doesn't)
+		Entity GetEntityWithUUID(const UUID& uuid) const;
+
+		Entity TryGetEntityWithUUID(const UUID& uuid);
+		Entity TryGetEntityWithTag(const std::string& tag);
+		*/
+
+		static ResourceType GetStaticType() { return ResourceType::Scene; }
+		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
+
+	protected:
 		EntityManager m_EntityManager;
 		ActionMap m_ActionMap;
 		bool m_Paused = false;

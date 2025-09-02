@@ -110,15 +110,27 @@ namespace Luden
 			if (e.Has<CAnimation>())
 			{
 				const auto& c = e.Get<CAnimation>();
+				auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(c.animationHandle));
+
 				jEntity["CAnimation"] = {
 					{ "repeat", c.repeat },
-					{ "name", c.animation.GetName() },
-					{ "frameCount", c.animation.GetFrameCount() },
-					{ "currentFrame", 0 },
-					{ "speed", c.animation.GetSpeed() },
-					{ "size", { c.animation.GetSize().x, c.animation.GetSize().y } },
-					{ "textureHandle", static_cast<uint64_t>(c.animation.GetTextureHandle()) }
+					{ "name", anim->GetName() },
+					{ "frameCount", anim->GetFrameCount() },
+					{ "currentFrame", c.currentFrame },
+					{ "speed", c.speed },
+					{ "size", { anim->GetSize().x, anim->GetSize().y } },
+					{ "textureHandle", static_cast<uint64_t>(anim->GetTextureHandle()) }
 				};
+			}
+
+			if (e.Has<CFont>())
+			{
+				jEntity["CFont"]["fontHandle"] = static_cast<uint64_t>(e.Get<CFont>().fontHandle);
+			}
+
+			if (e.Has<CTexture>())
+			{
+				jEntity["CTexture"]["textureHandle"] = static_cast<uint64_t>(e.Get<CTexture>().textureHandle);
 			}
 
 			if (e.Has<CInvincibility>())
@@ -193,7 +205,7 @@ namespace Luden
 
 			if (jEntity.contains("CDraggable"))
 			{
-				e.Add<CDraggable>(jEntity["CDraggable"]["dragging"]);
+				e.Add<CDraggable>(jEntity["CDraggable"]["dragging"].get<bool>());
 			}
 
 			if (jEntity.contains("CFollowPlayer"))
@@ -215,14 +227,14 @@ namespace Luden
 
 			if (jEntity.contains("CInput"))
 			{
-				e.Add<CInput>(
-					jEntity["CInput"]["up"],
-					jEntity["CInput"]["down"],
-					jEntity["CInput"]["left"],
-					jEntity["CInput"]["right"],
-					jEntity["CInput"]["attack"],
-					jEntity["CInput"]["canAttack"]
-				);
+				e.Add<CInput>();
+				auto cInput = e.Get<CInput>();
+				cInput.up = jEntity["CInput"]["up"];
+				cInput.down = jEntity["CInput"]["down"];
+				cInput.left = jEntity["CInput"]["left"];
+				cInput.right = jEntity["CInput"]["right"];
+				cInput.attack = jEntity["CInput"]["attack"];
+				cInput.canAttack = jEntity["CInput"]["canAttack"];
 			}
 
 			if (jEntity.contains("CBoundingBox"))
@@ -260,10 +272,11 @@ namespace Luden
 			if (jEntity.contains("CState"))
 			{
 				e.Add<CState>(
-					jEntity["CState"]["state"],
-					jEntity["CState"]["previousState"],
-					jEntity["CState"]["changeAnimation"]
+					jEntity["CState"]["state"]
 				);
+				auto cState = e.Get<CState>();
+				cState.previousState = jEntity["CState"]["previousState"],
+				cState.changeAnimation = jEntity["CState"]["changeAnimation"];
 			}
 
 			if (jEntity.contains("CTransform"))
@@ -293,8 +306,7 @@ namespace Luden
 				Graphics::Animation anim(
 					jAnim["name"].get<std::string>(),
 					texHandle,
-					jAnim["frameCount"].get<size_t>(),
-					jAnim["speed"].get<size_t>()
+					jAnim["frameCount"].get<size_t>()
 				);
 
 				anim.SetSize({
@@ -303,8 +315,10 @@ namespace Luden
 					});
 
 				bool repeat = jAnim["repeat"].get<bool>();
+				size_t speed = jAnim["speed"].get<size_t>();
+				size_t currentFrame = jAnim["currentFrame"].get<size_t>();
 
-				auto& c = e.Add<CAnimation>(anim, repeat);
+				auto& c = e.Add<CAnimation>(anim, speed, currentFrame, repeat);
 			}
 		}
 

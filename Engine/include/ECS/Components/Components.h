@@ -2,6 +2,8 @@
 
 #include "ECS/IComponent.h"
 #include "Graphics/Animation.h"
+#include "Graphics/Font.h"
+#include "Graphics/Texture.h"
 #include "Math/Vec2.h"
 #include "Reflection/ReflectionMacros.h"
 
@@ -23,6 +25,8 @@ namespace Luden
 		bool dragging = false;
 
 		CDraggable() = default;
+
+		CDraggable(bool d) : dragging(d) {}
 	};
 
 	struct ENGINE_API CFollowPlayer : public IComponent
@@ -68,6 +72,8 @@ namespace Luden
 		bool canAttack = true;
 
 		CInput() = default;
+
+		explicit CInput(bool up, bool down);
 	};
 
 	struct ENGINE_API CBoundingBox : public IComponent
@@ -89,10 +95,34 @@ namespace Luden
 	struct ENGINE_API CAnimation : public IComponent
 	{
 	public:
-		Graphics::Animation animation;
+		ResourceHandle animationHandle;
+		size_t speed = 0;
+		size_t currentFrame = 0;
+
 		bool repeat = false;
 
-		CAnimation(Graphics::Animation a, bool r) : animation(a), repeat(r) {};
+		CAnimation() = default;
+		CAnimation(ResourceHandle a, size_t s, size_t cf, bool r) : animationHandle(a), speed(s), currentFrame(cf), repeat(r) {};
+	};
+
+	struct ENGINE_API CFont : public IComponent
+	{
+	public:
+		ResourceHandle fontHandle;
+		
+		CFont() = default;
+
+		CFont(ResourceHandle f) : fontHandle(f) {};
+	};
+
+	struct ENGINE_API CTexture : public IComponent
+	{
+	public:
+		ResourceHandle textureHandle;
+
+		CTexture() = default;
+
+		CTexture(ResourceHandle t) : textureHandle(t) {};
 	};
 
 	struct ENGINE_API CInvincibility : public IComponent

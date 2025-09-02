@@ -10,17 +10,17 @@ namespace Luden
 	class ENGINE_API ResourceManager
 	{
 	public:
-		static bool IsResourceHandleValid(ResourceHandle assetHandle) { return Project::GetResourceManager()->IsResourceHandleValid(assetHandle); }
-		static bool IsResourceValid(ResourceHandle assetHandle) { return Project::GetResourceManager()->IsResourceValid(assetHandle); }
+		static bool IsResourceHandleValid(ResourceHandle resourceHandle) { return Project::GetResourceManager()->IsResourceHandleValid(resourceHandle); }
+		static bool IsResourceValid(ResourceHandle resourceHandle) { return Project::GetResourceManager()->IsResourceValid(resourceHandle); }
 
-		static bool IsResourceMissing(ResourceHandle assetHandle) { return Project::GetResourceManager()->IsResourceMissing(assetHandle); }
+		static bool IsResourceMissing(ResourceHandle resourceHandle) { return Project::GetResourceManager()->IsResourceMissing(resourceHandle); }
 
 
-		static bool ReloadData(ResourceHandle assetHandle) { return Project::GetResourceManager()->ReloadData(assetHandle); }
-		static bool EnsureCurrent(ResourceHandle assetHandle) { return Project::GetResourceManager()->EnsureCurrent(assetHandle); }
+		static bool ReloadData(ResourceHandle resourceHandle) { return Project::GetResourceManager()->ReloadData(resourceHandle); }
+		static bool EnsureCurrent(ResourceHandle resourceHandle) { return Project::GetResourceManager()->EnsureCurrent(resourceHandle); }
 		static bool EnsureAllLoadedCurrent() { return Project::GetResourceManager()->EnsureAllLoadedCurrent(); }
 
-		static ResourceType GetResourceType(ResourceHandle assetHandle) { return Project::GetResourceManager()->GetResourceType(assetHandle); }
+		static ResourceType GetResourceType(ResourceHandle resourceHandle) { return Project::GetResourceManager()->GetResourceType(resourceHandle); }
  
 		//TODO
 		//static std::shared_ptr<Resource> GetPlaceholderResource(ResourceType type);

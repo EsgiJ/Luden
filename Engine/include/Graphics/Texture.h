@@ -16,6 +16,9 @@ namespace Luden
 		sf::Texture& GetTexture() { return m_Texture; }
 
 		void SetTexture(const sf::Texture& texture) { m_Texture = texture; }
+
+		static ResourceType GetStaticType() { return ResourceType::Texture; }
+		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 	private:
 		sf::Texture m_Texture;
 	};

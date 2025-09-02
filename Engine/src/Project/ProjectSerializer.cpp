@@ -17,8 +17,10 @@ namespace Luden
 		json jProject;
 
 		jProject["Name"] = config.Name;
+		jProject["ResourceDirectory"] = config.ResourceDirectory;
+		jProject["ResourceRegistry"] = config.ResourceRegistryPath;
 		jProject["StartScene"] = config.StartScene.string();
-		jProject["ResourceDirectory"] = config.ResourceDirectory.string();
+
 
 		std::ofstream out(path);
 		if (!out.is_open())
@@ -42,11 +44,14 @@ namespace Luden
 		if (jProject.contains("Name"))
 			config.Name = jProject["Name"].get<std::string>();
 
-		if (jProject.contains("StartScene"))
-			config.Name = jProject["StartScene"].get<std::filesystem::path>();
-
 		if (jProject.contains("ResourceDirectory"))
-			config.Name = jProject["ResourceDirectory"].get<std::filesystem::path>();
+			config.ResourceDirectory = jProject["ResourceDirectory"].get<std::string>();
+
+		if (jProject.contains("ResourceRegistry"))
+			config.ResourceRegistryPath = jProject["ResourceRegistry"].get<std::string>();
+
+		if (jProject.contains("StartScene"))
+			config.StartScene = jProject["StartScene"].get<std::string>();
 
 		return true;
 	}

@@ -6,7 +6,7 @@
 
 namespace Luden
 {
-	inline static std::unordered_map<std::string, ResourceType> s_ResourceExtensionMap = 
+	inline static std::unordered_map<std::string, ResourceType> s_ResourceExtensionMap =
 	{
 		// Luden types
 		{".lscene", ResourceType::Scene},
@@ -27,5 +27,5 @@ namespace Luden
 		{".ttf", ResourceType::Font},
 		{".ttc", ResourceType::Font},
 		{".otf", ResourceType::Font},
-	}
+	};
 }

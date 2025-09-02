@@ -10,15 +10,16 @@ namespace Luden
 	EntityManager::EntityManager() = default;
 
 	void EntityManager::Update() {
-		for (const auto& entity : m_entitiesToAdd) {
-			m_entities.push_back(entity);
-			m_entityMap[entity.Tag()].push_back(entity);
+		for (const auto& entity : m_EntitiesToAdd) {
+			m_Entities.push_back(entity);
+			m_EntityMap[entity.Tag()].push_back(entity);
 		}
-		m_entitiesToAdd.clear();
 
-		RemoveDeadEntities(m_entities);
+		m_EntitiesToAdd.clear();
 
-		for (auto& [tag, entityVec] : m_entityMap) {
+		RemoveDeadEntities(m_Entities);
+
+		for (auto& [tag, entityVec] : m_EntityMap) {
 			RemoveDeadEntities(entityVec);
 		}
 	}
@@ -34,20 +35,62 @@ namespace Luden
 
 	Entity EntityManager::AddEntity(const std::string& tag) {
 		Entity entity = EntityMemoryPool::Instance().AddEntity(tag);
-		m_entitiesToAdd.push_back(entity);
+		m_EntitiesToAdd.push_back(entity);
 
 		return entity;
 	}
 
+	void DestroyEntity(const EntityID& uuid)
+	{
+		EntityMemoryPool::Instance().DestroyEntity(uuid);
+	}
+
 	EntityVec& EntityManager::GetEntities() {
-		return m_entities;
+		return m_Entities;
 	}
 
 	EntityVec& EntityManager::GetEntities(const std::string& tag) {
-		return m_entityMap[tag];
+		return m_EntityMap[tag];
 	}
 
 	const EntityMap& EntityManager::GetEntityMap() {
-		return m_entityMap;
+		return m_EntityMap;
 	}
+	const EntityVec& EntityManager::GetEntityVec()
+	{
+		return m_Entities;
+	}
+
+	void EntityManager::Clear()
+	{
+		m_Entities.clear();
+		m_EntitiesToAdd.clear();
+		m_EntityMap.clear();
+		m_TotalEntities = 0;
+		EntityMemoryPool::Instance().Clear();
+	}
+
+	//TODO:
+	/*
+	const Entity& EntityManager::TryGetEntityWithUUID(const UUID& uuid) const
+	{
+		for (const Entity& entity: m_Entities)
+		{
+			if (entity.UUID() == uuid)
+				return entity;
+		}
+	}
+	Entity& EntityManager::TryGetEntityWithUUID()
+	{
+		// TODO: insert return statement here
+	}
+	const Entity& EntityManager::TryGetEntityWithTag() const
+	{
+		// TODO: insert return statement here
+	}
+	Entity& EntityManager::TryGetEntityWithTag()
+	{
+		// TODO: insert return statement here
+	}
+	*/
 }

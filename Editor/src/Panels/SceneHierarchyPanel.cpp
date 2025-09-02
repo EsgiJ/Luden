@@ -23,7 +23,7 @@ namespace Luden::Editor
 
 		for (auto& entity: entities)
 		{
-			std::string label = "[" + std::to_string(entity.Id()) + "] " + entity.Tag();
+			std::string label = "[" + std::to_string(entity.UUID()) + "] " + entity.Tag();
 
 			if (ImGui::Selectable(label.c_str(), false))
 			{

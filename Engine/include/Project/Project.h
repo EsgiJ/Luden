@@ -45,7 +45,7 @@ namespace Luden
 
 		static const std::filesystem::path& GetProjectDirectory()
 		{
-			return s_ActiveProject->GetConfig().ProjectDirectory;
+			return std::filesystem::path(s_ActiveProject->GetConfig().ProjectDirectory);
 		}
 
 		const std::filesystem::path& GetResourceDirectory()

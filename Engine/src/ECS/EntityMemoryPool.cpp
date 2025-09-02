@@ -72,7 +72,7 @@ namespace Luden
 			}, m_Pool);
 	}
 
-	Entity EntityMemoryPool::AddEntity(const std::string& tag)
+	Entity& EntityMemoryPool::AddEntity(const std::string& tag)
 	{
 		UUID id;
 
@@ -86,11 +86,12 @@ namespace Luden
 		m_IdToIndex.emplace(id, idx);
 
 		++m_NumAlive;
+		Entity entity(id);
 
-		return Entity(id);
+		return entity;
 	}
 
-	void EntityMemoryPool::DestroyEntity(const UUID& entityID)
+	void EntityMemoryPool::DestroyEntity(const EntityID& entityID)
 	{
 		PoolIndex idx = IndexOf(entityID);
 
@@ -105,13 +106,29 @@ namespace Luden
 			--m_NumAlive;
 	}
 
+	void EntityMemoryPool::Clear()
+	{
+		m_Tags.clear();
+		m_Active.clear();
+		m_IDs.clear();
+		m_IdToIndex.clear();
+		m_FreeList.clear();
+		m_NumAlive = 0;
+
+		// Clear all component vectors
+		std::apply([&](auto&... vecs)
+			{
+				(..., vecs.clear());
+			}, m_Pool);
+	}
+
 	const std::string& EntityMemoryPool::GetTag(const UUID& entityID) const
 	{
 		PoolIndex idx = IndexOf(entityID);
 		return m_Tags[idx];
 	}
 
-	bool EntityMemoryPool::IsActive(const UUID& entityID) const
+	bool EntityMemoryPool::IsActive(const EntityID& entityID) const
 	{
 		PoolIndex idx = IndexOf(entityID);
 		return m_Active[idx];

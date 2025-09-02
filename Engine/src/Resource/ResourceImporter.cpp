@@ -24,11 +24,11 @@ namespace Luden
 		const ResourceMetadata& metadata = Project::GetEditorResourceManager()->GetMetadata(resource->Handle);
 		Serialize(metadata, resource);
 	}
-	void ResourceImporter::TryLoadData(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource)
+	bool ResourceImporter::TryLoadData(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource)
 	{
 		if (s_Serializers.find(metadata.Type) == s_Serializers.end())
-			return;
-		s_Serializers[metadata.Type]->TryLoadData(metadata, resource);
+			return false;
+		return s_Serializers[metadata.Type]->TryLoadData(metadata, resource);
 	}
 	bool ResourceImporter::SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo outInfo)
 	{

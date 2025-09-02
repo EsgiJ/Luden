@@ -2,19 +2,15 @@
 
 #include "GUI/ImGuiStyle.h"
 #include "Panels/SceneHierarchyPanel.h"
-#include "Panels/AssetBrowserPanel.h"
+#include "Panels/ResourceBrowserPanel.h"
 #include "Panels/InspectorPanel.h"
 #include "Panels/ConsolePanel.h"
 #include "Panels/ProfilerPanel.h"
 #include "Panels/SceneSettingsPanel.h"
 #include "Core/EditorState.h"
-#include "Scene/Scene_Zelda.h"
-#include "IO/DiskFileSystem.h"
-#include "Resource/RuntimeResourceDatabase.h"
+#include "IO/FileSystem.h"
 #include "Resource/ResourceManager.h"
-#include "Resource/TextureResource.h"
-#include "Resource/SoundResource.h"
-#include "Resource/FontResource.h"
+
 
 #include <filesystem>
 #include <iostream>
@@ -36,7 +32,7 @@ namespace Luden::Editor {
 		// Create Panels to draw
 		m_Panels.clear();
 		m_Panels.emplace_back(std::make_unique<SceneHierarchyPanel>());
-		m_Panels.emplace_back(std::make_unique<AssetBrowserPanel>());
+		m_Panels.emplace_back(std::make_unique<ResourceBrowserPanel>());
 
 		for (auto& p : m_Panels) {
 			auto it = loaded.m_PanelStates.find(p->GetName());
@@ -63,23 +59,7 @@ namespace Luden::Editor {
 		ImGuiContext* ctx = ImGui::GetCurrentContext();
 
 		//Initialize Engine
-		GameEngine::Initialize(m_Window, ctx, "config/assets.txt", true);
-
-		std::filesystem::path resJson = "Game/Resources/resources.json";
-		if (std::filesystem::exists(resJson))
-		{
-			auto rm = GameEngine::Get().GetResourceManager();
-			auto diskFS = std::make_shared<DiskFileSystem>();
-			rm->SetFileSystem(diskFS);
-
-			auto runtimeDb = std::make_shared<RuntimeResourceDatabase>();
-			runtimeDb->LoadFromJSON(resJson.string());
-			rm->SetRuntimeDatabase(runtimeDb);
-
-			rm->RegisterType("Texture", []() { return std::make_shared<TextureResource>(); });
-			rm->RegisterType("Sound", []() { return std::make_shared<SoundResource>(); });
-			rm->RegisterType("Font", []() { return std::make_shared<FontResource>(); });
-		}
+		GameEngine::Initialize(m_Window, ctx, "config/resources.txt", true);
 	}
 
 	void EditorApp::Run() {
@@ -101,7 +81,9 @@ namespace Luden::Editor {
 			RenderDockSpace();
 			RenderTitleBar();
 
-			for (auto& panel : m_Panels) panel->Render();
+			for (auto& panel : m_Panels) 
+				panel->Render();
+
 			Render();
 
 			ImGui::SFML::Render(m_Window);
@@ -159,7 +141,7 @@ namespace Luden::Editor {
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Save All")) { /* Save scene/assets logic */ }
+				if (ImGui::MenuItem("Save All")) { /* Save scene/resources logic */ }
 				if (ImGui::MenuItem("Exit")) { m_IsRunning = false; }
 				ImGui::EndMenu();
 			}
@@ -226,7 +208,7 @@ namespace Luden::Editor {
 
 			// Dock panels to regions
 			ImGui::DockBuilderDockWindow("Scene Hierarchy", dock_left);
-			ImGui::DockBuilderDockWindow("Assets", dock_left);
+			ImGui::DockBuilderDockWindow("Resources", dock_left);
 			ImGui::DockBuilderDockWindow("Inspector", dock_right_top);
 			ImGui::DockBuilderDockWindow("Console", dock_right_bottom);
 			ImGui::DockBuilderDockWindow("Profiler", dock_bottom);
@@ -298,7 +280,7 @@ namespace Luden::Editor {
 		ImFontConfig icons_config;
 		icons_config.MergeMode = true;
 		icons_config.PixelSnapH = true;
-		io.Fonts->AddFontFromFileTTF("assets/fonts/fa-solid-900.ttf", 14.0f, &icons_config, icons_ranges);
+		io.Fonts->AddFontFromFileTTF("resources/fonts/fa-solid-900.ttf", 14.0f, &icons_config, icons_ranges);
 
 		ImGui::SFML::UpdateFontTexture();
 	}

@@ -44,7 +44,7 @@ namespace Luden
 			return ResourceType::None;
 		}
 
-		inline const char* AssetTypeToString(const ResourceType& resourceType)
+		inline const char* ResourceTypeToString(const ResourceType& resourceType)
 		{
 			switch (resourceType)
 			{

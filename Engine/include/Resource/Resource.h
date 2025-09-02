@@ -42,6 +42,4 @@ namespace Luden
 				Flags &= ~(uint16_t)flag;
 		}
 	};
-
-	using ResourceID = std::string;
 }

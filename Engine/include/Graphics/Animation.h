@@ -17,10 +17,7 @@ namespace Luden::Graphics
 	{
 	public:
 		Animation(const std::string& name, const ResourceHandle& textureHandle);
-		Animation(const std::string& name, const ResourceHandle& textureHandle, size_t frameCount, size_t speed);
-
-		void Update();
-		bool HasEnded() const;
+		Animation(const std::string& name, const ResourceHandle& textureHandle, size_t frameCount);
 
 		const sf::Sprite& GetSprite() const { return m_Sprite; }
 		sf::Sprite& GetSprite() { return m_Sprite; }
@@ -28,9 +25,6 @@ namespace Luden::Graphics
 
 		const size_t GetFrameCount() const { return m_FrameCount; }
 		void SetFrameCount(size_t frameCount) { m_FrameCount = frameCount; }
-
-		const size_t GetSpeed() const { return m_Speed; }
-		void SetSpeed(size_t speed) { m_Speed = speed; }
 
 		const std::string& GetName() const { return m_Name; }
 		void SetName(const std::string& name) { m_Name = name; }
@@ -43,11 +37,13 @@ namespace Luden::Graphics
 		void SetTextureHandle(const ResourceHandle& textureHandle) { m_TextureHandle = textureHandle; }
 
 		static sf::Sprite MakeSpriteFromHandle(const ResourceHandle& handle);
+		
+		static ResourceType GetStaticType() { return ResourceType::Animation; }
+		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
+
 	private:
 		sf::Sprite m_Sprite;
 		size_t m_FrameCount = 1;
-		size_t m_CurrentFrame = 0;
-		size_t m_Speed = 0;
 		Math::Vec2 m_Size = { 1, 1 };
 		std::string m_Name = "None";
 		ResourceHandle m_TextureHandle;

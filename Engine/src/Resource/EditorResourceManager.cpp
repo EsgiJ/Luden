@@ -1,12 +1,10 @@
-#include "EditorResourceManager.h"
-#include "EditorResourceManager.h"
-#include "EditorResourceManager.h"
-#include "EditorResourceManager.h"
-
 #include "Resource/EditorResourceManager.h"
+
+#include "Project/Project.h"
 #include "Resource/ResourceExtensions.h"
+#include "Resource/ResourceImporter.h"
 #include "Resource/ResourceMetadata.h"
-#include "IO/DiskFileSystem.h"
+#include "IO/FileSystem.h"
 
 #include <nlohmann/json.hpp>
 
@@ -35,7 +33,7 @@ namespace Luden
 		if (!IsResourceHandleValid(resourceHandle))
 			return ResourceType::None;
 
-		const auto& metadata = GetMetadata();
+		const auto& metadata = GetMetadata(resourceHandle);
 		return metadata.Type;
 	}
 	std::shared_ptr<Resource> EditorResourceManager::GetResource(ResourceHandle resourceHandle)
@@ -43,7 +41,7 @@ namespace Luden
 		if (!IsResourceHandleValid(resourceHandle))
 			return nullptr;
 
-		std::shared_ptr<Resource> resource;
+		std::shared_ptr<Resource> resource = nullptr;
 
 		if (IsResourceLoaded(resourceHandle))
 		{
@@ -52,8 +50,8 @@ namespace Luden
 		else
 		{
 			const ResourceMetadata& metadata = GetMetadata(resourceHandle);
-			resource = ResourceImporter::ImportResource(resourceHandle, metadata);
-			if (!resource)
+
+			if (!ResourceImporter::TryLoadData(metadata, resource))
 			{
 				assert(resource && "Resource import failed!");
 			}
@@ -69,7 +67,7 @@ namespace Luden
 	bool EditorResourceManager::EnsureCurrent(ResourceHandle resourceHandle)
 	{
 		//TODO
-		return true |
+		return true;
 	}
 	bool EditorResourceManager::EnsureAllLoadedCurrent()
 	{
@@ -90,7 +88,7 @@ namespace Luden
 	bool EditorResourceManager::IsResourceMissing(ResourceHandle resourceHandle)
 	{
 		auto metadata = GetMetadata(resourceHandle);
-		return DiskFileSystem::Exists(Project::GetActiveProject()->GetAssetDirectory() / metadata.FilePath);
+		return FileSystem::Exists(Project::GetActiveProject()->GetResourceDirectory() / metadata.FilePath);
 	}
 
 	void EditorResourceManager::RemoveResource(ResourceHandle resourceHandle)
@@ -98,7 +96,7 @@ namespace Luden
 		if (m_LoadedResources.contains(resourceHandle))
 			m_LoadedResources.erase(resourceHandle);
 
-		if (m_ResourceRegistry.contains(resourceHandle))
+		if (m_ResourceRegistry.Contains(resourceHandle))
 			m_ResourceRegistry.Remove(resourceHandle);
 	}
 
@@ -109,7 +107,7 @@ namespace Luden
 
 	std::unordered_set<ResourceHandle> EditorResourceManager::GetAllResourcesWithType(ResourceType type)
 	{
-		std::unordered_map<ResourceHandle> result;
+		std::unordered_set<ResourceHandle> result;
 
 		for (const auto& [resourceHandle, metadata] : m_ResourceRegistry)
 		{
@@ -121,14 +119,14 @@ namespace Luden
 
 	ResourceMetadata EditorResourceManager::GetMetadata(ResourceHandle resourceHandle)
 	{
-		if (m_ResourceRegistry.contains(handle))
+		if (m_ResourceRegistry.Contains(resourceHandle))
 			return m_ResourceRegistry.Get(resourceHandle);
 
 		return s_NullMetadata;
 	}
-	void EditorResourceManager::SetMetadata(ResourceHandle resourcehandle, const ResourceMetadata& metadata)
+	void EditorResourceManager::SetMetadata(ResourceHandle resourceHandle, const ResourceMetadata& metadata)
 	{
-		m_ResourceRegistry.Set(resourcehandle, metadata);
+		m_ResourceRegistry.Set(resourceHandle, metadata);
 	}
 	const ResourceMetadata& EditorResourceManager::GetMetadata(const std::filesystem::path& filepath)
 	{
@@ -170,7 +168,7 @@ namespace Luden
 		if (s_ResourceExtensionMap.find(extension) == s_ResourceExtensionMap.end())
 			return ResourceType::None;
 
-		return s_ResourceExtensionMap.at(extension.c_str());
+		return s_ResourceExtensionMap.at(extension);
 	}
 	std::string EditorResourceManager::GetDefaultExtensionForResourceType(ResourceType type)
 	{
@@ -198,7 +196,7 @@ namespace Luden
 
 	std::string EditorResourceManager::GetFileSystemPathString(const ResourceMetadata& metadata)
 	{
-		return GetFileSystemPath().string();
+		return GetFileSystemPath(metadata).string();
 	}
 	std::filesystem::path EditorResourceManager::GetRelativePath(const std::filesystem::path& filepath)
 	{
@@ -216,13 +214,13 @@ namespace Luden
 	}
 	bool EditorResourceManager::FileExists(ResourceMetadata& metadata) const
 	{
-		DiskFileSystem::Exists(Project::GetActiveProject()->GetResourceDirectory() / metadata.FilePath);
+		return FileSystem::Exists(Project::GetActiveProject()->GetResourceDirectory() / metadata.FilePath);
 	}
 	void EditorResourceManager::LoadResourceRegistry()
 	{
 		const auto& resourceRegistryPath = Project::GetResourceRegistryPath();
 
-		if (!DiskFileSystem::Exists(resourceRegistryPath))
+		if (!FileSystem::Exists(resourceRegistryPath))
 			return;
 
 		std::ifstream stream(resourceRegistryPath);
@@ -237,7 +235,7 @@ namespace Luden
 		const auto& handles = data["Resources"];
 		for (auto entry: handles)
 		{
-			if (!entry.contains("FilePath" || !entry.contains("Handle" || !entry.contains("Type"))
+			if (!entry.contains("FilePath") || !entry.contains("Handle") || !entry.contains("Type"))
 				continue;
 			
 			std::string filePath = entry["FilePath"].get<std::string>();
@@ -245,7 +243,7 @@ namespace Luden
 			ResourceMetadata metadata;
 			metadata.Handle = entry["Handle"].get<uint64_t>();
 			metadata.FilePath = filePath;
-			metadata.Type = (ResourceType)Utils::AssetTypeToString(entry["Type"].get<std::string>());
+			metadata.Type = (ResourceType)Utils::ResourceTypeToString(entry["Type"].get<std::string>());
 
 			if (metadata.Type == ResourceType::None)
 				continue;
@@ -254,12 +252,12 @@ namespace Luden
 	}
 	void EditorResourceManager::ProcessDirectory(const std::filesystem::path& directoryPath)
 	{
-		for (auto& entry: std::filesystem::directory_iterator(directoryPath))
+		for (auto entry: std::filesystem::directory_iterator(directoryPath))
 		{
-			if (entry->is_directory())
-				ProcessDirectory(entry->path())
+			if (entry.is_directory())
+				ProcessDirectory(entry.path());
 			else
-				ImportResource(entry->path());
+				ImportResource(entry.path());
 		}
 	}
 	void EditorResourceManager::ReloadResources()
@@ -279,7 +277,7 @@ namespace Luden
 
 		for (auto& [filePath, metadata]: m_ResourceRegistry)
 		{
-			if (!DiskFileSystem::Exists(GetFileSystemPath(metadata)))
+			if (!FileSystem::Exists(GetFileSystemPath(metadata)))
 				continue;
 
 			std::string pathToSerialize = metadata.FilePath.string();
@@ -295,7 +293,7 @@ namespace Luden
 			json jEntry;
 			jEntry["Handle"] = static_cast<uint64_t>(handle);
 			jEntry["FilePath"] = entry.FilePath;
-			jEntry["Type"] = Utils::AssetTypeToString(entry.Type);
+			jEntry["Type"] = Utils::ResourceTypeToString(entry.Type);
 			data["Resources"].push_back(std::move(jEntry)); 
 		}
 

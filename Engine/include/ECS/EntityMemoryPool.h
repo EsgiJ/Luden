@@ -5,6 +5,8 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <unordered_map>
+
 
 #include "Core/UUID.h"
 #include "ECS/Components/Components.h"
@@ -27,6 +29,8 @@ namespace Luden
 		std::vector<Luden::CInput>,
 		std::vector<Luden::CBoundingBox>,
 		std::vector<Luden::CAnimation>,
+		std::vector<Luden::CFont>,
+		std::vector<Luden::CTexture>,
 		std::vector<Luden::CLifespan>,
 		std::vector<Luden::CInvincibility>,
 		std::vector<Luden::CPatrol>,
@@ -37,25 +41,6 @@ namespace Luden
 	using EntityID = UUID;
 	class ENGINE_API EntityMemoryPool
 	{
-		size_t m_NumEntities = 0;
-		EntityComponentVectorTuple	m_Pool;
-		std::vector<std::string>	m_Tags;
-		std::vector<bool>			m_Active;
-		std::vector<UUID>			m_IDs;
-
-		std::unordered_map<UUID, PoolIndex> m_IdToIndex;
-		std::vector<PoolIndex>				m_FreeList;
-
-
-		size_t m_Capacity = 0;
-		size_t m_NumAlive = 0;
-
-		EntityMemoryPool(size_t maxEntities);
-
-		PoolIndex AcquireIndex();
-		void EnsureSizedFor(PoolIndex index);
-		PoolIndex IndexOf(const UUID& entityID) const;
-		void ClearComponentsAt(PoolIndex index);
 	public:
 		static EntityMemoryPool& Instance()
 		{
@@ -63,9 +48,10 @@ namespace Luden
 			return instance;
 		}
 
-		Entity AddEntity(const std::string& tag);
+		Entity& AddEntity(const std::string& tag);
 		void DestroyEntity(const EntityID& entityID);
 
+		void Clear();
 
 		const std::string& GetTag(const UUID& entityID) const;
 		bool IsActive(const EntityID& entityID) const;
@@ -101,5 +87,27 @@ namespace Luden
 			PoolIndex index = IndexOf(entityID);
 			return std::get<std::vector<T>>(m_Pool)[index].has;
 		}
+	private:
+		PoolIndex AcquireIndex();
+		void EnsureSizedFor(PoolIndex index);
+		PoolIndex IndexOf(const UUID& entityID) const;
+		void ClearComponentsAt(PoolIndex index);
+
+	private:
+		EntityMemoryPool(size_t maxEntities);
+
+		size_t m_NumEntities = 0;
+		EntityComponentVectorTuple	m_Pool;
+		std::vector<std::string>	m_Tags;
+		std::vector<bool>			m_Active;
+		std::vector<UUID>			m_IDs;
+
+		std::unordered_map<UUID, PoolIndex> m_IdToIndex;
+		std::vector<PoolIndex>				m_FreeList;
+
+
+		size_t m_Capacity = 0;
+		size_t m_NumAlive = 0;
+
 	};
 }

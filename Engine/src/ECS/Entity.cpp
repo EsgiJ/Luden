@@ -7,7 +7,7 @@
 namespace Luden
 {
 	Entity::Entity(EntityID uuid) 
-		: m_UUID(id) {}
+		: m_UUID(uuid) {}
 
 	bool Entity::IsActive() const 
 	{

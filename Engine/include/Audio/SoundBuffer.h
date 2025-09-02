@@ -22,6 +22,8 @@ namespace Luden
 		sf::SoundBuffer& GetBuffer() { return m_Buffer; }
 		void SetBuffer(const sf::SoundBuffer soundBuffer) { m_Buffer = soundBuffer; }
 
+		static ResourceType GetStaticType() { return ResourceType::Audio; }
+		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 	private:
 		std::filesystem::path m_FilePath;
 		sf::SoundBuffer m_Buffer;

@@ -13,8 +13,8 @@ namespace Luden
 		UUID(uint64_t uuid);
 		UUID(const UUID& other);
 
-		operator uint64_t() { return m_UUID; }
-		operator const uint64_t() const { return m_UUID; }
+		operator uint64_t();
+		operator const uint64_t() const;
 	private:
 		uint64_t m_UUID;
 	};
@@ -26,8 +26,8 @@ namespace Luden
 		UUID32(uint32_t uuid);
 		UUID32(UUID32& other);
 
-		operator uint32_t() { return m_UUID; }
-		operator const uint32_t() const { return m_UUID; }
+		operator uint32_t();
+		operator const uint32_t() const;
 	private:
 		uint32_t m_UUID;
 	};

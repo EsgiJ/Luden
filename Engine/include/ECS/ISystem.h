@@ -1,6 +1,6 @@
+#pragma once
 
 #include "EngineAPI.h"
-#include "Reflection/ReflectionMacros.h"
 
 namespace Luden
 {

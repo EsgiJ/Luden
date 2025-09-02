@@ -16,6 +16,9 @@ namespace Luden
 		sf::Font& GetFont() { return m_Font; }
 
 		void SetFont(sf::Font& font) { m_Font = font; }
+
+		static ResourceType GetStaticType() { return ResourceType::Font; }
+		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 	private:
 		sf::Font m_Font;
 	};
