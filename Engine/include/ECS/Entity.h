@@ -21,13 +21,16 @@ namespace Luden
 	public:
 		void Destroy();
 
-		[[nodiscard]] EntityID UUID() const;
+		EntityID UUID() const { return m_UUID; };
 
 		void SetUUID(EntityID uuid) { m_UUID = uuid; }
 
-		[[nodiscard]] bool IsActive() const;
+		bool IsActive() const;
 
-		[[nodiscard]] const std::string& Tag() const;
+		const std::string& Tag() const;
+
+		bool IsValid() const { return m_UUID != 0; }
+		operator bool() const { return IsValid(); }
 
 		template<class T>
 		bool Has() const 
@@ -59,10 +62,11 @@ namespace Luden
 
 	private:
 		Entity();
-		explicit Entity(EntityID uuid);
+		Entity(EntityID uuid);
 
-		EntityID m_UUID;
+		EntityID m_UUID = 0;
 
 		friend class EntityMemoryPool;
+		friend class EntityManager;
 	};
 }

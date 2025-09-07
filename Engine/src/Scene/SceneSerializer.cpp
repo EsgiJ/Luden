@@ -113,6 +113,7 @@ namespace Luden
 				auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(c.animationHandle));
 
 				jEntity["CAnimation"] = {
+					{ "animationHandle", static_cast<uint64_t>(c.animationHandle) },
 					{ "repeat", c.repeat },
 					{ "name", anim->GetName() },
 					{ "frameCount", anim->GetFrameCount() },
@@ -314,11 +315,12 @@ namespace Luden
 					jAnim["size"][1].get<float>()
 					});
 
+				ResourceHandle animationHandle(jAnim["animationHandle"].get<uint64_t>());
 				bool repeat = jAnim["repeat"].get<bool>();
 				size_t speed = jAnim["speed"].get<size_t>();
 				size_t currentFrame = jAnim["currentFrame"].get<size_t>();
 
-				auto& c = e.Add<CAnimation>(anim, speed, currentFrame, repeat);
+				auto& c = e.Add<CAnimation>(animationHandle, speed, currentFrame, repeat);
 			}
 		}
 

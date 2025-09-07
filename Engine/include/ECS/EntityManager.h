@@ -1,12 +1,12 @@
 #pragma once
 
+#include "Core/TimeStep.h"
+#include "Entity.h"
+#include "EngineAPI.h"
+
 #include <map>
 #include <memory>
 #include <vector>
-
-#include "Entity.h"
-
-#include "EngineAPI.h"
 
 namespace Luden
 {
@@ -17,27 +17,27 @@ namespace Luden
 	public:
 		EntityManager();
 
-		void Update();
+		void Update(TimeStep ts);
 
 		Entity AddEntity(const std::string& tag);
 		void DestroyEntity(const EntityID& uuid);
 
-		EntityVec& GetEntities();
+		Entity& GetEntity(const EntityID& uuid);
+		const Entity& GetEntity(const EntityID& uuid) const;
 
+		EntityVec& GetEntities();
 		EntityVec& GetEntities(const std::string& tag);
 
 		const EntityMap& GetEntityMap();
 		const EntityVec& GetEntityVec();
 
 		void Clear();
-		//TODO:
-		/*
-		const Entity& TryGetEntityWithUUID(const UUID& uuid) const;
-		Entity& TryGetEntityWithUUID();
 
-		const Entity& TryGetEntityWithTag() const;
-		Entity& TryGetEntityWithTag();
-		*/
+		Entity TryGetEntityWithUUID(const UUID& uuid);
+		Entity TryGetEntityWithTag(const std::string& tag);
+
+		bool Exists(const UUID& uuid);
+		bool Exists(const UUID& uuid) const;
 	private:
 		EntityVec m_Entities;
 		EntityVec m_EntitiesToAdd;

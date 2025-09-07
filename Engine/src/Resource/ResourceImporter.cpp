@@ -63,4 +63,6 @@ namespace Luden
 		SceneResourceSerializer* sceneResourceSerializer = (SceneResourceSerializer*)s_Serializers[resourceType].get();
 		return sceneResourceSerializer->DeserializeSceneFromResourcePack(stream, sceneInfo);
 	}
+
+	std::unordered_map<ResourceType, std::unique_ptr<ResourceSerializer>> ResourceImporter::s_Serializers;
 }

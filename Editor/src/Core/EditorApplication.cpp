@@ -1,4 +1,4 @@
-#include "Core/EditorApp.h"
+#include "Core/EditorApplication.h"
 
 #include "GUI/ImGuiStyle.h"
 #include "Panels/SceneHierarchyPanel.h"
@@ -11,7 +11,6 @@
 #include "IO/FileSystem.h"
 #include "Resource/ResourceManager.h"
 
-
 #include <filesystem>
 #include <iostream>
 
@@ -21,29 +20,32 @@
 
 namespace Luden::Editor {
 
-	EditorApp::EditorApp() {}
-	EditorApp::~EditorApp() { Shutdown(); }
+	EditorApplication::EditorApplication() {}
+	EditorApplication::~EditorApplication() { Shutdown(); }
 
-	void EditorApp::Init() {
-		// Load Editor State
+	void EditorApplication::Init() {
 		EditorState loaded = EditorState::Load("editor_state.json");
 		EditorStateManager::Get().SetEditorMode(loaded.m_Mode);
 
-		// Create Panels to draw
 		m_Panels.clear();
 		m_Panels.emplace_back(std::make_unique<SceneHierarchyPanel>());
 		m_Panels.emplace_back(std::make_unique<ResourceBrowserPanel>());
+		// m_Panels.emplace_back(std::make_unique<InspectorPanel>());
+		// m_Panels.emplace_back(std::make_unique<ConsolePanel>());
+		// m_Panels.emplace_back(std::make_unique<ProfilerPanel>());
+		// m_Panels.emplace_back(std::make_unique<SceneSettingsPanel>());
 
 		for (auto& p : m_Panels) {
 			auto it = loaded.m_PanelStates.find(p->GetName());
 			p->m_Visible = (it != loaded.m_PanelStates.end()) ? it->second : true;
 		}
 
+		// 🔹 Editor window
 		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
 		m_Window.setFramerateLimit(60);
 
 		if (!m_ViewportTexture.resize({ 1280, 720 }))
-			throw std::runtime_error("Failed to resize viewport texture");
+			throw std::runtime_error("Failed to create viewport texture");
 		m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
 
 		if (!ImGui::SFML::Init(m_Window))
@@ -56,32 +58,48 @@ namespace Luden::Editor {
 
 		m_IsRunning = true;
 
-		ImGuiContext* ctx = ImGui::GetCurrentContext();
+		// 🔹 Start RuntimeApplication headless
+		ApplicationSpecification spec;
+		spec.Name = "Luden Runtime (Editor)";
+		spec.WindowWidth = 1280;
+		spec.WindowHeight = 720;
+		spec.Headless = true;
+		spec.EnableImGui = false;
 
-		//Initialize Engine
-		GameEngine::Initialize(m_Window, ctx, "config/resources.txt", true);
+		m_RuntimeApp = std::make_unique<Luden::RuntimeApplication>(spec);
+		m_RuntimeApp->OnInit();
 	}
 
-	void EditorApp::Run() {
+	void EditorApplication::Run() 
+	{
 		while (m_IsRunning && m_Window.isOpen()) {
-
 			float dt = m_DeltaClock.restart().asSeconds();
 
-			if (!EditorStateManager::Get().IsPlayMode())
-			{
+			if (!EditorStateManager::Get().IsPlayMode()) {
 				HandleInput();
 			}
 
 			ImGui::SFML::Update(m_Window, sf::seconds(dt));
 
-			if (EditorStateManager::Get().IsPlayMode()) {
-				GameEngine::Get().ProcessInput();
-				GameEngine::Get().Update(dt);
+			if (EditorStateManager::Get().IsPlayMode()) 
+			{
+				m_RuntimeApp->OnUpdate(dt);
+			}
+			else if (EditorStateManager::Get().IsSimulateMode()) 
+			{
+				m_RuntimeApp->OnUpdate(dt);
+			}
+			else if (EditorStateManager::Get().IsEditMode()) 
+			{
+				if (auto scene = m_RuntimeApp->GetCurrentScene()) 
+				{
+					scene->OnUpdateEditor(dt);
+				}
 			}
 			RenderDockSpace();
 			RenderTitleBar();
 
-			for (auto& panel : m_Panels) 
+			for (auto& panel : m_Panels)
 				panel->Render();
 
 			Render();
@@ -91,8 +109,8 @@ namespace Luden::Editor {
 		}
 	}
 
-	void EditorApp::Shutdown() {
-		// Save Current Panel Visibilities
+	void EditorApplication::Shutdown() {
+		// Save EditorState
 		EditorState& state = EditorStateManager::Get().GetState();
 		state.m_Mode = EditorStateManager::Get().GetEditorMode();
 		for (auto& p : m_Panels)
@@ -103,20 +121,23 @@ namespace Luden::Editor {
 		if (m_Window.isOpen()) m_Window.close();
 	}
 
-	void EditorApp::Render() {
-		// viewport
+	void EditorApplication::Render() {
 		ImGui::Begin("Viewport");
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		sf::Vector2u newSize((unsigned int)viewportPanelSize.x, (unsigned int)viewportPanelSize.y);
 
-		if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0)
-		{
+		if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0) {
 			m_ViewportTexture = sf::RenderTexture(newSize);
 			m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
 		}
 
-		GameEngine::Get().Render(m_ViewportTexture);
+		// 🔹 RuntimeApp headless render
+		if (m_RuntimeApp && m_RuntimeApp->GetCurrentScene()) {
+			m_ViewportTexture.clear();
+			m_RuntimeApp->RenderTo(m_ViewportTexture);
+			m_ViewportTexture.display();
+		}
 
 		float texAspect = static_cast<float>(m_ViewportTexture.getSize().x) / m_ViewportTexture.getSize().y;
 		float panelAspect = viewportPanelSize.x / viewportPanelSize.y;
@@ -135,53 +156,44 @@ namespace Luden::Editor {
 		ImGui::End();
 	}
 
-	void EditorApp::RenderDockSpace() {
-		// Menu Bar
-		if (ImGui::BeginMainMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Save All")) { /* Save scene/resources logic */ }
+	void EditorApplication::RenderDockSpace() {
+		if (ImGui::BeginMainMenuBar()) {
+			if (ImGui::BeginMenu("File")) {
+				if (ImGui::MenuItem("Save All")) { /* Save logic */ }
 				if (ImGui::MenuItem("Exit")) { m_IsRunning = false; }
 				ImGui::EndMenu();
 			}
 
-			if (ImGui::BeginMenu("Window"))
-			{
-				for (auto& panel : m_Panels)
-				{
+			if (ImGui::BeginMenu("Window")) {
+				for (auto& panel : m_Panels) {
 					bool* visible = &panel->m_Visible;
 					ImGui::MenuItem(panel->GetName().c_str(), nullptr, visible);
 				}
 				ImGui::EndMenu();
 			}
-
 			ImGui::EndMainMenuBar();
 		}
 
 		// Toolbar
-		ImGui::SetNextWindowPos(ImVec2(0, 20)); 
+		ImGui::SetNextWindowPos(ImVec2(0, 20));
 		ImGui::SetNextWindowSize(ImVec2((float)m_Window.getSize().x, 40));
 		ImGuiWindowFlags toolbarFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
 			ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
 
-		if (ImGui::Begin("Toolbar", nullptr, toolbarFlags))
-		{
+		if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
 			RenderModeToolbar();
 		}
 		ImGui::End();
 
+		// Dockspace
 		ImGuiWindowFlags flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 		auto* vp = ImGui::GetMainViewport();
 		ImGui::SetNextWindowPos(ImVec2(0, 60));
 		ImGui::SetNextWindowSize(vp->WorkSize);
 		ImGui::SetNextWindowViewport(vp->ID);
-		flags |= ImGuiWindowFlags_NoTitleBar
-			| ImGuiWindowFlags_NoResize
-			| ImGuiWindowFlags_NoMove
-			| ImGuiWindowFlags_NoCollapse
-			| ImGuiWindowFlags_NoNavFocus
-			| ImGuiWindowFlags_NoBringToFrontOnFocus;
+		flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
+			ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -192,21 +204,18 @@ namespace Luden::Editor {
 		ImGui::DockSpace(dock_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
 
 		if (!m_LayoutBuilt) {
-			ImGui::DockBuilderRemoveNode(dock_id);               // clear any previous layout
+			ImGui::DockBuilderRemoveNode(dock_id);
 			ImGui::DockBuilderAddNode(dock_id, ImGuiDockNodeFlags_None);
 			ImGui::DockBuilderSetNodeSize(dock_id, ImGui::GetIO().DisplaySize);
 
-			// Split main dock into sections
 			ImGuiID dock_left = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Left, 0.20f, nullptr, &dock_id);
 			ImGuiID dock_right = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Right, 0.25f, nullptr, &dock_id);
 			ImGuiID dock_bottom = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Down, 0.25f, nullptr, &dock_id);
 			ImGuiID dock_center = dock_id;
 
-			// Optional: right bölümü de ikiye böl (üst: Inspector, alt: Console)
 			ImGuiID dock_right_top = ImGui::DockBuilderSplitNode(dock_right, ImGuiDir_Up, 0.6f, nullptr, &dock_right);
 			ImGuiID dock_right_bottom = dock_right;
 
-			// Dock panels to regions
 			ImGui::DockBuilderDockWindow("Scene Hierarchy", dock_left);
 			ImGui::DockBuilderDockWindow("Resources", dock_left);
 			ImGui::DockBuilderDockWindow("Inspector", dock_right_top);
@@ -222,38 +231,51 @@ namespace Luden::Editor {
 		ImGui::End();
 	}
 
-
-	void EditorApp::RenderModeToolbar()
-	{
+	void EditorApplication::RenderModeToolbar() {
 		ImVec2 windowSize = ImGui::GetWindowSize();
-
-		float buttonWidth = 60.0f;
-		float spacing = ImGui::GetStyle().ItemSpacing.x; 
-		float totalWidth = buttonWidth * 3 + spacing * 2;
-
+		float buttonWidth = 80.0f;
+		float spacing = ImGui::GetStyle().ItemSpacing.x;
+		float totalWidth = buttonWidth * 4 + spacing * 3;
 		float startX = (windowSize.x - totalWidth) / 2.0f;
 		ImGui::SetCursorPosX(startX);
 
+		// 🔹 Edit
 		if (ImGui::Button("Edit", ImVec2(buttonWidth, 0))) {
 			EditorStateManager::Get().SetEditorMode(EditorMode::Edit);
-			GameEngine::Get().GetCurrentScene()->SetPaused(true);
+			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
+				scene->OnRuntimeStop();
+				scene->OnSimulationStop();
+				scene->SetPaused(false);
+			}
 		}
 
 		ImGui::SameLine();
 		if (ImGui::Button("Play", ImVec2(buttonWidth, 0))) {
 			EditorStateManager::Get().SetEditorMode(EditorMode::Play);
-			GameEngine::Get().GetCurrentScene()->SetPaused(false);
+			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
+				scene->OnRuntimeStart();
+			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Simulate", ImVec2(buttonWidth, 0))) {
+			EditorStateManager::Get().SetEditorMode(EditorMode::Simulate);
+			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
+				scene->OnSimulationStart();
+			}
 		}
 
 		ImGui::SameLine();
 		if (ImGui::Button("Pause", ImVec2(buttonWidth, 0))) {
 			EditorStateManager::Get().SetEditorMode(EditorMode::Pause);
-			GameEngine::Get().GetCurrentScene()->SetPaused(true);
+			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
+				scene->SetPaused(true);
+			}
 		}
 	}
 
-	void EditorApp::RenderTitleBar()
-	{
+
+	void EditorApplication::RenderTitleBar() {
 		ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
 			ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDocking |
 			ImGuiWindowFlags_NoSavedSettings;
@@ -261,8 +283,7 @@ namespace Luden::Editor {
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImVec2((float)m_Window.getSize().x, 25));
 
-		if (ImGui::Begin("##TitleBar", nullptr, flags))
-		{
+		if (ImGui::Begin("##TitleBar", nullptr, flags)) {
 			ImGui::TextUnformatted("Luden Editor");
 			ImGui::SameLine(ImGui::GetWindowWidth() - 30);
 			if (ImGui::Button(ICON_FA_XMARK))
@@ -271,9 +292,7 @@ namespace Luden::Editor {
 		ImGui::End();
 	}
 
-
-	void EditorApp::LoadFonts()
-	{
+	void EditorApplication::LoadFonts() {
 		ImGuiIO& io = ImGui::GetIO();
 
 		static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
@@ -285,7 +304,7 @@ namespace Luden::Editor {
 		ImGui::SFML::UpdateFontTexture();
 	}
 
-	void EditorApp::HandleInput() {
+	void EditorApplication::HandleInput() {
 		while (auto evt = m_Window.pollEvent()) {
 			ImGui::SFML::ProcessEvent(m_Window, *evt);
 
@@ -293,4 +312,5 @@ namespace Luden::Editor {
 				m_IsRunning = false;
 		}
 	}
-} 
+
+}

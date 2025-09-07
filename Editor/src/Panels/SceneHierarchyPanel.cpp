@@ -1,17 +1,16 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Scene/Scene.h"
 #include "ECS/Entity.h"
-#include "Core/GameEngine.h"
 
 #include "imgui.h"
 
 #include <iostream>
 
-
 namespace Luden::Editor
 {
 	void SceneHierarchyPanel::Render()
 	{
+		/*
 		if (!m_Visible) return;
 		if (!ImGui::Begin("Scene Hierarchy", &m_Visible))
 		{
@@ -19,9 +18,9 @@ namespace Luden::Editor
 			return;
 		}
 
-		auto entities = Luden::GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
+		auto& entities = Luden::GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
 
-		for (auto& entity: entities)
+		for (const auto& entity : entities)
 		{
 			std::string label = "[" + std::to_string(entity.UUID()) + "] " + entity.Tag();
 
@@ -32,6 +31,6 @@ namespace Luden::Editor
 		}
 
 		ImGui::End();
+		*/
 	}
-
 }

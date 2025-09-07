@@ -106,11 +106,8 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
     <ClInclude Include="include\Audio\SoundBuffer.h" />
-    <ClInclude Include="include\Core\Application.h" />
+    <ClInclude Include="include\Core\RuntimeApplication.h" />
     <ClInclude Include="include\Core\Buffer.h" />
-    <ClInclude Include="include\Core\GameEngine.h" />
-    <ClInclude Include="include\Core\Layer.h" />
-    <ClInclude Include="include\Core\LayerStack.h" />
     <ClInclude Include="include\Core\Platform.h" />
     <ClInclude Include="include\Core\TimeStep.h" />
     <ClInclude Include="include\Core\UUID.h" />
@@ -148,7 +145,6 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="include\Resource\RuntimeResourceManager.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\SceneSerializer.h" />
-    <ClInclude Include="include\Scene\Scene_Menu.h" />
     <ClInclude Include="include\Serialization\ResourcePack.h" />
     <ClInclude Include="include\Serialization\ResourcePackFile.h" />
     <ClInclude Include="include\Serialization\ResourcePackSerializer.h" />
@@ -161,13 +157,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_common.c" />
     <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_win.cpp" />
     <ClCompile Include="src\Audio\SoundBuffer.cpp" />
-    <ClCompile Include="src\Core\Application.cpp" />
-    <ClCompile Include="src\Core\GameEngine.cpp" />
-    <ClCompile Include="src\Core\Layer.cpp" />
-    <ClCompile Include="src\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\Platform.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />
     <ClCompile Include="src\Core\UUID.cpp" />
@@ -196,7 +188,6 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClCompile Include="src\Resource\RuntimeResourceManager.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\SceneSerializer.cpp" />
-    <ClCompile Include="src\Scene\Scene_Menu.cpp" />
     <ClCompile Include="src\Serialization\ResourcePack.cpp" />
     <ClCompile Include="src\Serialization\ResourcePackSerializer.cpp" />
     <ClCompile Include="src\Utilities\StringUtils.cpp" />

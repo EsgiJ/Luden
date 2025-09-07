@@ -1,167 +1,261 @@
 #include "Scene/Scene.h"
-#include "Core/GameEngine.h"
+#include "Core/RuntimeApplication.h"
+#include "Project/Project.h"
+
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
-namespace Luden
-{
-	void Scene::SetPaused(bool paused)
+namespace Luden {
+
+	Scene::Scene(const std::string& name)
+		: m_Name(name) 
 	{
-		m_Paused = paused;
+		m_View.setCenter({ 0.0f, 0.0f });
+		m_View.setSize({ 1280.0f, 720.0f });
 	}
 
-	void Scene::SetViewportSize(const sf::Vector2u& size)
+	Scene::~Scene() 
 	{
-		m_ViewportSize = size;
-		m_View.setSize({ static_cast<float>(size.x), static_cast<float>(size.y) });
-		m_View.setCenter({ static_cast<float>(size.x) / 2.f, static_cast<float>(size.y) / 2.f });
 	}
 
-	void Scene::DoAction(const Action& action)
-	{
-		sDoAction(action);
+	// Lifecycle
+	void Scene::OnRuntimeStart() {
+		m_IsPlaying = true;
+		m_Paused = false;
+		m_CurrentFrame = 0;
 	}
 
-	void Scene::Simulate(size_t frames)
-	{
-		for (size_t i = 0; i < frames; i++)
-		{
-			Update();
-			m_CurrentFrame++;
+	void Scene::OnRuntimeStop() {
+		m_IsPlaying = false;
+	}
+
+	void Scene::OnSimulationStart() {
+		m_ShouldSimulate = true;
+		m_Paused = false;
+	}
+
+	void Scene::OnSimulationStop() {
+		m_ShouldSimulate = false;
+	}
+
+	void Scene::OnUpdateRuntime(TimeStep ts) {
+		if (m_Paused)
+			return;
+
+		if (m_ShouldSimulate) {
+			m_EntityManager.Update(ts);
+		}
+		else if (m_IsPlaying) {
+			m_EntityManager.Update(ts);
+			// UpdateAnimation
 		}
 	}
 
-	void Scene::RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName)
+	void Scene::OnUpdateEditor(TimeStep ts) 
+	{
+		//TODO: Editor gizmo, highlight entities etc.
+	}
+
+	// Render
+	void Scene::OnRenderRuntime(sf::RenderTarget& target)
+	{
+		target.clear(sf::Color(100, 100, 255));
+
+		for (auto& e : m_EntityManager.GetEntities())
+		{
+			if (!e.Has<CTransform>())
+				continue;
+
+			auto& transform = e.Get<CTransform>();
+
+			sf::Color c = sf::Color::White;
+
+			if (e.Has<CAnimation>())
+			{
+				auto& animationComp = e.Get<CAnimation>();
+				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
+				sf::Sprite sprite = animation->GetSprite();
+
+				sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
+				sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+				sprite.setColor(c);
+
+				target.draw(sprite);
+			}
+			else if (e.Has<CTexture>())
+			{
+				auto& textureComp = e.Get<CTexture>();
+				auto texHandle = textureComp.textureHandle;
+
+				auto textureRes = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(texHandle));
+				if (textureRes)
+				{
+					sf::Sprite sprite(textureRes->GetTexture());
+					sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
+					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+					sprite.setColor(c);
+
+					target.draw(sprite);
+				}
+			}
+		}
+	}
+
+
+	void Scene::OnRenderEditor(sf::RenderTarget& target) 
+	{
+		target.clear(sf::Color(100, 100, 255));
+
+		for (auto& e : m_EntityManager.GetEntities())
+		{
+			if (!e.Has<CTransform>())
+				continue;
+
+			auto& transform = e.Get<CTransform>();
+
+			sf::Color c = sf::Color::White;
+
+			if (e.Has<CAnimation>())
+			{
+				auto& animationComp = e.Get<CAnimation>();
+				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
+				sf::Sprite sprite = animation->GetSprite();
+
+				sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
+				sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+				sprite.setColor(c);
+
+				target.draw(sprite);
+			}
+			else if (e.Has<CTexture>())
+			{
+				auto& textureComp = e.Get<CTexture>();
+				auto texHandle = textureComp.textureHandle;
+
+				auto textureRes = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(texHandle));
+				if (textureRes)
+				{
+					sf::Sprite sprite(textureRes->GetTexture());
+					sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
+					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+					sprite.setColor(c);
+
+					target.draw(sprite);
+				}
+			}
+		}
+		//TODO: Editor overlay (gizmo, bounding box, grid)
+	}
+
+	// Input
+	void Scene::DoAction(const Action& action) 
+	{
+
+	}
+
+	void Scene::RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName) 
 	{
 		m_ActionMap[static_cast<int>(inputKey)] = actionName;
 	}
 
-    float Scene::Width() const
-    {
-		if (m_ViewportSize.x != 0)
-			return static_cast<float>(m_ViewportSize.x);
-		if (GameEngine::Get().GetWindow().isOpen())
-			return static_cast<float>(GameEngine::Get().GetWindow().getSize().x);
-		return 0.0f;
-    }
-
-    float Scene::Height() const
-    {
-            if (m_ViewportSize.y != 0)
-                    return static_cast<float>(m_ViewportSize.y);
-            if (GameEngine::Get().GetWindow().isOpen())
-                    return static_cast<float>(GameEngine::Get().GetWindow().getSize().y);
-            return 0.0f;
-    }
-
-	size_t Scene::CurrentFrame() const
+	// Entity Management
+	Entity Scene::CreateEntity(const std::string& tag) 
 	{
-		return m_CurrentFrame;
+		return m_EntityManager.AddEntity(tag);
 	}
 
-	bool Scene::HasEnded() const
+	Entity Scene::DuplicateEntity(const Entity& entity) 
 	{
-		return m_HasEnded;
+		Entity copy = m_EntityManager.AddEntity(entity.Tag() + "_copy");
+		//TODO: copy all the components
+		return copy;
 	}
 
-	const ActionMap& Scene::GetActionMap() const
+	void Scene::DestroyEntity(const Entity& entity) 
 	{
-		return m_ActionMap;
+		m_EntityManager.DestroyEntity(entity.UUID());
 	}
 
-	EntityManager& Scene::GetEntityManager()
+	void Scene::DestroyEntity(const EntityID& entityID) 
 	{
-		return m_EntityManager;
+		m_EntityManager.DestroyEntity(entityID);
 	}
 
-	const EntityManager& Scene::GetEntityManager() const
+	Entity Scene::GetEntityWithUUID(const UUID& uuid) const 
 	{
-		return m_EntityManager;
+		if (!m_EntityManager.Exists(uuid))
+		{
+			throw std::runtime_error("Entity with UUID not found!");
+		}
+		return m_EntityManager.GetEntity(uuid);
 	}
-	
-	void Scene::DrawLine(const Math::Vec2& p1, const Math::Vec2& p2)
+
+	Entity Scene::TryGetEntityWithUUID(const UUID& uuid) 
+	{
+		return m_EntityManager.TryGetEntityWithUUID(uuid);
+	}
+
+	Entity Scene::TryGetEntityWithTag(const std::string& tag) 
+	{
+		return m_EntityManager.TryGetEntityWithTag(tag);
+	}
+
+	// Viewport
+	void Scene::SetViewportSize(uint32_t width, uint32_t height) 
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+		m_View.setSize({ (float)width, (float)height });
+		m_View.setCenter({ (float)width / 2.0f, (float)height / 2.0f });
+	}
+
+	float Scene::Width() const 
+	{
+		return (float)m_ViewportWidth;
+	}
+
+	float Scene::Height() const
+	{
+		return (float)m_ViewportHeight;
+	}
+
+	// Utils
+	void Scene::DrawLine(const Math::Vec2& p1, const Math::Vec2& p2) 
 	{
 		sf::Vertex line[] = {
 			sf::Vertex(sf::Vector2f(p1.x, p1.y)),
 			sf::Vertex(sf::Vector2f(p2.x, p2.y))
 		};
-
-		GameEngine::Get().GetWindow().draw(line, 2, sf::PrimitiveType::Lines);
 	}
 
-	std::unordered_set<ResourceHandle> Scene::GetResourceList()
+	std::unordered_set<ResourceHandle> Scene::GetResourceList() 
 	{
 		std::unordered_set<ResourceHandle> resourceList;
 
-		for (auto& entity: m_EntityManager.GetEntities())
+		//Animation
+		for (const auto& animation : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Animation))
 		{
-			//Animation
-			for (auto animation: Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Animation))
-			{
-				resourceList.insert(animation);
-			}
-
-			//Font 
-			for (auto font : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Font))
-			{
-				resourceList.insert(font);
-			}
-
-			//CDamage Component
-			for (auto audio : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Audio))
-			{
-				resourceList.insert(audio);
-			}
-
-			//CDamage Component
-			for (auto scene : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Scene))
-			{
-				resourceList.insert(scene);
-			}
-
-			//CDamage Component
-			for (auto texture : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Texture))
-			{
-				resourceList.insert(texture);
-			}
+			resourceList.insert(animation);
 		}
 
+		//Font 
+		for (const auto& font : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Font))
+		{
+			resourceList.insert(font);
+		}
+
+		//Audio
+		for (const auto& audio : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Audio))
+		{
+			resourceList.insert(audio);
+		}
+
+		//Texture
+		for (const auto& texture : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Texture))
+		{
+			resourceList.insert(texture);
+		}
 		return resourceList;
 	}
 
-	Entity Scene::CreateEntity(const std::string& tag)
-	{
-		return m_EntityManager.AddEntity(tag);
-	}
-
-	void Scene::DestroyEntity(const Entity& entity)
-	{
-		DestroyEntity(entity.UUID());
-	}
-
-	void Scene::DestroyEntity(const UUID& entityID)
-	{
-		m_EntityManager.DestroyEntity(entityID);
-	}
-	//TODO:
-	/*
-	Entity Scene::DuplicateEntity(const Entity& entity)
-	{
-		return Entity();
-	}
-
-	Entity Scene::GetEntityWithUUID(const UUID& uuid) const
-	{
-		return Entity();
-	}
-
-	Entity Scene::TryGetEntityWithUUID(const UUID& uuid)
-	{
-		return Entity();
-	}
-
-	Entity Scene::TryGetEntityWithTag(const std::string& tag)
-	{
-		return Entity();
-	}
-	*/
 }

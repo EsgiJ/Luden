@@ -1,16 +1,15 @@
 #pragma once
 
+#include "Core/UUID.h"
+#include "ECS/Components/Components.h"
+#include "Reflection/ReflectionMacros.h"
+
 #include <cassert>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
 #include <unordered_map>
-
-
-#include "Core/UUID.h"
-#include "ECS/Components/Components.h"
-#include "Reflection/ReflectionMacros.h"
 
 #define MAX_ENTITIES 100000
 
@@ -48,13 +47,14 @@ namespace Luden
 			return instance;
 		}
 
-		Entity& AddEntity(const std::string& tag);
+		Entity AddEntity(const std::string& tag);
 		void DestroyEntity(const EntityID& entityID);
 
 		void Clear();
 
 		const std::string& GetTag(const UUID& entityID) const;
 		bool IsActive(const EntityID& entityID) const;
+		bool Exists(const EntityID& entityID) const;
 
 		template <typename T>
 		T& GetComponent(const EntityID& entityID)

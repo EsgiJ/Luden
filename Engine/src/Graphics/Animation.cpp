@@ -38,7 +38,7 @@ namespace Luden::Graphics
 		));
 	}
 
-	sf::Sprite MakeSpriteFromHandle(const ResourceHandle& handle)
+	sf::Sprite Animation::MakeSpriteFromHandle(const ResourceHandle& handle)
 	{
 		auto tex = std::static_pointer_cast<Luden::Texture>(
 			Project::GetResourceManager()->GetResource(handle)

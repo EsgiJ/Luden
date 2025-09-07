@@ -9,7 +9,7 @@ namespace Luden
 {
 	EntityManager::EntityManager() = default;
 
-	void EntityManager::Update() {
+	void EntityManager::Update(TimeStep ts) {
 		for (const auto& entity : m_EntitiesToAdd) {
 			m_Entities.push_back(entity);
 			m_EntityMap[entity.Tag()].push_back(entity);
@@ -22,6 +22,16 @@ namespace Luden
 		for (auto& [tag, entityVec] : m_EntityMap) {
 			RemoveDeadEntities(entityVec);
 		}
+	}
+
+	bool EntityManager::Exists(const UUID& uuid)
+	{
+		return EntityMemoryPool::Instance().Exists(uuid);
+	}
+
+	bool EntityManager::Exists(const UUID& uuid) const
+	{
+		return EntityMemoryPool::Instance().Exists(uuid);
 	}
 
 	void EntityManager::RemoveDeadEntities(EntityVec& vec) {
@@ -40,20 +50,51 @@ namespace Luden
 		return entity;
 	}
 
-	void DestroyEntity(const EntityID& uuid)
+	void EntityManager::DestroyEntity(const EntityID& uuid)
 	{
 		EntityMemoryPool::Instance().DestroyEntity(uuid);
 	}
 
-	EntityVec& EntityManager::GetEntities() {
+	Entity& EntityManager::GetEntity(const EntityID& uuid) 
+	{
+		if (!EntityMemoryPool::Instance().Exists(uuid))
+			throw std::runtime_error("Entity with UUID not found!");
+
+		for (auto& e : m_Entities)
+		{
+			if (e.UUID() == uuid)
+				return e;
+		}
+
+		throw std::runtime_error("Entity not tracked in EntityManager!");
+	}
+
+	const Entity& EntityManager::GetEntity(const EntityID& uuid) const
+	{
+		if (!EntityMemoryPool::Instance().Exists(uuid))
+			throw std::runtime_error("Entity with UUID not found!");
+
+		for (auto& e : m_Entities)
+		{
+			if (e.UUID() == uuid)
+				return e;
+		}
+
+		throw std::runtime_error("Entity not tracked in EntityManager!");
+	}
+
+	EntityVec& EntityManager::GetEntities() 
+	{
 		return m_Entities;
 	}
 
-	EntityVec& EntityManager::GetEntities(const std::string& tag) {
+	EntityVec& EntityManager::GetEntities(const std::string& tag) 
+	{
 		return m_EntityMap[tag];
 	}
 
-	const EntityMap& EntityManager::GetEntityMap() {
+	const EntityMap& EntityManager::GetEntityMap()
+	{
 		return m_EntityMap;
 	}
 	const EntityVec& EntityManager::GetEntityVec()
@@ -70,27 +111,29 @@ namespace Luden
 		EntityMemoryPool::Instance().Clear();
 	}
 
-	//TODO:
-	/*
-	const Entity& EntityManager::TryGetEntityWithUUID(const UUID& uuid) const
+	Entity EntityManager::TryGetEntityWithUUID(const UUID& uuid) 
 	{
-		for (const Entity& entity: m_Entities)
+		if (!EntityMemoryPool::Instance().Exists(uuid))
 		{
-			if (entity.UUID() == uuid)
-				return entity;
+			Entity invalidEntity;
+			return invalidEntity;
 		}
+
+		for (auto& e : m_Entities)
+		{
+			if (e.UUID() == uuid)
+				return e;
+		}
+		Entity invalidEntity;
+		return invalidEntity;
 	}
-	Entity& EntityManager::TryGetEntityWithUUID()
+
+	Entity EntityManager::TryGetEntityWithTag(const std::string& tag)
 	{
-		// TODO: insert return statement here
+		auto it = m_EntityMap.find(tag);
+		if (it != m_EntityMap.end() && !it->second.empty())
+			return it->second.front();
+		Entity invalidEntity;
+		return invalidEntity;
 	}
-	const Entity& EntityManager::TryGetEntityWithTag() const
-	{
-		// TODO: insert return statement here
-	}
-	Entity& EntityManager::TryGetEntityWithTag()
-	{
-		// TODO: insert return statement here
-	}
-	*/
 }

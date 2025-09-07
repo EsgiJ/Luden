@@ -12,7 +12,7 @@ namespace Luden
 		RuntimeResourceManager();
 		virtual ~RuntimeResourceManager();
 
-		virtual void Shutdown() override;
+		virtual void Shutdown() override {};
 
 		virtual ResourceType GetResourceType(ResourceHandle resourceHandle) override;
 		virtual std::shared_ptr<Resource> GetResource(ResourceHandle resourceHandle) override;
@@ -24,10 +24,10 @@ namespace Luden
 		virtual bool IsResourceMissing(ResourceHandle resourceHandle) override;
 		virtual void RemoveResource(ResourceHandle resourceHandle) override;
 
-		virtual void RegisterDependency(ResourceHandle resourceHandle, ResourceHandle dependency) override;
+		virtual void RegisterDependency(ResourceHandle resourceHandle, ResourceHandle dependency) override {};
 
 		virtual std::unordered_set<ResourceHandle> GetAllResourcesWithType(ResourceType type) override;
-		virtual const std::unordered_map<ResourceHandle, std::shared_ptr<Resource>>& GetLoadedResources() override;
+		virtual const std::unordered_map<ResourceHandle, std::shared_ptr<Resource>>& GetLoadedResources() override { return m_LoadedResources; };
 
 		// ------------- Runtime-only ----------------
 

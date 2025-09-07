@@ -12,9 +12,10 @@ namespace Luden::Editor
 {
 	enum class EditorMode
 	{
-		Edit,
-		Play,
-		Pause
+		Edit = 0,
+		Play = 1,
+		Simulate = 2,
+		Pause = 3
 	};
 
 	struct EditorState
@@ -40,6 +41,8 @@ namespace Luden::Editor
 				state.m_Mode = EditorMode::Play;
 			else if (s == "Pause")
 				state.m_Mode = EditorMode::Pause;
+			else if (s == "Simulate")
+				state.m_Mode = EditorMode::Simulate;
 			
 			if (j.contains("PanelStates") && j["PanelStates"].is_object())
 			{
@@ -63,6 +66,9 @@ namespace Luden::Editor
 			case EditorMode::Pause:
 				j["Mode"] = "Pause";
 				break;
+			case EditorMode::Simulate:
+				j["Mode"] = "Simulate";
+				break;
 			}
 			j["PanelStates"] = m_PanelStates;
 			
@@ -78,9 +84,11 @@ namespace Luden::Editor
 		EditorMode GetEditorMode();
 		void SetEditorMode(EditorMode editorMode);
 
-		bool IsPlayMode() const { return m_State.m_Mode == EditorMode::Play; }
-		bool IsEditMode() const { return m_State.m_Mode == EditorMode::Edit; }
-		bool IsPaused()   const { return m_State.m_Mode == EditorMode::Pause; }
+		bool IsPlayMode()		const { return m_State.m_Mode == EditorMode::Play; }
+		bool IsEditMode()		const { return m_State.m_Mode == EditorMode::Edit; }
+		bool IsPaused()			const { return m_State.m_Mode == EditorMode::Pause; }
+		bool IsSimulateMode()  const { return m_State.m_Mode == EditorMode::Simulate; }
+
 
 		EditorState& GetState();
 		const EditorState& GetState() const;

@@ -1,10 +1,10 @@
-#include "Core/EditorApp.h"
+#include "Core/EditorApplication.h"
 
 #include <iostream>
 
 
 int main() {
-	Luden::Editor::EditorApp editorApp;
+	Luden::Editor::EditorApplication editorApp;
 	editorApp.Init();
 	editorApp.Run();
 

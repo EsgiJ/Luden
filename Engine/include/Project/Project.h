@@ -37,7 +37,7 @@ namespace Luden
 
 		static std::shared_ptr<Project> GetActiveProject() { return s_ActiveProject; }
 		static void SetActive(std::shared_ptr<Project> project);
-		//static void SetActiveRuntime(std::shared_ptr<Project> project, std::shared_ptr<ResourcePack> resourcePack);
+		static void SetActiveRuntime(std::shared_ptr<Project> project/*, std::shared_ptr<ResourcePack> resourcePack*/);
 
 		inline static std::shared_ptr<ResourceManagerBase> GetResourceManager() { return s_ResourceManager; }
 		inline static std::shared_ptr<EditorResourceManager> GetEditorResourceManager() { return std::dynamic_pointer_cast<EditorResourceManager>(s_ResourceManager); }
@@ -50,7 +50,7 @@ namespace Luden
 
 		const std::filesystem::path& GetResourceDirectory()
 		{
-			return std::filesystem::path(GetConfig().ProjectDirectory) / GetConfig().ResourceDirectory;
+			return std::filesystem::path(GetConfig().ProjectDirectory) / std::filesystem::path((GetConfig().ResourceDirectory));
 		}
 
 		static std::filesystem::path GetActiveResourceDirectory()

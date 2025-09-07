@@ -19,11 +19,6 @@ namespace Luden
 		return EntityMemoryPool::Instance().GetTag(m_UUID);
 	}
 
-	EntityID Entity::UUID() const 
-	{
-		return m_UUID;
-	}
-
 	void Entity::Destroy() 
 	{
 		EntityMemoryPool::Instance().DestroyEntity(m_UUID);

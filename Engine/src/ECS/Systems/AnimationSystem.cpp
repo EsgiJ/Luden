@@ -1,6 +1,6 @@
 #include "ECS/Systems/AnimationSystem.h"
 
-#include "Core/GameEngine.h"
+#include "Core/RuntimeApplication.h"
 #include "Scene/Scene.h"
 #include "ECS/Entity.h"
 #include "ECS/Components/Components.h"
@@ -10,8 +10,8 @@
 namespace Luden
 {
 	void AnimationSystem::Update(float dt)
-	{
-		auto& entities = GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
+	{	
+		/*auto& entities = GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
 		for (Entity& e : entities)
 		{
 			if (!e.Has<CAnimation>()) continue;
@@ -31,5 +31,6 @@ namespace Luden
 				{ static_cast<int>(anim->GetSize().x), static_cast<int>(anim->GetSize().y) }
 			));
 		}
+	*/
 	}
 }

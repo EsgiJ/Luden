@@ -72,7 +72,7 @@ namespace Luden
 			}, m_Pool);
 	}
 
-	Entity& EntityMemoryPool::AddEntity(const std::string& tag)
+	Entity EntityMemoryPool::AddEntity(const std::string& tag)
 	{
 		UUID id;
 
@@ -132,5 +132,14 @@ namespace Luden
 	{
 		PoolIndex idx = IndexOf(entityID);
 		return m_Active[idx];
+	}
+
+	bool EntityMemoryPool::Exists(const EntityID& entityID) const
+	{
+		auto it = m_IdToIndex.find(entityID);
+		if (it == m_IdToIndex.end())
+			return false;
+
+		return true;
 	}
 }

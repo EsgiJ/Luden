@@ -107,7 +107,7 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
-    <ClInclude Include="include\Core\EditorApp.h" />
+    <ClInclude Include="include\Core\EditorApplication.h" />
     <ClInclude Include="include\Core\EditorState.h" />
     <ClInclude Include="include\EditorAPI.h" />
     <ClInclude Include="include\GUI\ImGuiStyle.h" />
@@ -127,7 +127,7 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\Core\EditorApp.cpp" />
+    <ClCompile Include="src\Core\EditorApplication.cpp" />
     <ClCompile Include="src\Core\EditorState.cpp" />
     <ClCompile Include="src\Panels\ConsolePanel.cpp" />
     <ClCompile Include="src\Panels\InspectorPanel.cpp" />

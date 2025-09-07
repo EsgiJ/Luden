@@ -25,7 +25,6 @@ project "Engine"
         "extern/imgui/*.cpp",
         "extern/ImGui-SFML/*.cpp",
         "extern/ImGui-SFML/*.h",
-        "extern/nativefiledialog-extended/src/nfd_common.c"
     }
 
     includedirs {
@@ -198,33 +197,3 @@ filter "system:windows"
 
     "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
   }
-
--- GAME PROJECT
-project "Game"
-    location "Game"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++20"
-    staticruntime "off"
-    dependson { "Engine" }
-
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-    files {
-        "Game/**.h",
-        "Game/**.cpp"
-    }
-
-    includedirs {
-        "Game",
-        "Engine/include"
-    }
-
-    links {
-        "Engine"
-    }
-
-    postbuildcommands {
-        "{COPYFILE} ../bin/" .. outputdir .. "/Engine/Engine.dll %{cfg.targetdir}/Engine.dll"
-    }

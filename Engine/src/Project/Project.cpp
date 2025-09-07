@@ -16,11 +16,22 @@ namespace Luden
 		}
 	}
 
-/*	void Project::SetActiveRuntime(std::shared_ptr<Project> project, std::shared_ptr<ResourcePack> resourcePack)
+	void Project::SetActiveRuntime(std::shared_ptr<Project> project/*, std::shared_ptr<ResourcePack> resourcePack*/)
 	{
-		//TODO:
+		if (s_ActiveProject)
+		{
+			s_ResourceManager->Shutdown();
+			s_ResourceManager = nullptr;
+		}
+
+		s_ActiveProject = project;
+
+		if (s_ActiveProject)
+		{
+			s_ResourceManager = std::make_shared<RuntimeResourceManager>();
+			//std::static_pointer_cast<RuntimeResourceManager>(s_ResourceManager)->SetResourcePack(resourcePack);
+		}
 	}
-*/
 	std::shared_ptr<Project> Project::New()
 	{
 		s_ActiveProject = std::make_shared<Project>();

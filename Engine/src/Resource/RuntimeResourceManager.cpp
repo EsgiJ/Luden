@@ -1,6 +1,6 @@
 #include "Resource/RuntimeResourceManager.h"
 
-#include "Core/Application.h"
+#include "Core/RuntimeApplication.h"
 #include "Resource/ResourceImporter.h"
 #include "Resource/ResourceManager.h"
 #include "Scene/Scene.h"

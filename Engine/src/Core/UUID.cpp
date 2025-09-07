@@ -25,12 +25,7 @@ namespace Luden
 	{
 	}
 
-	UUID::operator uint64_t()
-	{
-		return m_UUID;
-	}
-
-	UUID::operator const uint64_t() const
+	UUID::operator uint64_t() const
 	{
 		return m_UUID;
 	}
@@ -44,17 +39,12 @@ namespace Luden
 		: m_UUID(uuid)
 	{
 	}
-	UUID32::UUID32(UUID32& other)
+	UUID32::UUID32(const UUID32& other)
 		: m_UUID(other.m_UUID)
 	{
 	}
 
-	UUID32::operator uint32_t()
-	{
-		return m_UUID;
-	}
-
-	UUID32::operator const uint32_t() const
+	UUID32::operator uint32_t() const
 	{
 		return m_UUID;
 	}

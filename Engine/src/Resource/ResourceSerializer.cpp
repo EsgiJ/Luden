@@ -213,6 +213,11 @@ namespace Luden
 		return false;
 	}
 
+	std::shared_ptr<Luden::Resource> SceneResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	{
+		return nullptr;
+	}
+
 	std::shared_ptr<Scene> SceneResourceSerializer::DeserializeSceneFromResourcePack(FileStreamReader& stream, const ResourcePackFile::SceneInfo& sceneInfo) const
 	{
 		std::shared_ptr<Scene> scene = std::make_shared<Scene>();
@@ -291,12 +296,10 @@ namespace Luden
 
 		std::string name = j["Name"].get<std::string>();
 		size_t frameCount = j["FrameCount"].get<size_t>();
-		size_t speed = j["Speed"].get<size_t>();
-		Math::Vec2 size = { j["Size"][0], j["Size"][1] };
 		ResourceHandle textureHandle = j["TextureHandle"].get<uint64_t>();
 
-		auto anim = std::make_shared<Graphics::Animation>(name, textureHandle, frameCount, speed);
-		anim->SetSize(size);
+		auto anim = std::make_shared<Graphics::Animation>(name, textureHandle, frameCount);
+		anim->SetSize({ 1.0f, 1.0f });
 
 		return anim;
 	}

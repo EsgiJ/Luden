@@ -16,75 +16,88 @@
 #include "Input/Action.h"
 #include "Math/Vec2.h"
 #include "Resource/Resource.h"
+#include "Core/UUID.h"
+#include "Core/TimeStep.h"
 
 namespace Luden {
 
-	class GameEngine;
 	using ActionMap = std::map<int, std::string>;
 
-	class ENGINE_API Scene : public Resource
-	{
+	class ENGINE_API Scene : public Resource {
 	public:
-		Scene() = default;
-		virtual ~Scene() = default;
+		Scene(const std::string& name = "Untitled");
+		virtual ~Scene();
 
-		virtual void Update() = 0;
-		virtual void sRender(sf::RenderTarget& target) = 0;
-		virtual void sDoAction(const Action& action) = 0;
-		virtual void OnEnd() = 0;
+		// Update & Render
+		virtual void OnUpdateRuntime(TimeStep ts);
+		virtual void OnUpdateEditor(TimeStep ts);
+		virtual void OnRenderRuntime(sf::RenderTarget& target);
+		virtual void OnRenderEditor(sf::RenderTarget& target);
 
-		virtual void DoAction(const Action& action);
-		void Simulate(size_t frames);
+		// Lifecycle
+		virtual void OnRuntimeStart();
+		virtual void OnRuntimeStop();
+		virtual void OnSimulationStart();
+		virtual void OnSimulationStop();
+
+		// Input
+		void DoAction(const Action& action);
 		void RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName);
+		const ActionMap& GetActionMap() const { return m_ActionMap; }
 
-		[[nodiscard]] float Width() const;
-		[[nodiscard]] float Height() const;
-		[[nodiscard]] size_t CurrentFrame() const;
-		[[nodiscard]] bool HasEnded() const;
-		[[nodiscard]] const ActionMap& GetActionMap() const;
+		// Entity management
+		Entity CreateEntity(const std::string& tag = "");
+		Entity DuplicateEntity(const Entity& entity);
+		void DestroyEntity(const Entity& entity);
+		void DestroyEntity(const EntityID& entityID);
 
-		[[nodiscard]] EntityManager& GetEntityManager();
-		[[nodiscard]] const EntityManager& GetEntityManager() const;
-		void SetPaused(bool paused);
-		void SetViewportSize(const sf::Vector2u& size);
-		sf::Vector2u GetViewportSize() const { return m_ViewportSize; }
+		Entity GetEntityWithUUID(const UUID& uuid) const;
+		Entity TryGetEntityWithUUID(const UUID& uuid);
+		Entity TryGetEntityWithTag(const std::string& tag);
+
+		EntityManager& GetEntityManager() { return m_EntityManager; }
+		const EntityManager& GetEntityManager() const { return m_EntityManager; }
+
+		// Viewport
+		void SetViewportSize(uint32_t width, uint32_t height);
+		uint32_t GetViewportWidth() const { return m_ViewportWidth; }
+		uint32_t GetViewportHeight() const { return m_ViewportHeight; }
 		sf::View& GetView() { return m_View; }
 		const sf::View& GetView() const { return m_View; }
 
+		float Width() const;
+		float Height() const;
+
+		// Utils
 		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);
-
-		const std::string& GetName() const { return m_Name; }
-		void SetName(const std::string& name) { m_Name = name; }
-
 		std::unordered_set<ResourceHandle> GetResourceList();
 
-		//Entity Methods
-		Entity CreateEntity(const std::string& tag = "");
-		void DestroyEntity(const Entity& entity);
-		void DestroyEntity(const UUID& entityID);
-		//TODO:
-		/*
-		Entity DuplicateEntity(const Entity& entity);
+		// Metadata
+		const std::string& GetName() const { return m_Name; }
+		void SetName(const std::string& name) { m_Name = name; }
+		UUID GetUUID() const { return Handle; }
 
-		// return entity with id as specified. entity is expected to exist (runtime error if it doesn't)
-		Entity GetEntityWithUUID(const UUID& uuid) const;
-
-		Entity TryGetEntityWithUUID(const UUID& uuid);
-		Entity TryGetEntityWithTag(const std::string& tag);
-		*/
+		void SetPaused(bool paused) { m_Paused = paused; }
+		bool IsPaused() const { return m_Paused; }
 
 		static ResourceType GetStaticType() { return ResourceType::Scene; }
 		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 
-	protected:
+	private:
 		EntityManager m_EntityManager;
 		ActionMap m_ActionMap;
-		bool m_Paused = false;
-		bool m_HasEnded = false;
-		size_t m_CurrentFrame = 0;
-		sf::Vector2u m_ViewportSize{ 0, 0 };
-		sf::View m_View;
+
 		std::string m_Name;
+
+		bool m_IsPlaying = false;
+		bool m_ShouldSimulate = false;
+		bool m_Paused = false;
+
+		size_t m_CurrentFrame = 0;
+
+		uint32_t m_ViewportWidth = 0;
+		uint32_t m_ViewportHeight = 0;
+		sf::View m_View;
 	};
 
 }
