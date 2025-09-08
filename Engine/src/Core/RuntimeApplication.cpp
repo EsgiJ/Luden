@@ -1,5 +1,6 @@
 #include "Core/RuntimeApplication.h"
 #include "Project/Project.h"
+#include "Project/ProjectSerializer.h"
 #include "Scene/Scene.h"
 #include "Resource/ResourceManager.h"
 
@@ -8,7 +9,7 @@
 namespace Luden {
 
 	RuntimeApplication::RuntimeApplication(const ApplicationSpecification& spec)
-		: m_Specification(spec)
+		: m_Specification(std::move(spec))
 	{
 		if (!m_Specification.Headless) 
 		{
@@ -26,14 +27,9 @@ namespace Luden {
 	{
 		std::cout << "[RuntimeApplication] Initializing...\n";
 
-		auto project = Project::Load("MyGame/MyGame.project");
-		if (!project) 
-		{
-			std::cerr << "[RuntimeApplication] Failed to load project file!\n";
-			return;
-		}
-
-		Project::SetActiveRuntime(project);
+		OpenProject();
+		auto project = Project::GetActiveProject();
+		Project::SetActiveRuntime(project, m_ResourcePack);
 
 		m_ResourceManager = Project::GetRuntimeResourceManager();
 		if (!m_ResourceManager) 
@@ -41,8 +37,8 @@ namespace Luden {
 			std::cerr << "[RuntimeApplication] ResourceManager not initialized!\n";
 			return;
 		}
-
-		LoadStartScene();
+		
+		LoadScene(project->GetConfig().StartSceneHandle);
 	}
 
 	void RuntimeApplication::OnShutdown() 
@@ -79,6 +75,19 @@ namespace Luden {
 		}
 	}
 
+	void RuntimeApplication::OpenProject()
+	{
+		std::shared_ptr<Project> project = std::make_shared<Project>();
+		ProjectSerializer serializer(project);
+		serializer.DeserializeRuntime(std::filesystem::path(m_Specification.m_ProjectPath) / project->GetConfig().ResourceDirectory / "Project.ldat");
+
+		// Load asset pack
+		m_ResourcePack = ResourcePack::Load(std::filesystem::path(m_Specification.m_ProjectPath) / "ResourcePack.lrp");
+		Project::SetActiveRuntime(project, m_ResourcePack);
+
+		LoadScene(project->GetConfig().StartSceneHandle);
+	}
+
 	void RuntimeApplication::ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent) 
 	{
 		if (endCurrent && m_CurrentScene)
@@ -95,38 +104,26 @@ namespace Luden {
 		}
 	}
 
-	void RuntimeApplication::LoadStartScene() 
-	{
-		auto project = Project::GetActiveProject();
-		if (!project) {
-			std::cout << "[RuntimeApplication] No active project set.\n";
+	void RuntimeApplication::LoadScene(ResourceHandle handle) {
+		if (!m_ResourceManager) {
+			std::cerr << "[RuntimeApplication] ResourceManager not initialized!\n";
 			return;
 		}
 
-		const auto& config = project->GetConfig();
-		
-		if (!Project::GetResourceManager()->IsResourceHandleValid(config.StartSceneHandle)) {
-			std::cout << "[RuntimeApplication] No StartSceneHandle found in project config.\n";
+		if (!Project::GetResourceManager()->IsResourceHandleValid(handle)) {
+			std::cerr << "[RuntimeApplication] Invalid StartScene handle!\n";
 			return;
 		}
 
-		try 
+		auto resource = m_ResourceManager->GetResource(handle);
+		auto scene = std::dynamic_pointer_cast<Scene>(resource);
+		if (scene)
 		{
-			auto resource = m_ResourceManager->GetResource(config.StartSceneHandle);
-			auto scene = std::dynamic_pointer_cast<Scene>(resource);
-			if (scene) 
-			{
-				ChangeScene(scene->GetName() , scene);
-				std::cout << "[RuntimeApplication] Loaded Start Scene successfully.\n";
-			}
-			else 
-			{
-				std::cerr << "[RuntimeApplication] Resource is not a Scene!\n";
-			}
+			ChangeScene(scene->GetName(), scene);
 		}
-		catch (const std::exception& e) {
-			std::cerr << "[RuntimeApplication] Exception while loading Start Scene: " << e.what() << "\n";
+		else 
+		{
+			std::cerr << "[RuntimeApplication] StartScene resource is not a Scene!\n";
 		}
 	}
-
 }

@@ -18,6 +18,10 @@ namespace Luden
 		virtual std::shared_ptr<Resource> GetResource(ResourceHandle resourceHandle) override;
 
 		virtual bool ReloadData(ResourceHandle resourceHandle) override;
+
+		virtual bool EnsureCurrent(ResourceHandle resourceHandle) override;
+		virtual bool EnsureAllLoadedCurrent() override;
+
 		virtual bool IsResourceHandleValid(ResourceHandle resourceHandle) override;
 		virtual bool IsResourceLoaded(ResourceHandle resourceHandle) override;
 		virtual bool IsResourceValid(ResourceHandle resourceHandle) override;

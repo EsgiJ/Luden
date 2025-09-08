@@ -16,7 +16,7 @@ namespace Luden
 		}
 	}
 
-	void Project::SetActiveRuntime(std::shared_ptr<Project> project/*, std::shared_ptr<ResourcePack> resourcePack*/)
+	void Project::SetActiveRuntime(std::shared_ptr<Project> project, std::shared_ptr<ResourcePack> resourcePack)
 	{
 		if (s_ActiveProject)
 		{
@@ -29,37 +29,8 @@ namespace Luden
 		if (s_ActiveProject)
 		{
 			s_ResourceManager = std::make_shared<RuntimeResourceManager>();
-			//std::static_pointer_cast<RuntimeResourceManager>(s_ResourceManager)->SetResourcePack(resourcePack);
+			std::static_pointer_cast<RuntimeResourceManager>(s_ResourceManager)->SetResourcePack(resourcePack);
 		}
 	}
-	std::shared_ptr<Project> Project::New()
-	{
-		s_ActiveProject = std::make_shared<Project>();
-		return s_ActiveProject;
-	}
-	std::shared_ptr<Project> Project::Load(const std::filesystem::path& path)
-	{
-		std::shared_ptr<Project> project = std::make_shared<Project>();
-
-		ProjectSerializer serializer(project);
-		if (serializer.Deserialize(path))
-		{
-			project->GetConfig().ProjectDirectory = path.parent_path().string();
-			s_ActiveProject = project;
-			return s_ActiveProject;
-		}
-		return nullptr;
-	}
-	bool Project::SaveActiveProject(const std::filesystem::path& path)
-	{
-		ProjectSerializer serializer(s_ActiveProject);
-		if (serializer.Serialize(path))
-		{
-			s_ActiveProject->GetConfig().ProjectDirectory = path.parent_path().string();
-			return true;
-		}
-		return false;
-	}
-
 }
 

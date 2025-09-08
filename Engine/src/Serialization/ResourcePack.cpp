@@ -293,6 +293,10 @@ namespace Luden {
 	std::shared_ptr<ResourcePack> ResourcePack::Load(const std::filesystem::path& path)
 	{
 		std::shared_ptr<ResourcePack> resourcePack = std::shared_ptr<ResourcePack>();
+
+		if (resourcePack == nullptr)
+			return nullptr;
+
 		resourcePack->m_Path = path;
 		bool success = ResourcePackSerializer::DeserializeIndex(resourcePack->m_Path, resourcePack->m_File);
 		if (!success)

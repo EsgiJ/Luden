@@ -25,6 +25,7 @@ namespace Luden {
 		bool EnableImGui = true;
 		std::filesystem::path IconPath;
 		bool Headless = false;
+		std::filesystem::path m_ProjectPath;
 	};
 
 	class ENGINE_API RuntimeApplication 
@@ -40,16 +41,18 @@ namespace Luden {
 		//Render
 		void RenderTo(sf::RenderTarget& target);
 
+		void OpenProject();
+
 		// Scene Management
 		void ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent = false);
+		void LoadScene(ResourceHandle handle);
 		std::shared_ptr<Scene> GetCurrentScene() const { return m_CurrentScene; }
 		std::shared_ptr<RuntimeResourceManager> GetResourceManager() const { return m_ResourceManager; }
 
 	private:
-		void LoadStartScene();
-
-	private:
 		std::shared_ptr<RuntimeResourceManager> m_ResourceManager;
+		std::shared_ptr<ResourcePack> m_ResourcePack;
+
 		std::shared_ptr<Scene> m_CurrentScene;
 		std::string m_CurrentSceneName;
 

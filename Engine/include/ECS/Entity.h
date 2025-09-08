@@ -61,7 +61,7 @@ namespace Luden
 		}
 
 	private:
-		Entity();
+		Entity() = default;
 		Entity(EntityID uuid);
 
 		EntityID m_UUID = 0;

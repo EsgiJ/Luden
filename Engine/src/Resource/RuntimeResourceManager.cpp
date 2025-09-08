@@ -54,6 +54,18 @@ namespace Luden {
 		return true;
 	}
 
+	bool RuntimeResourceManager::EnsureCurrent(ResourceHandle resourceHandle)
+	{
+		//TODO:
+		return false;
+	}
+
+	bool RuntimeResourceManager::EnsureAllLoadedCurrent()
+	{
+		//TODO:
+		return false;
+	}
+
 	bool RuntimeResourceManager::IsResourceHandleValid(ResourceHandle resourceHandle)
 	{
 		if (resourceHandle == 0)

@@ -15,6 +15,10 @@ namespace Luden
 		bool Serialize(const std::filesystem::path& path);
 		bool Deserialize(const std::filesystem::path& path);
 
+		bool SerializeRuntime(const std::filesystem::path& path);
+		bool DeserializeRuntime(const std::filesystem::path& path);
+
+
 	private:
 		const std::shared_ptr<Project> m_Project;
 	};

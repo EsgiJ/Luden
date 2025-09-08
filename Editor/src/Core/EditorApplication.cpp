@@ -58,15 +58,15 @@ namespace Luden::Editor {
 
 		m_IsRunning = true;
 
-		// 🔹 Start RuntimeApplication headless
+		// Start RuntimeApplication headless
 		ApplicationSpecification spec;
 		spec.Name = "Luden Runtime (Editor)";
 		spec.WindowWidth = 1280;
 		spec.WindowHeight = 720;
 		spec.Headless = true;
 		spec.EnableImGui = false;
-
-		m_RuntimeApp = std::make_unique<Luden::RuntimeApplication>(spec);
+		spec.m_ProjectPath = "C:\\GameProjects\\Luden\\MyGame";
+		m_RuntimeApp = std::make_unique<Luden::RuntimeApplication>(std::move(spec));
 		m_RuntimeApp->OnInit();
 	}
 

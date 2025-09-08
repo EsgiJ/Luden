@@ -34,7 +34,7 @@ namespace Luden
 	{
 		std::ifstream in(path);
 		if (!in.is_open())
-			false;
+			return false;
 
 		json jProject;
 		in >> jProject;
@@ -55,5 +55,43 @@ namespace Luden
 
 		return true;
 	}
+
+	bool ProjectSerializer::SerializeRuntime(const std::filesystem::path& path) {
+		const auto& config = m_Project->GetConfig();
+
+		json jRuntime;
+		jRuntime["Name"] = config.Name;
+		jRuntime["StartSceneHandle"] = static_cast<uint64_t>(config.StartSceneHandle);
+
+		std::ofstream out(path);
+		if (!out.is_open())
+			return false;
+
+		out << jRuntime.dump();
+		return true;
+	}
+
+	bool ProjectSerializer::DeserializeRuntime(const std::filesystem::path& path) {
+		std::ifstream in(path);
+		if (!in.is_open())
+			return false;
+
+		json jRuntime;
+		in >> jRuntime;
+
+		auto& config = m_Project->GetConfig();
+
+		if (jRuntime.contains("Name"))
+			config.Name = jRuntime["Name"].get<std::string>();
+
+		if (jRuntime.contains("StartSceneHandle"))
+			config.StartSceneHandle = jRuntime["StartSceneHandle"].get<std::uint64_t>();
+
+		config.ProjectFileName = path.filename().string();
+		config.ProjectDirectory = path.parent_path().string();
+
+		return true;
+	}
+
 }
 

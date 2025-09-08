@@ -19,7 +19,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
@@ -47,7 +47,7 @@
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Release-windows-x86_64\Engine\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\Engine\</IntDir>
     <TargetName>Engine</TargetName>
@@ -59,22 +59,24 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\json\include;..\Tools;..\extern\nativefiledialog-extended\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;comdlg32.lib;ole32.lib;uuid.lib;shell32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>comdlg32.lib;ole32.lib;uuid.lib;shell32.lib;user32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Debug-windows-x86_64\Engine\Engine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-graphics-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-window-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-system-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-audio-3.dll</Command>
+      <Command>copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-graphics-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-graphics-d-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-window-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-window-d-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-system-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-system-d-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-audio-d-3.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -83,14 +85,20 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Debug-window
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\SFML\include;..\extern\sol2\single;..\extern\json\include;..\Tools;..\extern\nativefiledialog-extended\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;comdlg32.lib;ole32.lib;uuid.lib;shell32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>comdlg32.lib;ole32.lib;uuid.lib;shell32.lib;user32.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Release-windows-x86_64\Engine\Engine.lib</ImportLibrary>
     </Link>
@@ -106,9 +114,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
     <ClInclude Include="include\Audio\SoundBuffer.h" />
-    <ClInclude Include="include\Core\RuntimeApplication.h" />
     <ClInclude Include="include\Core\Buffer.h" />
     <ClInclude Include="include\Core\Platform.h" />
+    <ClInclude Include="include\Core\RuntimeApplication.h" />
     <ClInclude Include="include\Core\TimeStep.h" />
     <ClInclude Include="include\Core\UUID.h" />
     <ClInclude Include="include\ECS\Components\Components.h" />
@@ -159,8 +167,8 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_win.cpp" />
     <ClCompile Include="src\Audio\SoundBuffer.cpp" />
-    <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\Platform.cpp" />
+    <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />
     <ClCompile Include="src\Core\UUID.cpp" />
     <ClCompile Include="src\ECS\Entity.cpp" />

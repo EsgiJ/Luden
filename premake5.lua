@@ -5,7 +5,9 @@ workspace "LudenEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+--------------------------------------------------------------------
 -- ENGINE PROJECT (DLL)
+--------------------------------------------------------------------
 project "Engine"
     location "Engine"
     kind "SharedLib"
@@ -38,60 +40,40 @@ project "Engine"
         "extern/nativefiledialog-extended/src/include"
     }
 
-    libdirs {
-        "extern/SFML/build/lib/Release"
-    }
-
-    links {
-        "sfml-graphics",
-        "sfml-window",
-        "sfml-system",
-        "sfml-audio",
-        "opengl32"
-    }
-
     vpaths 
     {
-        -- Engine headers
         ["Headers/Audio"]        = "Engine/include/Audio/**.h",
-        ["Headers/Core"]        = "Engine/include/Core/**.h",
-        ["Headers/ECS"]         = "Engine/include/ECS/**.h",
-        ["Headers/Graphics"]    = "Engine/include/Graphics/**.h",
-        ["Headers/Input"]       = "Engine/include/Input/**.h",
-        ["Headers/IO"]          = "Engine/include/IO/**.h",
-        ["Headers/Math"]        = "Engine/include/Math/**.h",
-        ["Headers/Utilities"]       = "Engine/include/Utilities/**.h",
-        ["Headers/Scene"]       = "Engine/include/Scene/**.h",
-        ["Headers/Physics"]     = "Engine/include/Physics/**.h",
-        ["Headers/Project"]    = "Engine/include/Project/**.h",
-        ["Headers/Reflection"]  = "Engine/include/Reflection/**.h",
-        ["Headers/Resource"]    = "Engine/include/Resource/**.h",
-        ["Headers/Serialization"]    = "Engine/include/Serialization/**.h",
+        ["Headers/Core"]         = "Engine/include/Core/**.h",
+        ["Headers/ECS"]          = "Engine/include/ECS/**.h",
+        ["Headers/Graphics"]     = "Engine/include/Graphics/**.h",
+        ["Headers/Input"]        = "Engine/include/Input/**.h",
+        ["Headers/IO"]           = "Engine/include/IO/**.h",
+        ["Headers/Math"]         = "Engine/include/Math/**.h",
+        ["Headers/Utilities"]    = "Engine/include/Utilities/**.h",
+        ["Headers/Scene"]        = "Engine/include/Scene/**.h",
+        ["Headers/Physics"]      = "Engine/include/Physics/**.h",
+        ["Headers/Project"]      = "Engine/include/Project/**.h",
+        ["Headers/Reflection"]   = "Engine/include/Reflection/**.h",
+        ["Headers/Resource"]     = "Engine/include/Resource/**.h",
+        ["Headers/Serialization"]= "Engine/include/Serialization/**.h",
 
-
-    
-        -- Engine sources
         ["Source/Audio"]         = "Engine/src/Audio/**.cpp",
-        ["Source/Core"]         = "Engine/src/Core/**.cpp",
-        ["Source/ECS"]          = "Engine/src/ECS/**.cpp",
-        ["Source/Generated"]    = "Engine/src/Generated/**.gen.cpp",
-        ["Source/Graphics"]     = "Engine/src/Graphics/**.cpp",
-        ["Source/Input"]        = "Engine/src/Input/**.cpp",
-        ["Source/IO"]           = "Engine/src/IO/**.cpp",
-        ["Source/Math"]         = "Engine/src/Math/**.cpp",
-        ["Source/Utilities"]        = "Engine/src/Utilities/**.cpp",
-        ["Source/Scene"]        = "Engine/src/Scene/**.cpp",
-        ["Source/Physics"]      = "Engine/src/Physics/**.cpp",
-        ["Source/Project"]     = "Engine/src/Project/**.cpp",
-        ["Source/Resource"]     = "Engine/src/Resource/**.cpp",
-        ["Source/Serialization"]     = "Engine/src/Serialization/**.cpp",
+        ["Source/Core"]          = "Engine/src/Core/**.cpp",
+        ["Source/ECS"]           = "Engine/src/ECS/**.cpp",
+        ["Source/Generated"]     = "Engine/src/Generated/**.gen.cpp",
+        ["Source/Graphics"]      = "Engine/src/Graphics/**.cpp",
+        ["Source/Input"]         = "Engine/src/Input/**.cpp",
+        ["Source/IO"]            = "Engine/src/IO/**.cpp",
+        ["Source/Math"]          = "Engine/src/Math/**.cpp",
+        ["Source/Utilities"]     = "Engine/src/Utilities/**.cpp",
+        ["Source/Scene"]         = "Engine/src/Scene/**.cpp",
+        ["Source/Physics"]       = "Engine/src/Physics/**.cpp",
+        ["Source/Project"]       = "Engine/src/Project/**.cpp",
+        ["Source/Resource"]      = "Engine/src/Resource/**.cpp",
+        ["Source/Serialization"] = "Engine/src/Serialization/**.cpp",
 
-    
-        -- ImGui files
-        ["Extern/ImGui/Source"] = "extern/imgui/**.cpp",
-        ["Extern/ImGui/Header"] = "extern/imgui/**.h",
-    
-        -- ImGui-SFML files
+        ["Extern/ImGui/Source"]  = "extern/imgui/**.cpp",
+        ["Extern/ImGui/Header"]  = "extern/imgui/**.h",
         ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
         ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h",
     } 
@@ -99,12 +81,7 @@ project "Engine"
     filter "system:windows"
         files { "extern/nativefiledialog-extended/src/nfd_win.cpp" }
         links { "comdlg32", "ole32", "uuid", "shell32", "user32" }
-        postbuildcommands {
-            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
-            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
-            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
-            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
-        }
+
     filter "system:macosx"
         files { "extern/nativefiledialog-extended/src/nfd_cocoa.m" }
         links { "AppKit.framework", "UniformTypeIdentifiers.framework" }
@@ -113,9 +90,40 @@ project "Engine"
     filter "system:linux"
         files { "extern/nativefiledialog-extended/src/nfd_gtk.c" }
         links { "gtk-3", "gobject-2.0", "glib-2.0", "gio-2.0" }
-    filter {}
 
+    ----------------------------------------------------------------
+    -- Debug config
+    ----------------------------------------------------------------
+    filter { "system:windows", "configurations:Debug" }
+        runtime "Debug"
+        symbols "On"
+        libdirs { "extern/SFML/build/lib/Debug" }
+        links { "sfml-graphics-d", "sfml-window-d", "sfml-system-d", "sfml-audio-d", "opengl32" }
+        postbuildcommands {
+            "{COPYFILE} ../extern/SFML/build/bin/Debug/sfml-graphics-d-3.dll %{cfg.targetdir}/sfml-graphics-d-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Debug/sfml-window-d-3.dll %{cfg.targetdir}/sfml-window-d-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Debug/sfml-system-d-3.dll %{cfg.targetdir}/sfml-system-d-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Debug/sfml-audio-d-3.dll %{cfg.targetdir}/sfml-audio-d-3.dll"
+        }
+
+    ----------------------------------------------------------------
+    -- Release config
+    ----------------------------------------------------------------
+    filter { "system:windows", "configurations:Release" }
+        runtime "Release"
+        optimize "On"
+        libdirs { "extern/SFML/build/lib/Release" }
+        links { "sfml-graphics", "sfml-window", "sfml-system", "sfml-audio", "opengl32" }
+        postbuildcommands {
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
+        }
+
+--------------------------------------------------------------------
 -- EDITOR PROJECT
+--------------------------------------------------------------------
 project "Editor"
     location "Editor"
     kind "ConsoleApp"
@@ -148,52 +156,56 @@ project "Editor"
         "extern/IconFontCppHeaders",
         "Tools"
     }
-    
-    libdirs {
-        "extern/SFML/build/lib/Release"
-    }
 
-    links {
-        "Engine",
-        "sfml-graphics",
-        "sfml-window",
-        "sfml-system",
-        "sfml-audio",
-        "opengl32"
-    }
-
-        vpaths 
-    {
-        -- Engine headers
+    vpaths {
         ["Headers/Core"]        = "Editor/include/Core/**.h",
         ["Headers/GUI"]         = "Editor/include/GUI/**.h",
         ["Headers/Panels"]      = "Editor/include/Panels/**.h",
         ["Headers/Utils"]       = "Editor/include/Utils/**.h",
 
-        -- Engine sources
         ["Source/Core"]         = "Editor/src/Core/**.cpp",
         ["Source/GUI"]          = "Editor/src/GUI/**.cpp",
         ["Source/Panels"]       = "Editor/src/Panels/**.cpp",
         ["Source/Utils"]        = "Editor/src/Utils/**.cpp",
 
-        -- ImGui files
         ["Extern/ImGui/Source"] = "extern/imgui/**.cpp",
         ["Extern/ImGui/Header"] = "extern/imgui/**.h",
-    
-        -- ImGui-SFML files
         ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
         ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h"
-    } 
+    }
 
-filter "system:windows"
-  postbuildcommands {
-    "{MKDIR} \"%{cfg.targetdir}\"",
+    ----------------------------------------------------------------
+    -- Debug config
+    ----------------------------------------------------------------
+    filter { "system:windows", "configurations:Debug" }
+        runtime "Debug"
+        symbols "On"
+        libdirs { "extern/SFML/build/lib/Debug" }
+        links { "Engine", "sfml-graphics-d", "sfml-window-d", "sfml-system-d", "sfml-audio-d", "opengl32" }
+        postbuildcommands {
+            "{MKDIR} \"%{cfg.targetdir}\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-graphics-d-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-d-3.dll\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-window-d-3.dll\"  \"%{cfg.targetdir}\\sfml-window-d-3.dll\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-system-d-3.dll\"  \"%{cfg.targetdir}\\sfml-system-d-3.dll\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-audio-d-3.dll\"   \"%{cfg.targetdir}\\sfml-audio-d-3.dll\"",
+            "{COPYFILE} ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Engine/Engine.pdb %{cfg.targetdir}/Engine.pdb",
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
+        }
 
-    -- copy SFML DLLs
-    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-graphics-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-3.dll\"",
-    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-window-3.dll\"  \"%{cfg.targetdir}\\sfml-window-3.dll\"",
-    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-system-3.dll\"  \"%{cfg.targetdir}\\sfml-system-3.dll\"",
-    "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-audio-3.dll\"   \"%{cfg.targetdir}\\sfml-audio-3.dll\"",
-
-    "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
-  }
+    ----------------------------------------------------------------
+    -- Release config
+    ----------------------------------------------------------------
+    filter { "system:windows", "configurations:Release" }
+        runtime "Release"
+        optimize "On"
+        libdirs { "extern/SFML/build/lib/Release" }
+        links { "Engine", "sfml-graphics", "sfml-window", "sfml-system", "sfml-audio", "opengl32" }
+        postbuildcommands {
+            "{MKDIR} \"%{cfg.targetdir}\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-graphics-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-3.dll\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-window-3.dll\"  \"%{cfg.targetdir}\\sfml-window-3.dll\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-system-3.dll\"  \"%{cfg.targetdir}\\sfml-system-3.dll\"",
+            "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-audio-3.dll\"   \"%{cfg.targetdir}\\sfml-audio-3.dll\"",
+            "{COPYFILE} ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Engine/Engine.pdb %{cfg.targetdir}/Engine.pdb",
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
+        }
