@@ -8,7 +8,7 @@
 #include <string>
 #include <fstream>
 
-namespace Luden::Editor
+namespace Luden
 {
 	enum class EditorMode
 	{

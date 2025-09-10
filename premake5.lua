@@ -40,44 +40,6 @@ project "Engine"
         "extern/nativefiledialog-extended/src/include"
     }
 
-    vpaths 
-    {
-        ["Headers/Audio"]        = "Engine/include/Audio/**.h",
-        ["Headers/Core"]         = "Engine/include/Core/**.h",
-        ["Headers/ECS"]          = "Engine/include/ECS/**.h",
-        ["Headers/Graphics"]     = "Engine/include/Graphics/**.h",
-        ["Headers/Input"]        = "Engine/include/Input/**.h",
-        ["Headers/IO"]           = "Engine/include/IO/**.h",
-        ["Headers/Math"]         = "Engine/include/Math/**.h",
-        ["Headers/Utilities"]    = "Engine/include/Utilities/**.h",
-        ["Headers/Scene"]        = "Engine/include/Scene/**.h",
-        ["Headers/Physics"]      = "Engine/include/Physics/**.h",
-        ["Headers/Project"]      = "Engine/include/Project/**.h",
-        ["Headers/Reflection"]   = "Engine/include/Reflection/**.h",
-        ["Headers/Resource"]     = "Engine/include/Resource/**.h",
-        ["Headers/Serialization"]= "Engine/include/Serialization/**.h",
-
-        ["Source/Audio"]         = "Engine/src/Audio/**.cpp",
-        ["Source/Core"]          = "Engine/src/Core/**.cpp",
-        ["Source/ECS"]           = "Engine/src/ECS/**.cpp",
-        ["Source/Generated"]     = "Engine/src/Generated/**.gen.cpp",
-        ["Source/Graphics"]      = "Engine/src/Graphics/**.cpp",
-        ["Source/Input"]         = "Engine/src/Input/**.cpp",
-        ["Source/IO"]            = "Engine/src/IO/**.cpp",
-        ["Source/Math"]          = "Engine/src/Math/**.cpp",
-        ["Source/Utilities"]     = "Engine/src/Utilities/**.cpp",
-        ["Source/Scene"]         = "Engine/src/Scene/**.cpp",
-        ["Source/Physics"]       = "Engine/src/Physics/**.cpp",
-        ["Source/Project"]       = "Engine/src/Project/**.cpp",
-        ["Source/Resource"]      = "Engine/src/Resource/**.cpp",
-        ["Source/Serialization"] = "Engine/src/Serialization/**.cpp",
-
-        ["Extern/ImGui/Source"]  = "extern/imgui/**.cpp",
-        ["Extern/ImGui/Header"]  = "extern/imgui/**.h",
-        ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
-        ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h",
-    } 
-
     filter "system:windows"
         files { "extern/nativefiledialog-extended/src/nfd_win.cpp" }
         links { "comdlg32", "ole32", "uuid", "shell32", "user32" }
@@ -155,23 +117,6 @@ project "Editor"
         "extern/json/include",
         "extern/IconFontCppHeaders",
         "Tools"
-    }
-
-    vpaths {
-        ["Headers/Core"]        = "Editor/include/Core/**.h",
-        ["Headers/GUI"]         = "Editor/include/GUI/**.h",
-        ["Headers/Panels"]      = "Editor/include/Panels/**.h",
-        ["Headers/Utils"]       = "Editor/include/Utils/**.h",
-
-        ["Source/Core"]         = "Editor/src/Core/**.cpp",
-        ["Source/GUI"]          = "Editor/src/GUI/**.cpp",
-        ["Source/Panels"]       = "Editor/src/Panels/**.cpp",
-        ["Source/Utils"]        = "Editor/src/Utils/**.cpp",
-
-        ["Extern/ImGui/Source"] = "extern/imgui/**.cpp",
-        ["Extern/ImGui/Header"] = "extern/imgui/**.h",
-        ["Extern/ImGui-SFML/Source"] = "extern/ImGui-SFML/**.cpp",
-        ["Extern/ImGui-SFML/Header"] = "extern/ImGui-SFML/**.h"
     }
 
     ----------------------------------------------------------------

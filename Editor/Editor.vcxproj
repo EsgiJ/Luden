@@ -121,13 +121,18 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClInclude Include="include\Core\EditorState.h" />
     <ClInclude Include="include\EditorAPI.h" />
     <ClInclude Include="include\GUI\ImGuiStyle.h" />
+    <ClInclude Include="include\ImGui\ImGuiUtils.h" />
     <ClInclude Include="include\Panels\ConsolePanel.h" />
+    <ClInclude Include="include\Panels\EditorPanel.h" />
     <ClInclude Include="include\Panels\InspectorPanel.h" />
-    <ClInclude Include="include\Panels\Panel.h" />
     <ClInclude Include="include\Panels\ProfilerPanel.h" />
     <ClInclude Include="include\Panels\ResourceBrowserPanel.h" />
     <ClInclude Include="include\Panels\SceneHierarchyPanel.h" />
     <ClInclude Include="include\Panels\SceneSettingsPanel.h" />
+    <ClInclude Include="include\Tabs\EditorTab.h" />
+    <ClInclude Include="include\Tabs\SceneEditorTab.h" />
+    <ClInclude Include="include\Utils\EditorColors.h" />
+    <ClInclude Include="include\Utils\FileMetadata.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\extern\ImGui-SFML\imgui-SFML.cpp" />
@@ -139,13 +144,16 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Core\EditorApplication.cpp" />
     <ClCompile Include="src\Core\EditorState.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiUtils.cpp" />
     <ClCompile Include="src\Panels\ConsolePanel.cpp" />
+    <ClCompile Include="src\Panels\EditorPanel.cpp" />
     <ClCompile Include="src\Panels\InspectorPanel.cpp" />
-    <ClCompile Include="src\Panels\Panel.cpp" />
     <ClCompile Include="src\Panels\ProfilerPanel.cpp" />
     <ClCompile Include="src\Panels\ResourceBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Panels\SceneSettingsPanel.cpp" />
+    <ClCompile Include="src\Tabs\EditorTab.cpp" />
+    <ClCompile Include="src\Tabs\SceneEditorTab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">

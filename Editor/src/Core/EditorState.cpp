@@ -1,6 +1,6 @@
 #include "Core/EditorState.h"
 
-namespace Luden::Editor
+namespace Luden
 {
 	EditorStateManager& EditorStateManager::Get()
 	{

@@ -1,6 +1,6 @@
 #include "Core/EditorApplication.h"
 
-#include "GUI/ImGuiStyle.h"
+#include "Utils/ImGuiStyle.h"
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/ResourceBrowserPanel.h"
 #include "Panels/InspectorPanel.h"
@@ -18,7 +18,7 @@
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 
-namespace Luden::Editor {
+namespace Luden {
 
 	EditorApplication::EditorApplication() {}
 	EditorApplication::~EditorApplication() { Shutdown(); }
@@ -40,7 +40,7 @@ namespace Luden::Editor {
 			p->m_Visible = (it != loaded.m_PanelStates.end()) ? it->second : true;
 		}
 
-		// 🔹 Editor window
+		// Editor window
 		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
 		m_Window.setFramerateLimit(60);
 

@@ -1,6 +1,6 @@
 #include "Panels/ResourceBrowserPanel.h"
 
-namespace Luden::Editor
+namespace Luden
 {
 
 	void ResourceBrowserPanel::Render()

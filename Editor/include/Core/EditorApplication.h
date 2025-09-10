@@ -12,7 +12,7 @@
 #include <memory>
 #include "imgui.h"
 
-namespace Luden::Editor {
+namespace Luden {
 
 	class EditorApplication {
 	public:
@@ -38,6 +38,8 @@ namespace Luden::Editor {
 		ImTextureID m_ViewportTextureID = 0;
 
 		std::vector<std::unique_ptr<Panel>> m_Panels;
+		std::vector<std::unique_ptr<Panel>> m_Panels;
+
 		bool m_IsRunning = false;
 		bool m_LayoutBuilt = false;
 
