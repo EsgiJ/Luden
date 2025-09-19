@@ -99,6 +99,16 @@ namespace Luden {
 		return std::filesystem::is_directory(filepath);
 	}
 
+	bool FileSystem::HasExtension(const std::filesystem::path& filepath)
+	{
+		return filepath.has_extension();
+	}
+
+	std::filesystem::path FileSystem::GetExtension(const std::filesystem::path& filepath)
+	{
+		return filepath.extension();
+	}
+
 	FileStatus FileSystem::TryOpenFile(const std::filesystem::path& filepath)
 	{
 		HANDLE fileHandle = CreateFile(filepath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, nullptr);

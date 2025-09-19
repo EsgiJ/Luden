@@ -6,6 +6,8 @@
 
 namespace Luden
 {
+	int EditorPanel::s_PanelIDCounter = 0;
+
 	void EditorPanel::OnImGuiRender()
 	{
 		if (BeginPanel())

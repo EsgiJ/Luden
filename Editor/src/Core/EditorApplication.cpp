@@ -1,62 +1,41 @@
 #include "Core/EditorApplication.h"
 
-#include "Utils/ImGuiStyle.h"
-#include "Panels/SceneHierarchyPanel.h"
-#include "Panels/ResourceBrowserPanel.h"
-#include "Panels/InspectorPanel.h"
-#include "Panels/ConsolePanel.h"
-#include "Panels/ProfilerPanel.h"
-#include "Panels/SceneSettingsPanel.h"
-#include "Core/EditorState.h"
+#include "Utils/EditorColors.h"
+#include "Tabs/SceneEditorTab.h"
 #include "IO/FileSystem.h"
 #include "Resource/ResourceManager.h"
+#include "Scene/SceneSerializer.h"
+#include "Utils/EditorResources.h"
+
 
 #include <filesystem>
+
 #include <iostream>
 
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 
-namespace Luden {
+namespace Luden 
+{
 
 	EditorApplication::EditorApplication() {}
 	EditorApplication::~EditorApplication() { Shutdown(); }
 
-	void EditorApplication::Init() {
-		EditorState loaded = EditorState::Load("editor_state.json");
-		EditorStateManager::Get().SetEditorMode(loaded.m_Mode);
+	void EditorApplication::Init() 
+	{
+		EditorResources::LoadEditorResources(Project::GetProjectDirectory());
 
-		m_Panels.clear();
-		m_Panels.emplace_back(std::make_unique<SceneHierarchyPanel>());
-		m_Panels.emplace_back(std::make_unique<ResourceBrowserPanel>());
-		// m_Panels.emplace_back(std::make_unique<InspectorPanel>());
-		// m_Panels.emplace_back(std::make_unique<ConsolePanel>());
-		// m_Panels.emplace_back(std::make_unique<ProfilerPanel>());
-		// m_Panels.emplace_back(std::make_unique<SceneSettingsPanel>());
-
-		for (auto& p : m_Panels) {
-			auto it = loaded.m_PanelStates.find(p->GetName());
-			p->m_Visible = (it != loaded.m_PanelStates.end()) ? it->second : true;
-		}
 
 		// Editor window
 		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
 		m_Window.setFramerateLimit(60);
 
-		if (!m_ViewportTexture.resize({ 1280, 720 }))
-			throw std::runtime_error("Failed to create viewport texture");
-		m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
-
 		if (!ImGui::SFML::Init(m_Window))
 			return;
 
-		SetupImGuiStyle(true, 0.9f);
-		LoadFonts();
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-		m_IsRunning = true;
 
 		// Start RuntimeApplication headless
 		ApplicationSpecification spec;
@@ -70,247 +49,280 @@ namespace Luden {
 		m_RuntimeApp->OnInit();
 	}
 
-	void EditorApplication::Run() 
+	void EditorApplication::Run()
 	{
-		while (m_IsRunning && m_Window.isOpen()) {
-			float dt = m_DeltaClock.restart().asSeconds();
-
-			if (!EditorStateManager::Get().IsPlayMode()) {
-				HandleInput();
-			}
-
-			ImGui::SFML::Update(m_Window, sf::seconds(dt));
-
-			if (EditorStateManager::Get().IsPlayMode()) 
-			{
-				m_RuntimeApp->OnUpdate(dt);
-			}
-			else if (EditorStateManager::Get().IsSimulateMode()) 
-			{
-				m_RuntimeApp->OnUpdate(dt);
-			}
-			else if (EditorStateManager::Get().IsEditMode()) 
-			{
-				if (auto scene = m_RuntimeApp->GetCurrentScene()) 
-				{
-					scene->OnUpdateEditor(dt);
-				}
-			}
-			RenderDockSpace();
-			RenderTitleBar();
-
-			for (auto& panel : m_Panels)
-				panel->Render();
-
-			Render();
-
-			ImGui::SFML::Render(m_Window);
-			m_Window.display();
-		}
+		TimeStep timestep;
+		OnUpdate(timestep);
 	}
 
-	void EditorApplication::Shutdown() {
-		// Save EditorState
-		EditorState& state = EditorStateManager::Get().GetState();
-		state.m_Mode = EditorStateManager::Get().GetEditorMode();
-		for (auto& p : m_Panels)
-			state.m_PanelStates[p->GetName()] = p->m_Visible;
-		state.Save("editor_state.json");
-
+	void EditorApplication::Shutdown()
+	{
 		ImGui::SFML::Shutdown();
-		if (m_Window.isOpen()) m_Window.close();
+		if (m_Window.isOpen()) 
+			m_Window.close();
 	}
 
-	void EditorApplication::Render() {
-		ImGui::Begin("Viewport");
-
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		sf::Vector2u newSize((unsigned int)viewportPanelSize.x, (unsigned int)viewportPanelSize.y);
-
-		if (m_ViewportTexture.getSize() != newSize && newSize.x > 0 && newSize.y > 0) {
-			m_ViewportTexture = sf::RenderTexture(newSize);
-			m_ViewportTextureID = (ImTextureID)(intptr_t)m_ViewportTexture.getTexture().getNativeHandle();
-		}
-
-		// 🔹 RuntimeApp headless render
-		if (m_RuntimeApp && m_RuntimeApp->GetCurrentScene()) {
-			m_ViewportTexture.clear();
-			m_RuntimeApp->RenderTo(m_ViewportTexture);
-			m_ViewportTexture.display();
-		}
-
-		float texAspect = static_cast<float>(m_ViewportTexture.getSize().x) / m_ViewportTexture.getSize().y;
-		float panelAspect = viewportPanelSize.x / viewportPanelSize.y;
-		ImVec2 imageSize = viewportPanelSize;
-		if (panelAspect > texAspect) {
-			imageSize.x = viewportPanelSize.y * texAspect;
-		}
-		else if (panelAspect < texAspect) {
-			imageSize.y = viewportPanelSize.x / texAspect;
-		}
-
-		ImGui::SetCursorPosX((viewportPanelSize.x - imageSize.x) / 2.0f);
-		ImGui::SetCursorPosY((viewportPanelSize.y - imageSize.y) / 2.0f);
-		ImGui::Image(m_ViewportTextureID, imageSize, { 0, 1 }, { 1, 0 });
-
-		ImGui::End();
-	}
-
-	void EditorApplication::RenderDockSpace() {
-		if (ImGui::BeginMainMenuBar()) {
-			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("Save All")) { /* Save logic */ }
-				if (ImGui::MenuItem("Exit")) { m_IsRunning = false; }
-				ImGui::EndMenu();
-			}
-
-			if (ImGui::BeginMenu("Window")) {
-				for (auto& panel : m_Panels) {
-					bool* visible = &panel->m_Visible;
-					ImGui::MenuItem(panel->GetName().c_str(), nullptr, visible);
+	void EditorApplication::OnUpdate(TimeStep timestep)
+	{
+		for (const auto& tab : m_EditorTabs) 
+		{
+			if (tab->IsFocused()) 
+			{
+				if (m_FocusedTab != tab) 
+				{
+					if (auto set = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab)) 
+					{
+						set->OnSceneStop();
+					}
 				}
-				ImGui::EndMenu();
+				m_FocusedTab = tab;
 			}
-			ImGui::EndMainMenuBar();
 		}
 
-		// Toolbar
-		ImGui::SetNextWindowPos(ImVec2(0, 20));
-		ImGui::SetNextWindowSize(ImVec2((float)m_Window.getSize().x, 40));
-		ImGuiWindowFlags toolbarFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar;
+		if (m_FocusedTab) 
+		{
+			m_FocusedTab->OnUpdate(timestep);
+		}
+	}
 
-		if (ImGui::Begin("Toolbar", nullptr, toolbarFlags)) {
-			RenderModeToolbar();
+	void EditorApplication::OnEvent(const std::optional<sf::Event>& evt)
+	{
+		if (m_FocusedTab) 
+		{
+			//m_FocusedTab->OnEvent(event);
+		}
+	}
+	void EditorApplication::OnImGuiRender()
+	{
+		if (BeginMainDockspace()) 
+		{
+			RenderContent();
+			InitializeMainDockspace();
 		}
 		ImGui::End();
 
-		// Dockspace
-		ImGuiWindowFlags flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-		auto* vp = ImGui::GetMainViewport();
-		ImGui::SetNextWindowPos(ImVec2(0, 60));
-		ImGui::SetNextWindowSize(vp->WorkSize);
-		ImGui::SetNextWindowViewport(vp->ID);
-		flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse |
-			ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
+		// closing tabs
+		m_EditorTabs.erase(
+			std::remove_if(m_EditorTabs.begin(), m_EditorTabs.end(),
+				[](const std::shared_ptr<EditorTab>& tab) {
+					if (tab->ShouldClose()) 
+					{
+						return true;
+					}
+					return false;
+				}
+			),
+			m_EditorTabs.end()
+		);
+
+		if (m_EditorTabs.size() == 0 && m_OpenResourceRequests.size() == 0) {
+
+			RequestOpenResource("Home");
+		}
+	}
+
+	void EditorApplication::RequestOpenResource(const std::filesystem::path& path)
+	{
+		// do not open new if its already open
+		for (const auto& tab : m_EditorTabs) 
+		{
+			if (tab->GetName() == path) 
+			{
+				ImGui::FocusWindow(ImGui::FindWindowByName(tab->GetWindowName().c_str()));
+				return;
+			}
+		}
+
+		m_OpenResourceRequests.push_back(path);
+	}
+
+	void CreateNewScene()
+	{
+
+	}
+
+	void EditorApplication::CreateNewScene()
+	{
+		std::filesystem::path newPath = FileSystem::SaveFileDialog({ { "Luden Scene (*.lscene)", "lscene" } });
+		if (newPath.empty())
+			return;
+
+		std::filesystem::path relative = Project::GetEditorResourceManager()->GetRelativePath(newPath);
+
+		if (FileSystem::Exists(newPath))
+		{
+			//TODO: Override logic
+			bool overrideConfirmed = true;
+			if (!overrideConfirmed)
+				return;
+		}
+
+		std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
+		SceneSerializer serializer(newScene);
+		serializer.Serialize(newPath.string());
+		RequestOpenResource(relative);
+	}
+
+	void EditorApplication::CreateNewProject(const std::filesystem::path& path, NewProjectType type)
+	{
+		if (!FileSystem::Exists(path)) 
+		{
+			FileSystem::CreateDir(path);
+		}
+
+		std::filesystem::path projectTemplate = EditorResources::ProjectTemplate;
+		switch (type) 
+		{
+		case NewProjectType::EMPTY:	projectTemplate = EditorResources::ProjectTemplate;  break;
+		}
+
+		std::filesystem::copy(projectTemplate, path,
+			std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing);
+
+		LoadProject(path / "project.luden");
+	}
+
+	void EditorApplication::LoadProject(const std::filesystem::path& path)
+	{
+
+	}
+
+	void EditorApplication::ExitEditor()
+	{
+		Shutdown();
+	}
+
+	void EditorApplication::ProcessOpenResourceRequests()
+	{
+		if (!m_MainDockspaceInitialized) 
+			return;
+
+		if (m_OpenResourceRequests.empty())
+			return;
+
+		for (auto& path : m_OpenResourceRequests)
+			OpenResource(path);
+
+		m_OpenResourceRequests.clear();
+	}
+
+	void EditorApplication::OpenResource(const std::filesystem::path& path)
+	{
+		std::string ext = path.extension().string();
+		std::string filename = path.filename().string();
+
+		std::shared_ptr<EditorTab> tab = nullptr;
+		if (ext == ".lscn") {
+			tab = std::static_pointer_cast<EditorTab>(std::make_shared<SceneEditorTab>(path));
+		}
+
+		if (tab) 
+		{
+			tab->DockTo(m_MainDockspaceID);
+			m_EditorTabs.push_back(tab);
+			m_FocusedTab = tab;
+			ImGui::FocusWindow(ImGui::FindWindowByName(tab->GetWindowName().c_str()));
+		}
+	}
+
+	bool EditorApplication::BeginMainDockspace()
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->WorkPos);
+		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowViewport(viewport->ID);
+		constexpr ImGuiWindowFlags main_window_flags = ImGuiWindowFlags_NoDocking //| ImGuiWindowFlags_MenuBar
+			| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize
+			| ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus
+			| ImGuiWindowFlags_NoBackground;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-		ImGui::Begin("#DockSpace", nullptr, flags);
-		ImGui::PopStyleVar(2);
 
-		ImGuiID dock_id = ImGui::GetID("EditorDockSpace");
-		ImGui::DockSpace(dock_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
+		ImGui::SetNextWindowClass(&m_MainDockspaceClass);
+		ImGui::Begin("MainDockSpace", nullptr, main_window_flags);
 
-		if (!m_LayoutBuilt) {
-			ImGui::DockBuilderRemoveNode(dock_id);
-			ImGui::DockBuilderAddNode(dock_id, ImGuiDockNodeFlags_None);
-			ImGui::DockBuilderSetNodeSize(dock_id, ImGui::GetIO().DisplaySize);
+		ImGui::PopStyleVar(3);
 
-			ImGuiID dock_left = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Left, 0.20f, nullptr, &dock_id);
-			ImGuiID dock_right = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Right, 0.25f, nullptr, &dock_id);
-			ImGuiID dock_bottom = ImGui::DockBuilderSplitNode(dock_id, ImGuiDir_Down, 0.25f, nullptr, &dock_id);
-			ImGuiID dock_center = dock_id;
-
-			ImGuiID dock_right_top = ImGui::DockBuilderSplitNode(dock_right, ImGuiDir_Up, 0.6f, nullptr, &dock_right);
-			ImGuiID dock_right_bottom = dock_right;
-
-			ImGui::DockBuilderDockWindow("Scene Hierarchy", dock_left);
-			ImGui::DockBuilderDockWindow("Resources", dock_left);
-			ImGui::DockBuilderDockWindow("Inspector", dock_right_top);
-			ImGui::DockBuilderDockWindow("Console", dock_right_bottom);
-			ImGui::DockBuilderDockWindow("Profiler", dock_bottom);
-			ImGui::DockBuilderDockWindow("Scene Settings", dock_bottom);
-			ImGui::DockBuilderDockWindow("Viewport", dock_center);
-
-			ImGui::DockBuilderFinish(dock_id);
-			m_LayoutBuilt = true;
-		}
-
-		ImGui::End();
-	}
-
-	void EditorApplication::RenderModeToolbar() {
-		ImVec2 windowSize = ImGui::GetWindowSize();
-		float buttonWidth = 80.0f;
-		float spacing = ImGui::GetStyle().ItemSpacing.x;
-		float totalWidth = buttonWidth * 4 + spacing * 3;
-		float startX = (windowSize.x - totalWidth) / 2.0f;
-		ImGui::SetCursorPosX(startX);
-
-		// 🔹 Edit
-		if (ImGui::Button("Edit", ImVec2(buttonWidth, 0))) {
-			EditorStateManager::Get().SetEditorMode(EditorMode::Edit);
-			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
-				scene->OnRuntimeStop();
-				scene->OnSimulationStop();
-				scene->SetPaused(false);
-			}
-		}
-
-		ImGui::SameLine();
-		if (ImGui::Button("Play", ImVec2(buttonWidth, 0))) {
-			EditorStateManager::Get().SetEditorMode(EditorMode::Play);
-			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
-				scene->OnRuntimeStart();
-			}
-		}
-
-		ImGui::SameLine();
-		if (ImGui::Button("Simulate", ImVec2(buttonWidth, 0))) {
-			EditorStateManager::Get().SetEditorMode(EditorMode::Simulate);
-			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
-				scene->OnSimulationStart();
-			}
-		}
-
-		ImGui::SameLine();
-		if (ImGui::Button("Pause", ImVec2(buttonWidth, 0))) {
-			EditorStateManager::Get().SetEditorMode(EditorMode::Pause);
-			if (auto scene = m_RuntimeApp->GetCurrentScene()) {
-				scene->SetPaused(true);
-			}
-		}
-	}
-
-
-	void EditorApplication::RenderTitleBar() {
-		ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
-			ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDocking |
-			ImGuiWindowFlags_NoSavedSettings;
-
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::SetNextWindowSize(ImVec2((float)m_Window.getSize().x, 25));
-
-		if (ImGui::Begin("##TitleBar", nullptr, flags)) {
-			ImGui::TextUnformatted("Luden Editor");
-			ImGui::SameLine(ImGui::GetWindowWidth() - 30);
-			if (ImGui::Button(ICON_FA_XMARK))
-				m_IsRunning = false;
-		}
-		ImGui::End();
-	}
-
-	void EditorApplication::LoadFonts() {
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, EditorVars::EditorTabPadding);
 		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) 
+		{
+			m_MainDockspaceID = ImGui::GetID("MainDockSpaceID");
+			ImGui::SetNextWindowClass(&m_MainDockspaceClass);
+			ImGui::DockSpace(m_MainDockspaceID, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_NoDockingSplit);
+		}
+		ImGui::PopStyleVar();
 
-		static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
-		ImFontConfig icons_config;
-		icons_config.MergeMode = true;
-		icons_config.PixelSnapH = true;
-		io.Fonts->AddFontFromFileTTF("resources/fonts/fa-solid-900.ttf", 14.0f, &icons_config, icons_ranges);
-
-		ImGui::SFML::UpdateFontTexture();
+		return true;
 	}
 
-	void EditorApplication::HandleInput() {
-		while (auto evt = m_Window.pollEvent()) {
-			ImGui::SFML::ProcessEvent(m_Window, *evt);
+	void EditorApplication::RenderContent()
+	{
+		// open requested assets
+		ProcessOpenResourceRequests();
 
-			if (evt->is<sf::Event::Closed>())
-				m_IsRunning = false;
+		for (const auto& tab : m_EditorTabs) 
+		{
+			ImGui::SetNextWindowClass(&m_MainDockspaceClass);
+			tab->OnImGuiRender();
+		}
+	}
+	void EditorApplication::InitializeMainDockspace()
+	{
+		if (m_MainDockspaceInitialized) 
+			return;
+
+
+		m_MainDockspaceID = ImGui::GetID("MainDockSpaceID");
+		ImGui::DockBuilderRemoveNode(m_MainDockspaceID);
+		ImGui::DockBuilderAddNode(m_MainDockspaceID, ImGuiDockNodeFlags_DockSpace);
+		ImGui::DockBuilderSetNodeSize(m_MainDockspaceID, ImGui::GetMainViewport()->Size);
+		ImGui::DockBuilderFinish(m_MainDockspaceID);
+
+		m_MainDockspaceClass.ClassId = ImGui::GetID("MainDockspaceClass");
+		m_MainDockspaceClass.DockingAllowUnclassed = false;
+
+		m_MainDockspaceInitialized = true;
+	}
+
+	void EditorApplication::SaveProject()
+	{
+
+	}
+	void EditorApplication::ReloadProject()
+	{
+
+	}
+	void EditorApplication::ReloadTab()
+	{
+		for (auto it = m_EditorTabs.begin(); it != m_EditorTabs.end(); ++it) 
+		{
+			std::shared_ptr<EditorTab> tab = *it;
+			if (tab->IsFocused() && !tab->IsDirty()) 
+			{
+				auto name = tab->GetName();
+				m_EditorTabs.erase(it);
+				RequestOpenResource(name);
+				return;
+			}
 		}
 	}
 
+	bool EditorApplication::OnKeyPressed(const sf::Event::KeyPressed& key)
+	{
+		return false;
+	}
+
+	void EditorApplication::UpdateWindowTitle()
+	{
+
+	}
+
+	void EditorApplication::OnOverlayRender()
+	{
+
+	}
 }

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Core/RuntimeApplication.h"
-#include "Panels/Panel.h"
 #include "Core/EditorState.h"
+#include "Tabs/EditorTab.h"
+#include "Utils/EditorResources.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -12,9 +13,12 @@
 #include <memory>
 #include "imgui.h"
 
-namespace Luden {
+namespace Luden 
+{
+	class EditorTab;
 
-	class EditorApplication {
+	class EditorApplication 
+	{
 	public:
 		EditorApplication();
 		~EditorApplication();
@@ -23,26 +27,49 @@ namespace Luden {
 		void Run();
 		void Shutdown();
 
-	private:
-		void Render();
-		void RenderDockSpace();
-		void RenderModeToolbar();
-		void RenderTitleBar();
-		void LoadFonts();
-		void HandleInput();
+		void OnUpdate(TimeStep timestep);
+		void OnEvent(const std::optional<sf::Event>& evt);
+		void OnImGuiRender();
 
+		void RequestOpenResource(const std::filesystem::path& path);
+
+		void CreateNewScene();
+		void CreateNewProject(const std::filesystem::path& path, NewProjectType type);
+		void LoadProject(const std::filesystem::path& path);
+		void ExitEditor();
+
+		void ProcessOpenResourceRequests();
+		void OpenResource(const std::filesystem::path& path);
+
+		bool BeginMainDockspace();
+		void RenderContent();
+		void InitializeMainDockspace();
+
+
+		void SaveProject();
+		void ReloadProject();
+		void ReloadTab();
+
+		bool OnKeyPressed(const sf::Event::KeyPressed& key);
+
+		void UpdateWindowTitle();
+
+		void OnOverlayRender();
 	private:
+		std::vector<std::shared_ptr<EditorTab>> m_EditorTabs;
+		std::shared_ptr<EditorTab> m_FocusedTab;
+
+		ImGuiID m_MainDockspaceID;
+		ImGuiWindowClass m_MainDockspaceClass;
+		bool m_MainDockspaceInitialized = false;
+
 		sf::RenderWindow m_Window;
-		sf::Clock m_DeltaClock;
-		sf::RenderTexture m_ViewportTexture;
-		ImTextureID m_ViewportTextureID = 0;
 
-		std::vector<std::unique_ptr<Panel>> m_Panels;
-		std::vector<std::unique_ptr<Panel>> m_Panels;
-
-		bool m_IsRunning = false;
-		bool m_LayoutBuilt = false;
+		std::vector<std::filesystem::path> m_OpenResourceRequests;
 
 		std::unique_ptr<Luden::RuntimeApplication> m_RuntimeApp;
+
+		sf::Clock m_Clock;      
+		float m_LastFrameTime = 0.0f;
 	};
 }

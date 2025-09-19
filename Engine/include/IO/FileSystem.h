@@ -28,6 +28,9 @@ namespace Luden
 		static bool CopyPath(const std::filesystem::path& filepath, const std::filesystem::path& dest);
 		static bool IsDirectory(const std::filesystem::path& filepath);
 
+		static bool HasExtension(const std::filesystem::path& filepath);
+		static std::filesystem::path GetExtension(const std::filesystem::path& filepath);
+
 		//Platform specific, for now using only for windows
 		static FileStatus TryOpenFile(const std::filesystem::path& filepath);
 

@@ -302,7 +302,7 @@ namespace Luden
 
 		out << data.dump(2);
 	}
-	void LudenResourceManager::OnResourceRenamed(ResourceHandle resourceHandle, const std::filesystem::path& newFilePath)
+	void EditorResourceManager::OnResourceRenamed(ResourceHandle resourceHandle, const std::filesystem::path& newFilePath)
 	{
 		ResourceMetadata metadata = GetMetadata(resourceHandle);
 		if (!metadata.IsValid())
@@ -312,7 +312,7 @@ namespace Luden
 		SetMetadata(resourceHandle, metadata);
 		WriteRegistryToFile();
 	}
-	void LudenResourceManager::OnResourceDeleted(ResourceHandle resourceHandle)
+	void EditorResourceManager::OnResourceDeleted(ResourceHandle resourceHandle)
 	{
 		RemoveResource(resourceHandle);
 		WriteRegistryToFile();

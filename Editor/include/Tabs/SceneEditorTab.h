@@ -2,9 +2,18 @@
 
 #include "Tabs/EditorTab.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/InspectorPanel.h"
+#include "Panels/ToolbarPanel.h"
+#include "Scene/Scene.h"
+
+#include <SFML/Graphics/RenderTexture.hpp>
 
 namespace Luden
 {
+	class SceneHierarchyPanel;
+	class InspectorPanel;
+	class ToolbarPanel;
+
 	class SceneEditorTab : public EditorTab
 	{
 	public:
@@ -19,6 +28,8 @@ namespace Luden
 		virtual void RenderContent() override final;
 		virtual void InitializeDockspace() override final;
 
+		virtual void OnEvent(const std::optional<sf::Event>& evt) override final;
+
 		virtual void OnUpdate(TimeStep timestep) override final;
 
 	private:
@@ -29,9 +40,10 @@ namespace Luden
 		virtual void SaveScene();
 
 		void ShowToolbarPlayPause();
-		void OnOverlayRender();
 	private:
 		TimeStep m_TimeStep;
+
+		std::shared_ptr<sf::RenderTexture> m_RenderTexture;
 
 		std::shared_ptr<Scene> m_ActiveScene;
 		std::shared_ptr<Scene> m_EditorScene;
@@ -48,19 +60,22 @@ namespace Luden
 
 		bool m_ShowColliders = true;
 
-		SceneHierarchyPanel m_SceneTreePanel;
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 		InspectorPanel m_InspectorPanel;
-		FileSystemPanel m_FileSystemPanel;
 		ToolbarPanel m_ToolbarPanel;
 
-		enum class SceneState {
+		std::filesystem::path m_ActiveScenePath = std::filesystem::canonical(".");
+
+		enum class SceneState 
+		{
 			Edit = 0,
 			Play = 1
 		};
+
 		SceneState m_SceneState = SceneState::Edit;
 
 		bool m_ShowSelectionOutline = true;
-		glm::vec4 m_SelectionOutlineColor = glm::vec4(1.0f, 0.44f, 0.1f, 0.84f);
+		ImVec4 m_SelectionOutlineColor = ImVec4(1.0f, 0.44f, 0.1f, 0.84f);
 
 		bool m_Appearing = true;
 	};

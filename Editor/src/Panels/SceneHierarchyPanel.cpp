@@ -56,7 +56,7 @@ namespace Luden
 
 		char buffer[256];
 		memset(buffer, 0, sizeof(buffer));
-		strcpy(buffer, m_Context->GetName().c_str());
+		strcpy_s(buffer, m_Context->GetName().c_str());
 
 		if (ImGui::InputText("##SceneName", buffer, sizeof(buffer)))
 		{
@@ -148,14 +148,15 @@ namespace Luden
 		
 		if (m_SelectedEntity == entity)
 		{
-			flags | ImGuiTreeNodeFlags_Leaf;
+			flags |= ImGuiTreeNodeFlags_Leaf;
 		}
 
 		bool isNodeOpen = ImGui::TreeNodeEx((void*)(uint64_t)entity, flags, "%s", entity.Tag().c_str());
 
 		if (ImGui::BeginDragDropSource())
 		{
-			ImGui::SetDragDropPayload("DND_ENTITY", (void*)&entity.UUID(), sizeof(UUID));
+			UUID temp = entity.UUID();
+			ImGui::SetDragDropPayload("DND_ENTITY", (void*)&temp, sizeof(UUID));
 
 			ImGui::Text("%s", std::to_string(entity.UUID()).c_str());
 			ImGui::EndDragDropSource();

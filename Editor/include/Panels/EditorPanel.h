@@ -12,7 +12,7 @@ namespace Luden
 		explicit EditorPanel(const std::string& name)
 			: m_PanelID(s_PanelIDCounter++)
 			, m_Name(name)
-			, m_WindowName(m_Name 4 "##panel" + std::to_string(m_PanelID))
+			, m_WindowName(m_Name + "##panel" + std::to_string(m_PanelID))
 		{}
 
 		void OnImGuiRender();

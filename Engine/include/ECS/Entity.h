@@ -68,5 +68,7 @@ namespace Luden
 
 		friend class EntityMemoryPool;
 		friend class EntityManager;
+		friend class ToolbarPanel;
+		friend class SceneHierarchyPanel;
 	};
 }

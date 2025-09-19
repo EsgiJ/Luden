@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Utils/EditorColors.h"
-
 #include "Audio/SoundBuffer.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
-
+#include "Utils/EditorColors.h"
+#include "IO/FileSystem.h"
 
 #include <imgui.h>
 
@@ -14,32 +13,31 @@
 #include <typeindex>
 #include <unordered_map>
 
-namespace Luden 
+namespace Luden
 {
-	namespace FileMetadata 
+	namespace FileMetadata
 	{
+		constexpr ImVec4 defaultText = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-		constexpr ImVec4 default_text = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-		struct FileInfo 
+		struct FileInfo
 		{
 			std::string extension;
 			std::string placeholder;
 			ImVec4 color;
 		};
 
-		static const std::unordered_map<std::type_index, FileInfo> FileInfoMap = 
+		static const std::unordered_map<ResourceType, FileInfo> FileInfoMap =
 		{
-			{typeid(Texture),		{".png",    "[Texture2D]", EditorColors::image}},
-			{typeid(SoundBuffer),	{".wav",    "[Sound]",     EditorColors::sound}},
-			{typeid(Animation),		{".anim",   "[Animation]", EditorColors::anim}},
-			{typeid(Font),			{".ttf",    "[Font]",      EditorColors::font}},
-			// 	{typeid(Prefab),    {".prefab", "[Prefab]",    EditorColors::blue}},
-			// 	{typeid(Scene),     {".escn",   "[Scene]",     EditorColors::green}},
-			// 	{typeid(Project),   {".enik",   "[Project]",   EditorColors::yellow}},
+			{ResourceType::Texture,   {".png",    "[Texture2D]", EditorColors::image}},
+			{ResourceType::Audio,     {".wav",    "[Sound]",     EditorColors::sound}},
+			{ResourceType::Animation, {".anim",   "[Animation]", EditorColors::anim}},
+			{ResourceType::Font,      {".ttf",    "[Font]",      EditorColors::font}},
+			{ResourceType::Scene,     {".escn",   "[Scene]",     EditorColors::green}},
+			// {ResourceType::Prefab, {".prefab", "[Prefab]",    EditorColors::blue}},
+			// {ResourceType::Project,{".enik",   "[Project]",   EditorColors::yellow}},
 		};
 
-		static const std::unordered_map<std::string, ImVec4> ExtensionColorMap = 
+		static const std::unordered_map<std::string, ImVec4> ExtensionColorMap =
 		{
 			{".png",    EditorColors::image},
 			{".wav",    EditorColors::sound},
@@ -47,51 +45,46 @@ namespace Luden
 			{".ttf",    EditorColors::font},
 			{".prefab", EditorColors::prefab},
 			{".escn",   EditorColors::scene},
-			{".lproject",   EditorColors::project}
+			{".lproject", EditorColors::project}
 		};
 
-		template <typename T>
-		std::string GetFileExtension() 
+		inline std::string GetFileExtension(ResourceType type)
 		{
-			auto it = FileInfoMap.find(typeid(T));
+			auto it = FileInfoMap.find(type);
 			return it != FileInfoMap.end() ? it->second.extension : "";
 		}
-		template <typename T>
-		std::string GetPlaceholder() 
+
+		inline std::string GetPlaceholder(ResourceType type)
 		{
-			auto it = FileInfoMap.find(typeid(T));
+			auto it = FileInfoMap.find(type);
 			return it != FileInfoMap.end() ? it->second.placeholder : "";
 		}
 
-
-		template <typename T>
-		const ImVec4& GetColor() 
+		inline FileSystem::FileDialogFilterItem GetDialogFilter(ResourceType type)
 		{
-			auto it = FileInfoMap.find(typeid(T));
-			if (it != FileInfoMap.end()) 
-			{
-				return it->second.color;
-			}
-			else 
-			{
-				return default_text;
-			}
+			static std::string ext = "*" + GetFileExtension(type);
+			return { GetPlaceholder(type).c_str(), ext.c_str() };
 		}
 
-		// NOTE: call `ImGui::PopStyleColor();` after calling this !
-		template <typename T>
-		void ColorFileText() 
+		inline const ImVec4& GetColor(ResourceType type)
 		{
-			ImGui::PushStyleColor(ImGuiCol_Text, GetColor<T>());
+			auto it = FileInfoMap.find(type);
+			return it != FileInfoMap.end() ? it->second.color : defaultText;
 		}
 
-		inline ImVec4 GetColorFromExtension(const std::string& extension) 
+		// Call ImGui::PopStyleColor() after calling this 
+		inline void ColorFileText(ResourceType type)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Text, GetColor(type));
+		}
+
+		inline ImVec4 GetColorFromExtension(const std::string& extension)
 		{
 			auto it = ExtensionColorMap.find(extension);
-			return it != ExtensionColorMap.end() ? it->second : default_text;
+			return it != ExtensionColorMap.end() ? it->second : defaultText;
 		}
 
-		inline void ColorTextByExtension(const std::string& extension) 
+		inline void ColorTextByExtension(const std::string& extension)
 		{
 			ImVec4 color = GetColorFromExtension(extension);
 			ImGui::PushStyleColor(ImGuiCol_Text, color);

@@ -61,15 +61,15 @@ namespace Luden::Math
 		[[nodiscard]] float DistanceSquared(Point2 p) const;
 	};
 
-	Vec2 operator+(Vec2 lhs, Vec2 rhs);
+	ENGINE_API Vec2 operator+(Vec2 lhs, Vec2 rhs);
 
-	Point2 operator+(Point2 lhs, Vec2 rhs);
+	ENGINE_API Point2 operator+(Point2 lhs, Vec2 rhs);
 
-	Vec2 operator-(Vec2 lhs, Vec2 rhs);
+	ENGINE_API Vec2 operator-(Vec2 lhs, Vec2 rhs);
 
-	Vec2 operator-(Point2 lhs, Point2 rhs);
+	ENGINE_API Vec2 operator-(Point2 lhs, Point2 rhs);
 
-	Vec2 operator*(float val, Vec2 lhs);
+	ENGINE_API Vec2 operator*(float val, Vec2 lhs);
 
 	bool Equals(Vec2 lhs, Vec2 rhs);
 

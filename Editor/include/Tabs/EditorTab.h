@@ -1,17 +1,26 @@
 #pragma once
+
+#include "Core/EditorApplication.h"
+#include "Core/TimeStep.h"
+
+#include <imgui.h>
+#include <imgui_internal.h>
+
 #include <string>
 #include <filesystem>
-#include <imgui.h>
-#include "imgui_internal.h"
 
-namespace Luden {
+namespace Luden 
+{
 
-	class EditorTab {
+	class EditorApplication;
+
+	class EditorTab 
+	{
 	public:
-		explicit EditorTab(std::string name)
-			: m_TabID(++s_TabIDCounter), 
-			m_Name(name), 
-			m_WindowName(m_Name + "##tab" + std::to_string(m_TabID))
+		explicit EditorTab(const std::filesystem::path& name)
+			: m_TabID(++s_TabIDCounter)
+			, m_Name(name.string())
+			, m_WindowName(m_Name + "##tab" + std::to_string(m_TabID))
 		{}
 		virtual ~EditorTab() = default;
 
@@ -19,6 +28,7 @@ namespace Luden {
 		void DockTo(ImGuiID dockspace_id);
 
 		virtual void OnUpdate(TimeStep timestep) {}
+		virtual void OnEvent(const std::optional<sf::Event>& evt) {}
 
 		const std::string& GetName() const { return m_Name; }
 		const std::string& GetWindowName() const { return m_WindowName; }
@@ -47,9 +57,10 @@ namespace Luden {
 
 		bool m_NoTabBar = false;
 
+		EditorApplication* m_EditorApplication;
 		ImGuiID m_DockspaceID;
 	private:
-		static inline int s_TabIDCounter = 0;
+		static int s_TabIDCounter;
 		bool m_DockspaceInitialized = false;
 	};
 

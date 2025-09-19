@@ -28,16 +28,11 @@ namespace Luden
 		template <typename T>
 		void DisplayComponentInPopup(const std::string& name);
 
-		void DisplaySpriteTexture(Component::SpriteRenderer& sprite);
-		void DisplaySubTexture(Component::SpriteRenderer& sprite);
-
-
 		bool EntityButton(UUID& id);
 
 	private:
 		std::shared_ptr<Scene> m_Context;
 
 		SceneHierarchyPanel* m_SceneHierarchyPanel = nullptr;
-	};
 	};
 }

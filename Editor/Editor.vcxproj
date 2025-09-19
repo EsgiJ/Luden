@@ -120,7 +120,6 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClInclude Include="include\Core\EditorApplication.h" />
     <ClInclude Include="include\Core\EditorState.h" />
     <ClInclude Include="include\EditorAPI.h" />
-    <ClInclude Include="include\GUI\ImGuiStyle.h" />
     <ClInclude Include="include\ImGui\ImGuiUtils.h" />
     <ClInclude Include="include\Panels\ConsolePanel.h" />
     <ClInclude Include="include\Panels\EditorPanel.h" />
@@ -129,10 +128,13 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClInclude Include="include\Panels\ResourceBrowserPanel.h" />
     <ClInclude Include="include\Panels\SceneHierarchyPanel.h" />
     <ClInclude Include="include\Panels\SceneSettingsPanel.h" />
+    <ClInclude Include="include\Panels\ToolbarPanel.h" />
     <ClInclude Include="include\Tabs\EditorTab.h" />
     <ClInclude Include="include\Tabs\SceneEditorTab.h" />
     <ClInclude Include="include\Utils\EditorColors.h" />
+    <ClInclude Include="include\Utils\EditorResources.h" />
     <ClInclude Include="include\Utils\FileMetadata.h" />
+    <ClInclude Include="include\Utils\ImGuiStyle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\extern\ImGui-SFML\imgui-SFML.cpp" />
@@ -152,8 +154,10 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClCompile Include="src\Panels\ResourceBrowserPanel.cpp" />
     <ClCompile Include="src\Panels\SceneHierarchyPanel.cpp" />
     <ClCompile Include="src\Panels\SceneSettingsPanel.cpp" />
+    <ClCompile Include="src\Panels\ToolbarPanel.cpp" />
     <ClCompile Include="src\Tabs\EditorTab.cpp" />
     <ClCompile Include="src\Tabs\SceneEditorTab.cpp" />
+    <ClCompile Include="src\Utils\EditorResources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
