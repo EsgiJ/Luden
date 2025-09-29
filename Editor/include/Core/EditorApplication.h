@@ -45,9 +45,10 @@ namespace Luden
 		void RenderContent();
 		void InitializeMainDockspace();
 
-
+		void EmptyProject();
 		void SaveProject();
 		void ReloadProject();
+		void CloseProject();
 		void ReloadTab();
 
 		bool OnKeyPressed(const sf::Event::KeyPressed& key);
@@ -67,9 +68,10 @@ namespace Luden
 
 		std::vector<std::filesystem::path> m_OpenResourceRequests;
 
-		std::unique_ptr<Luden::RuntimeApplication> m_RuntimeApp;
-
 		sf::Clock m_Clock;      
 		float m_LastFrameTime = 0.0f;
+
+		std::string m_ProjectPath;
+		std::filesystem::path m_PersistentStoragePath;
 	};
 }

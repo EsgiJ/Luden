@@ -50,7 +50,7 @@ namespace Luden
 			ROTATE
 		};
 		Tool m_SelectedTool = Tool::SELECT;
-		bool ToolImageButton(const ResourceHandle& textureHandle, Tool tool);
+		bool ToolImageButton(const std::shared_ptr<Texture>& texture, Tool tool);
 
 	private:
 		std::shared_ptr<Scene> m_Context;

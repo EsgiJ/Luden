@@ -146,29 +146,33 @@ namespace Luden {
 			ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDecoration |
 			ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoNavInputs;
 
-		if (not ImGui::Begin("##Toolbar", nullptr, flags)) {
+		if (!ImGui::Begin("##Toolbar", nullptr, flags)) {
 			ImGui::End();
 			ImGui::PopStyleVar(4);
 			ImGui::PopStyleColor(3);
 			return;
 		}
 
-		if (ToolImageButton(EditorResources::Select, Tool::SELECT)) {
+		if (ToolImageButton(EditorResources::SelectIcon, Tool::SELECT)) 
+		{
 			m_SelectedTool = Tool::SELECT;
 		}
 
 		ImGui::SameLine();
-		if (ToolImageButton(EditorResources::Move, Tool::MOVE)) {
+		if (ToolImageButton(EditorResources::MoveIcon, Tool::MOVE)) 
+		{
 			m_SelectedTool = Tool::MOVE;
 		}
 
 		ImGui::SameLine();
-		if (ToolImageButton(EditorResources::Rotate, Tool::ROTATE)) {
+		if (ToolImageButton(EditorResources::RotateIcon, Tool::ROTATE)) 
+		{
 			m_SelectedTool = Tool::ROTATE;
 		}
 
 		ImGui::SameLine();
-		if (ToolImageButton(EditorResources::Scale, Tool::SCALE)) {
+		if (ToolImageButton(EditorResources::ScaleIcon, Tool::SCALE))
+		{
 			m_SelectedTool = Tool::SCALE;
 		}
 
@@ -303,10 +307,9 @@ namespace Luden {
 		}
 	}
 
-	bool ToolbarPanel::ToolImageButton(const ResourceHandle& textureHandle, Tool tool) 
+	bool ToolbarPanel::ToolImageButton(const std::shared_ptr<Texture>& texture, Tool tool) 
 	{
 		float size = m_ToolbarMinSize - m_Padding;
-		auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureHandle));
 		ImTextureID textureId = (ImTextureID)texture->GetTexture().getNativeHandle();
 
 		ImVec4 tintColor = ImVec4(1, 1, 1, 1);

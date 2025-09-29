@@ -18,11 +18,9 @@ namespace Luden
 
 		std::filesystem::path StartScene = "";
 
-		// Not serialized
 		std::string ProjectFileName;
 		std::string ProjectDirectory;
 
-		// Runtime only
 		ResourceHandle StartSceneHandle;
 	};
 

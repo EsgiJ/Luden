@@ -9,19 +9,20 @@
 #include <string>
 #include <filesystem>
 
-namespace Luden 
+namespace Luden
 {
 
 	class EditorApplication;
 
-	class EditorTab 
+	class EditorTab
 	{
 	public:
 		explicit EditorTab(const std::filesystem::path& name)
 			: m_TabID(++s_TabIDCounter)
 			, m_Name(name.string())
 			, m_WindowName(m_Name + "##tab" + std::to_string(m_TabID))
-		{}
+		{
+		}
 		virtual ~EditorTab() = default;
 
 		void OnImGuiRender();

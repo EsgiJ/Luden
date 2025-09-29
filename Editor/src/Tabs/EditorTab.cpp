@@ -19,8 +19,9 @@ namespace Luden
 		ImGui::End();
 	}
 
-	void EditorTab::DockTo(ImGuiID dockspace_id) {
-		ImGui::DockBuilderDockWindow(m_WindowName.c_str(), dockspace_id);
+	void EditorTab::DockTo(ImGuiID dockspaceID) 
+	{
+		ImGui::DockBuilderDockWindow(m_WindowName.c_str(), dockspaceID);
 	}
 
 	bool EditorTab::BeginDockspace()
@@ -41,8 +42,8 @@ namespace Luden
 			flags |= ImGuiWindowFlags_UnsavedDocument;
 		}
 
-		bool dockspace_open = ImGui::Begin(m_WindowName.c_str(), &m_IsOpen, flags);
-		m_IsFocused = dockspace_open && ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows | ImGuiFocusedFlags_DockHierarchy);
+		bool dockspaceOpen = ImGui::Begin(m_WindowName.c_str(), &m_IsOpen, flags);
+		m_IsFocused = dockspaceOpen && ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows | ImGuiFocusedFlags_DockHierarchy);
 
 		if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))
 		{
@@ -55,12 +56,13 @@ namespace Luden
 
 		ImGui::PopStyleVar(4);
 
-		if (!dockspace_open)
+		if (!dockspaceOpen)
 			return false;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, EditorVars::PanelTabPadding);
 
 		m_DockspaceID = ImGui::GetID(m_WindowName.c_str());
+
 
 		if (!m_NoTabBar)
 		{

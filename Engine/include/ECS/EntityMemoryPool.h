@@ -48,6 +48,7 @@ namespace Luden
 		}
 
 		Entity AddEntity(const std::string& tag);
+		Entity AddEntity(const std::string& tag, const UUID& id);
 		void DestroyEntity(const EntityID& entityID);
 
 		void Clear();
@@ -73,9 +74,7 @@ namespace Luden
 		template <typename T, typename... TArgs>
 		T& AddComponent(const EntityID& entityID, TArgs&&... args)
 		{
-			PoolIndex index = IndexOf(entityID);
-
-			auto& component = GetComponent<T>(index);
+			auto& component = GetComponent<T>(entityID);
 			component = T(std::forward<TArgs>(args)...);
 			component.has = true;
 			return component;

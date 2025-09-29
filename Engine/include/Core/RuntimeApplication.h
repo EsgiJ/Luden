@@ -24,7 +24,6 @@ namespace Luden {
 		bool Resizable = true;
 		bool EnableImGui = true;
 		std::filesystem::path IconPath;
-		bool Headless = false;
 		std::filesystem::path m_ProjectPath;
 	};
 

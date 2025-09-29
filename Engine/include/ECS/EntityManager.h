@@ -20,6 +20,8 @@ namespace Luden
 		void Update(TimeStep ts);
 
 		Entity AddEntity(const std::string& tag);
+		Entity AddEntity(const std::string& tag, const UUID& id);
+
 		void DestroyEntity(const EntityID& uuid);
 
 		Entity& GetEntity(const EntityID& uuid);

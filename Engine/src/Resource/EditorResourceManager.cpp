@@ -7,6 +7,7 @@
 #include "IO/FileSystem.h"
 
 #include <nlohmann/json.hpp>
+#include <iostream>
 
 using json = nlohmann::json;
 namespace Luden
@@ -137,6 +138,7 @@ namespace Luden
 			if (metadata.FilePath == relativePath)
 				return metadata;
 		}
+		return s_NullMetadata;
 	}
 	ResourceHandle EditorResourceManager::ImportResource(const std::filesystem::path& filepath)
 	{
@@ -227,7 +229,15 @@ namespace Luden
 
 		json data;
 
-		stream >> data;
+		try
+		{
+			stream >> data;
+		}
+		catch (json::parse_error& e)
+		{
+			std::cerr << "Warning: Resource registry parse failed: " << e.what() << std::endl;
+			return;
+		}
 
 		if (!data.contains("Resources") || !data["Resources"].is_array())
 			return;

@@ -4,6 +4,7 @@
 #include "Tabs/SceneEditorTab.h"
 #include "IO/FileSystem.h"
 #include "Resource/ResourceManager.h"
+#include "Project/ProjectSerializer.h"
 #include "Scene/SceneSerializer.h"
 #include "Utils/EditorResources.h"
 
@@ -16,47 +17,84 @@
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 
+/*	  1. Don't use RuntimeApplication methods
+	* 2. For now RuntimeApplication use RenderTarget instead of RenderWindow fix that
+	* 3. Fix Init function: 
+			1)Init project, for now use manuel project(later add fallback if there isn't any)
+			2)Init EditorResourceManager
+			3)Init EditorResources(fix if necessary)
+	* 
+*/
 namespace Luden 
 {
 
 	EditorApplication::EditorApplication() {}
-	EditorApplication::~EditorApplication() { Shutdown(); }
+	EditorApplication::~EditorApplication() {}
 
 	void EditorApplication::Init() 
 	{
-		EditorResources::LoadEditorResources(Project::GetProjectDirectory());
-
-
 		// Editor window
-		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
+		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::Default);
 		m_Window.setFramerateLimit(60);
 
 		if (!ImGui::SFML::Init(m_Window))
-			return;
+			std::cerr << "Window initialization error";
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		// Start RuntimeApplication headless
 		ApplicationSpecification spec;
-		spec.Name = "Luden Runtime (Editor)";
-		spec.WindowWidth = 1280;
-		spec.WindowHeight = 720;
-		spec.Headless = true;
+		spec.Name = "Luden Editor";
+		spec.WindowWidth = 1600;
+		spec.WindowHeight = 900;
 		spec.EnableImGui = false;
-		spec.m_ProjectPath = "C:\\GameProjects\\Luden\\MyGame";
-		m_RuntimeApp = std::make_unique<Luden::RuntimeApplication>(std::move(spec));
-		m_RuntimeApp->OnInit();
+		spec.m_ProjectPath = "C:\\GameProjects\\Luden\\MyGame\\MyGame.lproject";
+
+		LoadProject(spec.m_ProjectPath);
+		
+		EditorResources::Init();
 	}
 
 	void EditorApplication::Run()
 	{
-		TimeStep timestep;
-		OnUpdate(timestep);
+		sf::Clock clock;
+		bool running = true;
+
+		while (m_Window.isOpen() && running)
+		{
+			while (const std::optional event = m_Window.pollEvent())
+			{
+				ImGui::SFML::ProcessEvent(m_Window, *event);
+
+				if (event->is<sf::Event::Closed>())
+					m_Window.close();
+			}
+
+			sf::Time dt = clock.restart();
+			TimeStep timestep(dt.asSeconds());
+
+			ImGui::SFML::Update(m_Window, dt);
+
+			m_Window.clear(sf::Color(30, 30, 30));
+
+			OnUpdate(timestep);
+
+			OnImGuiRender();
+
+			ImGui::SFML::Render(m_Window);
+
+			m_Window.display();
+		}
+
+		Shutdown(); // düzgün kapatma
 	}
+
 
 	void EditorApplication::Shutdown()
 	{
+		m_EditorTabs.clear();
+
 		ImGui::SFML::Shutdown();
 		if (m_Window.isOpen()) 
 			m_Window.close();
@@ -102,7 +140,7 @@ namespace Luden
 		ImGui::End();
 
 
-		// closing tabs
+		// Closing tabs
 		m_EditorTabs.erase(
 			std::remove_if(m_EditorTabs.begin(), m_EditorTabs.end(),
 				[](const std::shared_ptr<EditorTab>& tab) {
@@ -180,12 +218,15 @@ namespace Luden
 		std::filesystem::copy(projectTemplate, path,
 			std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing);
 
-		LoadProject(path / "project.luden");
+		LoadProject(path / ".lproject");
 	}
 
 	void EditorApplication::LoadProject(const std::filesystem::path& path)
 	{
-
+		std::shared_ptr<Project> activeProject = std::make_shared<Project>();
+		ProjectSerializer serializer(activeProject);
+		serializer.Deserialize(path);
+		Project::SetActive(activeProject);
 	}
 
 	void EditorApplication::ExitEditor()
@@ -232,7 +273,7 @@ namespace Luden
 		ImGui::SetNextWindowPos(viewport->WorkPos);
 		ImGui::SetNextWindowSize(viewport->WorkSize);
 		ImGui::SetNextWindowViewport(viewport->ID);
-		constexpr ImGuiWindowFlags main_window_flags = ImGuiWindowFlags_NoDocking //| ImGuiWindowFlags_MenuBar
+		constexpr ImGuiWindowFlags mainWindowFlags = ImGuiWindowFlags_NoDocking //| ImGuiWindowFlags_MenuBar
 			| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize
 			| ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus
 			| ImGuiWindowFlags_NoBackground;
@@ -242,7 +283,7 @@ namespace Luden
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 
 		ImGui::SetNextWindowClass(&m_MainDockspaceClass);
-		ImGui::Begin("MainDockSpace", nullptr, main_window_flags);
+		ImGui::Begin("MainDockSpace", nullptr, mainWindowFlags);
 
 		ImGui::PopStyleVar(3);
 
@@ -286,15 +327,40 @@ namespace Luden
 		m_MainDockspaceClass.DockingAllowUnclassed = false;
 
 		m_MainDockspaceInitialized = true;
+
+		std::string scenePath = "C:\\GameProjects\\Luden\\MyGame\\Resources\\Scenes\\Template.lscn";
+		if (FileSystem::Exists(scenePath))
+			OpenResource(scenePath);
+		else
+			std::cerr << "Error";
+	}
+
+	void EditorApplication::EmptyProject()
+	{
+		if (Project::GetActiveProject())
+			CloseProject();
+
+		std::shared_ptr<Project> project = std::make_shared<Project>();
+
 	}
 
 	void EditorApplication::SaveProject()
 	{
+		if (!Project::GetActiveProject())
+			return; // TODO: 
 
+		std::shared_ptr<Project> activeProject = Project::GetActiveProject();
+		ProjectSerializer serializer(activeProject);
+		serializer.Serialize(activeProject->GetConfig().ProjectDirectory + "/" + activeProject->GetConfig().ProjectFileName);
 	}
+
 	void EditorApplication::ReloadProject()
 	{
 
+	}
+	void EditorApplication::CloseProject()
+	{
+		SaveProject();
 	}
 	void EditorApplication::ReloadTab()
 	{

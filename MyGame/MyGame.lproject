@@ -1,0 +1,8 @@
+{
+	"Name": "MyGame",
+	"ProjectFileName": "MyGame",
+	"ProjectDirectory": "C:\\GameProjects\\Luden\\MyGame",
+	"ResourceDirectory": "Resources",
+	"ResourceRegistry": "Resources\\ResourceRegistry.lr",
+	"StartSceneHandle": 0
+}

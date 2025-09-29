@@ -196,8 +196,7 @@ namespace Luden
 
 		for (const auto& jEntity : inJson["Entities"])
 		{
-			Entity e = entityManager.AddEntity(jEntity["Tag"]);
-			e.SetUUID(static_cast<uint64_t>(jEntity["UUID"]));
+			Entity e = entityManager.AddEntity(jEntity["Tag"].get<std::string>(), jEntity["UUID"].get<uint64_t>());
 
 			if (jEntity.contains("CDamage"))
 			{

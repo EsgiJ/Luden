@@ -91,6 +91,23 @@ namespace Luden
 		return entity;
 	}
 
+	Entity EntityMemoryPool::AddEntity(const std::string& tag, const UUID& id)
+	{
+		PoolIndex idx = AcquireIndex();
+		EnsureSizedFor(idx);
+
+		m_Tags[idx] = tag;
+		m_Active[idx] = true;
+		m_IDs[idx] = id;
+
+		m_IdToIndex[id] = idx;
+
+		++m_NumAlive;
+		Entity entity(id);
+		return entity;
+	}
+
+
 	void EntityMemoryPool::DestroyEntity(const EntityID& entityID)
 	{
 		PoolIndex idx = IndexOf(entityID);

@@ -34,7 +34,8 @@ namespace Luden
 		return EntityMemoryPool::Instance().Exists(uuid);
 	}
 
-	void EntityManager::RemoveDeadEntities(EntityVec& vec) {
+	void EntityManager::RemoveDeadEntities(EntityVec& vec) 
+	{
 		std::erase_if(
 			vec,
 			[](const Entity& entity) {
@@ -43,8 +44,17 @@ namespace Luden
 		);
 	}
 
-	Entity EntityManager::AddEntity(const std::string& tag) {
+	Entity EntityManager::AddEntity(const std::string& tag)
+	{
 		Entity entity = EntityMemoryPool::Instance().AddEntity(tag);
+		m_EntitiesToAdd.push_back(entity);
+
+		return entity;
+	}
+
+	Entity EntityManager::AddEntity(const std::string& tag, const UUID& id)
+	{
+		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, id);
 		m_EntitiesToAdd.push_back(entity);
 
 		return entity;

@@ -157,7 +157,6 @@ copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-win
     <ClCompile Include="src\Panels\ToolbarPanel.cpp" />
     <ClCompile Include="src\Tabs\EditorTab.cpp" />
     <ClCompile Include="src\Tabs\SceneEditorTab.cpp" />
-    <ClCompile Include="src\Utils\EditorResources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">

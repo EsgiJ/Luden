@@ -57,7 +57,8 @@ namespace Luden
 		ImGui::SetWindowFocus(m_ViewportPanelName.c_str());
 	}
 
-	void SceneEditorTab::OnSceneStop() {
+	void SceneEditorTab::OnSceneStop()
+	{
 		OnScenePause(false);
 
 
@@ -99,7 +100,10 @@ namespace Luden
 
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_InspectorPanel.OnImGuiRender();
-		if (m_Appearing) { ImGui::SetNextWindowFocus(); }
+		if (m_Appearing)
+		{ 
+			ImGui::SetNextWindowFocus(); 
+		}
 
 		bool isViewportOpen = false;
 
@@ -112,11 +116,11 @@ namespace Luden
 			isViewportOpen = ImGui::Begin(m_ViewportPanelName.c_str(), nullptr, window_flags);
 
 
-			auto viewport_min_region = ImGui::GetWindowContentRegionMin();
-			auto viewport_max_region = ImGui::GetWindowContentRegionMax();
-			auto viewport_offset = ImGui::GetWindowPos();
-			m_ViewportBounds[0] = { viewport_min_region.x + viewport_offset.x, viewport_min_region.y + viewport_offset.y };
-			m_ViewportBounds[1] = { viewport_max_region.x + viewport_offset.x, viewport_max_region.y + viewport_offset.y };
+			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+			auto viewportOffset = ImGui::GetWindowPos();
+			m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+			m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 			const ImGuiViewport* viewport = ImGui::GetMainViewport();
 			m_ViewportPosition.x = m_ViewportBounds[0].x - viewport->Pos.x;
@@ -128,12 +132,18 @@ namespace Luden
 			ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = ImVec2(viewportSize.x, viewportSize.y);
 
+			if ((int)m_ViewportSize.x != (int)m_RenderTexture->getSize().x ||
+				(int)m_ViewportSize.y != (int)m_RenderTexture->getSize().y) 
+			{
+				m_RenderTexture->resize({ (uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y });
+			}
+
 			if (isViewportOpen)
 			{
 				ImGui::Image(*m_RenderTexture);
 			}
 
-			/* Drag drop target */ 
+			// Drag drop target
 			{
 				if (ImGui::BeginDragDropTarget()) 
 				{
@@ -141,7 +151,7 @@ namespace Luden
 					{
 						std::filesystem::path path = std::filesystem::path(static_cast<const char*>(payload->Data));
 
-						if (FileSystem::Exists(path) && (FileSystem::GetExtension(path) == ".escn")) 
+						if (FileSystem::Exists(path) && (FileSystem::GetExtension(path) == ".lscn")) 
 						{
 							// draw rect to show it can be draggable
 							ImVec2 drawStart = ImVec2(m_ViewportBounds[0].x + 2, m_ViewportBounds[0].y + 2);
@@ -150,7 +160,7 @@ namespace Luden
 
 							if (payload->IsDelivery()) 
 							{
-								if (path.extension() == ".escn") 
+								if (path.extension() == ".lscn") 
 								{
 									if (m_EditorApplication) 
 									{
@@ -164,38 +174,35 @@ namespace Luden
 				}
 			}
 
-			if (isViewportOpen) {
-				ShowToolbarPlayPause();
-				if (m_SceneState == SceneState::Edit or m_ActiveScene->IsPaused()) {
+			if (isViewportOpen) 
+			{
+				if (m_SceneState == SceneState::Edit || m_ActiveScene->IsPaused()) 
+				{
 					m_ToolbarPanel.OnImGuiRender(m_ViewportBounds[0], m_ViewportBounds[1]);
 				}
-			}
-			if (isViewportOpen) {
-				ImGui::SetNextWindowPos({ m_ViewportBounds[0].x + 10, m_ViewportBounds[0].y + 40 });
-				ImVec2 viewportSize = {
-					m_ViewportBounds[1].x - m_ViewportBounds[0].x,
-					m_ViewportBounds[1].y - m_ViewportBounds[0].y
-				};
-				//TODO: m_DebugInfoPanel.ShowDebugInfoPanel(m_Timestep, viewport_size);
+				ShowToolbarPlayPause();
+
 			}
 
 			ImGui::End();
 		}
-
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(pushedStyleColorCount);
 		m_Appearing = false;
 	}
 	void SceneEditorTab::InitializeDockspace()
 	{
-		ImGuiID dock_id_1 = ImGui::DockBuilderSplitNode(m_DockspaceID, ImGuiDir_Left, 0.42f, NULL, &m_DockspaceID);
-		ImGuiID dock_id_2 = ImGui::DockBuilderSplitNode(dock_id_1, ImGuiDir_Right, 0.52f, NULL, &dock_id_1);
-		// 	ImGuiID dock_id_3 = ImGui::DockBuilderSplitNode(dock_id_1,     ImGuiDir_Down,  0.40f, NULL, &dock_id_1);
-		ImGuiID dock_id_4 = ImGui::DockBuilderSplitNode(m_DockspaceID, ImGuiDir_Down, 0.32f, NULL, &m_DockspaceID);
+		ImGuiID dockSpaceMainID = m_DockspaceID;
 
-		ImGui::DockBuilderDockWindow(m_ViewportPanelName.c_str(), m_DockspaceID);
-		m_SceneHierarchyPanel.DockTo(dock_id_1);
-		m_InspectorPanel.DockTo(dock_id_2);
+		ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Left, 0.25f, nullptr, &dockSpaceMainID);
+		ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Right, 0.25f, nullptr, &dockSpaceMainID);
+
+		// Dock windows
+		ImGui::DockBuilderDockWindow(m_ViewportPanelName.c_str(), dockSpaceMainID);
+		m_SceneHierarchyPanel.DockTo(dockLeft);
+		m_InspectorPanel.DockTo(dockRight);
+
+		ImGui::DockBuilderFinish(dockSpaceMainID);
 		m_Appearing = true;
 	}
 	void SceneEditorTab::OnEvent(const std::optional<sf::Event>& evt)
@@ -207,11 +214,6 @@ namespace Luden
 
 		if (m_ActiveScene == nullptr) {
 			return;
-		}
-
-		if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f) 
-		{
-			m_RenderTexture->resize({ (uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y });
 		}
 
 		switch (m_SceneState) {
@@ -273,7 +275,7 @@ namespace Luden
 		constexpr ImVec2 toolbarSize = ImVec2(32.0f, 32.0f);
 		const float padding = 4.0f;
 
-		int visibleButtonCount = 1;
+		int visibleButtonCount = 2;
 
 		if (m_SceneState == SceneState::Play) 
 		{
@@ -304,7 +306,7 @@ namespace Luden
 			| ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_AlwaysAutoResize
 			| ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoNavInputs;
 
-		if (not ImGui::Begin("##ToolbarPlayPause", nullptr, flags)) 
+		if (!ImGui::Begin("##ToolbarPlayPause", nullptr, flags)) 
 		{
 			ImGui::End();
 			ImGui::PopStyleVar(4);
@@ -319,22 +321,18 @@ namespace Luden
 				tint_color = ImVec4(0.5f, 0.5f, 0.9f, 1.0f);
 			}
 
-			ResourceHandle pauseIconHandle = EditorResources::Pause;
-			std::shared_ptr<Texture> pauseTexture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(pauseIconHandle));
+			std::shared_ptr<Texture> pauseTexture = EditorResources::PauseIcon;
 
-			auto pauseTextureId = reinterpret_cast<char*>(static_cast<uintptr_t>(pauseTexture->GetTexture().getNativeHandle()));
-			if (ImGui::ImageButton(pauseTextureId, pauseTexture->GetTexture(), sf::Vector2f(toolbarSize.x, toolbarSize.y), sf::Color::Transparent, sf::Color::White))
+			if (ImGui::ImageButton("PauseButton", pauseTexture->GetTexture(), sf::Vector2f(toolbarSize.x, toolbarSize.y), sf::Color::Transparent, sf::Color::White))
 			{
 				OnScenePause(!m_ActiveScene->IsPaused());
 			}
 			ImGui::SameLine();
 		}
 
-		ResourceHandle textureHandle = (m_SceneState == SceneState::Edit) ? EditorResources::Play : EditorResources::Stop;
-		std::shared_ptr<Texture> texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureHandle));
-		auto textureId = reinterpret_cast<char*>(static_cast<uintptr_t>(texture->GetTexture().getNativeHandle()));
+		std::shared_ptr<Texture> texture = (m_SceneState == SceneState::Edit) ? EditorResources::PlayIcon : EditorResources::StepIcon;
 
-		if (ImGui::ImageButton(textureId, texture->GetTexture(), sf::Vector2f(toolbarSize.x, toolbarSize.y), sf::Color::Transparent, sf::Color::White))
+		if(ImGui::ImageButton("PlayButton", texture->GetTexture(), sf::Vector2f(toolbarSize.x, toolbarSize.y)))
 		{
 			if (m_SceneState == SceneState::Edit)
 			{
@@ -345,7 +343,6 @@ namespace Luden
 				OnSceneStop();
 			}
 		}
-
 
 		ImGui::End();
 		ImGui::PopStyleVar(4);

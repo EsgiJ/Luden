@@ -11,11 +11,9 @@ namespace Luden {
 	RuntimeApplication::RuntimeApplication(const ApplicationSpecification& spec)
 		: m_Specification(std::move(spec))
 	{
-		if (!m_Specification.Headless) 
-		{
-			sf::VideoMode vm({ m_Specification.WindowWidth, m_Specification.WindowHeight });
-			m_Window = std::make_unique<sf::RenderWindow>(vm, m_Specification.Name);
-		}
+
+		sf::VideoMode vm({ m_Specification.WindowWidth, m_Specification.WindowHeight });
+		m_Window = std::make_unique<sf::RenderWindow>(vm, m_Specification.Name);
 	}
 
 	RuntimeApplication::~RuntimeApplication() 
@@ -23,7 +21,7 @@ namespace Luden {
 		OnShutdown();
 	}
 
-	void RuntimeApplication::OnInit() 
+	void RuntimeApplication ::OnInit() 
 	{
 		std::cout << "[RuntimeApplication] Initializing...\n";
 
@@ -60,7 +58,7 @@ namespace Luden {
 
 		m_CurrentScene->OnUpdateRuntime(ts);
 
-		if (!m_Specification.Headless && m_Window) 
+		if (m_Window) 
 		{
 			m_Window->clear();
 			m_CurrentScene->OnRenderRuntime(*m_Window);

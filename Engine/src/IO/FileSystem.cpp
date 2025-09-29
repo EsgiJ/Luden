@@ -314,7 +314,7 @@ namespace Luden {
 		HRESULT result = SHGetKnownFolderPath(FOLDERID_RoamingAppData, KF_FLAG_DEFAULT, NULL, &roamingFilePath);
 		//TODO: assert (result == S_OK)
 		s_PersistentStoragePath = roamingFilePath;
-		s_PersistentStoragePath /= "Hazelnut";
+		s_PersistentStoragePath /= "Luden";
 
 		if (!std::filesystem::exists(s_PersistentStoragePath))
 			std::filesystem::create_directory(s_PersistentStoragePath);
