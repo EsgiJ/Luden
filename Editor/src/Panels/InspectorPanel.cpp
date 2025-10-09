@@ -51,8 +51,8 @@ namespace Luden
 
 		//Add Component Button
 		{
-			ImGui::SameLine(ImGui::GetContentRegionAvail().x - GImGui->Font->FontSize);
-			float lineWidth = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+			ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetFontSize());
+			float lineWidth = ImGui::GetFontSize() + GImGui->Style.FramePadding.y * 2.0f;
 
 			if (ImGui::Button("+", ImVec2(lineWidth, 0)))
 			{

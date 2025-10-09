@@ -17,14 +17,6 @@
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 
-/*	  1. Don't use RuntimeApplication methods
-	* 2. For now RuntimeApplication use RenderTarget instead of RenderWindow fix that
-	* 3. Fix Init function: 
-			1)Init project, for now use manuel project(later add fallback if there isn't any)
-			2)Init EditorResourceManager
-			3)Init EditorResources(fix if necessary)
-	* 
-*/
 namespace Luden 
 {
 

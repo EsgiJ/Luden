@@ -30,7 +30,7 @@ namespace Luden
 
 			ImGui::ItemSize(text_rect);
 			if (ImGui::ItemAdd(text_rect, window->GetID(title.data(), title.data() + title.size()))) {
-				ImGui::RenderTextEllipsis(ImGui::GetWindowDrawList(), text_rect.Min, text_rect.Max, text_rect.Max.x, title.data(), title.data() + title.size(), &text_size);
+				ImGui::RenderTextEllipsis(ImGui::GetWindowDrawList(), text_rect.Min, text_rect.Max, text_rect.Max.x, text_rect.Max.x, title.data(), title.data() + title.size(), &text_size);
 
 				if (text_rect.GetWidth() < text_size.x && ImGui::IsItemHovered()) {
 					ImGui::SetTooltip("%.*s", (int)title.size(), title.data());

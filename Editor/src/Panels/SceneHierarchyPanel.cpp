@@ -86,8 +86,8 @@ namespace Luden
 
 		/* Add Entity Button */ 
 		{
-			ImGui::SameLine(ImGui::GetContentRegionAvail().x - GImGui->Font->FontSize);
-			float line_width = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+			ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetFontSize());
+			float line_width = ImGui::GetFontSize() + GImGui->Style.FramePadding.y * 2.0f;
 
 			if (ImGui::Button("+", ImVec2(line_width, 0)))
 			{

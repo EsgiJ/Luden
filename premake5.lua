@@ -6,7 +6,7 @@ workspace "LudenEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 --------------------------------------------------------------------
--- ENGINE PROJECT (DLL)
+-- ENGINE PROJECT
 --------------------------------------------------------------------
 project "Engine"
     location "Engine"
@@ -14,13 +14,12 @@ project "Engine"
     language "C++"
     cppdialect "C++20"
     staticruntime "off"
-    defines { "ENGINE_EXPORTS" }
+    defines { "ENGINE_EXPORTS", "SFML_DYNAMIC" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files 
-    {
+    files {
         "Engine/src/**.cpp",
         "Engine/src/Generated/**.cpp",
         "Engine/include/**.h",
@@ -33,16 +32,16 @@ project "Engine"
         "Engine/include",
         "extern/imgui",
         "extern/ImGui-SFML",
-        "extern/SFML/include",
-        "extern/sol2/single",
+        "extern/SFML/include", 
         "extern/json/include",
-        "Tools",
-        "extern/nativefiledialog-extended/src/include"
+        "extern/IconFontCppHeaders",
+        "extern/nativefiledialog-extended/src/include",
+        "Tools"
     }
 
     filter "system:windows"
         files { "extern/nativefiledialog-extended/src/nfd_win.cpp" }
-        links { "comdlg32", "ole32", "uuid", "shell32", "user32" }
+        links {"comdlg32", "ole32", "uuid", "shell32", "user32"}
 
     filter "system:macosx"
         files { "extern/nativefiledialog-extended/src/nfd_cocoa.m" }
@@ -93,7 +92,7 @@ project "Editor"
     cppdialect "C++20"
     staticruntime "off"
     dependson { "Engine" }
-    defines { "EDITOR_EXPORTS" }
+    defines { "EDITOR_EXPORTS", "SFML_DYNAMIC" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -109,15 +108,14 @@ project "Editor"
     includedirs {
         "Editor/include",
         "Engine/include",
-        "extern/imgui",
-        "extern/ImGui-SFML",
-        "extern/SFML/include",
-        "extern/sol2/single",
-        "extern/Lua",
+        "extern/imgui",            
+        "extern/ImGui-SFML",      
+        "extern/SFML/include",    
         "extern/json/include",
-        "extern/IconFontCppHeaders",
         "Tools"
     }
+
+    links { "Engine" }
 
     ----------------------------------------------------------------
     -- Debug config
@@ -126,7 +124,7 @@ project "Editor"
         runtime "Debug"
         symbols "On"
         libdirs { "extern/SFML/build/lib/Debug" }
-        links { "Engine", "sfml-graphics-d", "sfml-window-d", "sfml-system-d", "sfml-audio-d", "opengl32" }
+        links { "sfml-graphics-d", "sfml-window-d", "sfml-system-d", "sfml-audio-d", "opengl32" }
         postbuildcommands {
             "{MKDIR} \"%{cfg.targetdir}\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-graphics-d-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-d-3.dll\"",
@@ -144,7 +142,7 @@ project "Editor"
         runtime "Release"
         optimize "On"
         libdirs { "extern/SFML/build/lib/Release" }
-        links { "Engine", "sfml-graphics", "sfml-window", "sfml-system", "sfml-audio", "opengl32" }
+        links { "sfml-graphics", "sfml-window", "sfml-system", "sfml-audio", "opengl32" }
         postbuildcommands {
             "{MKDIR} \"%{cfg.targetdir}\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-graphics-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-3.dll\"",
@@ -154,3 +152,4 @@ project "Editor"
             "{COPYFILE} ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Engine/Engine.pdb %{cfg.targetdir}/Engine.pdb",
             "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
         }
+

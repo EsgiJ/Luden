@@ -1,13 +1,12 @@
 #pragma once
 
-#include "Graphics/Texture.h"
-
-#pragma once
-#include <filesystem>
-#include <iostream>
-#include "SFML/Graphics/Texture.hpp"
 #include "Resource/ResourceManager.h"
 #include "IO/FileSystem.h"
+
+#include <SFML/Graphics/Texture.hpp>
+
+#include <filesystem>
+#include <iostream>
 
 namespace Luden 
 {
@@ -35,15 +34,15 @@ namespace Luden
 
 		static void Init()
 		{
-			PlayIcon = LoadTexture("Icons/play_button.png", "PlayIcon");
-			StopIcon = LoadTexture("Icons/stop_button.png", "StopIcon");
-			PauseIcon = LoadTexture("Icons/pause_button.png", "PauseIcon");
-			StepIcon = LoadTexture("Icons/step_button.png", "StepIcon");
-			SelectIcon = LoadTexture("Icons/tool_select.png", "SelectIcon");
-			MoveIcon = LoadTexture("Icons/tool_move.png", "MoveIcon");
-			ScaleIcon = LoadTexture("Icons/tool_scale.png", "ScaleIcon");
-			RotateIcon = LoadTexture("Icons/tool_rotate.png", "RotateIcon");
-			BannerIcon = LoadTexture("Icons/banner.png", "BannerIcon");
+			PlayIcon = LoadTexture("Icons\\play_button.png", "PlayIcon");
+			StopIcon = LoadTexture("Icons\\stop_button.png", "StopIcon");
+			PauseIcon = LoadTexture("Icons\\pause_button.png", "PauseIcon");
+			StepIcon = LoadTexture("Icons\\step_button.png", "StepIcon");
+			SelectIcon = LoadTexture("Icons\\tool_select.png", "SelectIcon");
+			MoveIcon = LoadTexture("Icons\\tool_move.png", "MoveIcon");
+			ScaleIcon = LoadTexture("Icons\\tool_scale.png", "ScaleIcon");
+			RotateIcon = LoadTexture("Icons\\tool_rotate.png", "RotateIcon");
+			BannerIcon = LoadTexture("Icons\\banner.png", "BannerIcon");
 		}
 
 	private:
@@ -54,23 +53,23 @@ namespace Luden
 
 		static std::shared_ptr<Texture> LoadTexture(const std::filesystem::path& relativePath, const std::string& name)
 		{
-			std::filesystem::path path = std::filesystem::path("Resources") / relativePath;
+			std::filesystem::path path = std::filesystem::path("Editor\\Resources") / relativePath;
+
+			std::cout << "Absolute Path: " << std::filesystem::absolute(path) << std::endl;
+
 			if (!FileSystem::Exists(path))
 			{
 				//TODO: Error
 				return nullptr;
 			}
 
-			sf::Texture sfTexture;
-			if (!sfTexture.loadFromFile(path))
+			std::shared_ptr<Texture> texture = std::make_shared<Texture>();
+			
+			if (!texture->GetTexture().loadFromFile(path))
 			{
-				// TODO: 
-				std::cout << "Unable to load the SFTexture" << std::endl;
+				std::cout << "Unable to load SFTexture" << std::endl;
 				return nullptr;
 			}
-			std::shared_ptr<Texture> texture = std::make_shared<Texture>();
-			texture->SetTexture(sfTexture);
-
 			return texture;
 		}
 	};
