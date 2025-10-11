@@ -30,6 +30,9 @@ namespace Luden
 			return !(*this == other);
 		}
 	private:
+		friend class EditorResourceManager;
+		friend class RuntimeResourceManager;
+		friend class TextureSerializer;
 
 		bool IsValid() const { return ((Flags & (uint16_t)ResourceFlag::Missing) | (Flags & (uint16_t)ResourceFlag::Invalid)) == 0; }
 

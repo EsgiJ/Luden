@@ -20,12 +20,17 @@ namespace Luden
 //////////////////////////////////////////////////////////////////////////////////
 	bool TextureSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
 	{
-		auto texture = std::static_pointer_cast<Texture>(resource);
-		sf::Texture sfTexture;
-		if (!sfTexture.loadFromFile(metadata.FilePath))
-			return false;
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		resource = std::make_shared<Texture>();
 
-		texture->SetTexture(sfTexture);
+		auto texture = std::static_pointer_cast<Texture>(resource);
+
+		if (!texture->GetTexture().loadFromFile(path))
+		{
+			resource->SetFlag(ResourceFlag::Invalid);
+			return false;
+		}
+
 		return true;
 	}
 

@@ -60,6 +60,7 @@ namespace Luden
 			return resource;
 		}
 	}
+
 	bool EditorResourceManager::ReloadData(ResourceHandle resourceHandle)
 	{
 		//TODO
