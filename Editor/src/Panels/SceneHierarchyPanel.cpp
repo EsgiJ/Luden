@@ -140,18 +140,25 @@ namespace Luden
 	}
 	void SceneHierarchyPanel::DrawEntityInSceneTree(Entity entity)
 	{
+		ImGui::TableNextRow();                // satýr aç
+		ImGui::TableSetColumnIndex(0);        // sütun seç
+
 		ImGui::PushID(entity.UUID());
 
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth
 			| ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_DefaultOpen
 			| ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_AllowOverlap;
 		
+
 		if (m_SelectedEntity == entity)
-		{
-			flags |= ImGuiTreeNodeFlags_Leaf;
-		}
+			flags |= ImGuiTreeNodeFlags_Selected;
 
 		bool isNodeOpen = ImGui::TreeNodeEx((void*)(uint64_t)entity, flags, "%s", entity.Tag().c_str());
+
+		if (ImGui::IsItemClicked()) 
+		{
+			SetSelectedEntity(entity);
+		}
 
 		if (ImGui::BeginDragDropSource())
 		{
@@ -186,6 +193,11 @@ namespace Luden
 				//TODO: Delete entity
 			}
 			ImGui::EndPopup();
+		}
+
+		if (isNodeOpen)
+		{
+			ImGui::TreePop();
 		}
 
 		ImGui::PopID();

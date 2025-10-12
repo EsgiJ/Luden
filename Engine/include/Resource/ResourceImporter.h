@@ -14,11 +14,11 @@ namespace Luden
 	{
 	public:
 		static void Init();
-		static void Serialize(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource);
-		static void Serialize(const std::shared_ptr<Resource> resource);
-		static bool TryLoadData(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource);
+		static void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource);
+		static void Serialize(const std::shared_ptr<Resource>& resource);
+		static bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource);
 
-		static bool SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo outInfo);
+		static bool SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo);
 		static std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo);
 		static std::shared_ptr<Scene> DeserializeSceneFromResourcePack(FileStreamReader& stream, const ResourcePackFile::SceneInfo& sceneInfo);
 	private:

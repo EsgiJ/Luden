@@ -43,7 +43,7 @@ namespace Luden {
 	{
 		if (m_CurrentScene) 
 		{
-			m_CurrentScene->OnRuntimeStop();
+			//m_CurrentScene->OnRuntimeStop();
 			m_CurrentScene.reset();
 		}
 		m_ResourceManager.reset();
@@ -54,14 +54,15 @@ namespace Luden {
 
 	void RuntimeApplication::OnUpdate(TimeStep ts) 
 	{
+
 		if (!m_CurrentScene) return;
 
-		m_CurrentScene->OnUpdateRuntime(ts);
+		//m_CurrentScene->OnUpdateRuntime(ts);
 
 		if (m_Window) 
 		{
 			m_Window->clear();
-			m_CurrentScene->OnRenderRuntime(*m_Window);
+			//m_CurrentScene->OnRenderRuntime(*m_Window);
 			m_Window->display();
 		}
 	}
@@ -69,7 +70,7 @@ namespace Luden {
 	void RuntimeApplication::RenderTo(sf::RenderTarget& target) 
 	{
 		if (m_CurrentScene) {
-			m_CurrentScene->OnRenderRuntime(target);
+			//m_CurrentScene->OnRenderRuntime(target);
 		}
 	}
 
@@ -90,7 +91,7 @@ namespace Luden {
 	{
 		if (endCurrent && m_CurrentScene)
 		{
-			m_CurrentScene->OnRuntimeStop();
+			//m_CurrentScene->OnRuntimeStop();
 		}
 
 		m_CurrentScene = scene;
@@ -98,7 +99,7 @@ namespace Luden {
 
 		if (m_CurrentScene) 
 		{
-			m_CurrentScene->OnRuntimeStart();
+			//m_CurrentScene->OnRuntimeStart();
 		}
 	}
 

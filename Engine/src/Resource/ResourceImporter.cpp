@@ -12,25 +12,25 @@ namespace Luden
 		s_Serializers[ResourceType::Font] = std::make_unique<FontSerializer>();
 		s_Serializers[ResourceType::Animation] = std::make_unique<AnimationResourceSerializer>();
 	}
-	void ResourceImporter::Serialize(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource)
+	void ResourceImporter::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource)
 	{
 		if (s_Serializers.find(metadata.Type) == s_Serializers.end())
 			return;
 
 		s_Serializers[resource->GetResourceType()]->Serialize(metadata, resource);
 	}
-	void ResourceImporter::Serialize(const std::shared_ptr<Resource> resource)
+	void ResourceImporter::Serialize(const std::shared_ptr<Resource>& resource)
 	{
 		const ResourceMetadata& metadata = Project::GetEditorResourceManager()->GetMetadata(resource->Handle);
 		Serialize(metadata, resource);
 	}
-	bool ResourceImporter::TryLoadData(const ResourceMetadata metadata, const std::shared_ptr<Resource> resource)
+	bool ResourceImporter::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource)
 	{
 		if (s_Serializers.find(metadata.Type) == s_Serializers.end())
 			return false;
 		return s_Serializers[metadata.Type]->TryLoadData(metadata, resource);
 	}
-	bool ResourceImporter::SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo outInfo)
+	bool ResourceImporter::SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo)
 	{
 		outInfo.Size = 0;
 

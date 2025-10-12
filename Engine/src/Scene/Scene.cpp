@@ -18,48 +18,40 @@ namespace Luden {
 	{
 	}
 
-	// Lifecycle
-	void Scene::OnRuntimeStart() {
-		m_IsPlaying = true;
-		m_Paused = false;
-		m_CurrentFrame = 0;
-	}
+	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
 
-	void Scene::OnRuntimeStop() {
-		m_IsPlaying = false;
-	}
-
-	void Scene::OnSimulationStart() {
-		m_ShouldSimulate = true;
-		m_Paused = false;
-	}
-
-	void Scene::OnSimulationStop() {
-		m_ShouldSimulate = false;
-	}
-
-	void Scene::OnUpdateRuntime(TimeStep ts) {
+		OnRenderRuntime(renderTexture);
+		m_EntityManager.Update(ts);
 		if (m_Paused)
 			return;
 
 		if (m_ShouldSimulate) {
-			m_EntityManager.Update(ts);
 		}
 		else if (m_IsPlaying) {
-			m_EntityManager.Update(ts);
 			// UpdateAnimation
 		}
 	}
 
-	void Scene::OnUpdateEditor(TimeStep ts) 
+	void Scene::OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture)
 	{
-		//TODO: Editor gizmo, highlight entities etc.
+		OnRenderEditor(renderTexture);
+		m_EntityManager.Update(ts);
+		if (m_Paused)
+			return;
+
+		if (m_ShouldSimulate) {
+			//m_EntityManager.Update(ts);
+		}
+		else if (m_IsPlaying) {
+			//m_EntityManager.Update(ts);
+			// UpdateAnimation
+		}
 	}
 
 	// Render
-	void Scene::OnRenderRuntime(sf::RenderTarget& target)
+	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target)
 	{
-		target.clear(sf::Color(100, 100, 255));
+		target->clear();
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
@@ -80,7 +72,7 @@ namespace Luden {
 				sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
 				sprite.setColor(c);
 
-				target.draw(sprite);
+				target->draw(sprite);
 			}
 			else if (e.Has<CTexture>())
 			{
@@ -95,16 +87,16 @@ namespace Luden {
 					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
 					sprite.setColor(c);
 
-					target.draw(sprite);
+					target->draw(sprite);
 				}
 			}
 		}
 	}
 
 
-	void Scene::OnRenderEditor(sf::RenderTarget& target) 
+	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target)
 	{
-		target.clear(sf::Color(100, 100, 255));
+		target->clear();
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
@@ -124,8 +116,7 @@ namespace Luden {
 				sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
 				sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
 				sprite.setColor(c);
-
-				target.draw(sprite);
+				target->draw(sprite);
 			}
 			else if (e.Has<CTexture>())
 			{
@@ -140,7 +131,7 @@ namespace Luden {
 					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
 					sprite.setColor(c);
 
-					target.draw(sprite);
+					target->draw(sprite);
 				}
 			}
 		}

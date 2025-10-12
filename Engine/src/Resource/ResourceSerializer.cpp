@@ -18,7 +18,7 @@ namespace Luden
 //////////////////////////////////////////////////////////////////////////////////
 // TextureSerializer
 //////////////////////////////////////////////////////////////////////////////////
-	bool TextureSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	bool TextureSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
 		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
 		resource = std::make_shared<Texture>();
@@ -66,7 +66,7 @@ namespace Luden
 	// FontSerializer
 	//////////////////////////////////////////////////////////////////////////////////
 
-	bool FontSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	bool FontSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
 		auto fontResource = std::static_pointer_cast<Font>(resource);
 		sf::Font font;
@@ -110,12 +110,12 @@ namespace Luden
 // AudioFileSourceSerializer
 //////////////////////////////////////////////////////////////////////////////////
 
-	void AudioFileSourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const
+	void AudioFileSourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
 
 	}
 
-	bool AudioFileSourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	bool AudioFileSourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
 		auto soundBufferResource = std::static_pointer_cast<SoundBuffer>(resource);
 		sf::SoundBuffer sfSoundBuffer;
@@ -164,11 +164,11 @@ namespace Luden
 	// PrefabSerializer
 	//////////////////////////////////////////////////////////////////////////////////
 /*
-	void PrefabSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const
+	void PrefabSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
 	}
 
-	bool PrefabSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	bool PrefabSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
 	}
 
@@ -192,14 +192,14 @@ namespace Luden
 	// SceneResourceSerializer
 	//////////////////////////////////////////////////////////////////////////////////
 
-	void SceneResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const
+	void SceneResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
 		auto scene = std::static_pointer_cast<Scene>(resource);
 		SceneSerializer serializer(scene);
 		serializer.Serialize(Project::GetEditorResourceManager()->GetFileSystemPath(metadata).string());
 	}
 
-	bool SceneResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	bool SceneResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
 		resource = std::shared_ptr<Scene>();
 		resource->Handle = metadata.Handle;
@@ -237,7 +237,7 @@ namespace Luden
 // AnimationResourceSerializer
 //////////////////////////////////////////////////////////////////////////////////
 
-	void AnimationResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const
+	void AnimationResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
 		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
 
@@ -252,7 +252,7 @@ namespace Luden
 		out << j.dump(4);
 	}
 
-	bool AnimationResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const
+	bool AnimationResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
 		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
 

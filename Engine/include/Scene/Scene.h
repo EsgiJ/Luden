@@ -1,14 +1,5 @@
 #pragma once
 
-#include <map>
-#include <memory>
-#include <string>
-#include <unordered_set>
-
-#include <SFML/Window.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/View.hpp>
-
 #include "EngineAPI.h"
 #include "ECS/EntityMemoryPool.h"
 #include "ECS/EntityManager.h"
@@ -18,6 +9,17 @@
 #include "Resource/Resource.h"
 #include "Core/UUID.h"
 #include "Core/TimeStep.h"
+
+
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_set>
+
+#include <SFML/Window.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/View.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 
 namespace Luden {
 
@@ -29,16 +31,10 @@ namespace Luden {
 		virtual ~Scene();
 
 		// Update & Render
-		virtual void OnUpdateRuntime(TimeStep ts);
-		virtual void OnUpdateEditor(TimeStep ts);
-		virtual void OnRenderRuntime(sf::RenderTarget& target);
-		virtual void OnRenderEditor(sf::RenderTarget& target);
-
-		// Lifecycle
-		virtual void OnRuntimeStart();
-		virtual void OnRuntimeStop();
-		virtual void OnSimulationStart();
-		virtual void OnSimulationStop();
+		virtual void OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture);
+		virtual void OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture);
+		virtual void OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target);
+		virtual void OnRenderEditor(std::shared_ptr<sf::RenderTexture> target);
 
 		// Input
 		void DoAction(const Action& action);

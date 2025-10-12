@@ -20,8 +20,8 @@ namespace Luden
 	class ENGINE_API ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const = 0;
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const = 0;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const = 0;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const = 0;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const = 0;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const = 0;
@@ -30,8 +30,8 @@ namespace Luden
 	class TextureSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override {}
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override {}
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
@@ -40,8 +40,8 @@ namespace Luden
 	class FontSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override {}
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override {}
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
@@ -50,8 +50,8 @@ namespace Luden
 	class AudioFileSourceSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override;
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
@@ -60,8 +60,8 @@ namespace Luden
 	class PrefabSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override;
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
@@ -73,8 +73,8 @@ namespace Luden
 	class SceneResourceSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override;
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
@@ -84,8 +84,8 @@ namespace Luden
 	class AnimationResourceSerializer : public ResourceSerializer
 	{
 	public:
-		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource> resource) const override;
-		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource> resource) const override;
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
