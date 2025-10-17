@@ -21,14 +21,17 @@ namespace Luden
 		LoadResourceRegistry();
 		ReloadResources();
 	}
+
 	EditorResourceManager::~EditorResourceManager()
 	{
 		Shutdown();
 	}
+
 	void EditorResourceManager::Shutdown()
 	{
 		WriteRegistryToFile();
 	}
+
 	ResourceType EditorResourceManager::GetResourceType(ResourceHandle resourceHandle)
 	{
 		if (!IsResourceHandleValid(resourceHandle))
@@ -37,6 +40,7 @@ namespace Luden
 		const auto& metadata = GetMetadata(resourceHandle);
 		return metadata.Type;
 	}
+
 	std::shared_ptr<Resource> EditorResourceManager::GetResource(ResourceHandle resourceHandle)
 	{
 		if (!IsResourceHandleValid(resourceHandle))
@@ -126,10 +130,12 @@ namespace Luden
 
 		return s_NullMetadata;
 	}
+
 	void EditorResourceManager::SetMetadata(ResourceHandle resourceHandle, const ResourceMetadata& metadata)
 	{
 		m_ResourceRegistry.Set(resourceHandle, metadata);
 	}
+
 	const ResourceMetadata& EditorResourceManager::GetMetadata(const std::filesystem::path& filepath)
 	{
 		const auto relativePath = GetRelativePath(filepath);
@@ -141,6 +147,7 @@ namespace Luden
 		}
 		return s_NullMetadata;
 	}
+
 	ResourceHandle EditorResourceManager::ImportResource(const std::filesystem::path& filepath)
 	{
 		std::filesystem::path path = GetRelativePath(filepath);
@@ -161,10 +168,12 @@ namespace Luden
 
 		return metadata.Handle;
 	}
+
 	ResourceHandle EditorResourceManager::GetResourceHandleFromFilePath(const std::filesystem::path& filepath)
 	{
 		return GetMetadata(filepath).Handle;
 	}
+
 	ResourceType EditorResourceManager::GetResourceTypeFromExtension(const std::string& extension)
 	{
 		//TODO(esgij): write StringUtils to lower the extension
@@ -173,6 +182,7 @@ namespace Luden
 
 		return s_ResourceExtensionMap.at(extension);
 	}
+
 	std::string EditorResourceManager::GetDefaultExtensionForResourceType(ResourceType type)
 	{
 		for (const auto& [extension, resourceType] : s_ResourceExtensionMap)
@@ -182,6 +192,7 @@ namespace Luden
 		}
 		return "";
 	}
+
 	ResourceType EditorResourceManager::GetResourceTypeFromPath(const std::filesystem::path& path)
 	{
 		return GetResourceTypeFromExtension(path.extension().string());
@@ -201,6 +212,7 @@ namespace Luden
 	{
 		return GetFileSystemPath(metadata).string();
 	}
+
 	std::filesystem::path EditorResourceManager::GetRelativePath(const std::filesystem::path& filepath)
 	{
 		std::filesystem::path relativePath = filepath.lexically_normal();
@@ -215,10 +227,12 @@ namespace Luden
 		}
 		return relativePath;
 	}
+
 	bool EditorResourceManager::FileExists(ResourceMetadata& metadata) const
 	{
 		return FileSystem::Exists(Project::GetActiveProject()->GetResourceDirectory() / metadata.FilePath);
 	}
+
 	void EditorResourceManager::LoadResourceRegistry()
 	{
 		const auto& resourceRegistryPath = Project::GetResourceRegistryPath();
@@ -259,8 +273,10 @@ namespace Luden
 			if (metadata.Type == ResourceType::None)
 				continue;
 
+			SetMetadata(metadata.Handle, metadata);
 		}
 	}
+
 	void EditorResourceManager::ProcessDirectory(const std::filesystem::path& directoryPath)
 	{
 		for (auto entry: std::filesystem::directory_iterator(directoryPath))
@@ -271,11 +287,13 @@ namespace Luden
 				ImportResource(entry.path());
 		}
 	}
+
 	void EditorResourceManager::ReloadResources()
 	{
 		ProcessDirectory(Project::GetActiveResourceDirectory().string());
 		WriteRegistryToFile();
 	}
+
 	void EditorResourceManager::WriteRegistryToFile()
 	{
 		struct ResourceRegistryEntry
