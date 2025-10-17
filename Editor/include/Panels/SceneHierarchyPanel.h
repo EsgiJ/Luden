@@ -26,7 +26,7 @@ namespace Luden
 	private:
 		std::shared_ptr<Scene> m_Context; 
 		Entity m_SelectedEntity; 
-
+		
 		bool m_MouseReleased = false;
 	};
 }

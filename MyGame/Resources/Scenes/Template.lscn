@@ -1,50 +1,95 @@
 {
-    "UUID": 1,
-    "Name": "NewScene",
     "Entities": [
         {
-            "UUID": 1001,
-            "Tag": "MainCamera",
-            "CTransform": {
-                "pos": [0.0, 0.0],
-                "prevPos": [0.0, 0.0],
-                "velocity": [0.0, 0.0],
-                "scale": [1.0, 1.0],
-                "facing": [1.0, 0.0],
-                "angle": 0.0
-            },
             "CBoundingBox": {
-                "size": [1.0, 1.0],
-                "halfSize": [0.5, 0.5],
-                "center": [0.0, 0.0],
-                "prevCenter": [0.0, 0.0],
                 "blockMove": false,
-                "blockVision": false
-            }
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    0.0,
+                    0.0
+                ],
+                "prevPos": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "MainCamera",
+            "UUID": 1001
         },
         {
-            "UUID": 1002,
-            "Tag": "Player",
-            "CTransform": {
-                "pos": [5.0, 0.0],
-                "prevPos": [5.0, 0.0],
-                "velocity": [0.0, 0.0],
-                "scale": [1.0, 1.0],
-                "facing": [1.0, 0.0],
-                "angle": 0.0
-            },
             "CHealth": {
-                "max": 100,
-                "current": 100
+                "current": 100,
+                "max": 100
             },
             "CInput": {
-                "up": true,
-                "down": true,
+                "attack": false,
+                "canAttack": true,
+                "down": false,
                 "left": true,
                 "right": true,
-                "attack": true,
-                "canAttack": true
-            }
+                "up": false
+            },
+            "CTexture": {
+                "textureHandle": 10250310651245914581
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    5.0,
+                    0.0
+                ],
+                "prevPos": [
+                    5.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "Player",
+            "UUID": 1002
         }
-    ]
+    ],
+    "Name": "NewScene",
+    "UUID": 1
 }

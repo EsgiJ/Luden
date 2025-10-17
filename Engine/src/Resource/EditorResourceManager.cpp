@@ -313,6 +313,7 @@ namespace Luden
 
 		out << data.dump(2);
 	}
+
 	void EditorResourceManager::OnResourceRenamed(ResourceHandle resourceHandle, const std::filesystem::path& newFilePath)
 	{
 		ResourceMetadata metadata = GetMetadata(resourceHandle);

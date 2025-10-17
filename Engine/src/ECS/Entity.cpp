@@ -14,7 +14,12 @@ namespace Luden
 		return EntityMemoryPool::Instance().IsActive(m_UUID);
 	}
 
-	const std::string& Entity::Tag() const 
+	void Entity::SetTag(const std::string& tag)
+	{
+		return EntityMemoryPool::Instance().SetTag(m_UUID, tag);
+	}
+
+	const std::string& Entity::Tag() const
 	{
 		return EntityMemoryPool::Instance().GetTag(m_UUID);
 	}

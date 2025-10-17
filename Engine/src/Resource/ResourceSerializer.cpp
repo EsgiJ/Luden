@@ -254,9 +254,13 @@ namespace Luden
 
 	bool AnimationResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
+		/*
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		resource = std::make_shared<Graphics::Animation>();
+
 		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
 
-		std::ifstream in(metadata.FilePath);
+		std::ifstream in(path);
 		if (!in.is_open())
 			return false;
 
@@ -273,8 +277,9 @@ namespace Luden
 		anim->SetSize(size);
 		anim->SetTextureHandle(textureHandle);
 		anim->SetSprite(Graphics::Animation::MakeSpriteFromHandle(textureHandle));
-
+		*/
 		return true;
+
 	}
 
 	bool AnimationResourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const

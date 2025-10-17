@@ -25,9 +25,10 @@ namespace Luden
 
 		void SetUUID(EntityID uuid) { m_UUID = uuid; }
 
-		bool IsActive() const;
-
+		void SetTag(const std::string& tag);
 		const std::string& Tag() const;
+
+		bool IsActive() const;
 
 		bool IsValid() const { return m_UUID != 0; }
 		operator bool() const { return IsValid(); }

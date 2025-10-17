@@ -228,7 +228,7 @@ namespace Luden
 			if (jEntity.contains("CInput"))
 			{
 				e.Add<CInput>();
-				auto cInput = e.Get<CInput>();
+				auto& cInput = e.Get<CInput>();
 				cInput.up = jEntity["CInput"]["up"];
 				cInput.down = jEntity["CInput"]["down"];
 				cInput.left = jEntity["CInput"]["left"];
@@ -320,6 +320,16 @@ namespace Luden
 				size_t currentFrame = jAnim["currentFrame"].get<size_t>();
 
 				auto& c = e.Add<CAnimation>(animationHandle, speed, currentFrame, repeat);
+			}
+
+			if (jEntity.contains("CFont"))
+			{
+				e.Add<CFont>(jEntity["CFont"]["fontHandle"].get<uint64_t>());
+			}
+
+			if (jEntity.contains("CTexture"))
+			{
+				e.Add<CTexture>(jEntity["CTexture"]["textureHandle"].get<uint64_t>());
 			}
 		}
 

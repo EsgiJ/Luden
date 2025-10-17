@@ -44,6 +44,7 @@ namespace Luden
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer))) 
 			{
 				text = std::string(buffer);
+				entity.SetTag(text);
 			}
 
 			ImGui::SetTooltip("%llu", (uint64_t)entity.UUID());

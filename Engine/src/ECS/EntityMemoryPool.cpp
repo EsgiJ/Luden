@@ -145,6 +145,13 @@ namespace Luden
 		return m_Tags[idx];
 	}
 
+	void EntityMemoryPool::SetTag(const EntityID& entityID, const std::string& tag)
+	{
+		PoolIndex idx = IndexOf(entityID);
+
+		m_Tags[idx] = tag;
+	}
+
 	bool EntityMemoryPool::IsActive(const EntityID& entityID) const
 	{
 		PoolIndex idx = IndexOf(entityID);

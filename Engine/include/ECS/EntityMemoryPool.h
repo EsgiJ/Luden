@@ -54,6 +54,8 @@ namespace Luden
 		void Clear();
 
 		const std::string& GetTag(const UUID& entityID) const;
+		void SetTag(const EntityID& entityID, const std::string& tag);
+
 		bool IsActive(const EntityID& entityID) const;
 		bool Exists(const EntityID& entityID) const;
 

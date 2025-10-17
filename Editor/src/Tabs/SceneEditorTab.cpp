@@ -97,6 +97,10 @@ namespace Luden
 			return;
 		}
 
+		if (ImGui::Button("Save Scene"))
+		{
+			SaveScene();
+		}
 
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_InspectorPanel.OnImGuiRender();
@@ -262,9 +266,9 @@ namespace Luden
 	{
 		if (m_SceneState == SceneState::Edit)
 		{
-			if (m_ActiveScenePath.empty())
+			if (!m_ActiveScenePath.empty())
 			{
-				std::filesystem::path filepath = FileSystem::SaveFileDialog({ { "Luden Scene (*.lscene)", "lscene" } });
+				//std::filesystem::path filepath = FileSystem::SaveFileDialog({ { "Luden Scene (*.lscene)", "lscene" } });
 				SceneSerializer sceneSerializer = SceneSerializer(m_ActiveScene);
 				sceneSerializer.Serialize(m_ActiveScenePath);
 			}
