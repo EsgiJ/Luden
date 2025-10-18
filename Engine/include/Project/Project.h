@@ -43,6 +43,7 @@ namespace Luden
 
 		static const std::filesystem::path GetProjectDirectory()
 		{
+			assert(s_ActiveProject != nullptr && "Active project is null. Call Project::SetActive() first.");
 			return std::filesystem::path(s_ActiveProject->GetConfig().ProjectDirectory);
 		}
 
@@ -53,6 +54,7 @@ namespace Luden
 
 		static std::filesystem::path GetActiveResourceDirectory()
 		{
+			assert(s_ActiveProject != nullptr && "Active project is null. Call Project::SetActive() first.");
 			return s_ActiveProject->GetResourceDirectory();
 		}
 

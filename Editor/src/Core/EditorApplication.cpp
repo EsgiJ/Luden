@@ -79,7 +79,7 @@ namespace Luden
 			m_Window.display();
 		}
 
-		Shutdown(); // düzgün kapatma
+		Shutdown();
 	}
 
 
@@ -90,6 +90,11 @@ namespace Luden
 		ImGui::SFML::Shutdown();
 		if (m_Window.isOpen()) 
 			m_Window.close();
+
+		if (Project::GetResourceManager())
+		{
+			Project::GetResourceManager()->Shutdown();
+		}
 	}
 
 	void EditorApplication::OnUpdate(TimeStep timestep)

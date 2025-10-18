@@ -24,7 +24,6 @@ namespace Luden
 
 	EditorResourceManager::~EditorResourceManager()
 	{
-		Shutdown();
 	}
 
 	void EditorResourceManager::Shutdown()

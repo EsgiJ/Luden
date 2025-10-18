@@ -45,20 +45,40 @@
                 ]
             },
             "Tag": "MainCamera",
-            "UUID": 1001
+            "UUID": 1001000000000000000
         },
         {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.800000011920929,
+                    0.800000011920929
+                ]
+            },
             "CHealth": {
-                "current": 100,
-                "max": 100
+                "current": 6,
+                "max": 10
             },
             "CInput": {
-                "attack": false,
+                "attack": true,
                 "canAttack": true,
-                "down": false,
+                "down": true,
                 "left": true,
                 "right": true,
-                "up": false
+                "up": true
             },
             "CTexture": {
                 "textureHandle": 10713380733661294664
@@ -66,16 +86,16 @@
             "CTransform": {
                 "angle": 0.0,
                 "facing": [
-                    1.0,
-                    0.0
+                    0.0,
+                    -1.0
                 ],
                 "pos": [
-                    5.0,
-                    0.0
+                    300.0,
+                    500.0
                 ],
                 "prevPos": [
                     5.0,
-                    0.0
+                    7.0
                 ],
                 "scale": [
                     1.0,
@@ -87,9 +107,1287 @@
                 ]
             },
             "Tag": "Player",
-            "UUID": 1002
+            "UUID": 1002000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 7574791978689341845
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    328.0,
+                    400.0
+                ],
+                "prevPos": [
+                    3.0,
+                    8.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileBush",
+            "UUID": 1003000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 7574791978689341845
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    264.0,
+                    400.0
+                ],
+                "prevPos": [
+                    4.0,
+                    3.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileBush",
+            "UUID": 1004000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": true,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 1778777879503230346
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    700.0,
+                    100.0
+                ],
+                "prevPos": [
+                    11.0,
+                    4.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileTreeMonster1",
+            "UUID": 1005000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": true,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 11101103845089673357
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    764.0,
+                    100.0
+                ],
+                "prevPos": [
+                    12.0,
+                    4.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileTreeMonster2",
+            "UUID": 1006000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": true,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 17456551125940696384
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    828.0,
+                    100.0
+                ],
+                "prevPos": [
+                    13.0,
+                    4.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileTreeMonster3",
+            "UUID": 1007000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": true,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 3141527581550012513
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    700.0,
+                    164.0
+                ],
+                "prevPos": [
+                    11.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileTreeMonster4",
+            "UUID": 1008000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": true,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 5582313727379296300
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    764.0,
+                    164.0
+                ],
+                "prevPos": [
+                    12.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileTreeMonster5",
+            "UUID": 1009000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": true,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 41324236550034339
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    828.0,
+                    164.0
+                ],
+                "prevPos": [
+                    13.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileTreeMonster6",
+            "UUID": 1010000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": false,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 16675339296861051391
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    460.3999938964844,
+                    332.1000061035156
+                ],
+                "prevPos": [
+                    7.0,
+                    2.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileStair",
+            "UUID": 1011000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 5904733657860222223
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    400.0,
+                    200.0
+                ],
+                "prevPos": [
+                    5.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileLake1",
+            "UUID": 1012000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 7587639301444688835
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    464.0,
+                    200.0
+                ],
+                "prevPos": [
+                    6.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileLake2",
+            "UUID": 1013000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 14901163932743642916
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    528.0,
+                    200.0
+                ],
+                "prevPos": [
+                    7.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileLake3",
+            "UUID": 1014000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 8066417851571793255
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    400.0,
+                    264.0
+                ],
+                "prevPos": [
+                    5.0,
+                    6.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileLake7",
+            "UUID": 1015000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 11780503573412209219
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    464.0,
+                    264.0
+                ],
+                "prevPos": [
+                    6.0,
+                    6.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileLake8",
+            "UUID": 1016000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.5,
+                    0.5
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 4583100103902977791
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    528.0,
+                    264.0
+                ],
+                "prevPos": [
+                    7.0,
+                    6.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileLake9",
+            "UUID": 1017000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": false,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.25,
+                    0.25
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.5,
+                    0.5
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 14376994147307639119
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    400.0,
+                    150.0
+                ],
+                "prevPos": [
+                    11.0,
+                    10.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileHeart",
+            "UUID": 1018000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": false,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.25,
+                    0.25
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.5,
+                    0.5
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 14376994147307639119
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    464.0,
+                    150.0
+                ],
+                "prevPos": [
+                    5.0,
+                    7.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileHeart",
+            "UUID": 1019000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": false,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.25,
+                    0.25
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.5,
+                    0.5
+                ]
+            },
+            "CTexture": {
+                "textureHandle": 14376994147307639119
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    528.0,
+                    150.0
+                ],
+                "prevPos": [
+                    2.0,
+                    11.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "TileHeart",
+            "UUID": 1020000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.800000011920929,
+                    0.800000011920929
+                ]
+            },
+            "CHealth": {
+                "current": 3,
+                "max": 3
+            },
+            "CTexture": {
+                "textureHandle": 14913595247856052817
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    800.0,
+                    700.0
+                ],
+                "prevPos": [
+                    2.0,
+                    8.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCTektite",
+            "UUID": 1021000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.44999998807907104,
+                    0.44999998807907104
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.8999999761581421,
+                    0.8999999761581421
+                ]
+            },
+            "CHealth": {
+                "current": 3,
+                "max": 3
+            },
+            "CTexture": {
+                "textureHandle": 13120669987925077891
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    200.0,
+                    300.0
+                ],
+                "prevPos": [
+                    3.0,
+                    3.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCArmos",
+            "UUID": 1022000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.800000011920929,
+                    0.800000011920929
+                ]
+            },
+            "CHealth": {
+                "current": 2,
+                "max": 2
+            },
+            "CTexture": {
+                "textureHandle": 14913595247856052817
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    200.0,
+                    700.0
+                ],
+                "prevPos": [
+                    8.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCTektite",
+            "UUID": 1023000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.800000011920929,
+                    0.800000011920929
+                ]
+            },
+            "CHealth": {
+                "current": 2,
+                "max": 2
+            },
+            "CTexture": {
+                "textureHandle": 14913595247856052817
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    200.0,
+                    7.0
+                ],
+                "prevPos": [
+                    15.0,
+                    7.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCTektite",
+            "UUID": 1024000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.44999998807907104,
+                    0.44999998807907104
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.8999999761581421,
+                    0.8999999761581421
+                ]
+            },
+            "CHealth": {
+                "current": 2,
+                "max": 2
+            },
+            "CTexture": {
+                "textureHandle": 13120669987925077891
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    900.0,
+                    100.0
+                ],
+                "prevPos": [
+                    5.0,
+                    6.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCArmos",
+            "UUID": 1025000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.44999998807907104,
+                    0.44999998807907104
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.8999999761581421,
+                    0.8999999761581421
+                ]
+            },
+            "CHealth": {
+                "current": 2,
+                "max": 2
+            },
+            "CTexture": {
+                "textureHandle": 13120669987925077891
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    800.0,
+                    450.0
+                ],
+                "prevPos": [
+                    9.0,
+                    6.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCArmos",
+            "UUID": 1026000000000000000
+        },
+        {
+            "CBoundingBox": {
+                "blockMove": true,
+                "blockVision": false,
+                "center": [
+                    0.0,
+                    0.0
+                ],
+                "halfSize": [
+                    0.44999998807907104,
+                    0.44999998807907104
+                ],
+                "prevCenter": [
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    0.8999999761581421,
+                    0.8999999761581421
+                ]
+            },
+            "CHealth": {
+                "current": 2,
+                "max": 2
+            },
+            "CTexture": {
+                "textureHandle": 5907706926106653936
+            },
+            "CTransform": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    73.5999984741211,
+                    130.60000610351563
+                ],
+                "prevPos": [
+                    15.0,
+                    10.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "Tag": "NPCArmos",
+            "UUID": 1027000000000000000
         }
     ],
-    "Name": "NewScene",
+    "Name": "Scene_Zelda",
     "UUID": 1
 }
