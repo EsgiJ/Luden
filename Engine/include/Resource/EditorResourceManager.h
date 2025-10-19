@@ -42,6 +42,8 @@ namespace Luden
 
 		ResourceHandle GetResourceHandleFromFilePath(const std::filesystem::path& filepath);
 
+		ResourceRegistry& GetResourceRegistry() { return m_ResourceRegistry; }
+
 		ResourceType GetResourceTypeFromExtension(const std::string& extension);
 		std::string GetDefaultExtensionForResourceType(ResourceType type);
 		ResourceType GetResourceTypeFromPath(const std::filesystem::path& path);

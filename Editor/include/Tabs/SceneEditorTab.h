@@ -4,6 +4,7 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/InspectorPanel.h"
 #include "Panels/ToolbarPanel.h"
+#include "Panels/ResourceBrowserPanel.h"
 #include "Scene/Scene.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -13,6 +14,7 @@ namespace Luden
 	class SceneHierarchyPanel;
 	class InspectorPanel;
 	class ToolbarPanel;
+	class ResourceBrowserPanel;
 
 	class SceneEditorTab : public EditorTab
 	{
@@ -63,6 +65,7 @@ namespace Luden
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		InspectorPanel m_InspectorPanel;
 		ToolbarPanel m_ToolbarPanel;
+		ResourceBrowserPanel m_ResourceBrowserPanel;
 
 		std::filesystem::path m_ActiveScenePath = std::filesystem::canonical(".");
 

@@ -104,6 +104,8 @@ namespace Luden
 
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_InspectorPanel.OnImGuiRender();
+		m_ResourceBrowserPanel.OnImGuiRender();
+
 		if (m_Appearing)
 		{ 
 			ImGui::SetNextWindowFocus(); 
@@ -200,11 +202,13 @@ namespace Luden
 
 		ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Left, 0.25f, nullptr, &dockSpaceMainID);
 		ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Right, 0.25f, nullptr, &dockSpaceMainID);
+		ImGuiID dockDown = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Down, 0.25f, nullptr, &dockSpaceMainID);
 
 		// Dock windows
 		ImGui::DockBuilderDockWindow(m_ViewportPanelName.c_str(), dockSpaceMainID);
 		m_SceneHierarchyPanel.DockTo(dockLeft);
 		m_InspectorPanel.DockTo(dockRight);
+		m_ResourceBrowserPanel.DockTo(dockDown);
 
 		ImGui::DockBuilderFinish(dockSpaceMainID);
 		m_Appearing = true;

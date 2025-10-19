@@ -57,9 +57,9 @@ namespace Luden
 
 			if (!ResourceImporter::TryLoadData(metadata, resource))
 			{
-				assert(resource && "Resource import failed!");
+				m_LoadedResources[resourceHandle] = resource;
+				return resource;
 			}
-
 			return resource;
 		}
 	}
