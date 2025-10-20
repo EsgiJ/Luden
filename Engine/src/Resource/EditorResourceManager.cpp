@@ -45,22 +45,22 @@ namespace Luden
 		if (!IsResourceHandleValid(resourceHandle))
 			return nullptr;
 
-		std::shared_ptr<Resource> resource = nullptr;
-
 		if (IsResourceLoaded(resourceHandle))
 		{
-			resource = m_LoadedResources.at(resourceHandle);
+			return m_LoadedResources.at(resourceHandle);
+		}
+
+		const ResourceMetadata& metadata = GetMetadata(resourceHandle);
+		std::shared_ptr<Resource> resource = nullptr; 
+
+		if (ResourceImporter::TryLoadData(metadata, resource))
+		{
+			m_LoadedResources[resourceHandle] = resource;
+			return resource;
 		}
 		else
 		{
-			const ResourceMetadata& metadata = GetMetadata(resourceHandle);
-
-			if (!ResourceImporter::TryLoadData(metadata, resource))
-			{
-				m_LoadedResources[resourceHandle] = resource;
-				return resource;
-			}
-			return resource;
+			return nullptr;
 		}
 	}
 
