@@ -1,5 +1,6 @@
-#include "Panels/ResourceBrowserPanel.h"
+ï»¿#include "Panels/ResourceBrowserPanel.h"
 #include "Resource/Resource.h"
+#include "Utils/EditorResources.h"
 #include "Project/Project.h"
 
 namespace Luden
@@ -39,7 +40,7 @@ namespace Luden
 		ImGui::SetNextWindowContentSize(ImVec2(0.0f, m_LayoutOuterPadding + m_LayoutLineCount * (m_LayoutItemStep.y)));
 		if (ImGui::BeginChild("AssetsChild", ImVec2(0.0f, -ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Border, ImGuiWindowFlags_NoMove))
 		{
-			bool directoryChanged = false; 
+			bool directoryChanged = false;
 
 			ImVec2 startPos = ImGui::GetCursorScreenPos();
 			startPos = ImVec2(startPos.x + m_LayoutOuterPadding, startPos.y + m_LayoutOuterPadding);
@@ -63,7 +64,7 @@ namespace Luden
 
 				for (int itemIdx = itemMinIdx; itemIdx < itemMaxIdx; itemIdx++)
 				{
-					if (itemIdx >= itemCount) break; 
+					if (itemIdx >= itemCount) break;
 
 					const BrowserEntry& entry = m_Entries[itemIdx];
 
@@ -84,7 +85,7 @@ namespace Luden
 							m_Selection.clear();
 							directoryChanged = true;
 							ImGui::PopID();
-							break; 
+							break;
 						}
 						else
 						{
@@ -119,35 +120,51 @@ namespace Luden
 
 						ImU32 iconBGColor;
 
+						ImTextureID finalTextureID = 0;
+						std::shared_ptr<Texture> browseEntryTexture;
+
 						if (entry.IsDirectory)
 						{
-							iconBGColor = ImGui::GetColorU32(IM_COL32(255, 200, 0, 220));
-							drawList->AddRectFilled(boxMin, boxMax, iconBGColor);
+							browseEntryTexture = EditorResources::FolderIcon;
 						}
-						else if (entry.Type == ResourceType::Texture)
+
+						switch (entry.Type)
 						{
-							iconBGColor = ImGui::GetColorU32(IM_COL32(80, 0, 0, 220));
-							drawList->AddRectFilled(boxMin, boxMax, iconBGColor);
-							/*
-							std::shared_ptr<Resource> resource = resourceManager->GetResource(entry.Handle);
+						case ResourceType::Scene:
+							browseEntryTexture = EditorResources::SceneIcon;
+							break;
+						case ResourceType::Prefab:
+							browseEntryTexture = EditorResources::Anim2DIcon;
+							break;
+						case ResourceType::Texture:
+							browseEntryTexture = std::dynamic_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(entry.Handle));
+							break;
+						case ResourceType::Audio:
+							browseEntryTexture = EditorResources::AudioIcon;
+							break;
+						case ResourceType::Font:
+							browseEntryTexture = EditorResources::FontIcon;
+							break;
+						case ResourceType::Animation:
+							browseEntryTexture = EditorResources::Anim2DIcon;
+							break;
+						default:
+							break;
+						}
 
-							if (resource && resource->IsValid())
-							{
-								ImTextureID textureID = GetImGuiTextureID(entry.Handle); // Gerçek SFML ID'si alýnacak
+						if (browseEntryTexture != nullptr && browseEntryTexture->GetTexture().getNativeHandle() != 0)
+						{
+							ImTextureID textureId = (ImTextureID)(uintptr_t)browseEntryTexture->GetTexture().getNativeHandle();
 
-								ImGui::SetCursorScreenPos(boxMin);
-								ImGui::Image(textureID, m_LayoutItemSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(0, 0, 0, 0));
-							}
-							else
-							{
-								iconBGColor = ImGui::GetColorU32(IM_COL32(80, 0, 0, 220));
-								drawList->AddRectFilled(boxMin, boxMax, iconBGColor);
-							}
-							*/
+							drawList->AddImage(
+								textureId,
+								boxMin,
+								boxMax
+							);
 						}
 						else
 						{
-							iconBGColor = ImGui::GetColorU32(IM_COL32(35, 35, 35, 220));
+							ImU32 iconBGColor = ImGui::GetColorU32(IM_COL32(80, 80, 80, 220));
 							drawList->AddRectFilled(boxMin, boxMax, iconBGColor);
 						}
 
@@ -163,7 +180,7 @@ namespace Luden
 
 					ImGui::PopID();
 				}
-				if (directoryChanged) break; 
+				if (directoryChanged) break;
 			}
 			clipper.End();
 
@@ -193,15 +210,15 @@ namespace Luden
 	{
 		m_LayoutItemSpacing = (float)(m_IconSpacing);
 		if (m_StretchSpacing == false)
-			availWidth += floorf(m_LayoutItemSpacing * 0.5);
+			availWidth += floorf(m_LayoutItemSpacing * 0.5f);
 
 		m_LayoutItemSize = ImVec2(floorf(m_IconSize), floorf(m_IconSize));
 		m_LayoutColumnCount = std::max((int)(availWidth / (m_LayoutItemSize.x + m_LayoutItemSpacing)), 1);
-		m_LayoutLineCount = (m_Entries.size() + m_LayoutColumnCount - 1) / m_LayoutColumnCount;
-		
+		m_LayoutLineCount = ((int)m_Entries.size() + m_LayoutColumnCount - 1) / m_LayoutColumnCount;
+
 		if (m_StretchSpacing && m_LayoutColumnCount > 1)
 			m_LayoutItemSpacing = floorf(availWidth - m_LayoutItemSize.x * m_LayoutColumnCount) / m_LayoutColumnCount;
-		
+
 		m_LayoutItemStep = ImVec2(m_LayoutItemSize.x + m_LayoutItemSpacing, (m_LayoutItemSize.x + m_LayoutItemSpacing));
 		m_LayoutSelectableSpacing = std::max(floorf(m_LayoutItemSpacing) - m_IconHitSpacing, 0.0f);
 		m_LayoutOuterPadding = floorf(m_LayoutItemSpacing * 0.5f);
@@ -228,7 +245,7 @@ namespace Luden
 			}
 			else
 			{
-				newEntry.Handle = 0; 
+				newEntry.Handle = 0;
 			}
 
 			entries.push_back(std::move(newEntry));

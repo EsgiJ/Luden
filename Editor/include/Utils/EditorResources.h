@@ -30,6 +30,12 @@ namespace Luden
 		static inline std::shared_ptr<Texture> RotateIcon;
 		static inline std::shared_ptr<Texture> BannerIcon;
 
+		static inline std::shared_ptr<Texture> FolderIcon;
+		static inline std::shared_ptr<Texture> Anim2DIcon;
+		static inline std::shared_ptr<Texture> SceneIcon;
+		static inline std::shared_ptr<Texture> AudioIcon;
+		static inline std::shared_ptr<Texture> FontIcon;
+
 		static inline std::filesystem::path ProjectTemplate;
 
 		static void Init()
@@ -43,6 +49,12 @@ namespace Luden
 			ScaleIcon = LoadTexture("Icons\\tool_scale.png", "ScaleIcon");
 			RotateIcon = LoadTexture("Icons\\tool_rotate.png", "RotateIcon");
 			BannerIcon = LoadTexture("Icons\\banner.png", "BannerIcon");
+
+			FolderIcon = LoadTexture("Icons\\folder_icon.png", "FolderIcon");
+			Anim2DIcon = LoadTexture("Icons\\anim2d_icon.png", "Anim2DIcon");
+			SceneIcon = LoadTexture("Icons\\scene_icon.png", "SceneIcon");
+			AudioIcon = LoadTexture("Icons\\audio_icon.png", "AudioIcon");
+			FontIcon = LoadTexture("Icons\\font_icon.png", "FontIcon");
 		}
 
 	private:

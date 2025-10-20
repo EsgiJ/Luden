@@ -1,4 +1,4 @@
-#include "Resource/ResourceSerializer.h"
+﻿#include "Resource/ResourceSerializer.h"
 
 #include "Audio/SoundBuffer.h"
 #include "Graphics/Animation.h"

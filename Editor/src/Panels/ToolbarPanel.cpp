@@ -318,6 +318,7 @@ namespace Luden {
 			tintColor = ImVec4(0.6f, 0.6f, 0.9f, 1.0f);
 		}
 
-		return ImGui::ImageButton("ToolImage", textureId, ImVec2(size, size), ImVec2(0, 1), ImVec2(1, 0), ImVec4(0, 0, 0, 0), tintColor);
+		return ImGui::ImageButton((std::string("ToolImage##") + std::to_string((int)tool)).c_str(), textureId, ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0), tintColor);
+		ImGui::PopID();
 	}
 }

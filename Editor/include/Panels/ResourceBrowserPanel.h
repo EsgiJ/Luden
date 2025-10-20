@@ -3,13 +3,12 @@
 #include "Panels/EditorPanel.h"
 #include "Resource/ResourceManagerBase.h"
 #include "EditorAPI.h"
-
+#include "Graphics/Texture.h"
 #include <unordered_set>
 #include <memory>
 
 class ResourceHandle;
 class Resource; 
-
 namespace Luden {
 
 	struct BrowserEntry
@@ -44,7 +43,7 @@ namespace Luden {
 		bool m_AllowSorting = true;
 		bool m_AllowDragUnselected = true;
 
-		float m_IconSize = 32.0f;
+		float m_IconSize = 100.0f;
 		int m_IconSpacing = 10;
 		int m_IconHitSpacing = 4;
 		bool m_StretchSpacing = true;

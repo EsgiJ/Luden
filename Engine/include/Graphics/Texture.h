@@ -10,7 +10,7 @@ namespace Luden
 	{
 	public:
 		Texture() = default;
-		~Texture() override = default;
+		~Texture() override = default; 
 
 		const sf::Texture& GetTexture() const { return m_Texture; }
 		sf::Texture& GetTexture() { return m_Texture; }
