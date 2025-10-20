@@ -42,6 +42,7 @@ namespace Luden
 		void OpenResource(const std::filesystem::path& path);
 
 		bool BeginMainDockspace();
+		void RenderTitleBar();
 		void RenderContent();
 		void InitializeMainDockspace();
 

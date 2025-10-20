@@ -151,6 +151,11 @@
       "Type": "Audio"
     },
     {
+      "FilePath": "Scenes/Template.lscn",
+      "Handle": 9175385255935173338,
+      "Type": "Scene"
+    },
+    {
       "FilePath": "images/zelda_rock6.png",
       "Handle": 9200487042281974255,
       "Type": "Texture"

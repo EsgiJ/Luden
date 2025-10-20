@@ -1,4 +1,4 @@
-#include "Core/EditorApplication.h"
+﻿#include "Core/EditorApplication.h"
 
 #include "Utils/EditorColors.h"
 #include "Tabs/SceneEditorTab.h"
@@ -26,7 +26,7 @@ namespace Luden
 	void EditorApplication::Init() 
 	{
 		// Editor window
-		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::Default);
+		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
 		m_Window.setFramerateLimit(60);
 
 		if (!ImGui::SFML::Init(m_Window))
@@ -129,10 +129,12 @@ namespace Luden
 	}
 	void EditorApplication::OnImGuiRender()
 	{
+		RenderTitleBar();
+
 		if (BeginMainDockspace()) 
 		{
-			RenderContent();
 			InitializeMainDockspace();
+			RenderContent();
 		}
 		ImGui::End();
 
@@ -267,8 +269,12 @@ namespace Luden
 	bool EditorApplication::BeginMainDockspace()
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImGui::SetNextWindowPos(viewport->WorkPos);
-		ImGui::SetNextWindowSize(viewport->WorkSize);
+		ImGui::SetNextWindowPos(
+			ImVec2(viewport->WorkPos.x, viewport->WorkPos.y)
+		);
+		ImGui::SetNextWindowSize(
+			ImVec2(viewport->WorkSize.x, viewport->WorkSize.y)
+		);
 		ImGui::SetNextWindowViewport(viewport->ID);
 		constexpr ImGuiWindowFlags mainWindowFlags = ImGuiWindowFlags_NoDocking //| ImGuiWindowFlags_MenuBar
 			| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize
@@ -295,6 +301,90 @@ namespace Luden
 		ImGui::PopStyleVar();
 
 		return true;
+	}
+
+	void EditorApplication::RenderTitleBar()
+	{
+		float desiredHeight = 45.0f;
+		float fontHeight = ImGui::GetTextLineHeight();
+
+		float newFramePaddingY = (desiredHeight - fontHeight) / 2.0f;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,
+			ImVec2(ImGui::GetStyle().FramePadding.x, newFramePaddingY)
+		);
+
+		if (ImGui::BeginMainMenuBar())
+		{
+			ImGui::PopStyleVar();
+
+			const ImGuiViewport* viewport = ImGui::GetMainViewport();
+			float actualMenuHeight = ImGui::GetFrameHeight();
+
+			float logoHeight = 20.0f;
+			float logoOffset = (actualMenuHeight - logoHeight) / 2.0f;
+
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + logoOffset);
+
+			ImGui::Image(EditorResources::BannerIcon->GetTexture().getNativeHandle(), ImVec2(20, 20));
+			ImGui::SameLine();
+
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ((logoHeight - ImGui::GetTextLineHeight()) / 2.0f));
+
+			ImGui::Text("Luden Editor");
+			ImGui::SameLine(0.0f, 15.0f);
+
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("New Scene", "Ctrl+N")) 
+				{ 
+					CreateNewScene(); 
+				}
+				if (ImGui::MenuItem("Save Project", "Ctrl+S")) 
+				{ 
+					SaveProject(); 
+				}
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("Edit"))
+			{
+				ImGui::EndMenu();
+			}
+
+			ImGui::SetCursorPosY(0.0f);
+
+			float controlsWidth = 120.0f;
+			float dragRegionWidth = viewport->Size.x - ImGui::GetCursorPosX() - controlsWidth;
+
+			ImGui::InvisibleButton("TitleBarDrag", ImVec2(dragRegionWidth, actualMenuHeight));
+
+			if (ImGui::IsItemActive() && ImGui::IsMouseDragging(0))
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition();
+				sf::Vector2i newPos = sf::Vector2i(mousePos.x - (int)ImGui::GetIO().MouseDelta.x, mousePos.y - (int)ImGui::GetIO().MouseDelta.y);
+				m_Window.setPosition(newPos);
+			}
+
+			ImGui::SameLine();
+			ImGui::SetCursorPosX(viewport->Size.x - controlsWidth + 5.0f);
+
+			if (ImGui::Button(" _ ", ImVec2(35, actualMenuHeight))) 
+			{ 
+				/* minimize */
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button(" X ", ImVec2(35, actualMenuHeight))) 
+			{ 
+				m_Window.close(); 
+			}
+
+			ImGui::EndMainMenuBar();
+		}
+		else {
+			ImGui::PopStyleVar();
+		}
 	}
 
 	void EditorApplication::RenderContent()

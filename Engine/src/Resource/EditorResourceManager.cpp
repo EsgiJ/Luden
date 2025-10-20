@@ -29,6 +29,7 @@ namespace Luden
 	void EditorResourceManager::Shutdown()
 	{
 		WriteRegistryToFile();
+		m_LoadedResources.clear();
 	}
 
 	ResourceType EditorResourceManager::GetResourceType(ResourceHandle resourceHandle)
