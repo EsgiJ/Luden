@@ -7,7 +7,7 @@
 #include "Project/ProjectSerializer.h"
 #include "Scene/SceneSerializer.h"
 #include "Utils/EditorResources.h"
-
+#include "Utils/ImGuiStyle.h"
 
 #include <filesystem>
 #include <iostream>
@@ -53,6 +53,7 @@ namespace Luden
 		io.Fonts->AddFontFromFileTTF("Editor/Resources/fonts/fa-solid-900.ttf", 22.0f, &fontConfig, iconRanges);
 		io.Fonts->Build();
 		ImGui::SFML::UpdateFontTexture();
+		SetupImGuiStyle();
 	}
 
 	void EditorApplication::Run()
