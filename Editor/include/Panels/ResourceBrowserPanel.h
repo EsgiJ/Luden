@@ -34,11 +34,16 @@ namespace Luden {
 		void UpdateLayoutSizes(float availWidth);
 		void CollectAndSortEntries(std::vector<BrowserEntry>& entries);
 
+		void RenderFilterAndReloadToolbar();
+
 		void ReloadResources();
+		void ReloadResource();
 
 		void HelpMarker(const char* desc);
 	private:
 		// Options
+		std::string m_SearchFilter;
+		ResourceType m_SelectedFilter = ResourceType::None;
 		bool m_ShowTypeOverlay = true;
 		bool m_AllowSorting = true;
 		bool m_AllowDragUnselected = true;

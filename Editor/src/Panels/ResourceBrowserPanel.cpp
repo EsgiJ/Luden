@@ -3,6 +3,8 @@
 #include "Utils/EditorResources.h"
 #include "Project/Project.h"
 
+#include <IconsFontAwesome7.h>
+
 namespace Luden
 {
 	void ResourceBrowserPanel::RenderContent()
@@ -14,25 +16,33 @@ namespace Luden
 			m_CurrentDirectory = Project::GetActiveResourceDirectory();
 		}
 
-		ImGui::SliderFloat("Icon Size", &m_IconSize, 32.0f, 128.0f, "%.0f");
+		RenderFilterAndReloadToolbar();
+		// Icon Size Slider
+		ImGui::Text("Icon Size");
+		ImGui::SameLine();
+		ImGui::SliderFloat("##IconSize", &m_IconSize, 32.0f, 128.0f, "%.0f");
 		ImGui::SameLine();
 		HelpMarker("Use CTRL+Wheel to zoom");
 
 		ImGui::Separator();
 
-		CollectAndSortEntries(m_Entries);
+		static bool disabled = true;
+		disabled = m_CurrentDirectory != Project::GetActiveResourceDirectory() &&  m_CurrentDirectory.has_parent_path();
+		// Navigation bar
 
-		if (m_CurrentDirectory != Project::GetActiveResourceDirectory() && m_CurrentDirectory.has_parent_path())
+		ImGui::BeginDisabled(!disabled);
+		ImGui::PushID("BackFolder");
+		if (ImGui::Button(ICON_FA_ARROW_LEFT))
 		{
-			if (ImGui::Button(".."))
-			{
-				m_CurrentDirectory = m_CurrentDirectory.parent_path();
-				m_Selection.clear();
-			}
-			ImGui::SameLine();
-		}
-		ImGui::Text("Current Path: %s", m_CurrentDirectory.string().c_str());
+			m_CurrentDirectory = m_CurrentDirectory.parent_path();
+			m_Selection.clear();
+		} 
+		ImGui::PopID();
+		ImGui::EndDisabled();
+
 		ImGui::Separator();
+
+		CollectAndSortEntries(m_Entries);
 
 		const float availdWidth = ImGui::GetContentRegionAvail().x;
 		UpdateLayoutSizes(availdWidth);
@@ -68,6 +78,9 @@ namespace Luden
 
 					const BrowserEntry& entry = m_Entries[itemIdx];
 
+					if (m_SelectedFilter != ResourceType::None && entry.Type != m_SelectedFilter && !entry.IsDirectory)
+						continue;
+
 					ImGui::PushID(entry.Filename.c_str());
 
 					int lineIdx = itemIdx / columnCount;
@@ -86,6 +99,10 @@ namespace Luden
 							directoryChanged = true;
 							ImGui::PopID();
 							break;
+						}
+						else if (!entry.IsDirectory && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+						{
+							// TODO: Open resource on a new tab
 						}
 						else
 						{
@@ -108,7 +125,9 @@ namespace Luden
 
 					if (!entry.IsDirectory && entry.Handle != 0 && ImGui::BeginDragDropSource())
 					{
-						ImGui::SetDragDropPayload("DND_RESOURCE_HANDLE", (void*)&entry.Handle, sizeof(ResourceHandle));
+						const char* pathStr = entry.Path.string().c_str();
+						ImGui::SetDragDropPayload("DND_FILE_PATH", pathStr, (strlen(pathStr) + 1));
+
 						ImGui::Text("Dragging: %s", entry.Filename.c_str());
 						ImGui::EndDragDropSource();
 					}
@@ -127,29 +146,15 @@ namespace Luden
 						{
 							browseEntryTexture = EditorResources::FolderIcon;
 						}
-
 						switch (entry.Type)
 						{
-						case ResourceType::Scene:
-							browseEntryTexture = EditorResources::SceneIcon;
-							break;
-						case ResourceType::Prefab:
-							browseEntryTexture = EditorResources::Anim2DIcon;
-							break;
-						case ResourceType::Texture:
-							browseEntryTexture = std::dynamic_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(entry.Handle));
-							break;
-						case ResourceType::Audio:
-							browseEntryTexture = EditorResources::AudioIcon;
-							break;
-						case ResourceType::Font:
-							browseEntryTexture = EditorResources::FontIcon;
-							break;
-						case ResourceType::Animation:
-							browseEntryTexture = EditorResources::Anim2DIcon;
-							break;
-						default:
-							break;
+						case ResourceType::Scene: browseEntryTexture = EditorResources::SceneIcon; break;
+						case ResourceType::Prefab: browseEntryTexture = EditorResources::Anim2DIcon; break; // Placeholder için Anim2DIcon
+						case ResourceType::Texture: browseEntryTexture = std::dynamic_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(entry.Handle)); break;
+						case ResourceType::Audio: browseEntryTexture = EditorResources::AudioIcon; break;
+						case ResourceType::Font: browseEntryTexture = EditorResources::FontIcon; break;
+						case ResourceType::Animation: browseEntryTexture = EditorResources::Anim2DIcon; break;
+						default: break;
 						}
 
 						if (browseEntryTexture != nullptr && browseEntryTexture->GetTexture().getNativeHandle() != 0)
@@ -233,6 +238,9 @@ namespace Luden
 			const auto& path = entry.path();
 			const std::string filename = path.filename().string();
 
+			std::string searchFilterLower = m_SearchFilter;
+			std::transform(searchFilterLower.begin(), searchFilterLower.end(), searchFilterLower.begin(), ::tolower);
+
 			BrowserEntry newEntry;
 			newEntry.Path = path;
 			newEntry.Filename = filename;
@@ -248,6 +256,21 @@ namespace Luden
 				newEntry.Handle = 0;
 			}
 
+			if (!m_SearchFilter.empty())
+			{
+				std::string filenameLower = filename;
+				std::transform(filenameLower.begin(), filenameLower.end(), filenameLower.begin(), ::tolower);
+
+				if (filenameLower.find(searchFilterLower) == std::string::npos)
+					continue;
+			}
+
+			if (m_SelectedFilter != ResourceType::None && !newEntry.IsDirectory)
+			{
+				if (newEntry.Type != m_SelectedFilter)
+					continue;
+			}
+
 			entries.push_back(std::move(newEntry));
 		}
 
@@ -259,9 +282,75 @@ namespace Luden
 			});
 	}
 
+	void ResourceBrowserPanel::RenderFilterAndReloadToolbar()
+	{
+		ImGui::Text(ICON_FA_MAGNIFYING_GLASS);
+		ImGui::SameLine();
+		char buffer[256];
+		strcpy_s(buffer, m_SearchFilter.c_str());
+		if (ImGui::InputText("##SearchFilter", buffer, sizeof(buffer)))
+		{
+			m_SearchFilter = buffer;
+		}
+
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100); 
+
+		if (ImGui::Button(ICON_FA_ARROW_ROTATE_RIGHT " Reload"))
+		{
+			ReloadResources();
+		}
+		ImGui::SameLine();
+
+		ImGui::SetNextItemWidth(70.0f);
+		if (ImGui::BeginCombo("##ResourceFilter", "Filter", ImGuiComboFlags_NoArrowButton))
+		{
+			if (ImGui::Selectable("All", m_SelectedFilter == ResourceType::None))
+			{
+				m_SelectedFilter = ResourceType::None;
+			}
+
+			if (ImGui::Selectable("Scene", m_SelectedFilter == ResourceType::Scene))
+			{
+				m_SelectedFilter = ResourceType::Scene;
+			}
+
+			if (ImGui::Selectable("Prefab", m_SelectedFilter == ResourceType::Prefab))
+			{
+				m_SelectedFilter = ResourceType::Prefab;
+			}
+
+			if (ImGui::Selectable("Texture", m_SelectedFilter == ResourceType::Texture))
+			{
+				m_SelectedFilter = ResourceType::Texture;
+			}
+
+			if (ImGui::Selectable("Audio", m_SelectedFilter == ResourceType::Audio))
+			{
+				m_SelectedFilter = ResourceType::Audio;
+			}
+
+			if (ImGui::Selectable("Font", m_SelectedFilter == ResourceType::Font))
+			{
+				m_SelectedFilter = ResourceType::Font;
+			}
+
+			if (ImGui::Selectable("Animation", m_SelectedFilter == ResourceType::Animation))
+			{
+				m_SelectedFilter = ResourceType::Animation;
+			}
+
+			ImGui::EndCombo();
+		}
+	}
+
 	void ResourceBrowserPanel::ReloadResources()
 	{
+		Project::GetEditorResourceManager()->ReloadResources();
+		CollectAndSortEntries(m_Entries);
+	}
 
+	void ResourceBrowserPanel::ReloadResource()
+	{
 	}
 
 	void ResourceBrowserPanel::HelpMarker(const char* desc)

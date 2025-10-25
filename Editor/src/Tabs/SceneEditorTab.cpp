@@ -170,6 +170,25 @@ namespace Luden
 								}
 							}
 						}
+
+						if (FileSystem::Exists(path) && (FileSystem::GetExtension(path) == ".lscn"))
+						{
+							// draw rect to show it can be draggable
+							ImVec2 drawStart = ImVec2(m_ViewportBounds[0].x + 2, m_ViewportBounds[0].y + 2);
+							ImVec2 drawEnd = ImVec2(m_ViewportBounds[1].x - 2, m_ViewportBounds[1].y - 2);
+							ImGui::GetWindowDrawList()->AddRect(drawStart, drawEnd, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
+
+							if (payload->IsDelivery())
+							{
+								if (path.extension() == ".png" || path.extension() == ".jpeg" || path.extension() == ".jpg")
+								{
+									if (m_EditorApplication)
+									{
+										
+									}
+								}
+							}
+						}
 					}
 					ImGui::EndDragDropTarget();
 				}

@@ -39,6 +39,7 @@ namespace Luden
 		const ResourceMetadata& GetMetadata(const std::filesystem::path& filepath);
 
 		ResourceHandle ImportResource(const std::filesystem::path& filepath);
+		void ReloadResources();
 
 		ResourceHandle GetResourceHandleFromFilePath(const std::filesystem::path& filepath);
 
@@ -57,7 +58,6 @@ namespace Luden
 	private:
 		void LoadResourceRegistry();
 		void ProcessDirectory(const std::filesystem::path& directoryPath);
-		void ReloadResources();
 		void WriteRegistryToFile();
 
 		void OnResourceRenamed(ResourceHandle resourceHandle, const std::filesystem::path& newFilePath);
