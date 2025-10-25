@@ -34,6 +34,7 @@ namespace Luden
 		void RequestOpenResource(const std::filesystem::path& path);
 
 		void CreateNewScene();
+		void SaveActiveScene();
 		void CreateNewProject(const std::filesystem::path& path, NewProjectType type);
 		void LoadProject(const std::filesystem::path& path);
 		void ExitEditor();
@@ -54,9 +55,7 @@ namespace Luden
 
 		bool OnKeyPressed(const sf::Event::KeyPressed& key);
 
-		void UpdateWindowTitle();
-
-		void OnOverlayRender();
+		void RenderMenuBar();
 	private:
 		std::vector<std::shared_ptr<EditorTab>> m_EditorTabs;
 		std::shared_ptr<EditorTab> m_FocusedTab;

@@ -97,11 +97,6 @@ namespace Luden
 			return;
 		}
 
-		if (ImGui::Button("Save Scene"))
-		{
-			SaveScene();
-		}
-
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_InspectorPanel.OnImGuiRender();
 		m_ResourceBrowserPanel.OnImGuiRender();

@@ -10,16 +10,15 @@
 
 
 #include <filesystem>
-
 #include <iostream>
 
+#include <IconsFontAwesome7.h>
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 
 namespace Luden 
 {
-
 	EditorApplication::EditorApplication() {}
 	EditorApplication::~EditorApplication() {}
 
@@ -35,7 +34,6 @@ namespace Luden
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-		// Start RuntimeApplication headless
 		ApplicationSpecification spec;
 		spec.Name = "Luden Editor";
 		spec.WindowWidth = 1600;
@@ -46,6 +44,15 @@ namespace Luden
 		LoadProject(spec.m_ProjectPath);
 		
 		EditorResources::Init();
+
+		io.Fonts->Clear();
+		ImFont* mainFont = io.Fonts->AddFontFromFileTTF("Editor/Resources/fonts/Oswald-Medium.ttf", 22.0f); // Kendi ana fontunuzu yükle
+		ImFontConfig fontConfig;
+		fontConfig.MergeMode = true;
+		static const ImWchar iconRanges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
+		io.Fonts->AddFontFromFileTTF("Editor/Resources/fonts/fa-solid-900.ttf", 22.0f, &fontConfig, iconRanges);
+		io.Fonts->Build();
+		ImGui::SFML::UpdateFontTexture();
 	}
 
 	void EditorApplication::Run()
@@ -130,7 +137,7 @@ namespace Luden
 	void EditorApplication::OnImGuiRender()
 	{
 		RenderTitleBar();
-
+		RenderMenuBar();
 		if (BeginMainDockspace()) 
 		{
 			InitializeMainDockspace();
@@ -305,9 +312,9 @@ namespace Luden
 
 	void EditorApplication::RenderTitleBar()
 	{
-		float desiredHeight = 45.0f;
-		float fontHeight = ImGui::GetTextLineHeight();
+		const float desiredHeight = 30.0f;
 
+		float fontHeight = ImGui::GetTextLineHeight();
 		float newFramePaddingY = (desiredHeight - fontHeight) / 2.0f;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,
@@ -321,63 +328,73 @@ namespace Luden
 			const ImGuiViewport* viewport = ImGui::GetMainViewport();
 			float actualMenuHeight = ImGui::GetFrameHeight();
 
-			float logoHeight = 20.0f;
-			float logoOffset = (actualMenuHeight - logoHeight) / 2.0f;
+			const float logoSize = 30.0f;
+			float logoOffset = (actualMenuHeight - logoSize) / 2.0f;
 
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + logoOffset);
 
-			ImGui::Image(EditorResources::BannerIcon->GetTexture().getNativeHandle(), ImVec2(20, 20));
+			ImGui::Image(EditorResources::BannerIcon->GetTexture().getNativeHandle(), ImVec2(logoSize, logoSize));
 			ImGui::SameLine();
 
-			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ((logoHeight - ImGui::GetTextLineHeight()) / 2.0f));
-
+			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (logoSize - ImGui::GetTextLineHeight()) / 2.0f);
 			ImGui::Text("Luden Editor");
 			ImGui::SameLine(0.0f, 15.0f);
 
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("New Scene", "Ctrl+N")) 
-				{ 
-					CreateNewScene(); 
-				}
-				if (ImGui::MenuItem("Save Project", "Ctrl+S")) 
-				{ 
-					SaveProject(); 
-				}
-				ImGui::EndMenu();
-			}
-			if (ImGui::BeginMenu("Edit"))
-			{
-				ImGui::EndMenu();
-			}
-
 			ImGui::SetCursorPosY(0.0f);
 
-			float controlsWidth = 120.0f;
+			if (ImGui::BeginMenu(ICON_FA_FILE " File"))
+			{
+				if (ImGui::MenuItem(ICON_FA_FILE " New Scene"))
+				{
+					CreateNewScene();
+				}
+				if (ImGui::MenuItem(ICON_FA_FLOPPY_DISK " Save Scene"))
+				{
+					SaveActiveScene();
+				}
+				ImGui::Separator();
+				if (ImGui::MenuItem(ICON_FA_RIGHT_FROM_BRACKET " Exit"))
+				{
+					ExitEditor();
+				}
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu(ICON_FA_PEN_TO_SQUARE " Edit"))
+			{
+				if (ImGui::MenuItem(" Undo"))
+				{
+					// Undo Logic
+				}
+				ImGui::EndMenu();
+			}
+
+			const float controlsWidth = 120.0f;
 			float dragRegionWidth = viewport->Size.x - ImGui::GetCursorPosX() - controlsWidth;
 
 			ImGui::InvisibleButton("TitleBarDrag", ImVec2(dragRegionWidth, actualMenuHeight));
 
 			if (ImGui::IsItemActive() && ImGui::IsMouseDragging(0))
 			{
-				sf::Vector2i mousePos = sf::Mouse::getPosition();
-				sf::Vector2i newPos = sf::Vector2i(mousePos.x - (int)ImGui::GetIO().MouseDelta.x, mousePos.y - (int)ImGui::GetIO().MouseDelta.y);
+				sf::Vector2i currentPos = m_Window.getPosition();
+				sf::Vector2i delta = sf::Vector2i((int)ImGui::GetIO().MouseDelta.x, (int)ImGui::GetIO().MouseDelta.y);
+				sf::Vector2i newPos = currentPos + delta;
 				m_Window.setPosition(newPos);
 			}
 
 			ImGui::SameLine();
 			ImGui::SetCursorPosX(viewport->Size.x - controlsWidth + 5.0f);
 
-			if (ImGui::Button(" _ ", ImVec2(35, actualMenuHeight))) 
-			{ 
+			if (ImGui::Button(ICON_FA_MINUS, ImVec2(35, actualMenuHeight)))
+			{
 				/* minimize */
 			}
 
 			ImGui::SameLine();
 
-			if (ImGui::Button(" X ", ImVec2(35, actualMenuHeight))) 
-			{ 
-				m_Window.close(); 
+			if (ImGui::Button(ICON_FA_XMARK, ImVec2(35, actualMenuHeight)))
+			{
+				m_Window.close();
 			}
 
 			ImGui::EndMainMenuBar();
@@ -469,13 +486,19 @@ namespace Luden
 		return false;
 	}
 
-	void EditorApplication::UpdateWindowTitle()
+	void EditorApplication::RenderMenuBar()
 	{
 
 	}
 
-	void EditorApplication::OnOverlayRender()
+	void EditorApplication::SaveActiveScene()
 	{
-
+		if (m_FocusedTab)
+		{
+			if (auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab))
+			{
+				sceneTab->SaveScene();
+			}
+		}
 	}
 }

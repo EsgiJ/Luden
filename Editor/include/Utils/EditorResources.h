@@ -67,8 +67,6 @@ namespace Luden
 		{
 			std::filesystem::path path = std::filesystem::path("Editor\\Resources") / relativePath;
 
-			std::cout << "Absolute Path: " << std::filesystem::absolute(path) << std::endl;
-
 			if (!FileSystem::Exists(path))
 			{
 				//TODO: Error

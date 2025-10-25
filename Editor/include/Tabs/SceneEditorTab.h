@@ -26,6 +26,8 @@ namespace Luden
 		virtual void OnScenePlay();
 		virtual void OnSceneStop();
 		void OnScenePause(bool isPaused = false);
+
+		virtual void SaveScene();
 	private:
 		virtual void RenderContent() override final;
 		virtual void InitializeDockspace() override final;
@@ -39,7 +41,6 @@ namespace Luden
 		void SetPanelsContext();
 
 		virtual void LoadScene(const std::filesystem::path& path);
-		virtual void SaveScene();
 
 		void ShowToolbarPlayPause();
 	private:

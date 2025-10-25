@@ -112,6 +112,7 @@ project "Editor"
         "extern/ImGui-SFML",      
         "extern/SFML/include",    
         "extern/json/include",
+        "extern/IconFontCppHeaders",
         "Tools"
     }
 
