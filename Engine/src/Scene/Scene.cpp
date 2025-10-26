@@ -96,7 +96,7 @@ namespace Luden {
 
 	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target)
 	{
-		target->clear();
+		target->clear(sf::Color(255, 192, 122));
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
@@ -130,7 +130,7 @@ namespace Luden {
 					sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
 					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
 					sprite.setColor(c);
-
+					sprite.setRotation(sf::degrees(transform.angle));
 					target->draw(sprite);
 				}
 			}

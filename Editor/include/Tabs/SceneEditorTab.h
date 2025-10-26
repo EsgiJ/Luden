@@ -43,6 +43,10 @@ namespace Luden
 		virtual void LoadScene(const std::filesystem::path& path);
 
 		void ShowToolbarPlayPause();
+
+		ImVec2 WorldToScreen(const Math::Vec2& worldPos);
+		void DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity);
+		void DrawGizmo(ImDrawList* drawList, Entity entity, ToolbarPanel::Tool tool);
 	private:
 		TimeStep m_TimeStep;
 

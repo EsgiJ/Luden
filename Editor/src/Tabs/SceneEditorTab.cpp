@@ -141,7 +141,20 @@ namespace Luden
 
 			if (isViewportOpen)
 			{
-				ImGui::Image(*m_RenderTexture);                                                             
+				ImGui::Image(*m_RenderTexture);       
+
+				Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+				if (selectedEntity.IsValid())
+				{
+					ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+					DrawSelectedEntityOutline(drawList, selectedEntity);
+
+					if (m_ToolbarPanel.GetSelectedTool() != ToolbarPanel::Tool::SELECT && m_SceneState == SceneState::Edit) 
+					{
+						DrawGizmo(drawList, selectedEntity, m_ToolbarPanel.GetSelectedTool());
+					}
+				}
 			}
 
 			if (m_ShowGrid)
@@ -256,21 +269,29 @@ namespace Luden
 
 		m_ToolbarPanel.OnUpdate();
 	}
+
 	void SceneEditorTab::SetEntityPositionToMouse(Entity entity)
 	{
-		ImVec2 mousePosImGui = ImGui::GetMousePos();
+		if (!entity.Has<CTransform>())
+			return;
 
+		ImVec2 mousePosImGui = ImGui::GetMousePos();
 		ImVec2 viewportStart = m_ViewportBounds[0];
 
-		float mouseX = mousePosImGui.x - viewportStart.x;
-		float mouseY = mousePosImGui.y - viewportStart.y;
+		int pixelX = (int)(mousePosImGui.x - viewportStart.x);
+		int pixelY = (int)(mousePosImGui.y - viewportStart.y);
 
-		if (entity.Has<CTransform>())
-		{
-			auto& transform = entity.Get<CTransform>();
-			transform.pos = { mouseX, mouseY };
-		}
+		int sfmlPixelY = pixelY;
+
+		sf::Vector2i sfmlPixelPos(pixelX, sfmlPixelY);
+
+		sf::Vector2f worldCoords = m_RenderTexture->mapPixelToCoords(sfmlPixelPos);
+
+		auto& transform = entity.Get<CTransform>();
+
+		transform.pos = { worldCoords.x, worldCoords.y };
 	}
+
 	void SceneEditorTab::SetPanelsContext()
 	{
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -391,5 +412,122 @@ namespace Luden
 		ImGui::End();
 		ImGui::PopStyleVar(4);
 		ImGui::PopStyleColor(3);
+	}
+
+	ImVec2 SceneEditorTab::WorldToScreen(const Math::Vec2& worldPos)
+	{
+		sf::Vector2f sfWorldPos(worldPos.x, worldPos.y);
+		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos);
+
+		return { m_ViewportBounds[0].x + pixelPos.x,m_ViewportBounds[0].y + pixelPos.y };
+	}
+
+	void SceneEditorTab::DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity)
+	{
+		if (!entity.IsValid() || !entity.Has<CTransform>() || !entity.Has<CTexture>())
+			return;
+
+		auto& transform = entity.Get<CTransform>();
+		auto& textureComponent = entity.Get<CTexture>();
+		auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
+
+		if (!texture) return;
+
+		sf::Vector2u texSize = texture->GetTexture().getSize();
+		Math::Vec2 scaledSize = { texSize.x * transform.scale.x, texSize.y * transform.scale.y };
+
+
+		Math::Vec2 worldCorners[] = {
+			transform.pos,                                         
+			transform.pos + Math::Vec2(scaledSize.x, 0),           
+			transform.pos + scaledSize,                            
+			transform.pos + Math::Vec2(0, scaledSize.y)            
+		};
+
+		ImVec2 screenCorners[4];
+		for (int i = 0; i < 4; ++i)
+		{
+			screenCorners[i] = WorldToScreen(worldCorners[i]);
+		}
+
+		ImU32 color = IM_COL32(255, 255, 0, 255); 
+		float thickness = 2.0f;
+
+		drawList->AddLine(screenCorners[0], screenCorners[1], color, thickness); 
+		drawList->AddLine(screenCorners[1], screenCorners[2], color, thickness); 
+		drawList->AddLine(screenCorners[2], screenCorners[3], color, thickness); 
+		drawList->AddLine(screenCorners[3], screenCorners[0], color, thickness); 
+	}
+
+	void SceneEditorTab::DrawGizmo(ImDrawList* drawList, Entity entity, ToolbarPanel::Tool tool)
+	{
+		if (!entity.IsValid() || !entity.Has<CTransform>())
+			return;
+
+		auto& transform = entity.Get<CTransform>();
+
+		Math::Vec2 centerWorldPos = transform.pos;
+		if (entity.Has<CTexture>())
+		{
+			auto& textureComp = entity.Get<CTexture>();
+			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComp.textureHandle));
+			if (texture)
+			{
+				centerWorldPos.x += texture->GetTexture().getSize().x * transform.scale.x / 2.0f;
+				centerWorldPos.y += texture->GetTexture().getSize().y * transform.scale.y / 2.0f;
+			}
+		}
+
+		ImVec2 center = WorldToScreen(centerWorldPos);
+
+		const float axisLength = 50.0f;
+		const float thickness = 3.0f;
+
+		ImVec2 xAxisEnd = ImVec2(center.x + axisLength, center.y);
+		ImVec2 yAxisEnd = ImVec2(center.x, center.y - axisLength); 
+
+		ImU32 colorX = IM_COL32(255, 0, 0, 255);  
+		ImU32 colorY = IM_COL32(0, 255, 0, 255);  
+		ImU32 colorRot = IM_COL32(0, 150, 255, 255); 
+
+		switch (tool)
+		{
+		case ToolbarPanel::Tool::MOVE:
+		{
+			drawList->AddLine(center, xAxisEnd, colorX, thickness);
+			drawList->AddTriangleFilled(xAxisEnd, ImVec2(xAxisEnd.x - 10, xAxisEnd.y - 5), ImVec2(xAxisEnd.x - 10, xAxisEnd.y + 5), colorX);
+
+			drawList->AddLine(center, yAxisEnd, colorY, thickness);
+			drawList->AddTriangleFilled(yAxisEnd, ImVec2(yAxisEnd.x - 5, yAxisEnd.y + 10), ImVec2(yAxisEnd.x + 5, yAxisEnd.y + 10), colorY);
+
+			drawList->AddRectFilled(ImVec2(center.x - 8, center.y - 8), ImVec2(center.x + 8, center.y + 8), IM_COL32(255, 255, 255, 100));
+			break;
+		}
+		case ToolbarPanel::Tool::SCALE:
+		{
+			drawList->AddLine(center, xAxisEnd, colorX, thickness);
+			drawList->AddRectFilled(ImVec2(xAxisEnd.x - 5, xAxisEnd.y - 5), ImVec2(xAxisEnd.x + 5, xAxisEnd.y + 5), colorX);
+
+			drawList->AddLine(center, yAxisEnd, colorY, thickness);
+			drawList->AddRectFilled(ImVec2(yAxisEnd.x - 5, yAxisEnd.y - 5), ImVec2(yAxisEnd.x + 5, yAxisEnd.y + 5), colorY);
+			break;
+		}
+		case ToolbarPanel::Tool::ROTATE:
+		{
+			float radius = axisLength * 1.5f;
+
+			drawList->AddCircle(center, radius, colorRot, 64, thickness);
+
+			float rad = transform.angle * 3.1415926535f / 180.0f; 
+
+			ImVec2 rotLineEnd = ImVec2(center.x + radius * std::cos(rad), center.y - radius * std::sin(rad));
+			drawList->AddLine(center, rotLineEnd, IM_COL32(255, 255, 255, 255), 1.0f);
+
+			drawList->AddLine(center, ImVec2(center.x + radius, center.y), IM_COL32(255, 255, 255, 50), 1.0f);
+			break;
+		}
+		default:
+			break;
+		}
 	}
 }

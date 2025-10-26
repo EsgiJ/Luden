@@ -48,21 +48,6 @@ namespace Luden {
 		m_ViewportBoundMin = viewportBoundMin;
 		m_ViewportBoundMax = viewportBoundMax;
 		ShowToolbar();
-
-		Entity selectedEntity = m_SceneHierarchyPanel->GetSelectedEntity();
-
-		if (selectedEntity.IsValid() && selectedEntity.Has<CTransform>() && selectedEntity.Has<CTexture>())
-		{
-			// draw rect to show the selected entity
-			auto& transformComponent = selectedEntity.Get<CTransform>();
-			auto& textureComponent = selectedEntity.Get<CTexture>();
-
-			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
-			ImVec2 size = ImVec2(texture->GetTexture().getSize().x, texture->GetTexture().getSize().y);
-			ImVec2 drawStart = ImVec2(transformComponent.pos.x + m_ViewportBoundMin.x, transformComponent.pos.y + m_ViewportBoundMin.y);
-			ImVec2 drawEnd = ImVec2(drawStart.x + size.x, drawStart.y + size.y);
-			ImGui::GetWindowDrawList()->AddRect(drawStart, drawEnd, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
-		}
 	}
 
 	void ToolbarPanel::OnEvent(const std::optional<sf::Event>& evt)
@@ -265,6 +250,7 @@ namespace Luden {
 			Math::Vec2 diff = GetMouseDelta();
 
 			Math::Vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>().pos;
+
 			entityPosition.x += diff.x;
 			entityPosition.y += diff.y;
 		}

@@ -16,6 +16,14 @@ namespace Luden
 		ToolbarPanel(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel = nullptr);
 		~ToolbarPanel() = default;
 
+		enum Tool
+		{
+			SELECT = 0,
+			MOVE,
+			SCALE,
+			ROTATE
+		};
+
 		void SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel = nullptr);
 
 		void InitValues(const std::shared_ptr<sf::RenderTexture> renderWindow, bool& isViewportHovered);
@@ -30,9 +38,9 @@ namespace Luden
 		bool OnMouseButtonReleased(const sf::Event::MouseButtonReleased& mouse);
 		bool OnMouseMoved(const sf::Event::MouseMoved& move);
 
+		Tool GetSelectedTool() { return m_SelectedTool; }
 	private:
 		void ShowToolbar();
-
 		void HandlePickEntityWithMouse();
 
 		Math::Vec2 GetMouseDelta();
@@ -42,13 +50,6 @@ namespace Luden
 		void Rotating();
 
 	private:
-		enum Tool 
-		{
-			SELECT = 0,
-			MOVE,
-			SCALE,
-			ROTATE
-		};
 		Tool m_SelectedTool = Tool::SELECT;
 		bool ToolImageButton(const std::shared_ptr<Texture>& texture, Tool tool);
 
