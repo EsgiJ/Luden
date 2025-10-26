@@ -1332,60 +1332,6 @@
             },
             "Tag": "NPCArmos",
             "UUID": 1026000000000000000
-        },
-        {
-            "CBoundingBox": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
-                    0.0,
-                    0.0
-                ],
-                "halfSize": [
-                    0.44999998807907104,
-                    0.44999998807907104
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    0.8999999761581421,
-                    0.8999999761581421
-                ]
-            },
-            "CHealth": {
-                "current": 2,
-                "max": 2
-            },
-            "CTexture": {
-                "textureHandle": 5907706926106653936
-            },
-            "CTransform": {
-                "angle": 0.0,
-                "facing": [
-                    1.0,
-                    0.0
-                ],
-                "pos": [
-                    73.5999984741211,
-                    130.60000610351563
-                ],
-                "prevPos": [
-                    15.0,
-                    10.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ],
-                "velocity": [
-                    0.0,
-                    0.0
-                ]
-            },
-            "Tag": "NPCArmos",
-            "UUID": 1027000000000000000
         }
     ],
     "Name": "Scene_Zelda",

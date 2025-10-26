@@ -125,8 +125,10 @@ namespace Luden
 
 					if (!entry.IsDirectory && entry.Handle != 0 && ImGui::BeginDragDropSource())
 					{
-						const char* pathStr = entry.Path.string().c_str();
-						ImGui::SetDragDropPayload("DND_FILE_PATH", pathStr, (strlen(pathStr) + 1));
+						std::string path = entry.Path.string();
+						const char* pathCStr = path.c_str();
+						                                            
+						ImGui::SetDragDropPayload("DND_FILE_PATH", pathCStr, path.size() + 1);
 
 						ImGui::Text("Dragging: %s", entry.Filename.c_str());
 						ImGui::EndDragDropSource();

@@ -37,7 +37,7 @@ namespace Luden
 		virtual void OnUpdate(TimeStep timestep) override final;
 
 	private:
-
+		void SetEntityPositionToMouse(Entity entity);
 		void SetPanelsContext();
 
 		virtual void LoadScene(const std::filesystem::path& path);

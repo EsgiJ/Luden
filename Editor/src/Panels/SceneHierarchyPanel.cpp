@@ -63,7 +63,7 @@ namespace Luden
 			m_Context->SetName(buffer);
 		}
 
-		//TODO: Parenting and Reparentinf of entities
+		//TODO: Parenting and Reparenting of entities
 		/*
 		if (ImGui::BeginDragDropTarget()) 
 
@@ -103,8 +103,8 @@ namespace Luden
 			{
 				if (ImGui::MenuItem("Empty Entity")) 
 				{
-					auto new_entity = m_Context->CreateEntity("Empty Entity");
-					m_SelectedEntity = new_entity;
+					auto newEntity = m_Context->CreateEntity("Empty Entity");
+					m_SelectedEntity = newEntity;
 				}
 				ImGui::EndPopup();
 			}
@@ -129,8 +129,8 @@ namespace Luden
 		}
 
 
-		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
-			//TODO: m_SelectedEntity = {};
+		if (ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsWindowHovered()) {
+			m_SelectedEntity = {};
 		}
 
 		ImGui::EndTable();
@@ -140,8 +140,8 @@ namespace Luden
 	}
 	void SceneHierarchyPanel::DrawEntityInSceneTree(Entity entity)
 	{
-		ImGui::TableNextRow();                // satýr aç
-		ImGui::TableSetColumnIndex(0);        // sütun seç
+		ImGui::TableNextRow();                
+		ImGui::TableSetColumnIndex(0);       
 
 		ImGui::PushID(entity.UUID());
 
@@ -190,7 +190,8 @@ namespace Luden
 			}
 			if (ImGui::MenuItem("Delete Entity"))
 			{
-				//TODO: Delete entity
+				entity.Destroy();
+				m_SelectedEntity = {};
 			}
 			ImGui::EndPopup();
 		}

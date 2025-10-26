@@ -112,7 +112,6 @@ namespace Luden
 	{
 		PoolIndex idx = IndexOf(entityID);
 
-		m_Active[idx] = false;
 		ClearComponentsAt(idx);
 
 		m_IdToIndex.erase(entityID);
@@ -150,6 +149,13 @@ namespace Luden
 		PoolIndex idx = IndexOf(entityID);
 
 		m_Tags[idx] = tag;
+	}
+
+	void EntityMemoryPool::SetActive(const EntityID& uuid, bool isActive)
+	{
+		PoolIndex idx = IndexOf(uuid);
+
+		m_Active[idx] = isActive;
 	}
 
 	bool EntityMemoryPool::IsActive(const EntityID& entityID) const

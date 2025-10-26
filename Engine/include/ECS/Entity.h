@@ -36,6 +36,11 @@ namespace Luden
 		template<class T>
 		bool Has() const 
 		{
+			if (!EntityMemoryPool::Instance().Exists(m_UUID))
+			{
+				return false;
+			}
+
 			return EntityMemoryPool::Instance().HasComponent<T>(m_UUID);
 		}
 
@@ -47,17 +52,20 @@ namespace Luden
 		}
 
 		template<class T>
-		T& Get() {
+		T& Get() 
+		{
 			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
 		}
 
 		template<class T>
-		const T& Get() const {
+		const T& Get() const
+		{
 			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
 		}
 
 		template<class T>
-		void Remove() const {
+		void Remove() const 
+		{
 			EntityMemoryPool::Instance().RemoveComponent<T>(m_UUID);
 		}
 

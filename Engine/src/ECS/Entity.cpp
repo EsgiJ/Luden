@@ -11,6 +11,11 @@ namespace Luden
 
 	bool Entity::IsActive() const 
 	{
+		if (!EntityMemoryPool::Instance().Exists(m_UUID))
+		{
+			return false;
+		}
+
 		return EntityMemoryPool::Instance().IsActive(m_UUID);
 	}
 
@@ -21,11 +26,17 @@ namespace Luden
 
 	const std::string& Entity::Tag() const
 	{
+		if (!EntityMemoryPool::Instance().Exists(m_UUID))
+		{
+			static const std::string invalidTag = "Invalid Entity";
+			return invalidTag;
+		}
+
 		return EntityMemoryPool::Instance().GetTag(m_UUID);
 	}
 
 	void Entity::Destroy() 
 	{
-		EntityMemoryPool::Instance().DestroyEntity(m_UUID);
+		EntityMemoryPool::Instance().SetActive(m_UUID, false);
 	}
 }

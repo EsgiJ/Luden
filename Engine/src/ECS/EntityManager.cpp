@@ -19,9 +19,6 @@ namespace Luden
 
 		RemoveDeadEntities(m_Entities);
 
-		for (auto& [tag, entityVec] : m_EntityMap) {
-			RemoveDeadEntities(entityVec);
-		}
 	}
 
 	bool EntityManager::Exists(const UUID& uuid)
@@ -39,9 +36,24 @@ namespace Luden
 		std::erase_if(
 			vec,
 			[](const Entity& entity) {
-				return !entity.IsActive();
+				if (!entity.IsActive())
+				{
+					EntityMemoryPool::Instance().DestroyEntity(entity.UUID());
+					return true;
+				}
+				return false;
 			}
 		);
+
+		for (auto& pair : m_EntityMap)
+		{
+			std::erase_if(
+				pair.second,
+				[](const Entity& entity) {
+					return !entity.IsActive();
+				}
+			);
+		}
 	}
 
 	Entity EntityManager::AddEntity(const std::string& tag)
@@ -62,7 +74,7 @@ namespace Luden
 
 	void EntityManager::DestroyEntity(const EntityID& uuid)
 	{
-		EntityMemoryPool::Instance().DestroyEntity(uuid);
+		EntityMemoryPool::Instance().SetActive(uuid, false);
 	}
 
 	Entity& EntityManager::GetEntity(const EntityID& uuid) 

@@ -148,11 +148,13 @@ namespace Luden
 			{
 				if (ImGui::BeginDragDropTarget()) 
 				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH", ImGuiDragDropFlags_AcceptBeforeDelivery))
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
 					{
 						std::filesystem::path path = std::filesystem::path(static_cast<const char*>(payload->Data));
+						std::filesystem::path pathExtension = FileSystem::GetExtension(path);
+						std::cout << "Path: " << path << " PathExtension " << pathExtension;
 
-						if (FileSystem::Exists(path) && (FileSystem::GetExtension(path) == ".lscn")) 
+						if (FileSystem::Exists(path))
 						{
 							// draw rect to show it can be draggable
 							ImVec2 drawStart = ImVec2(m_ViewportBounds[0].x + 2, m_ViewportBounds[0].y + 2);
@@ -161,30 +163,26 @@ namespace Luden
 
 							if (payload->IsDelivery()) 
 							{
-								if (path.extension() == ".lscn") 
+								if (pathExtension == ".lscn")
 								{
 									if (m_EditorApplication) 
 									{
 										m_EditorApplication->RequestOpenResource(Project::GetEditorResourceManager()->GetRelativePath(path));
 									}
 								}
-							}
-						}
 
-						if (FileSystem::Exists(path) && (FileSystem::GetExtension(path) == ".lscn"))
-						{
-							// draw rect to show it can be draggable
-							ImVec2 drawStart = ImVec2(m_ViewportBounds[0].x + 2, m_ViewportBounds[0].y + 2);
-							ImVec2 drawEnd = ImVec2(m_ViewportBounds[1].x - 2, m_ViewportBounds[1].y - 2);
-							ImGui::GetWindowDrawList()->AddRect(drawStart, drawEnd, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
-
-							if (payload->IsDelivery())
-							{
-								if (path.extension() == ".png" || path.extension() == ".jpeg" || path.extension() == ".jpg")
+								if (pathExtension == ".png" || pathExtension == ".jpeg" || pathExtension == ".jpg")
 								{
 									if (m_EditorApplication)
 									{
+										auto newEntity = m_ActiveScene->CreateEntity(path.string());
+										ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
+
+										auto& textureComponent = newEntity.Add<CTexture>();
+										textureComponent.textureHandle = handle;
 										
+										newEntity.Add<CTransform>();
+										SetEntityPositionToMouse(newEntity);
 									}
 								}
 							}
@@ -248,6 +246,21 @@ namespace Luden
 		}
 
 		m_ToolbarPanel.OnUpdate();
+	}
+	void SceneEditorTab::SetEntityPositionToMouse(Entity entity)
+	{
+		ImVec2 mousePosImGui = ImGui::GetMousePos();
+
+		ImVec2 viewportStart = m_ViewportBounds[0];
+
+		float mouseX = mousePosImGui.x - viewportStart.x;
+		float mouseY = mousePosImGui.y - viewportStart.y;
+
+		if (entity.Has<CTransform>())
+		{
+			auto& transform = entity.Get<CTransform>();
+			transform.pos = { mouseX, mouseY };
+		}
 	}
 	void SceneEditorTab::SetPanelsContext()
 	{
