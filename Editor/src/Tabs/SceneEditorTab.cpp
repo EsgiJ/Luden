@@ -161,7 +161,6 @@ namespace Luden
 					{
 						std::filesystem::path path = std::filesystem::path(static_cast<const char*>(payload->Data));
 						std::filesystem::path pathExtension = FileSystem::GetExtension(path);
-						std::cout << "Path: " << path << " PathExtension " << pathExtension;
 
 						if (FileSystem::Exists(path))
 						{
@@ -236,6 +235,7 @@ namespace Luden
 	}
 	void SceneEditorTab::OnEvent(const std::optional<sf::Event>& evt)
 	{
+		m_ToolbarPanel.OnEvent(evt);
 	}
 	void SceneEditorTab::OnUpdate(TimeStep timestep)
 	{

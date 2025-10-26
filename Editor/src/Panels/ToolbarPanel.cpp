@@ -48,6 +48,21 @@ namespace Luden {
 		m_ViewportBoundMin = viewportBoundMin;
 		m_ViewportBoundMax = viewportBoundMax;
 		ShowToolbar();
+
+		Entity selectedEntity = m_SceneHierarchyPanel->GetSelectedEntity();
+
+		if (selectedEntity.IsValid() && selectedEntity.Has<CTransform>() && selectedEntity.Has<CTexture>())
+		{
+			// draw rect to show the selected entity
+			auto& transformComponent = selectedEntity.Get<CTransform>();
+			auto& textureComponent = selectedEntity.Get<CTexture>();
+
+			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
+			ImVec2 size = ImVec2(texture->GetTexture().getSize().x, texture->GetTexture().getSize().y);
+			ImVec2 drawStart = ImVec2(transformComponent.pos.x + m_ViewportBoundMin.x, transformComponent.pos.y + m_ViewportBoundMin.y);
+			ImVec2 drawEnd = ImVec2(drawStart.x + size.x, drawStart.y + size.y);
+			ImGui::GetWindowDrawList()->AddRect(drawStart, drawEnd, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
+		}
 	}
 
 	void ToolbarPanel::OnEvent(const std::optional<sf::Event>& evt)
@@ -190,39 +205,27 @@ namespace Luden {
 		mousePos.x -= m_ViewportBoundMin.x;
 		mousePos.y -= m_ViewportBoundMin.y;
 
-		ImVec2 viewportSize = {
-			m_ViewportBoundMax.x - m_ViewportBoundMin.x,
-			m_ViewportBoundMax.y - m_ViewportBoundMin.y
-		};
-
-		int mouseX = (int)mousePos.x;
-		int mouseY = (int)(viewportSize.y - mousePos.y);
-
-		if (mouseX < 0 || mouseY < 0 || mouseX >= (int)viewportSize.x || mouseY >= (int)viewportSize.y) 
-		{
-			m_ToolUsing = false;
-			return;
-		}
-
-		sf::Vector2i pixel(mouseX, mouseY);
-		sf::Vector2f world = m_RenderWindow->mapPixelToCoords(pixel, m_Context->GetView());
-
 		Entity selected;
 
 		auto& manager = m_Context->GetEntityManager();
 		for (auto& entity : manager.GetEntities())
 		{
-			if (!entity.Has<CTransform>() || !entity.Has<CBoundingBox>())
+			if (!entity.Has<CTransform>() || !entity.Has<CTexture>())
 				continue;
 
-			auto& tr = entity.Get<CTransform>();
-			auto& bb = entity.Get<CBoundingBox>();
+			auto& transformComponent = entity.Get<CTransform>();
+			auto& textureComponent = entity.Get<CTexture>();
+			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
 
-			Math::Vec2 min = tr.pos - bb.halfSize;
-			Math::Vec2 max = tr.pos + bb.halfSize;
+			if (texture == nullptr)
+				continue;
 
-			if (world.x >= min.x && world.x <= max.x &&
-				world.y >= min.y && world.y <= max.y)
+			Math::Vec2 min = transformComponent.pos;
+
+			sf::Vector2u textureSize = texture->GetTexture().getSize();
+			Math::Vec2 max = transformComponent.pos + Math::Vec2(static_cast<float>(textureSize.x), static_cast<float>(textureSize.y));
+
+			if (mousePos.x > min.x && mousePos.x < max.x && mousePos.y > min.y && mousePos.y < max.y)
 			{
 				selected = entity;
 				break;

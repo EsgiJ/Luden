@@ -69,6 +69,8 @@ namespace Luden
 
 				if (event->is<sf::Event::Closed>())
 					m_Window.close();
+
+				OnEvent(event);
 			}
 
 			sf::Time dt = clock.restart();
@@ -132,7 +134,7 @@ namespace Luden
 	{
 		if (m_FocusedTab) 
 		{
-			//m_FocusedTab->OnEvent(event);
+			m_FocusedTab->OnEvent(evt);
 		}
 	}
 	void EditorApplication::OnImGuiRender()
