@@ -81,6 +81,8 @@ namespace Luden
 		bool m_ShowSelectionOutline = true;
 		ImVec4 m_SelectionOutlineColor = ImVec4(1.0f, 0.44f, 0.1f, 0.84f);
 
+		bool m_ShowGrid = true;
 		bool m_Appearing = true;
+		float gridStep = 64.0f;
 	};
 }

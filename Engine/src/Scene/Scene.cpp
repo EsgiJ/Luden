@@ -134,6 +134,8 @@ namespace Luden {
 					target->draw(sprite);
 				}
 			}
+
+
 		}
 		//TODO: Editor overlay (gizmo, bounding box, grid)
 	}

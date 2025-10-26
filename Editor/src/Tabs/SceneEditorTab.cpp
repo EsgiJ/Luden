@@ -141,7 +141,16 @@ namespace Luden
 
 			if (isViewportOpen)
 			{
-				ImGui::Image(*m_RenderTexture);
+				ImGui::Image(*m_RenderTexture);                                                             
+			}
+
+			if (m_ShowGrid)
+			{
+				for (float x = m_ViewportBounds[0].x; x < m_ViewportBounds[1].x; x += gridStep)
+					ImGui::GetWindowDrawList()->AddLine(ImVec2(x, m_ViewportBounds[0].y), ImVec2(x, m_ViewportBounds[1].y), IM_COL32(200, 200, 200, 40));
+				
+				for (float y = m_ViewportBounds[0].y; y < m_ViewportBounds[1].y; y += gridStep)
+					ImGui::GetWindowDrawList()->AddLine(ImVec2(m_ViewportBounds[0].x, y), ImVec2(m_ViewportBounds[1].x, y), IM_COL32(200, 200, 200, 40));
 			}
 
 			// Drag drop target
@@ -177,11 +186,11 @@ namespace Luden
 									{
 										auto newEntity = m_ActiveScene->CreateEntity(path.string());
 										ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
-
+										auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(handle));
 										auto& textureComponent = newEntity.Add<CTexture>();
 										textureComponent.textureHandle = handle;
 										
-										newEntity.Add<CTransform>();
+										auto& transformComponent = newEntity.Add<CTransform>();
 										SetEntityPositionToMouse(newEntity);
 									}
 								}
