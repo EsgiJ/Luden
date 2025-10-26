@@ -157,13 +157,13 @@ namespace Luden
 				}
 			}
 
-			if (m_ShowGrid)
+			if (m_ToolbarPanel.m_ShowGrid)
 			{
-				for (float x = m_ViewportBounds[0].x; x < m_ViewportBounds[1].x; x += gridStep)
-					ImGui::GetWindowDrawList()->AddLine(ImVec2(x, m_ViewportBounds[0].y), ImVec2(x, m_ViewportBounds[1].y), IM_COL32(200, 200, 200, 40));
+				for (float x = m_ViewportBounds[0].x; x < m_ViewportBounds[1].x; x += (m_ToolbarPanel.m_GridStep))
+					ImGui::GetWindowDrawList()->AddLine(ImVec2(x, m_ViewportBounds[0].y), ImVec2(x, m_ViewportBounds[1].y), IM_COL32(0, 0, 0, 100), 1.0f);
 				
-				for (float y = m_ViewportBounds[0].y; y < m_ViewportBounds[1].y; y += gridStep)
-					ImGui::GetWindowDrawList()->AddLine(ImVec2(m_ViewportBounds[0].x, y), ImVec2(m_ViewportBounds[1].x, y), IM_COL32(200, 200, 200, 40));
+				for (float y = m_ViewportBounds[0].y; y < m_ViewportBounds[1].y; y += (m_ToolbarPanel.m_GridStep))
+					ImGui::GetWindowDrawList()->AddLine(ImVec2(m_ViewportBounds[0].x, y), ImVec2(m_ViewportBounds[1].x, y), IM_COL32(0, 0, 0, 100), 1.0f);
 			}
 
 			// Drag drop target

@@ -1,6 +1,8 @@
 #include "Panels/ToolbarPanel.h"
 #include "Utils/EditorResources.h"
 
+#include <IconsFontAwesome7.h>
+
 namespace Luden {
 
 
@@ -175,6 +177,44 @@ namespace Luden {
 		{
 			m_SelectedTool = Tool::SCALE;
 		}
+		ImGui::SameLine();
+		ImGui::Separator();
+		ImGui::SameLine();
+
+		if (m_IsSnapEnabled)
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f)); 
+		else
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f)); 
+
+		if (ImGui::Button(ICON_FA_TABLE_CELLS" Snap"))
+		{
+			m_IsSnapEnabled = !m_IsSnapEnabled;
+		}
+		ImGui::PopStyleColor();
+
+		ImGui::SameLine();
+		ImGui::Separator();
+		ImGui::SameLine();
+
+		ImGui::SetNextItemWidth(30.0f);
+		if (ImGui::BeginCombo("##GridSize", std::to_string((int)m_GridSizes[m_SelectedGridIndex]).c_str()))
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				const bool is_selected = (m_SelectedGridIndex == i);
+				std::string label = std::to_string((int)m_GridSizes[i]) + "x" + std::to_string((int)m_GridSizes[i]);
+
+				if (ImGui::Selectable(label.c_str(), is_selected))
+				{
+					m_SelectedGridIndex = i;
+					m_GridStep = m_GridSizes[m_SelectedGridIndex]; 
+				}
+
+				if (is_selected)
+					ImGui::SetItemDefaultFocus();
+			}
+			ImGui::EndCombo();
+		}
 
 		ImGui::End();
 		ImGui::PopStyleVar(4);
@@ -251,8 +291,32 @@ namespace Luden {
 
 			Math::Vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>().pos;
 
-			entityPosition.x += diff.x;
-			entityPosition.y += diff.y;
+			if (!m_IsSnapEnabled)
+			{
+				entityPosition.x += diff.x;
+				entityPosition.y += diff.y;
+			}
+			else
+			{
+
+				m_MouseDeltaAccumX += diff.x;
+				m_MouseDeltaAccumY += diff.y;
+
+				if (fabsf(m_MouseDeltaAccumX) >= m_GridStep)
+				{
+					entityPosition.x += m_MouseDeltaAccumX;
+					m_MouseDeltaAccumX -= (int)m_MouseDeltaAccumX;
+
+					entityPosition.x = std::round(entityPosition.x / m_GridStep) * m_GridStep;
+				}
+
+				if (fabsf(m_MouseDeltaAccumY) >= m_GridStep)
+				{
+					entityPosition.y += m_MouseDeltaAccumY;
+					m_MouseDeltaAccumY -= (int)m_MouseDeltaAccumY;
+					entityPosition.y = std::round(entityPosition.y / m_GridStep) * m_GridStep;
+				}
+			}
 		}
 	}
 

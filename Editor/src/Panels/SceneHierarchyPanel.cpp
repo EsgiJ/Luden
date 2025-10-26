@@ -2,8 +2,9 @@
 #include "Core/UUID.h"
 #include "Scene/Scene.h"
 
-#include "imgui.h"
-#include "imgui_internal.h"
+#include <IconsFontAwesome7.h>
+#include <imgui.h>
+#include <imgui_internal.h>
 
 namespace Luden
 {
@@ -86,10 +87,9 @@ namespace Luden
 
 		/* Add Entity Button */ 
 		{
-			ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetFontSize());
-			float line_width = ImGui::GetFontSize() + GImGui->Style.FramePadding.y * 2.0f;
+			ImGui::SameLine();
 
-			if (ImGui::Button("+", ImVec2(line_width, 0)))
+			if (ImGui::Button(ICON_FA_PLUS " Add Entity"))
 			{
 				ImGui::OpenPopup("AddEntity");
 			}

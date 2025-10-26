@@ -54,13 +54,20 @@ namespace Luden
 		bool ToolImageButton(const std::shared_ptr<Texture>& texture, Tool tool);
 
 	private:
+		friend class SceneEditorTab;
+
 		std::shared_ptr<Scene> m_Context;
 		SceneHierarchyPanel* m_SceneHierarchyPanel;
 		std::shared_ptr<sf::RenderTexture> m_RenderWindow;
 
 		constexpr static float m_Padding = 4.0f;
 		constexpr static float m_ToolbarMinSize = 32.0f;
+		float m_GridStep = 64.0f;
+		float m_MouseDeltaAccumX = 0.0f;
+		float m_MouseDeltaAccumY = 0.0f;
 
+		const float m_GridSizes[4] = { 16.0f, 32.0f, 64.0f, 128.0f };
+		int m_SelectedGridIndex = 2;
 
 		ImVec2 m_ViewportBoundMin, m_ViewportBoundMax;
 
@@ -69,6 +76,8 @@ namespace Luden
 		Math::Vec2 m_MouseStart;
 		bool m_ToolStart = false;
 		bool m_ToolUsing = false;
+		bool m_ShowGrid = true;
+		bool m_IsSnapEnabled = true;
 	};
 
 }

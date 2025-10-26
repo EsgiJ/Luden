@@ -53,10 +53,9 @@ namespace Luden
 
 		//Add Component Button
 		{
-			ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetFontSize());
-			float lineWidth = ImGui::GetFontSize() + GImGui->Style.FramePadding.y * 2.0f;
+			ImGui::SameLine();
 
-			if (ImGui::Button(ICON_FA_PLUS, ImVec2(lineWidth, 0)))
+			if (ImGui::Button(ICON_FA_PLUS " Add Component"))
 			{
 				ImGui::OpenPopup("AddComponent");
 			}
@@ -93,6 +92,8 @@ namespace Luden
 			{
 				tableOpen = ImGui::BeginTable("InspectorTable", 1);
 			}
+
+			ImGui::Separator();
 
 			if (tableOpen)
 			{
@@ -381,7 +382,9 @@ namespace Luden
 
 		if (open) 
 		{
+			ImGui::Indent();
 			lambda();
+			ImGui::Unindent();
 		}
 		ImGui::PopID();
 
@@ -389,6 +392,9 @@ namespace Luden
 		{
 			entity.Remove<T>();
 		}
+
+		ImGui::Spacing();
+		ImGui::Separator();
 	}
 
 	template <typename T>
