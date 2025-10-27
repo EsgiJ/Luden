@@ -62,12 +62,22 @@ namespace Luden
 
 		constexpr static float m_Padding = 4.0f;
 		constexpr static float m_ToolbarMinSize = 32.0f;
+
 		float m_GridStep = 64.0f;
+		float m_SnapScaleStep = 0.5f;
+		float m_SnapRotateStep = 10.0f;
+
 		float m_MouseDeltaAccumX = 0.0f;
 		float m_MouseDeltaAccumY = 0.0f;
+		float m_RotateDeltaAccum = 0.0f;
 
 		const float m_GridSizes[4] = { 16.0f, 32.0f, 64.0f, 128.0f };
+		const float m_ScaleSizes[4] = { 0.25f, 0.5f, 1.0f, 2.0f };
+		const float m_RotateSizes[5] = { 5.0f, 10.0f, 30.0f, 45.0f, 90.0f };
+
 		int m_SelectedGridIndex = 2;
+		int m_SelectedScaleIndex = 2;
+		int m_SelectedRotateIndex = 2;
 
 		ImVec2 m_ViewportBoundMin, m_ViewportBoundMax;
 
@@ -76,8 +86,14 @@ namespace Luden
 		Math::Vec2 m_MouseStart;
 		bool m_ToolStart = false;
 		bool m_ToolUsing = false;
+
 		bool m_ShowGrid = true;
+		bool m_ShowMovementCollision = true;
+		bool m_ShowVisionCollision = true;
+			
 		bool m_IsSnapEnabled = true;
+		bool m_IsSnapScaleEnabled = true;
+		bool m_IsSnapRotateEnabled = true;
 	};
 
 }

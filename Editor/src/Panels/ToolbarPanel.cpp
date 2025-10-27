@@ -181,39 +181,162 @@ namespace Luden {
 		ImGui::Separator();
 		ImGui::SameLine();
 
-		if (m_IsSnapEnabled)
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f)); 
-		else
-			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f)); 
-
-		if (ImGui::Button(ICON_FA_TABLE_CELLS" Snap"))
+		// Snap Grid 
 		{
-			m_IsSnapEnabled = !m_IsSnapEnabled;
+			if (m_IsSnapEnabled)
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f));
+			else
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f));
+
+			if (ImGui::Button(ICON_FA_TABLE_CELLS" Snap"))
+			{
+				m_IsSnapEnabled = !m_IsSnapEnabled;
+			}
+			ImGui::PopStyleColor();
+
+			ImGui::SameLine();
+			ImGui::Separator();
+			ImGui::SameLine();
+
+			ImGui::SetNextItemWidth(30.0f);
+			if (ImGui::BeginCombo("##GridSize", std::to_string((int)m_GridSizes[m_SelectedGridIndex]).c_str()))
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					const bool isSelected = (m_SelectedGridIndex == i);
+					std::string label = std::to_string((int)m_GridSizes[i]) + "x" + std::to_string((int)m_GridSizes[i]);
+
+					if (ImGui::Selectable(label.c_str(), isSelected))
+					{
+						m_SelectedGridIndex = i;
+						m_GridStep = m_GridSizes[m_SelectedGridIndex];
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
 		}
-		ImGui::PopStyleColor();
 
 		ImGui::SameLine();
 		ImGui::Separator();
 		ImGui::SameLine();
 
-		ImGui::SetNextItemWidth(30.0f);
-		if (ImGui::BeginCombo("##GridSize", std::to_string((int)m_GridSizes[m_SelectedGridIndex]).c_str()))
+		// Snap Scale
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				const bool is_selected = (m_SelectedGridIndex == i);
-				std::string label = std::to_string((int)m_GridSizes[i]) + "x" + std::to_string((int)m_GridSizes[i]);
+			if (m_IsSnapScaleEnabled)
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f));
+			else
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f));
 
-				if (ImGui::Selectable(label.c_str(), is_selected))
+			if (ImGui::Button(ICON_FA_SCALE_BALANCED" Scale"))
+			{
+				m_IsSnapScaleEnabled = !m_IsSnapScaleEnabled;
+			}
+			ImGui::PopStyleColor();
+
+			ImGui::SameLine();
+			ImGui::Separator();
+			ImGui::SameLine();
+
+			ImGui::SetNextItemWidth(30.0f);
+			if (ImGui::BeginCombo("##ScaleStep", std::to_string(m_ScaleSizes[m_SelectedScaleIndex]).c_str()))
+			{
+				for (int i = 0; i < 4; i++)
 				{
-					m_SelectedGridIndex = i;
-					m_GridStep = m_GridSizes[m_SelectedGridIndex]; 
+					const bool isSelected = (m_SelectedScaleIndex == i);
+					std::string label = std::to_string(m_ScaleSizes[i]);
+
+					if (ImGui::Selectable(label.c_str(), isSelected))
+					{
+						m_SelectedScaleIndex = i;
+						m_SnapScaleStep = m_ScaleSizes[m_SelectedScaleIndex];
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+		}
+
+		ImGui::SameLine();
+		ImGui::Separator();
+		ImGui::SameLine();
+
+		// Snap Rotation
+		{
+			if (m_IsSnapRotateEnabled)
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f));
+			else
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f));
+
+			if (ImGui::Button(ICON_FA_ROTATE" Rotate"))
+			{
+				m_IsSnapRotateEnabled = !m_IsSnapRotateEnabled;
+			}
+			ImGui::PopStyleColor();
+
+			ImGui::SameLine();
+			ImGui::Separator();
+			ImGui::SameLine();
+			
+			ImGui::SetNextItemWidth(30.0f);
+			if (ImGui::BeginCombo("##RotateStep", std::to_string(m_RotateSizes[m_SelectedRotateIndex]).c_str()))
+			{
+				for (int i = 0; i < 4; i++)
+				{
+					const bool isSelected = (m_SelectedRotateIndex == i);
+					std::string label = std::to_string(m_RotateSizes[i]);
+
+					if (ImGui::Selectable(label.c_str(), isSelected))
+					{
+						m_SelectedRotateIndex = i;
+						m_SnapRotateStep = m_RotateSizes[m_SelectedRotateIndex];
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+		}
+
+		ImGui::SameLine();
+		ImGui::Separator();
+		ImGui::SameLine();
+
+		//Show Collisions
+		{
+			if (m_ShowMovementCollision || m_ShowVisionCollision)
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f));
+			else
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f));
+
+			if (ImGui::Button(ICON_FA_SQUARE" Collision"))
+			{
+				m_IsSnapRotateEnabled = !m_IsSnapRotateEnabled;
+			}
+			ImGui::PopStyleColor();
+
+			ImGui::SameLine();
+			ImGui::Separator();
+			ImGui::SameLine();
+
+			ImGui::SetNextItemWidth(30.0f);
+
+			if (ImGui::BeginCombo("##EnableCollision", "something"))
+			{
+				if (ImGui::Checkbox(ICON_FA_SQUARE" BlockMovement", &m_ShowMovementCollision))
+				{
 				}
 
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
+				if (ImGui::Checkbox(ICON_FA_EYE_LOW_VISION " BlockVision", &m_ShowVisionCollision))
+				{
+				}
+				ImGui::EndCombo();
 			}
-			ImGui::EndCombo();
 		}
 
 		ImGui::End();
@@ -330,9 +453,36 @@ namespace Luden {
 			Math::Vec2 diff = GetMouseDelta();
 
 			Math::Vec2& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>().scale;
-			entityScale.x += diff.x;
-			entityScale.y += diff.y;
+
+			if (!m_IsSnapScaleEnabled)
+			{
+				entityScale.x += diff.x;
+				entityScale.y += diff.y;
+			}
+			else
+			{
+
+				m_MouseDeltaAccumX += diff.x;
+				m_MouseDeltaAccumY += diff.y;
+
+				if (fabsf(m_MouseDeltaAccumX) >= m_SnapScaleStep)
+				{
+					entityScale.x += m_MouseDeltaAccumX;
+					m_MouseDeltaAccumX -= (int)m_MouseDeltaAccumX;
+
+					entityScale.x = std::round(entityScale.x / m_SnapScaleStep) * m_SnapScaleStep;
+				}
+
+				if (fabsf(m_MouseDeltaAccumY) >= m_SnapScaleStep)
+				{
+					entityScale.y += m_MouseDeltaAccumY;
+					m_MouseDeltaAccumY -= (int)m_MouseDeltaAccumY;
+					entityScale.y = std::round(entityScale.y / m_SnapScaleStep) * m_SnapScaleStep;
+				}
+			}
 		}
+
+
 	}
 
 	void ToolbarPanel::Rotating()
@@ -351,7 +501,23 @@ namespace Luden {
 
 			auto& transform = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>();
 
-			transform.angle += rotationAngle;
+			if (!m_IsSnapRotateEnabled)
+			{
+				transform.angle += rotationAngle;
+			}
+			else
+			{
+
+				m_RotateDeltaAccum += rotationAngle;
+
+				if (fabsf(m_RotateDeltaAccum) >= m_SnapRotateStep)
+				{
+					transform.angle += m_RotateDeltaAccum;
+					m_RotateDeltaAccum -= (int)m_RotateDeltaAccum;
+
+					transform.angle = std::round(transform.angle / m_SnapRotateStep) * m_SnapRotateStep;
+				}
+			}
 
 			if (transform.angle > 180.0f)
 				transform.angle -= 360.0f;

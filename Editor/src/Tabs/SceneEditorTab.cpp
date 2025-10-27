@@ -157,15 +157,51 @@ namespace Luden
 				}
 			}
 
-			if (m_ToolbarPanel.m_ShowGrid)
+			// Draw Grid
 			{
-				for (float x = m_ViewportBounds[0].x; x < m_ViewportBounds[1].x; x += (m_ToolbarPanel.m_GridStep))
-					ImGui::GetWindowDrawList()->AddLine(ImVec2(x, m_ViewportBounds[0].y), ImVec2(x, m_ViewportBounds[1].y), IM_COL32(0, 0, 0, 100), 1.0f);
-				
-				for (float y = m_ViewportBounds[0].y; y < m_ViewportBounds[1].y; y += (m_ToolbarPanel.m_GridStep))
-					ImGui::GetWindowDrawList()->AddLine(ImVec2(m_ViewportBounds[0].x, y), ImVec2(m_ViewportBounds[1].x, y), IM_COL32(0, 0, 0, 100), 1.0f);
+				if (m_ToolbarPanel.m_ShowGrid)
+				{
+					for (float x = m_ViewportBounds[0].x; x < m_ViewportBounds[1].x; x += (m_ToolbarPanel.m_GridStep))
+						ImGui::GetWindowDrawList()->AddLine(ImVec2(x, m_ViewportBounds[0].y), ImVec2(x, m_ViewportBounds[1].y), IM_COL32(0, 0, 0, 100), 1.0f);
+
+					for (float y = m_ViewportBounds[0].y; y < m_ViewportBounds[1].y; y += (m_ToolbarPanel.m_GridStep))
+						ImGui::GetWindowDrawList()->AddLine(ImVec2(m_ViewportBounds[0].x, y), ImVec2(m_ViewportBounds[1].x, y), IM_COL32(0, 0, 0, 100), 1.0f);
+				}
 			}
 
+			// Draw Collision
+			{
+				if (m_ToolbarPanel.m_ShowMovementCollision || m_ToolbarPanel.m_ShowVisionCollision)
+				{
+					if (m_ActiveScene != nullptr)
+					{
+						auto& entities = m_ActiveScene->GetEntityManager().GetEntities();
+
+						for (auto& entity : entities)
+						{
+							if (entity.Has<CBoundingBox>() && entity.Has<CTransform>())
+							{
+								auto& transformComponent = entity.Get<CTransform>();
+								ImVec2 minPos = WorldToScreen(transformComponent.pos);
+
+								auto& boxComponent = entity.Get<CBoundingBox>();
+								ImVec2 size = ImVec2(boxComponent.size.x, boxComponent.size.y);
+								ImVec2 maxPos = ImVec2(minPos.x + size.x, minPos.y + size.y);
+
+								if (boxComponent.blockMove && m_ToolbarPanel.m_ShowMovementCollision)
+								{
+									ImGui::GetWindowDrawList()->AddRect(minPos, maxPos, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
+								}
+
+								if (boxComponent.blockVision && m_ToolbarPanel.m_ShowVisionCollision)
+								{
+									ImGui::GetWindowDrawList()->AddRect(minPos, maxPos, IM_COL32(100, 100, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
+								}
+							}
+						}
+					}
+				}
+			}
 			// Drag drop target
 			{
 				if (ImGui::BeginDragDropTarget()) 
