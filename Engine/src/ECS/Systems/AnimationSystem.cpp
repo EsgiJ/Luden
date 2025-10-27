@@ -14,9 +14,9 @@ namespace Luden
 		/*auto& entities = GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
 		for (Entity& e : entities)
 		{
-			if (!e.Has<CAnimation>()) continue;
+			if (!e.Has<Animation2DComponent>()) continue;
 
-			auto& cAnim = e.Get<CAnimation>();
+			auto& cAnim = e.Get<Animation2DComponent>();
 			auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(cAnim.animationHandle));
 			if (!anim) continue;
 

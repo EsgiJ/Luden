@@ -179,12 +179,12 @@ namespace Luden
 
 						for (auto& entity : entities)
 						{
-							if (entity.Has<CBoundingBox>() && entity.Has<CTransform>())
+							if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
 							{
-								auto& transformComponent = entity.Get<CTransform>();
+								auto& transformComponent = entity.Get<TransformComponent>();
 								ImVec2 minPos = WorldToScreen(transformComponent.pos);
 
-								auto& boxComponent = entity.Get<CBoundingBox>();
+								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
 								ImVec2 size = ImVec2(boxComponent.size.x, boxComponent.size.y);
 								ImVec2 maxPos = ImVec2(minPos.x + size.x, minPos.y + size.y);
 
@@ -235,10 +235,10 @@ namespace Luden
 										auto newEntity = m_ActiveScene->CreateEntity(path.string());
 										ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
 										auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(handle));
-										auto& textureComponent = newEntity.Add<CTexture>();
+										auto& textureComponent = newEntity.Add<TextureComponent>();
 										textureComponent.textureHandle = handle;
 										
-										auto& transformComponent = newEntity.Add<CTransform>();
+										auto& transformComponent = newEntity.Add<TransformComponent>();
 										SetEntityPositionToMouse(newEntity);
 									}
 								}
@@ -308,7 +308,7 @@ namespace Luden
 
 	void SceneEditorTab::SetEntityPositionToMouse(Entity entity)
 	{
-		if (!entity.Has<CTransform>())
+		if (!entity.Has<TransformComponent>())
 			return;
 
 		ImVec2 mousePosImGui = ImGui::GetMousePos();
@@ -323,7 +323,7 @@ namespace Luden
 
 		sf::Vector2f worldCoords = m_RenderTexture->mapPixelToCoords(sfmlPixelPos);
 
-		auto& transform = entity.Get<CTransform>();
+		auto& transform = entity.Get<TransformComponent>();
 
 		transform.pos = { worldCoords.x, worldCoords.y };
 	}
@@ -460,11 +460,11 @@ namespace Luden
 
 	void SceneEditorTab::DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity)
 	{
-		if (!entity.IsValid() || !entity.Has<CTransform>() || !entity.Has<CTexture>())
+		if (!entity.IsValid() || !entity.Has<TransformComponent>() || !entity.Has<TextureComponent>())
 			return;
 
-		auto& transform = entity.Get<CTransform>();
-		auto& textureComponent = entity.Get<CTexture>();
+		auto& transform = entity.Get<TransformComponent>();
+		auto& textureComponent = entity.Get<TextureComponent>();
 		auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
 
 		if (!texture) return;
@@ -497,15 +497,15 @@ namespace Luden
 
 	void SceneEditorTab::DrawGizmo(ImDrawList* drawList, Entity entity, ToolbarPanel::Tool tool)
 	{
-		if (!entity.IsValid() || !entity.Has<CTransform>())
+		if (!entity.IsValid() || !entity.Has<TransformComponent>())
 			return;
 
-		auto& transform = entity.Get<CTransform>();
+		auto& transform = entity.Get<TransformComponent>();
 
 		Math::Vec2 centerWorldPos = transform.pos;
-		if (entity.Has<CTexture>())
+		if (entity.Has<TextureComponent>())
 		{
-			auto& textureComp = entity.Get<CTexture>();
+			auto& textureComp = entity.Get<TextureComponent>();
 			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComp.textureHandle));
 			if (texture)
 			{

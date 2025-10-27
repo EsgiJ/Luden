@@ -55,16 +55,16 @@ namespace Luden {
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
-			if (!e.Has<CTransform>())
+			if (!e.Has<TransformComponent>())
 				continue;
 
-			auto& transform = e.Get<CTransform>();
+			auto& transform = e.Get<TransformComponent>();
 
 			sf::Color c = sf::Color::White;
 
-			if (e.Has<CAnimation>())
+			if (e.Has<Animation2DComponent>())
 			{
-				auto& animationComp = e.Get<CAnimation>();
+				auto& animationComp = e.Get<Animation2DComponent>();
 				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
 				sf::Sprite sprite = animation->GetSprite();
 
@@ -74,9 +74,9 @@ namespace Luden {
 
 				target->draw(sprite);
 			}
-			else if (e.Has<CTexture>())
+			else if (e.Has<TextureComponent>())
 			{
-				auto& textureComp = e.Get<CTexture>();
+				auto& textureComp = e.Get<TextureComponent>();
 				auto texHandle = textureComp.textureHandle;
 
 				auto textureRes = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(texHandle));
@@ -100,16 +100,16 @@ namespace Luden {
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
-			if (!e.Has<CTransform>())
+			if (!e.Has<TransformComponent>())
 				continue;
 
-			auto& transform = e.Get<CTransform>();
+			auto& transform = e.Get<TransformComponent>();
 
 			sf::Color c = sf::Color::White;
 
-			if (e.Has<CAnimation>())
+			if (e.Has<Animation2DComponent>())
 			{
-				auto& animationComp = e.Get<CAnimation>();
+				auto& animationComp = e.Get<Animation2DComponent>();
 				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
 				sf::Sprite sprite = animation->GetSprite();
 
@@ -118,9 +118,9 @@ namespace Luden {
 				sprite.setColor(c);
 				target->draw(sprite);
 			}
-			else if (e.Has<CTexture>())
+			else if (e.Has<TextureComponent>())
 			{
-				auto& textureComp = e.Get<CTexture>();
+				auto& textureComp = e.Get<TextureComponent>();
 				auto texHandle = textureComp.textureHandle;
 
 				auto textureRes = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(texHandle));

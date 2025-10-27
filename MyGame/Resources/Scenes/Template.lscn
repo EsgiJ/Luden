@@ -1,7 +1,7 @@
 {
     "Entities": [
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": false,
                 "blockVision": false,
                 "center": [
@@ -21,7 +21,8 @@
                     1.0
                 ]
             },
-            "CTransform": {
+            "Tag": "MainCamera",
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -44,11 +45,10 @@
                     0.0
                 ]
             },
-            "Tag": "MainCamera",
             "UUID": 1001000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -68,11 +68,11 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 6,
                 "max": 10
             },
-            "CInput": {
+            "InputComponent": {
                 "attack": true,
                 "canAttack": true,
                 "down": true,
@@ -80,10 +80,11 @@
                 "right": true,
                 "up": true
             },
-            "CTexture": {
+            "Tag": "Player",
+            "TextureComponent": {
                 "textureHandle": 10713380733661294664
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     0.0,
@@ -106,11 +107,10 @@
                     0.0
                 ]
             },
-            "Tag": "Player",
             "UUID": 1002000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -130,10 +130,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileBush",
+            "TextureComponent": {
                 "textureHandle": 7574791978689341845
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -156,11 +157,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileBush",
             "UUID": 1003000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -180,10 +180,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileBush",
+            "TextureComponent": {
                 "textureHandle": 7574791978689341845
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -206,11 +207,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileBush",
             "UUID": 1004000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -230,10 +230,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileTreeMonster1",
+            "TextureComponent": {
                 "textureHandle": 1778777879503230346
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -256,11 +257,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileTreeMonster1",
             "UUID": 1005000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -280,10 +280,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileTreeMonster2",
+            "TextureComponent": {
                 "textureHandle": 11101103845089673357
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -306,11 +307,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileTreeMonster2",
             "UUID": 1006000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -330,10 +330,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileTreeMonster3",
+            "TextureComponent": {
                 "textureHandle": 17456551125940696384
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -356,11 +357,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileTreeMonster3",
             "UUID": 1007000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -380,17 +380,18 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileTreeMonster4",
+            "TextureComponent": {
                 "textureHandle": 3141527581550012513
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
                     0.0
                 ],
                 "pos": [
-                    700.0,
+                    704.0,
                     128.0
                 ],
                 "prevPos": [
@@ -406,11 +407,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileTreeMonster4",
             "UUID": 1008000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -430,10 +430,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileTreeMonster5",
+            "TextureComponent": {
                 "textureHandle": 5582313727379296300
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -456,11 +457,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileTreeMonster5",
             "UUID": 1009000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -480,10 +480,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileTreeMonster6",
+            "TextureComponent": {
                 "textureHandle": 41324236550034339
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -506,11 +507,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileTreeMonster6",
             "UUID": 1010000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": true,
                 "center": [
@@ -530,10 +530,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileStair",
+            "TextureComponent": {
                 "textureHandle": 16675339296861051391
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -556,11 +557,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileStair",
             "UUID": 1011000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -578,39 +578,39 @@
                 "size": [
                     64.0,
                     64.0
-                ]
-            },
-            "CTexture": {
-                "textureHandle": 5904733657860222223
-            },
-            "CTransform": {
-                "angle": 0.0,
-                "facing": [
-                    1.0,
-                    0.0
-                ],
-                "pos": [
-                    384.0,
-                    192.0
-                ],
-                "prevPos": [
-                    5.0,
-                    5.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ],
-                "velocity": [
-                    0.0,
-                    0.0
                 ]
             },
             "Tag": "TileLake1",
+            "TextureComponent": {
+                "textureHandle": 5904733657860222223
+            },
+            "TransformComponent": {
+                "angle": 0.0,
+                "facing": [
+                    1.0,
+                    0.0
+                ],
+                "pos": [
+                    384.0,
+                    192.0
+                ],
+                "prevPos": [
+                    5.0,
+                    5.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
             "UUID": 1012000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -630,10 +630,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileLake2",
+            "TextureComponent": {
                 "textureHandle": 7587639301444688835
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -656,11 +657,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileLake2",
             "UUID": 1013000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -680,10 +680,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileLake3",
+            "TextureComponent": {
                 "textureHandle": 14901163932743642916
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -706,11 +707,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileLake3",
             "UUID": 1014000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -730,10 +730,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileLake7",
+            "TextureComponent": {
                 "textureHandle": 8066417851571793255
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -756,11 +757,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileLake7",
             "UUID": 1015000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -780,10 +780,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileLake8",
+            "TextureComponent": {
                 "textureHandle": 11780503573412209219
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -806,11 +807,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileLake8",
             "UUID": 1016000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -830,10 +830,11 @@
                     64.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileLake9",
+            "TextureComponent": {
                 "textureHandle": 4583100103902977791
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -856,11 +857,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileLake9",
             "UUID": 1017000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": false,
                 "blockVision": false,
                 "center": [
@@ -880,10 +880,11 @@
                     32.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileHeart",
+            "TextureComponent": {
                 "textureHandle": 14376994147307639119
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -906,11 +907,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileHeart",
             "UUID": 1018000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": false,
                 "blockVision": false,
                 "center": [
@@ -930,10 +930,11 @@
                     32.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileHeart",
+            "TextureComponent": {
                 "textureHandle": 14376994147307639119
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -956,11 +957,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileHeart",
             "UUID": 1019000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": false,
                 "blockVision": false,
                 "center": [
@@ -980,10 +980,11 @@
                     32.0
                 ]
             },
-            "CTexture": {
+            "Tag": "TileHeart",
+            "TextureComponent": {
                 "textureHandle": 14376994147307639119
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1006,11 +1007,10 @@
                     0.0
                 ]
             },
-            "Tag": "TileHeart",
             "UUID": 1020000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -1030,14 +1030,15 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 3,
                 "max": 3
             },
-            "CTexture": {
+            "Tag": "NPCTektite",
+            "TextureComponent": {
                 "textureHandle": 14913595247856052817
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1060,11 +1061,10 @@
                     0.0
                 ]
             },
-            "Tag": "NPCTektite",
             "UUID": 1021000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -1084,14 +1084,15 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 3,
                 "max": 3
             },
-            "CTexture": {
+            "Tag": "NPCArmos",
+            "TextureComponent": {
                 "textureHandle": 13120669987925077891
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1114,11 +1115,10 @@
                     0.0
                 ]
             },
-            "Tag": "NPCArmos",
             "UUID": 1022000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -1138,14 +1138,15 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 2,
                 "max": 2
             },
-            "CTexture": {
+            "Tag": "NPCTektite",
+            "TextureComponent": {
                 "textureHandle": 14913595247856052817
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1168,11 +1169,10 @@
                     0.0
                 ]
             },
-            "Tag": "NPCTektite",
             "UUID": 1023000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -1192,14 +1192,15 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 2,
                 "max": 2
             },
-            "CTexture": {
+            "Tag": "NPCTektite",
+            "TextureComponent": {
                 "textureHandle": 14913595247856052817
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1222,11 +1223,10 @@
                     0.0
                 ]
             },
-            "Tag": "NPCTektite",
             "UUID": 1024000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -1246,14 +1246,15 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 2,
                 "max": 2
             },
-            "CTexture": {
+            "Tag": "NPCArmos",
+            "TextureComponent": {
                 "textureHandle": 13120669987925077891
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1276,11 +1277,10 @@
                     0.0
                 ]
             },
-            "Tag": "NPCArmos",
             "UUID": 1025000000000000000
         },
         {
-            "CBoundingBox": {
+            "BoxCollider2DComponent": {
                 "blockMove": true,
                 "blockVision": false,
                 "center": [
@@ -1300,14 +1300,15 @@
                     64.0
                 ]
             },
-            "CHealth": {
+            "HealthComponent": {
                 "current": 2,
                 "max": 2
             },
-            "CTexture": {
+            "Tag": "NPCArmos",
+            "TextureComponent": {
                 "textureHandle": 13120669987925077891
             },
-            "CTransform": {
+            "TransformComponent": {
                 "angle": 0.0,
                 "facing": [
                     1.0,
@@ -1330,7 +1331,6 @@
                     0.0
                 ]
             },
-            "Tag": "NPCArmos",
             "UUID": 1026000000000000000
         }
     ],

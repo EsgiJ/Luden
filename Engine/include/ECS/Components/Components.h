@@ -9,59 +9,59 @@
 
 namespace Luden
 {
-	struct ENGINE_API CDamage : public IComponent 
+	struct ENGINE_API DamageComponent : public IComponent 
 	{
 	public:
 		int damage = 1;
 
-		CDamage() = default;
+		DamageComponent() = default;
 
-		explicit CDamage(int d) : damage(d) {}
+		explicit DamageComponent(int d) : damage(d) {}
 	};
 
-	struct ENGINE_API CDraggable : public IComponent
+	struct ENGINE_API DraggableComponent : public IComponent
 	{
 	public:
 		bool dragging = false;
 
-		CDraggable() = default;
+		DraggableComponent() = default;
 
-		CDraggable(bool d) : dragging(d) {}
+		DraggableComponent(bool d) : dragging(d) {}
 	};
 
-	struct ENGINE_API CFollowPlayer : public IComponent
+	struct ENGINE_API FollowPLayerComponent : public IComponent
 	{
 	public:
 		Math::Vec2 home = { 0.0f, 0.0f };
 		float speed = 0.0f;
 
-		CFollowPlayer() = default;
+		FollowPLayerComponent() = default;
 
-		CFollowPlayer(Math::Vec2 p, float s) : home(p), speed(s) {}
+		FollowPLayerComponent(Math::Vec2 p, float s) : home(p), speed(s) {}
 	};
 
-	struct ENGINE_API CGravity : public IComponent
+	struct ENGINE_API GravityComponent : public IComponent
 	{
 	public:
 		float gravity = 0;
 
-		CGravity() = default;
+		GravityComponent() = default;
 
-		explicit CGravity(float g) : gravity(g) {}
+		explicit GravityComponent(float g) : gravity(g) {}
 	};
 
-	struct ENGINE_API CHealth : public IComponent
+	struct ENGINE_API HealthComponent : public IComponent
 	{
 	public:
 		int max = 1;
 		int current = 1;
 
-		CHealth() = default;
+		HealthComponent() = default;
 
-		CHealth(int m, int c) : max(m), current(c) {}
+		HealthComponent(int m, int c) : max(m), current(c) {}
 	};
 
-	struct ENGINE_API CInput : public IComponent
+	struct ENGINE_API InputComponent : public IComponent
 	{
 	public:
 		bool up = false;
@@ -71,12 +71,13 @@ namespace Luden
 		bool attack = false;
 		bool canAttack = true;
 
-		CInput() = default;
+		InputComponent() = default;
 
-		explicit CInput(bool up, bool down);
+		explicit InputComponent(bool up, bool down, bool left, bool right, bool attack, bool canAttack)
+			: up(up), down(down), left(left), right(right), attack(attack), canAttack(canAttack) { }
 	};
 
-	struct ENGINE_API CBoundingBox : public IComponent
+	struct ENGINE_API BoxCollider2DComponent : public IComponent
 	{
 	public:
 		Math::Vec2 size;
@@ -86,13 +87,13 @@ namespace Luden
 		bool blockMove = false;
 		bool blockVision = false;
 
-		CBoundingBox() = default;
+		BoxCollider2DComponent() = default;
 
-		CBoundingBox(const Math::Vec2& c, const Math::Vec2& s, bool m, bool v)
+		BoxCollider2DComponent(const Math::Vec2& c, const Math::Vec2& s, bool m, bool v)
 			: size(s), halfSize(s.x / 2.0f, s.y / 2.0f), center(c), prevCenter(c), blockMove(m), blockVision(v) {}
 	};
 
-	struct ENGINE_API CAnimation : public IComponent
+	struct ENGINE_API Animation2DComponent : public IComponent
 	{
 	public:
 		ResourceHandle animationHandle;
@@ -101,77 +102,77 @@ namespace Luden
 
 		bool repeat = false;
 
-		CAnimation() = default;
-		CAnimation(ResourceHandle a, size_t s, size_t cf, bool r) : animationHandle(a), speed(s), currentFrame(cf), repeat(r) {};
+		Animation2DComponent() = default;
+		Animation2DComponent(ResourceHandle a, size_t s, size_t cf, bool r) : animationHandle(a), speed(s), currentFrame(cf), repeat(r) {};
 	};
 
-	struct ENGINE_API CFont : public IComponent
+	struct ENGINE_API TextComponent : public IComponent
 	{
 	public:
 		ResourceHandle fontHandle;
 		
-		CFont() = default;
+		TextComponent() = default;
 
-		CFont(ResourceHandle f) : fontHandle(f) {};
+		TextComponent(ResourceHandle f) : fontHandle(f) {};
 	};
 
-	struct ENGINE_API CTexture : public IComponent
+	struct ENGINE_API TextureComponent : public IComponent
 	{
 	public:
 		ResourceHandle textureHandle;
 
-		CTexture() = default;
+		TextureComponent() = default;
 
-		CTexture(ResourceHandle t) : textureHandle(t) {};
+		TextureComponent(ResourceHandle t) : textureHandle(t) {};
 	};
 
-	struct ENGINE_API CInvincibility : public IComponent
+	struct ENGINE_API InvincibilityComponent : public IComponent
 	{
 	public:
 		int iframes = 1;
 
-		CInvincibility() = default;
+		InvincibilityComponent() = default;
 
-		explicit CInvincibility(int f) : iframes(f) {}
+		explicit InvincibilityComponent(int f) : iframes(f) {}
 	};
 
-	struct ENGINE_API CLifespan : public IComponent
+	struct ENGINE_API LifespanComponent : public IComponent
 	{
 	public:
 		int lifespan = 0;
 		int frameCreated = 0;
 
-		CLifespan() = default;
+		LifespanComponent() = default;
 
-		explicit CLifespan(int duration, int frame)
+		explicit LifespanComponent(int duration, int frame)
 			: lifespan(duration), frameCreated(frame) {}
 	};
 
-	struct ENGINE_API CPatrol : public IComponent
+	struct ENGINE_API PatrolComponent : public IComponent
 	{
 	public:
 		std::vector<Math::Vec2> positions;
 		size_t currentPosition = 0;
 		float speed = 0;
 
-		CPatrol() = default;
+		PatrolComponent() = default;
 
-		CPatrol(std::vector<Math::Vec2>& pos, float s) : positions(pos), speed(s) {}
+		PatrolComponent(std::vector<Math::Vec2>& pos, float s) : positions(pos), speed(s) {}
 	};
 
-	struct ENGINE_API CState : public IComponent
+	struct ENGINE_API StateComponent : public IComponent
 	{
 	public:
 		std::string state = "stand";
 		std::string previousState = "stand";
 		bool changeAnimation = false;
 
-		CState() = default;
+		StateComponent() = default;
 
-		explicit CState(std::string s) : state(std::move(s)) {}
+		explicit StateComponent(std::string s) : state(std::move(s)) {}
 	};
 
-	struct ENGINE_API CTransform : public IComponent
+	struct ENGINE_API TransformComponent : public IComponent
 	{
 	public:
 		Math::Vec2 pos = { 0.0f, 0.0f };
@@ -181,11 +182,11 @@ namespace Luden
 		Math::Vec2 facing = { 0.0f, 1.0f };
 		float angle = 0;
 
-		CTransform() = default;
+		TransformComponent() = default;
 
-		explicit CTransform(const Math::Vec2& p) : pos(p) {}
+		explicit TransformComponent(const Math::Vec2& p) : pos(p) {}
 
-		CTransform(const Math::Vec2& p, const Math::Vec2& speed, const Math::Vec2& s, float a)
+		TransformComponent(const Math::Vec2& p, const Math::Vec2& speed, const Math::Vec2& s, float a)
 			: pos(p), prevPos(p), velocity(speed), scale(s), angle(a) {}
 	};
 }

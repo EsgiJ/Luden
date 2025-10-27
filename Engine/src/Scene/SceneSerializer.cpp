@@ -54,37 +54,37 @@ namespace Luden
 			jEntity["UUID"] = static_cast<uint64_t>(e.UUID());
 			jEntity["Tag"] = e.Tag();
 
-			if (e.Has<CDamage>())
+			if (e.Has<DamageComponent>())
 			{
-				jEntity["CDamage"]["damage"] = e.Get<CDamage>().damage;
+				jEntity["DamageComponent"]["damage"] = e.Get<DamageComponent>().damage;
 			}
 
-			if (e.Has<CDraggable>())
+			if (e.Has<DraggableComponent>())
 			{
-				jEntity["CDraggable"]["dragging"] = e.Get<CDraggable>().dragging;
+				jEntity["DraggableComponent"]["dragging"] = e.Get<DraggableComponent>().dragging;
 			}
 
-			if (e.Has<CFollowPlayer>())
+			if (e.Has<FollowPLayerComponent>())
 			{
-				const auto& c = e.Get<CFollowPlayer>();
-				jEntity["CFollowPlayer"] = { {"home", {c.home.x, c.home.y}}, {"speed", c.speed} };
+				const auto& c = e.Get<FollowPLayerComponent>();
+				jEntity["FollowPLayerComponent"] = { {"home", {c.home.x, c.home.y}}, {"speed", c.speed} };
 			}
 
-			if (e.Has<CGravity>())
+			if (e.Has<GravityComponent>())
 			{
-				jEntity["CGravity"]["gravity"] = e.Get<CGravity>().gravity;
+				jEntity["GravityComponent"]["gravity"] = e.Get<GravityComponent>().gravity;
 			}
 
-			if (e.Has<CHealth>())
+			if (e.Has<HealthComponent>())
 			{
-				const auto& c = e.Get<CHealth>();
-				jEntity["CHealth"] = { {"max", c.max}, {"current", c.current} };
+				const auto& c = e.Get<HealthComponent>();
+				jEntity["HealthComponent"] = { {"max", c.max}, {"current", c.current} };
 			}
 
-			if (e.Has<CInput>())
+			if (e.Has<InputComponent>())
 			{
-				const auto& c = e.Get<CInput>();
-				jEntity["CInput"] = {
+				const auto& c = e.Get<InputComponent>();
+				jEntity["InputComponent"] = {
 					{"up", c.up}, 
 					{"down", c.down}, 
 					{"left", c.left},
@@ -94,10 +94,10 @@ namespace Luden
 				};
 			}
 
-			if (e.Has<CBoundingBox>())
+			if (e.Has<BoxCollider2DComponent>())
 			{
-				const auto& c = e.Get<CBoundingBox>();
-				jEntity["CBoundingBox"] = {
+				const auto& c = e.Get<BoxCollider2DComponent>();
+				jEntity["BoxCollider2DComponent"] = {
 					{"size", {c.size.x, c.size.y}},
 					{"halfSize", {c.halfSize.x, c.halfSize.y}},
 					{"center", {c.center.x, c.center.y}},
@@ -107,12 +107,12 @@ namespace Luden
 				};
 			}
 
-			if (e.Has<CAnimation>())
+			if (e.Has<Animation2DComponent>())
 			{
-				const auto& c = e.Get<CAnimation>();
+				const auto& c = e.Get<Animation2DComponent>();
 				auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(c.animationHandle));
 
-				jEntity["CAnimation"] = {
+				jEntity["Animation2DComponent"] = {
 					{ "animationHandle", static_cast<uint64_t>(c.animationHandle) },
 					{ "repeat", c.repeat },
 					{ "name", anim->GetName() },
@@ -124,50 +124,50 @@ namespace Luden
 				};
 			}
 
-			if (e.Has<CFont>())
+			if (e.Has<TextComponent>())
 			{
-				jEntity["CFont"]["fontHandle"] = static_cast<uint64_t>(e.Get<CFont>().fontHandle);
+				jEntity["TextComponent"]["fontHandle"] = static_cast<uint64_t>(e.Get<TextComponent>().fontHandle);
 			}
 
-			if (e.Has<CTexture>())
+			if (e.Has<TextureComponent>())
 			{
-				jEntity["CTexture"]["textureHandle"] = static_cast<uint64_t>(e.Get<CTexture>().textureHandle);
+				jEntity["TextureComponent"]["textureHandle"] = static_cast<uint64_t>(e.Get<TextureComponent>().textureHandle);
 			}
 
-			if (e.Has<CInvincibility>())
+			if (e.Has<InvincibilityComponent>())
 			{
-				jEntity["CInvincibility"]["iframes"] = e.Get<CInvincibility>().iframes;
+				jEntity["InvincibilityComponent"]["iframes"] = e.Get<InvincibilityComponent>().iframes;
 			}
 
-			if (e.Has<CLifespan>())
+			if (e.Has<LifespanComponent>())
 			{
-				const auto& c = e.Get<CLifespan>();
-				jEntity["CLifespan"] = { {"lifespan", c.lifespan}, {"frameCreated", c.frameCreated} };
+				const auto& c = e.Get<LifespanComponent>();
+				jEntity["LifespanComponent"] = { {"lifespan", c.lifespan}, {"frameCreated", c.frameCreated} };
 			}
 
-			if (e.Has<CPatrol>())
+			if (e.Has<PatrolComponent>())
 			{
-				const auto& c = e.Get<CPatrol>();
+				const auto& c = e.Get<PatrolComponent>();
 				json path = json::array();
 				for (auto& p : c.positions)
 					path.push_back({ p.x, p.y });
-				jEntity["CPatrol"] = { {"positions", path}, {"currentPosition", c.currentPosition}, {"speed", c.speed} };
+				jEntity["PatrolComponent"] = { {"positions", path}, {"currentPosition", c.currentPosition}, {"speed", c.speed} };
 			}
 
-			if (e.Has<CState>())
+			if (e.Has<StateComponent>())
 			{
-				const auto& c = e.Get<CState>();
-				jEntity["CState"] = {
+				const auto& c = e.Get<StateComponent>();
+				jEntity["StateComponent"] = {
 					{"state", c.state},
 					{"previousState", c.previousState},
 					{"changeAnimation", c.changeAnimation}
 				};
 			}
 
-			if (e.Has<CTransform>())
+			if (e.Has<TransformComponent>())
 			{
-				const auto& c = e.Get<CTransform>();
-				jEntity["CTransform"] = {
+				const auto& c = e.Get<TransformComponent>();
+				jEntity["TransformComponent"] = {
 					{"pos", {c.pos.x, c.pos.y}},
 					{"prevPos", {c.prevPos.x, c.prevPos.y}},
 					{"velocity", {c.velocity.x, c.velocity.y}},
@@ -198,108 +198,108 @@ namespace Luden
 		{
 			Entity e = entityManager.AddEntity(jEntity["Tag"].get<std::string>(), jEntity["UUID"].get<uint64_t>());
 
-			if (jEntity.contains("CDamage"))
+			if (jEntity.contains("DamageComponent"))
 			{
-				e.Add<CDamage>(jEntity["CDamage"]["damage"]);
+				e.Add<DamageComponent>(jEntity["DamageComponent"]["damage"]);
 			}
 
-			if (jEntity.contains("CDraggable"))
+			if (jEntity.contains("DraggableComponent"))
 			{
-				e.Add<CDraggable>(jEntity["CDraggable"]["dragging"].get<bool>());
+				e.Add<DraggableComponent>(jEntity["DraggableComponent"]["dragging"].get<bool>());
 			}
 
-			if (jEntity.contains("CFollowPlayer"))
+			if (jEntity.contains("FollowPLayerComponent"))
 			{
-				auto p = jEntity["CFollowPlayer"]["home"];
-				e.Add<CFollowPlayer>(Math::Vec2(p[0], p[1]), jEntity["CFollowPlayer"]["speed"]);
+				auto p = jEntity["FollowPLayerComponent"]["home"];
+				e.Add<FollowPLayerComponent>(Math::Vec2(p[0], p[1]), jEntity["FollowPLayerComponent"]["speed"]);
 			}
 
-			if (jEntity.contains("CGravity"))
+			if (jEntity.contains("GravityComponent"))
 			{
-				e.Add<CGravity>(jEntity["CGravity"]["gravity"]);
+				e.Add<GravityComponent>(jEntity["GravityComponent"]["gravity"]);
 
 			}
 
-			if (jEntity.contains("CHealth"))
+			if (jEntity.contains("HealthComponent"))
 			{
-				e.Add<CHealth>(jEntity["CHealth"]["max"], jEntity["CHealth"]["current"]);
+				e.Add<HealthComponent>(jEntity["HealthComponent"]["max"], jEntity["HealthComponent"]["current"]);
 			}
 
-			if (jEntity.contains("CInput"))
+			if (jEntity.contains("InputComponent"))
 			{
-				e.Add<CInput>();
-				auto& cInput = e.Get<CInput>();
-				cInput.up = jEntity["CInput"]["up"];
-				cInput.down = jEntity["CInput"]["down"];
-				cInput.left = jEntity["CInput"]["left"];
-				cInput.right = jEntity["CInput"]["right"];
-				cInput.attack = jEntity["CInput"]["attack"];
-				cInput.canAttack = jEntity["CInput"]["canAttack"];
+				e.Add<InputComponent>();
+				auto& inputComponent = e.Get<InputComponent>();
+				inputComponent.up = jEntity["InputComponent"]["up"];
+				inputComponent.down = jEntity["InputComponent"]["down"];
+				inputComponent.left = jEntity["InputComponent"]["left"];
+				inputComponent.right = jEntity["InputComponent"]["right"];
+				inputComponent.attack = jEntity["InputComponent"]["attack"];
+				inputComponent.canAttack = jEntity["InputComponent"]["canAttack"];
 			}
 
-			if (jEntity.contains("CBoundingBox"))
+			if (jEntity.contains("BoxCollider2DComponent"))
 			{
-				auto size = jEntity["CBoundingBox"]["size"];
-				auto center = jEntity["CBoundingBox"]["center"];
-				e.Add<CBoundingBox>(
+				auto size = jEntity["BoxCollider2DComponent"]["size"];
+				auto center = jEntity["BoxCollider2DComponent"]["center"];
+				e.Add<BoxCollider2DComponent>(
 					Math::Vec2(center[0], center[1]),
 					Math::Vec2(size[0], size[1]),
-					jEntity["CBoundingBox"]["blockMove"],
-					jEntity["CBoundingBox"]["blockVision"]
+					jEntity["BoxCollider2DComponent"]["blockMove"],
+					jEntity["BoxCollider2DComponent"]["blockVision"]
 				);
 			}
 
-			if (jEntity.contains("CInvincibility"))
+			if (jEntity.contains("InvincibilityComponent"))
 			{
-				e.Add<CInvincibility>(jEntity["CInvincibility"]["iframes"]);
+				e.Add<InvincibilityComponent>(jEntity["InvincibilityComponent"]["iframes"]);
 			}
 
-			if (jEntity.contains("CLifespan"))
+			if (jEntity.contains("LifespanComponent"))
 			{
-				e.Add<CLifespan>(jEntity["CLifespan"]["lifespan"], jEntity["CLifespan"]["frameCreated"]);
+				e.Add<LifespanComponent>(jEntity["LifespanComponent"]["lifespan"], jEntity["LifespanComponent"]["frameCreated"]);
 			}
 
-			if (jEntity.contains("CPatrol"))
+			if (jEntity.contains("PatrolComponent"))
 			{
 				std::vector<Math::Vec2> points;
-				for (const auto& p : jEntity["CPatrol"]["positions"])
+				for (const auto& p : jEntity["PatrolComponent"]["positions"])
 					points.emplace_back(p[0], p[1]);
 
-				auto& c = e.Add<CPatrol>(points, jEntity["CPatrol"]["speed"]);
-				c.currentPosition = jEntity["CPatrol"]["currentPosition"];
+				auto& c = e.Add<PatrolComponent>(points, jEntity["PatrolComponent"]["speed"]);
+				c.currentPosition = jEntity["PatrolComponent"]["currentPosition"];
 			}
 
-			if (jEntity.contains("CState"))
+			if (jEntity.contains("StateComponent"))
 			{
-				e.Add<CState>(
-					jEntity["CState"]["state"]
+				e.Add<StateComponent>(
+					jEntity["StateComponent"]["state"]
 				);
-				auto cState = e.Get<CState>();
-				cState.previousState = jEntity["CState"]["previousState"],
-				cState.changeAnimation = jEntity["CState"]["changeAnimation"];
+				auto stateComponent = e.Get<StateComponent>();
+				stateComponent.previousState = jEntity["StateComponent"]["previousState"],
+				stateComponent.changeAnimation = jEntity["StateComponent"]["changeAnimation"];
 			}
 
-			if (jEntity.contains("CTransform"))
+			if (jEntity.contains("TransformComponent"))
 			{
-				auto pos = jEntity["CTransform"]["pos"];
-				auto prevPos = jEntity["CTransform"]["prevPos"];
-				auto velocity = jEntity["CTransform"]["velocity"];
-				auto scale = jEntity["CTransform"]["scale"];
-				auto facing = jEntity["CTransform"]["facing"];
-				e.Add<CTransform>(
+				auto pos = jEntity["TransformComponent"]["pos"];
+				auto prevPos = jEntity["TransformComponent"]["prevPos"];
+				auto velocity = jEntity["TransformComponent"]["velocity"];
+				auto scale = jEntity["TransformComponent"]["scale"];
+				auto facing = jEntity["TransformComponent"]["facing"];
+				e.Add<TransformComponent>(
 					Math::Vec2(pos[0], pos[1]),
 					Math::Vec2(velocity[0], velocity[1]),
 					Math::Vec2(scale[0], scale[1]),
-					jEntity["CTransform"]["angle"]
+					jEntity["TransformComponent"]["angle"]
 				);
-				auto& c = e.Get<CTransform>();
+				auto& c = e.Get<TransformComponent>();
 				c.prevPos = { prevPos[0], prevPos[1] };
 				c.facing = { facing[0], facing[1] };
 			}
 
-			if (jEntity.contains("CAnimation"))
+			if (jEntity.contains("Animation2DComponent"))
 			{
-				const auto& jAnim = jEntity["CAnimation"];
+				const auto& jAnim = jEntity["Animation2DComponent"];
 
 				ResourceHandle texHandle(jAnim["textureHandle"].get<uint64_t>());
 
@@ -319,17 +319,17 @@ namespace Luden
 				size_t speed = jAnim["speed"].get<size_t>();
 				size_t currentFrame = jAnim["currentFrame"].get<size_t>();
 
-				auto& c = e.Add<CAnimation>(animationHandle, speed, currentFrame, repeat);
+				auto& c = e.Add<Animation2DComponent>(animationHandle, speed, currentFrame, repeat);
 			}
 
-			if (jEntity.contains("CFont"))
+			if (jEntity.contains("TextComponent"))
 			{
-				e.Add<CFont>(jEntity["CFont"]["fontHandle"].get<uint64_t>());
+				e.Add<TextComponent>(jEntity["TextComponent"]["fontHandle"].get<uint64_t>());
 			}
 
-			if (jEntity.contains("CTexture"))
+			if (jEntity.contains("TextureComponent"))
 			{
-				e.Add<CTexture>(jEntity["CTexture"]["textureHandle"].get<uint64_t>());
+				e.Add<TextureComponent>(jEntity["TextureComponent"]["textureHandle"].get<uint64_t>());
 			}
 		}
 

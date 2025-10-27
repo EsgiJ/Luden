@@ -7,10 +7,10 @@ namespace Luden
 {
 	Math::Vec2 Physics::GetOverlap(const Entity& a, const Entity& b)
 	{
-		Math::Vec2 posA = a.Get<CTransform>().pos;
-		Math::Vec2 posB = b.Get<CTransform>().pos;
-		Math::Vec2 halfA = a.Get<CBoundingBox>().halfSize;
-		Math::Vec2 halfB = b.Get<CBoundingBox>().halfSize;
+		Math::Vec2 posA = a.Get<TransformComponent>().pos;
+		Math::Vec2 posB = b.Get<TransformComponent>().pos;
+		Math::Vec2 halfA = a.Get<BoxCollider2DComponent>().halfSize;
+		Math::Vec2 halfB = b.Get<BoxCollider2DComponent>().halfSize;
 
 		Math::Vec2 delta{ std::abs(posA.x - posB.x), std::abs(posA.y - posB.y) };
 		return halfA + halfB - delta;
@@ -18,10 +18,10 @@ namespace Luden
 
 	Math::Vec2 Physics::GetPreviousOverlap(const Entity& a, const Entity& b)
 	{
-		Math::Vec2 posA = a.Get<CTransform>().prevPos;
-		Math::Vec2 posB = b.Get<CTransform>().prevPos;
-		Math::Vec2 halfA = a.Get<CBoundingBox>().halfSize;
-		Math::Vec2 halfB = b.Get<CBoundingBox>().halfSize;
+		Math::Vec2 posA = a.Get<TransformComponent>().prevPos;
+		Math::Vec2 posB = b.Get<TransformComponent>().prevPos;
+		Math::Vec2 halfA = a.Get<BoxCollider2DComponent>().halfSize;
+		Math::Vec2 halfB = b.Get<BoxCollider2DComponent>().halfSize;
 
 		Math::Vec2 delta{ std::abs(posA.x - posB.x), std::abs(posA.y - posB.y) };
 		return halfA + halfB - delta;
@@ -29,11 +29,11 @@ namespace Luden
 
 	bool Physics::IsInside(const Math::Vec2& pos, const Entity& entity)
 	{
-		auto cAnim = entity.Get<CAnimation>();
+		auto cAnim = entity.Get<Animation2DComponent>();
 		auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(cAnim.animationHandle));
 
 		Math::Vec2 size = anim->GetSize();
-		Math::Vec2 ePos = entity.Get<CTransform>().pos;
+		Math::Vec2 ePos = entity.Get<TransformComponent>().pos;
 
 		return (pos.x > ePos.x - size.x / 2 && 
 				pos.x < ePos.x + size.x / 2 &&
@@ -63,8 +63,8 @@ namespace Luden
 
 	bool Physics::EntityIntersect(const Math::Vec2& a, const Math::Vec2& b, const Entity& entity)
 	{
-		auto boxC = entity.Get<CBoundingBox>().center;
-		auto box = entity.Get<CBoundingBox>().halfSize;
+		auto boxC = entity.Get<BoxCollider2DComponent>().center;
+		auto box = entity.Get<BoxCollider2DComponent>().halfSize;
 
 		Math::Vec2 e1{ boxC.x - box.x, boxC.y - box.y };
 		Math::Vec2 e2{ boxC.x + box.x, boxC.y - box.y };
@@ -83,13 +83,13 @@ namespace Luden
 		Math::Vec2 overlap = GetOverlap(a, b);
 		Math::Vec2 prevOverlap = GetPreviousOverlap(a, b);
 
-		float dy = b.Get<CTransform>().pos.y - a.Get<CTransform>().pos.y;
+		float dy = b.Get<TransformComponent>().pos.y - a.Get<TransformComponent>().pos.y;
 		if (overlap.x > 0 && overlap.y > 0 && -maxDist.y < overlap.y && prevOverlap.y <= 0)
 		{
 			dir = dy > 0 ? ODirection::UP : ODirection::DOWN;
 		}
 
-		float dx = b.Get<CTransform>().pos.x - a.Get<CTransform>().pos.x;
+		float dx = b.Get<TransformComponent>().pos.x - a.Get<TransformComponent>().pos.x;
 		if (overlap.y > 0 && overlap.x > 0 && -maxDist.x < overlap.x && prevOverlap.x <= 0)
 		{
 			dir = dx > 0 ? ODirection::LEFT : ODirection::RIGHT;

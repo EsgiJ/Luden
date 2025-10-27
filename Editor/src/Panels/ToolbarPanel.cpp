@@ -358,11 +358,11 @@ namespace Luden {
 		auto& manager = m_Context->GetEntityManager();
 		for (auto& entity : manager.GetEntities())
 		{
-			if (!entity.Has<CTransform>() || !entity.Has<CTexture>())
+			if (!entity.Has<TransformComponent>() || !entity.Has<TextureComponent>())
 				continue;
 
-			auto& transformComponent = entity.Get<CTransform>();
-			auto& textureComponent = entity.Get<CTexture>();
+			auto& transformComponent = entity.Get<TransformComponent>();
+			auto& textureComponent = entity.Get<TextureComponent>();
 			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
 
 			if (texture == nullptr)
@@ -412,7 +412,7 @@ namespace Luden {
 		{
 			Math::Vec2 diff = GetMouseDelta();
 
-			Math::Vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>().pos;
+			Math::Vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().pos;
 
 			if (!m_IsSnapEnabled)
 			{
@@ -452,7 +452,7 @@ namespace Luden {
 		{
 			Math::Vec2 diff = GetMouseDelta();
 
-			Math::Vec2& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>().scale;
+			Math::Vec2& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().scale;
 
 			if (!m_IsSnapScaleEnabled)
 			{
@@ -499,7 +499,7 @@ namespace Luden {
 			const float sensitivity = 0.05f;
 			float rotationAngle = diff.Length() * rotationDirection * sensitivity;
 
-			auto& transform = m_SceneHierarchyPanel->GetSelectedEntity().Get<CTransform>();
+			auto& transform = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>();
 
 			if (!m_IsSnapRotateEnabled)
 			{

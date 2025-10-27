@@ -66,21 +66,21 @@ namespace Luden
 
 			if (ImGui::BeginPopup("AddComponent"))
 			{
-				DisplayComponentInPopup<CDamage>(ICON_FA_GUN " Damage Component");
-				DisplayComponentInPopup<CDraggable>(ICON_FA_HAND " Draggable Component");
-				DisplayComponentInPopup<CFollowPlayer>(ICON_FA_PERSON_RUNNING " Follow Player Component");
-				DisplayComponentInPopup<CGravity>(ICON_FA_ARROW_DOWN " Gravity Component");
-				DisplayComponentInPopup<CHealth>(ICON_FA_HEART " Health Component");
-				DisplayComponentInPopup<CInput>(ICON_FA_GAMEPAD " Input Component");
-				DisplayComponentInPopup<CBoundingBox>(ICON_FA_SQUARE " Bounding Box Component");
-				DisplayComponentInPopup<CAnimation>(ICON_FA_PLAY " Animation Component");
-				DisplayComponentInPopup<CFont>(ICON_FA_FONT " Font Component");
-				DisplayComponentInPopup<CTexture>(ICON_FA_IMAGE " Texture Component");
-				DisplayComponentInPopup<CInvincibility>(ICON_FA_SHIELD_HALVED " Invincibility Component");
-				DisplayComponentInPopup<CLifespan>(ICON_FA_CLOCK " Lifespan Component");
-				DisplayComponentInPopup<CPatrol>(ICON_FA_ROAD " Patrol Component");
-				DisplayComponentInPopup<CState>(ICON_FA_SCROLL " State Component");
-				DisplayComponentInPopup<CTransform>(ICON_FA_ARROWS_UP_DOWN_LEFT_RIGHT " Transform Component");
+				DisplayComponentInPopup<DamageComponent>(ICON_FA_GUN " Damage Component");
+				DisplayComponentInPopup<DraggableComponent>(ICON_FA_HAND " Draggable Component");
+				DisplayComponentInPopup<FollowPLayerComponent>(ICON_FA_PERSON_RUNNING " Follow Player Component");
+				DisplayComponentInPopup<GravityComponent>(ICON_FA_ARROW_DOWN " Gravity Component");
+				DisplayComponentInPopup<HealthComponent>(ICON_FA_HEART " Health Component");
+				DisplayComponentInPopup<InputComponent>(ICON_FA_GAMEPAD " Input Component");
+				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Bounding Box Component");
+				DisplayComponentInPopup<Animation2DComponent>(ICON_FA_PLAY " Animation Component");
+				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Font Component");
+				DisplayComponentInPopup<TextureComponent>(ICON_FA_IMAGE " Texture Component");
+				DisplayComponentInPopup<InvincibilityComponent>(ICON_FA_SHIELD_HALVED " Invincibility Component");
+				DisplayComponentInPopup<LifespanComponent>(ICON_FA_CLOCK " Lifespan Component");
+				DisplayComponentInPopup<PatrolComponent>(ICON_FA_ROAD " Patrol Component");
+				DisplayComponentInPopup<StateComponent>(ICON_FA_SCROLL " State Component");
+				DisplayComponentInPopup<TransformComponent>(ICON_FA_ARROWS_UP_DOWN_LEFT_RIGHT " Transform Component");
 				ImGui::EndPopup();
 			}
 
@@ -97,23 +97,23 @@ namespace Luden
 
 			if (tableOpen)
 			{
-				DisplayComponentInInspector<CDamage>(ICON_FA_GUN " Damage Component", entity, true, [&]()
+				DisplayComponentInInspector<DamageComponent>(ICON_FA_GUN " Damage Component", entity, true, [&]()
 					{
-						auto& damageComponent = entity.Get<CDamage>();
+						auto& damageComponent = entity.Get<DamageComponent>();
 						ImGuiUtils::PrefixLabel("Damage");
 						ImGui::DragInt("##Persistent", &damageComponent.damage, 1, 0);
 					});
 
-				DisplayComponentInInspector<CDraggable>(ICON_FA_HAND " Draggable Component", entity, true, [&]()
+				DisplayComponentInInspector<DraggableComponent>(ICON_FA_HAND " Draggable Component", entity, true, [&]()
 					{
-						auto& draggableComponent = entity.Get<CDraggable>();
+						auto& draggableComponent = entity.Get<DraggableComponent>();
 						ImGuiUtils::PrefixLabel("Dragging");
 						ImGui::Checkbox("##Dragging", &draggableComponent.dragging);
 					});
 
-				DisplayComponentInInspector<CFollowPlayer>(ICON_FA_PERSON_RUNNING " Follow Player Component", entity, true, [&]()
+				DisplayComponentInInspector<FollowPLayerComponent>(ICON_FA_PERSON_RUNNING " Follow Player Component", entity, true, [&]()
 					{
-						auto& followPlayerComponent = entity.Get<CFollowPlayer>();
+						auto& followPlayerComponent = entity.Get<FollowPLayerComponent>();
 						ImGuiUtils::PrefixLabel("Home");
 						ImGui::DragFloat2("##Home", &followPlayerComponent.home.x, 0.1f);
 
@@ -121,16 +121,16 @@ namespace Luden
 						ImGui::DragFloat2("##Speed", &followPlayerComponent.home.x, 0.1f);
 					});
 
-				DisplayComponentInInspector<CGravity>(ICON_FA_ARROW_DOWN " Gravity Component", entity, true, [&]()
+				DisplayComponentInInspector<GravityComponent>(ICON_FA_ARROW_DOWN " Gravity Component", entity, true, [&]()
 					{
-						auto& gravityComponent = entity.Get<CGravity>();
+						auto& gravityComponent = entity.Get<GravityComponent>();
 						ImGuiUtils::PrefixLabel("Gravity");
 						ImGui::DragFloat("##Gravity", &gravityComponent.gravity, 0.1f);
 					});
 
-				DisplayComponentInInspector<CHealth>(ICON_FA_HEART " Health Component", entity, true, [&]()
+				DisplayComponentInInspector<HealthComponent>(ICON_FA_HEART " Health Component", entity, true, [&]()
 					{
-						auto& healthComponent = entity.Get<CHealth>();
+						auto& healthComponent = entity.Get<HealthComponent>();
 						ImGuiUtils::PrefixLabel("Current");
 						ImGui::DragInt("##Current", &healthComponent.current, 1, 0);
 
@@ -138,9 +138,9 @@ namespace Luden
 						ImGui::DragInt("##Max", &healthComponent.max, 1, 0);
 					});
 
-				DisplayComponentInInspector<CInput>(ICON_FA_GAMEPAD " Input Component", entity, true, [&]()
+				DisplayComponentInInspector<InputComponent>(ICON_FA_GAMEPAD " Input Component", entity, true, [&]()
 					{
-						auto& inputComponent = entity.Get<CInput>();
+						auto& inputComponent = entity.Get<InputComponent>();
 						ImGuiUtils::PrefixLabel(ICON_FA_ARROW_UP " Up");
 						ImGui::Checkbox("##Up", &inputComponent.up);
 
@@ -160,9 +160,9 @@ namespace Luden
 						ImGui::Checkbox("##Up", &inputComponent.canAttack);
 					});
 
-				DisplayComponentInInspector<CBoundingBox>(ICON_FA_SQUARE " Bounding Box Component", entity, true, [&]()
+				DisplayComponentInInspector<BoxCollider2DComponent>(ICON_FA_SQUARE " Bounding Box Component", entity, true, [&]()
 					{
-						auto& boundingBoxComponent = entity.Get<CBoundingBox>();
+						auto& boundingBoxComponent = entity.Get<BoxCollider2DComponent>();
 						ImGuiUtils::PrefixLabel("Size");
 						ImGui::DragFloat2("##Size", &boundingBoxComponent.size.x, 0.1f);
 
@@ -186,9 +186,9 @@ namespace Luden
 						ImGui::Checkbox("##BlockVision", &boundingBoxComponent.blockVision);
 					});
 
-				DisplayComponentInInspector<CAnimation>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
+				DisplayComponentInInspector<Animation2DComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
 					{
-						auto& animationComponent = entity.Get<CAnimation>();
+						auto& animationComponent = entity.Get<Animation2DComponent>();
 						auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetEditorResourceManager()->GetResource(animationComponent.animationHandle));
 						ImGuiUtils::PrefixLabel(ICON_FA_FILE_VIDEO " Current");
 						if (ImGuiUtils::ResourceButton(animationComponent.animationHandle, ResourceType::Animation))
@@ -214,9 +214,9 @@ namespace Luden
 						ImGui::EndDisabled();
 					});
 
-				DisplayComponentInInspector<CFont>(ICON_FA_FONT " Font Component", entity, true, [&]()
+				DisplayComponentInInspector<TextComponent>(ICON_FA_FONT " Font Component", entity, true, [&]()
 					{
-						auto& fontComponent = entity.Get<CFont>();
+						auto& fontComponent = entity.Get<TextComponent>();
 						auto font = std::static_pointer_cast<Font>(Project::GetEditorResourceManager()->GetResource(fontComponent.fontHandle));
 						ImGuiUtils::PrefixLabel("Current");
 						if (ImGuiUtils::ResourceButton(fontComponent.fontHandle, ResourceType::Font))
@@ -225,9 +225,9 @@ namespace Luden
 						}
 					});
 
-				DisplayComponentInInspector<CTexture>(ICON_FA_IMAGE " Texture Component", entity, true, [&]()
+				DisplayComponentInInspector<TextureComponent>(ICON_FA_IMAGE " Texture Component", entity, true, [&]()
 					{
-						auto& textureComponent = entity.Get<CTexture>();
+						auto& textureComponent = entity.Get<TextureComponent>();
 						auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
 						ImGuiUtils::PrefixLabel(ICON_FA_FILE_IMAGE " Current");
 						if (ImGuiUtils::ResourceButton(textureComponent.textureHandle, ResourceType::Texture))
@@ -236,16 +236,16 @@ namespace Luden
 						}
 					});
 
-				DisplayComponentInInspector<CInvincibility>(ICON_FA_SHIELD_HALVED " Invincibility Component", entity, true, [&]()
+				DisplayComponentInInspector<InvincibilityComponent>(ICON_FA_SHIELD_HALVED " Invincibility Component", entity, true, [&]()
 					{
-						auto& invincibilityComponent = entity.Get<CInvincibility>();
+						auto& invincibilityComponent = entity.Get<InvincibilityComponent>();
 						ImGuiUtils::PrefixLabel("Frame");
 						ImGui::DragInt("##Persistent", &invincibilityComponent.iframes, 1, 0);
 					});
 
-				DisplayComponentInInspector<CLifespan>(ICON_FA_SHIELD_HALVED " Lifespan Component", entity, true, [&]()
+				DisplayComponentInInspector<LifespanComponent>(ICON_FA_SHIELD_HALVED " Lifespan Component", entity, true, [&]()
 					{
-						auto& lifespanComponent = entity.Get<CLifespan>();
+						auto& lifespanComponent = entity.Get<LifespanComponent>();
 						ImGuiUtils::PrefixLabel("Lifespan");
 						ImGui::DragInt("##Lifespan", &lifespanComponent.lifespan, 1, 0);
 
@@ -255,9 +255,9 @@ namespace Luden
 						ImGui::EndDisabled();
 					});
 
-				DisplayComponentInInspector<CPatrol>(ICON_FA_ROAD " Patrol Component", entity, true, [&]()
+				DisplayComponentInInspector<PatrolComponent>(ICON_FA_ROAD " Patrol Component", entity, true, [&]()
 					{
-						auto& patrolComponent = entity.Get<CPatrol>();
+						auto& patrolComponent = entity.Get<PatrolComponent>();
 
 						ImGuiUtils::PrefixLabel("Speed");
 						ImGui::DragFloat("##Speed", &patrolComponent.speed, 0.1f);
@@ -285,9 +285,9 @@ namespace Luden
 						}
 					});
 
-				DisplayComponentInInspector<CState>(ICON_FA_SCROLL " State Component", entity, true, [&]()
+				DisplayComponentInInspector<StateComponent>(ICON_FA_SCROLL " State Component", entity, true, [&]()
 					{
-						auto& stateComponent = entity.Get<CState>();
+						auto& stateComponent = entity.Get<StateComponent>();
 
 						ImGuiUtils::PrefixLabel("State");
 						ImGui::InputText("##State", stateComponent.state.data(), stateComponent.state.capacity() + 1);
@@ -301,9 +301,9 @@ namespace Luden
 						ImGui::Checkbox("##ChangeAnim", &stateComponent.changeAnimation);
 					});
 
-				DisplayComponentInInspector<CTransform>(ICON_FA_ARROWS_UP_DOWN_LEFT_RIGHT " Transform Component", entity, true, [&]()
+				DisplayComponentInInspector<TransformComponent>(ICON_FA_ARROWS_UP_DOWN_LEFT_RIGHT " Transform Component", entity, true, [&]()
 					{
-						auto& transformComponent = entity.Get<CTransform>();
+						auto& transformComponent = entity.Get<TransformComponent>();
 
 						ImGuiUtils::PrefixLabel(ICON_FA_LOCATION_ARROW " Position");
 						ImGui::DragFloat2("##Pos", &transformComponent.pos.x, 0.1f);

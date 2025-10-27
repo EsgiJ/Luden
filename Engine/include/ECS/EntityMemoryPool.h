@@ -20,21 +20,21 @@ namespace Luden
 	using PoolIndex = std::size_t;
 
 	using EntityComponentVectorTuple = std::tuple<
-		std::vector<Luden::CDamage>,
-		std::vector<Luden::CDraggable>,
-		std::vector<Luden::CFollowPlayer>,
-		std::vector<Luden::CGravity>,
-		std::vector<Luden::CHealth>,
-		std::vector<Luden::CInput>,
-		std::vector<Luden::CBoundingBox>,
-		std::vector<Luden::CAnimation>,
-		std::vector<Luden::CFont>,
-		std::vector<Luden::CTexture>,
-		std::vector<Luden::CLifespan>,
-		std::vector<Luden::CInvincibility>,
-		std::vector<Luden::CPatrol>,
-		std::vector<Luden::CState>,
-		std::vector<Luden::CTransform>
+		std::vector<Luden::DamageComponent>,
+		std::vector<Luden::DraggableComponent>,
+		std::vector<Luden::FollowPLayerComponent>,
+		std::vector<Luden::GravityComponent>,
+		std::vector<Luden::HealthComponent>,
+		std::vector<Luden::InputComponent>,
+		std::vector<Luden::BoxCollider2DComponent>,
+		std::vector<Luden::Animation2DComponent>,
+		std::vector<Luden::TextComponent>,
+		std::vector<Luden::TextureComponent>,
+		std::vector<Luden::LifespanComponent>,
+		std::vector<Luden::InvincibilityComponent>,
+		std::vector<Luden::PatrolComponent>,
+		std::vector<Luden::StateComponent>,
+		std::vector<Luden::TransformComponent>
 	>;
 
 	using EntityID = UUID;
