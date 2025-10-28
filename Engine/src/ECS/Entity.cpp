@@ -1,13 +1,13 @@
 #include "ECS/Entity.h"
+#include "ECS/EntityMemoryPool.h"
+#include "Scene/Scene.h"
 
 #include <vector>
-
-#include "ECS/EntityMemoryPool.h"
-
 namespace Luden
 {
-	Entity::Entity(EntityID uuid) 
-		: m_UUID(uuid) {}
+	Entity::Entity(EntityID uuid, Scene* scene)
+		: m_UUID(uuid), m_Scene(scene) {
+	}
 
 	bool Entity::IsActive() const 
 	{
@@ -35,23 +35,23 @@ namespace Luden
 		return EntityMemoryPool::Instance().GetTag(m_UUID);
 	}
 
-//	Entity Entity::GetParent() const
-//	{
-//		Get<RelationshipComponent>().ParentHandle;
-//	}
-
 
 	void Entity::SetParent(Entity parent)
 	{
-//		Entity currentParent = GetParent();
+		Entity currentParent = GetParent();
 
-//		if (parent == currentParent)
-//			return;
+		if (parent == currentParent)
+			return;
 
-//		if (currentParent)
-//			currentParent.RemoveChild(*this);
+		if (currentParent)
+			currentParent.RemoveChild(*this);
 
-//		SetParentUUID(parent.UUID());
+		SetParentUUID(parent.UUID());
+	}
+
+	Entity Entity::GetParent()
+	{
+		return m_Scene->TryGetEntityWithUUID(GetParentUUID());
 	}
 
 	void Entity::SetParentUUID(EntityID parent)
@@ -85,6 +85,28 @@ namespace Luden
 		{
 			children.erase(it);
 			return true;
+		}
+
+		return false;
+	}
+
+	bool Entity::IsAncestorOf(Entity& entity) const
+	{
+		const auto& children = Children();
+
+		if (children.empty())
+			return false;
+
+		for (const EntityID child : children)
+		{
+			if (child == entity.UUID())
+				return true;
+		}
+
+		for (const EntityID child : children)
+		{
+			if (m_Scene->GetEntityWithUUID(child).IsAncestorOf(entity))
+				return true;
 		}
 
 		return false;

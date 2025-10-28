@@ -56,17 +56,17 @@ namespace Luden
 		}
 	}
 
-	Entity EntityManager::AddEntity(const std::string& tag)
+	Entity EntityManager::AddEntity(const std::string& tag, Scene* scene)
 	{
-		Entity entity = EntityMemoryPool::Instance().AddEntity(tag);
+		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, scene);
 		m_EntitiesToAdd.push_back(entity);
 
 		return entity;
 	}
 
-	Entity EntityManager::AddEntity(const std::string& tag, const UUID& id)
+	Entity EntityManager::AddEntity(const std::string& tag, const UUID& id, Scene* scene)
 	{
-		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, id);
+		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, id, scene);
 		m_EntitiesToAdd.push_back(entity);
 
 		return entity;
@@ -133,7 +133,7 @@ namespace Luden
 		EntityMemoryPool::Instance().Clear();
 	}
 
-	Entity EntityManager::TryGetEntityWithUUID(const UUID& uuid) 
+	Entity EntityManager::TryGetEntityWithUUID(const UUID& uuid) const
 	{
 		if (!EntityMemoryPool::Instance().Exists(uuid))
 		{
@@ -150,7 +150,7 @@ namespace Luden
 		return invalidEntity;
 	}
 
-	Entity EntityManager::TryGetEntityWithTag(const std::string& tag)
+	Entity EntityManager::TryGetEntityWithTag(const std::string& tag) const
 	{
 		auto it = m_EntityMap.find(tag);
 		if (it != m_EntityMap.end() && !it->second.empty())

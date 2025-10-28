@@ -72,7 +72,7 @@ namespace Luden
 			}, m_Pool);
 	}
 
-	Entity EntityMemoryPool::AddEntity(const std::string& tag)
+	Entity EntityMemoryPool::AddEntity(const std::string& tag, Scene* scene)
 	{
 		UUID id;
 
@@ -86,12 +86,12 @@ namespace Luden
 		m_IdToIndex.emplace(id, idx);
 
 		++m_NumAlive;
-		Entity entity(id);
+		Entity entity(id, scene);
 
 		return entity;
 	}
 
-	Entity EntityMemoryPool::AddEntity(const std::string& tag, const UUID& id)
+	Entity EntityMemoryPool::AddEntity(const std::string& tag, const UUID& id, Scene* scene)
 	{
 		PoolIndex idx = AcquireIndex();
 		EnsureSizedFor(idx);
@@ -103,7 +103,7 @@ namespace Luden
 		m_IdToIndex[id] = idx;
 
 		++m_NumAlive;
-		Entity entity(id);
+		Entity entity(id, scene);
 		return entity;
 	}
 

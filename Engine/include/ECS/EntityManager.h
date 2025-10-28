@@ -13,14 +13,16 @@ namespace Luden
 	using EntityVec = std::vector<Entity>;
 	using EntityMap = std::map<std::string, EntityVec>;
 
+	class Scene;
+
 	class ENGINE_API EntityManager {
 	public:
 		EntityManager();
 
 		void Update(TimeStep ts);
 
-		Entity AddEntity(const std::string& tag);
-		Entity AddEntity(const std::string& tag, const UUID& id);
+		Entity AddEntity(const std::string& tag, Scene* scene);
+		Entity AddEntity(const std::string& tag, const UUID& id, Scene* scene);
 
 		void DestroyEntity(const EntityID& uuid);
 
@@ -35,8 +37,8 @@ namespace Luden
 
 		void Clear();
 
-		Entity TryGetEntityWithUUID(const UUID& uuid);
-		Entity TryGetEntityWithTag(const std::string& tag);
+		Entity TryGetEntityWithUUID(const UUID& uuid) const;
+		Entity TryGetEntityWithTag(const std::string& tag) const;
 
 		bool Exists(const UUID& uuid);
 		bool Exists(const UUID& uuid) const;

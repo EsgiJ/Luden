@@ -16,6 +16,7 @@
 namespace Luden
 {
 	class Entity;
+	class Scene;
 
 	using PoolIndex = std::size_t;
 
@@ -48,8 +49,8 @@ namespace Luden
 			return instance;
 		}
 
-		Entity AddEntity(const std::string& tag);
-		Entity AddEntity(const std::string& tag, const UUID& id);
+		Entity AddEntity(const std::string& tag, Scene* scene);
+		Entity AddEntity(const std::string& tag, const UUID& id, Scene* scene);
 		void DestroyEntity(const EntityID& entityID);
 
 		void Clear();
@@ -82,6 +83,16 @@ namespace Luden
 			component = T(std::forward<TArgs>(args)...);
 			component.has = true;
 			return component;
+		}
+
+		template<typename T>
+		T& AddComponent(const EntityID& entityID, const T& component)
+		{
+			PoolIndex index = IndexOf(entityID);
+
+			auto& destComponent = std::get<std::vector<T>>(m_Pool)[index];
+			destComponent = component;
+			destComponent.has = true;
 		}
 
 		template <typename T>

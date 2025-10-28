@@ -11,7 +11,7 @@ namespace Luden
 {
 	struct ENGINE_API RelationshipComponent : public IComponent
 	{
-		UUID ParentHandle;
+		UUID ParentHandle = 0;
 		std::vector<UUID> Children;
 
 		RelationshipComponent() = default;

@@ -154,12 +154,17 @@ namespace Luden {
 	// Entity Management
 	Entity Scene::CreateEntity(const std::string& tag) 
 	{
-		return m_EntityManager.AddEntity(tag);
+		return CreateChildEntity({}, tag);
+	}
+
+	Entity Scene::CreateEntity(const std::string& tag, UUID entityID)
+	{
+		return CreateChildEntity({}, tag, entityID);
 	}
 
 	Entity Scene::CreateChildEntity(Entity parent, const std::string& name)
 	{
-		auto childEntity = m_EntityManager.AddEntity(name);
+		auto childEntity = m_EntityManager.AddEntity(name, this);
 		childEntity.Add<TransformComponent>();
 
 		childEntity.Add<RelationshipComponent>();
@@ -170,11 +175,53 @@ namespace Luden {
 		return childEntity;
 	}
 
-	Entity Scene::DuplicateEntity(const Entity& entity) 
+	Entity Scene::CreateChildEntity(Entity parent, const std::string& name, UUID entityID)
 	{
-		Entity copy = m_EntityManager.AddEntity(entity.Tag() + "_copy");
-		//TODO: copy all the components
-		return copy;
+		auto childEntity = m_EntityManager.AddEntity(name, entityID, this);
+		childEntity.Add<TransformComponent>();
+
+		childEntity.Add<RelationshipComponent>();
+
+		if (parent.IsValid())
+			childEntity.SetParent(parent);
+
+		return childEntity;
+	}
+
+	Entity Scene::DuplicateEntity(Entity& entity) 
+	{
+		auto parentNewEntity = [&entity, scene = this](Entity newEntity)
+		{
+			if (auto parent = entity.GetParent(); parent.IsValid())
+			{
+				newEntity.SetParentUUID(parent.UUID());
+				parent.Children().push_back(newEntity.UUID());
+			}
+				
+		};
+
+		Entity newEntity = CreateEntity((entity.Tag() + "_copy"));
+		
+		CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
+		CopyComponentIfExists<DamageComponent>(newEntity, entity);
+		CopyComponentIfExists<DraggableComponent>(newEntity, entity);
+		CopyComponentIfExists<FollowPLayerComponent>(newEntity, entity);
+		CopyComponentIfExists<GravityComponent>(newEntity, entity);
+		CopyComponentIfExists<HealthComponent>(newEntity, entity);
+		CopyComponentIfExists<InputComponent>(newEntity, entity);
+		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
+		CopyComponentIfExists<Animation2DComponent>(newEntity, entity);
+		CopyComponentIfExists<TextComponent>(newEntity, entity);
+		CopyComponentIfExists<TextureComponent>(newEntity, entity);
+		CopyComponentIfExists<InvincibilityComponent>(newEntity, entity);
+		CopyComponentIfExists<LifespanComponent>(newEntity, entity);
+		CopyComponentIfExists<PatrolComponent>(newEntity, entity);
+		CopyComponentIfExists<StateComponent>(newEntity, entity);
+		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+
+		parentNewEntity(entity);
+
+		return newEntity;
 	}
 
 	void Scene::DestroyEntity(const Entity& entity) 
@@ -187,6 +234,43 @@ namespace Luden {
 		m_EntityManager.DestroyEntity(entityID);
 	}
 
+	void Scene::ParentEntity(Entity& entity, Entity& parent)
+	{
+		if (entity.IsDescendantOf(entity))
+		{
+			UnparentEntity(parent);
+
+			Entity newParent = TryGetEntityWithUUID(entity.GetParentUUID());
+			if (newParent.IsValid())
+			{
+				UnparentEntity(entity);
+				ParentEntity(parent, entity);
+			}
+		}
+		else
+		{
+			Entity previousParent = TryGetEntityWithUUID(entity.GetParentUUID());
+
+			if (previousParent)
+				UnparentEntity(entity);
+		}
+		entity.SetParentUUID(parent.UUID());
+		parent.Children().push_back(entity.UUID());
+
+	}
+
+	void Scene::UnparentEntity(Entity& entity)
+	{
+		Entity parent = TryGetEntityWithUUID(entity.GetParentUUID());
+		if (!parent.IsValid())
+			return;
+
+		auto& parentChildren = parent.Children();
+		parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), entity.UUID()), parentChildren.end());
+
+		entity.SetParentUUID(0);
+	}
+
 	Entity Scene::GetEntityWithUUID(const UUID& uuid) const 
 	{
 		if (!m_EntityManager.Exists(uuid))
@@ -196,12 +280,12 @@ namespace Luden {
 		return m_EntityManager.GetEntity(uuid);
 	}
 
-	Entity Scene::TryGetEntityWithUUID(const UUID& uuid) 
+	Entity Scene::TryGetEntityWithUUID(const UUID& uuid) const
 	{
 		return m_EntityManager.TryGetEntityWithUUID(uuid);
 	}
 
-	Entity Scene::TryGetEntityWithTag(const std::string& tag) 
+	Entity Scene::TryGetEntityWithTag(const std::string& tag) const
 	{
 		return m_EntityManager.TryGetEntityWithTag(tag);
 	}

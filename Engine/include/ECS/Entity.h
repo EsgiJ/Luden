@@ -13,7 +13,7 @@
 namespace Luden 
 {
 	class EntityMemoryPool;
-
+	class Scene;
 	using EntityID = UUID;
 
 	class ENGINE_API Entity
@@ -28,8 +28,8 @@ namespace Luden
 		void SetTag(const std::string& tag);
 		const std::string& Tag() const;
 
-//		Entity GetParent() const;
 		void SetParent(Entity parent);
+		Entity GetParent();
 		void SetParentUUID(EntityID parent);
 		EntityID GetParentUUID() const;
 
@@ -37,8 +37,10 @@ namespace Luden
 		const std::vector<EntityID>& Children() const;
 		bool RemoveChild(Entity child);
 
-		bool IsActive() const;
+		bool IsAncestorOf(Entity& entity) const;
+		bool IsDescendantOf(Entity& entity) { return entity.IsAncestorOf(*this); }
 
+		bool IsActive() const;
 		bool IsValid() const { return m_UUID != 0; }
 
 		operator bool() const { return IsValid(); }
@@ -71,6 +73,12 @@ namespace Luden
 		}
 
 		template<class T>
+		T& Add(const T& component)
+		{
+			return EntityMemoryPool::Instance().template AddComponent<T>(m_UUID, component);
+		}
+
+		template<class T>
 		T& Get() 
 		{
 			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
@@ -90,13 +98,15 @@ namespace Luden
 
 	private:
 		Entity() = default;
-		Entity(EntityID uuid);
+		Entity(EntityID uuid, Scene* scene);
 
 		EntityID m_UUID = 0;
+		Scene* m_Scene = nullptr;
 
 		friend class EntityMemoryPool;
 		friend class EntityManager;
 		friend class ToolbarPanel;
 		friend class SceneHierarchyPanel;
+		friend class Scene;
 	};
 }

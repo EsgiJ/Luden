@@ -44,14 +44,30 @@ namespace Luden {
 		// Entity management
 		Entity CreateEntity(const std::string& tag = "");
 		Entity CreateChildEntity(Entity parent, const std::string& name = "");
-		Entity DuplicateEntity(const Entity& entity);
+		Entity CreateEntity(const std::string& tag, UUID entityID);
+		Entity CreateChildEntity(Entity parent, const std::string& name, UUID entityID);
+
+		Entity DuplicateEntity(Entity& entity);
+
 		void DestroyEntity(const Entity& entity);
 		void DestroyEntity(const EntityID& entityID);
 
-		Entity GetEntityWithUUID(const UUID& uuid) const;
-		Entity TryGetEntityWithUUID(const UUID& uuid);
-		Entity TryGetEntityWithTag(const std::string& tag);
+		void ParentEntity(Entity& entity, Entity& parent);
+		void UnparentEntity(Entity& entity);
 
+		Entity GetEntityWithUUID(const UUID& uuid) const;
+		Entity TryGetEntityWithUUID(const UUID& uuid) const;
+		Entity TryGetEntityWithTag(const std::string& tag) const;
+
+		template<typename T>
+		void CopyComponentIfExists(Entity dest, Entity source)
+		{
+			if (source.Has<T>())
+			{
+				auto& component = source.Get<T>();
+				dest.Add<T>(component);
+			}
+		}
 		EntityManager& GetEntityManager() { return m_EntityManager; }
 		const EntityManager& GetEntityManager() const { return m_EntityManager; }
 

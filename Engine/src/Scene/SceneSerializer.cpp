@@ -54,6 +54,20 @@ namespace Luden
 			jEntity["UUID"] = static_cast<uint64_t>(e.UUID());
 			jEntity["Tag"] = e.Tag();
 
+			if (e.Has<RelationshipComponent>())
+			{
+				const auto& c = e.Get<RelationshipComponent>();
+
+				jEntity["RelationshipComponent"]["ParentHandle"] = static_cast<uint64_t>(c.ParentHandle);
+
+				auto& jChildren = jEntity["RelationshipComponent"]["Children"];
+				for (const auto childID : c.Children)
+				{
+					jChildren.push_back(static_cast<uint64_t>(childID));
+				}
+
+			}
+
 			if (e.Has<DamageComponent>())
 			{
 				jEntity["DamageComponent"]["damage"] = e.Get<DamageComponent>().damage;
@@ -196,7 +210,25 @@ namespace Luden
 
 		for (const auto& jEntity : inJson["Entities"])
 		{
-			Entity e = entityManager.AddEntity(jEntity["Tag"].get<std::string>(), jEntity["UUID"].get<uint64_t>());
+			Entity e = m_Scene->CreateEntity(jEntity["Tag"].get<std::string>(), jEntity["UUID"].get<uint64_t>());
+
+			if (jEntity.contains("RelationshipComponent"))
+			{
+				const auto& jRel = jEntity["RelationshipComponent"];
+
+				auto& relComp = e.Get<RelationshipComponent>();
+
+				UUID parentID = jRel["ParentHandle"].get<uint64_t>();
+				relComp.ParentHandle = parentID;
+
+				if (jRel.contains("Children"))
+				{
+					for (const auto& childID : jRel["Children"])
+					{
+						relComp.Children.push_back(childID.get<uint64_t>());
+					}
+				}
+			}
 
 			if (jEntity.contains("DamageComponent"))
 			{
