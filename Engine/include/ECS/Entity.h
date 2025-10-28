@@ -28,11 +28,30 @@ namespace Luden
 		void SetTag(const std::string& tag);
 		const std::string& Tag() const;
 
+//		Entity GetParent() const;
+		void SetParent(Entity parent);
+		void SetParentUUID(EntityID parent);
+		EntityID GetParentUUID() const;
+
+		std::vector<EntityID>& Children();
+		const std::vector<EntityID>& Children() const;
+		bool RemoveChild(Entity child);
+
 		bool IsActive() const;
 
 		bool IsValid() const { return m_UUID != 0; }
+
 		operator bool() const { return IsValid(); }
 
+		bool operator==(const Entity& other) const
+		{
+			return m_UUID == other.UUID();
+		}
+		
+		bool operator!=(const Entity& other) const
+		{
+			return !(*this == other);
+		}
 		template<class T>
 		bool Has() const 
 		{

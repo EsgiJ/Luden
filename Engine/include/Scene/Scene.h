@@ -43,6 +43,7 @@ namespace Luden {
 
 		// Entity management
 		Entity CreateEntity(const std::string& tag = "");
+		Entity CreateChildEntity(Entity parent, const std::string& name = "");
 		Entity DuplicateEntity(const Entity& entity);
 		void DestroyEntity(const Entity& entity);
 		void DestroyEntity(const EntityID& entityID);

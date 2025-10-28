@@ -39,18 +39,19 @@ namespace Luden
 		spec.WindowWidth = 1600;
 		spec.WindowHeight = 900;
 		spec.EnableImGui = false;
-		spec.m_ProjectPath = "C:\\GameProjects\\Luden\\MyGame\\MyGame.lproject";
+		std::filesystem::path projectPath = std::filesystem::absolute("..\\MyGame\\MyGame.lproject");
+		spec.m_ProjectPath = projectPath;
 
 		LoadProject(spec.m_ProjectPath);
 		
 		EditorResources::Init();
 
 		io.Fonts->Clear();
-		ImFont* mainFont = io.Fonts->AddFontFromFileTTF("Editor/Resources/fonts/Oswald-Medium.ttf", 22.0f); // Kendi ana fontunuzu yükle
+		ImFont* mainFont = io.Fonts->AddFontFromFileTTF("Resources/fonts/Oswald-Medium.ttf", 22.0f); // Kendi ana fontunuzu yükle
 		ImFontConfig fontConfig;
 		fontConfig.MergeMode = true;
 		static const ImWchar iconRanges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
-		io.Fonts->AddFontFromFileTTF("Editor/Resources/fonts/fa-solid-900.ttf", 22.0f, &fontConfig, iconRanges);
+		io.Fonts->AddFontFromFileTTF("Resources/fonts/fa-solid-900.ttf", 22.0f, &fontConfig, iconRanges);
 		io.Fonts->Build();
 		ImGui::SFML::UpdateFontTexture();
 		SetupImGuiStyle();

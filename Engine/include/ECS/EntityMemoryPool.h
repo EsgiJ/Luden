@@ -20,6 +20,7 @@ namespace Luden
 	using PoolIndex = std::size_t;
 
 	using EntityComponentVectorTuple = std::tuple<
+		std::vector<Luden::RelationshipComponent>,
 		std::vector<Luden::DamageComponent>,
 		std::vector<Luden::DraggableComponent>,
 		std::vector<Luden::FollowPLayerComponent>,

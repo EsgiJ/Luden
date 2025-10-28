@@ -65,7 +65,7 @@ namespace Luden
 
 		static std::shared_ptr<Texture> LoadTexture(const std::filesystem::path& relativePath, const std::string& name)
 		{
-			std::filesystem::path path = std::filesystem::path("Editor\\Resources") / relativePath;
+			std::filesystem::path path = std::filesystem::path("Resources") / relativePath;
 
 			if (!FileSystem::Exists(path))
 			{

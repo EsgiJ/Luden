@@ -77,7 +77,7 @@ if exist "extern\nfd" (
     git -C "extern\nfd" pull
 ) else (
     echo Cloning nativefiledialog-extended...
-    git clone https://github.com/mlabbe/nativefiledialog-extended.git "extern\nfd"
+    git clone https://github.com/btzy/nativefiledialog-extended "extern\nfd"
 )
 
 echo.

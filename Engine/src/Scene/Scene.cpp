@@ -157,6 +157,19 @@ namespace Luden {
 		return m_EntityManager.AddEntity(tag);
 	}
 
+	Entity Scene::CreateChildEntity(Entity parent, const std::string& name)
+	{
+		auto childEntity = m_EntityManager.AddEntity(name);
+		childEntity.Add<TransformComponent>();
+
+		childEntity.Add<RelationshipComponent>();
+
+		if (parent.IsValid())
+			childEntity.SetParent(parent);
+
+		return childEntity;
+	}
+
 	Entity Scene::DuplicateEntity(const Entity& entity) 
 	{
 		Entity copy = m_EntityManager.AddEntity(entity.Tag() + "_copy");

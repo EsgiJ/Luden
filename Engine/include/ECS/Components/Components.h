@@ -9,6 +9,16 @@
 
 namespace Luden
 {
+	struct ENGINE_API RelationshipComponent : public IComponent
+	{
+		UUID ParentHandle;
+		std::vector<UUID> Children;
+
+		RelationshipComponent() = default;
+		RelationshipComponent(const RelationshipComponent& other) = default;
+		RelationshipComponent(UUID parent)
+			: ParentHandle(parent) {}
+	};
 	struct ENGINE_API DamageComponent : public IComponent 
 	{
 	public:
