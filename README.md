@@ -57,9 +57,3 @@ After a successful build, binaries are located under:
 - Engine: bin/Debug-windows-x86_64/Engine/Engine.exe
 
 Launch the Editor to create or modify scenes, or run the Game to test the example project.
-
-## About Luden Engine
-
-Luden Engine is a lightweight 2D game engine built from scratch in C++.
-It features a fully custom Entity-Component System (ECS), an ImGui powered editor inspired by modern engines like Unity and Unreal.
-The engine focuses on flexibility, performance, and data-oriented design.
