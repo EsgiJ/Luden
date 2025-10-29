@@ -1,49 +1,59 @@
 # Luden Engine
 
-This repository contains a small C++ game engine along with a simple editor and demo game. The build configuration is driven by [Premake](https://premake.github.io/).
+**Luden Engine** is a lightweight 2D game engine built in modern **C++20**, featuring a custom **Entity–Component System (ECS)**, real-time **ImGui editor**, resource management and scene serialization.  
+It’s designed to be data-driven, and easy to extend, ideal for learning engine architecture or building small 2D games from scratch.
+
+---
 
 ## Repository Layout
-
-- **Engine/** – Core engine source and headers.
-- **Editor/** – GUI editor built on the engine.
-- **Game/** – Minimal example game using the engine.
-- **Tools/** – Python utilities used during the build (reflection, version headers).
-- **extern/** – Third‑party libraries (e.g. RTTR, SFML, ImGui). Most are ignored by Git and must be installed separately.
-- **premake5.lua** – Build script used by Premake.
-- **premake5.exe** – Windows build of Premake 5 for convenience.
+Engine/ – Core engine source and headers
+Editor/ – ImGui-based scene editor built on the engine
+MyGame/ – Minimal example game using the engine
+extern/ – Third-party dependencies (SFML, ImGui, etc.)
+premake5.lua – Premake build configuration script
+setup-extern.bat – Downloads and sets up external dependencies
+generate.bat – Generates Visual Studio solution files using Premake
 
 ## Prerequisites
 
-1. C++20 capable compiler (Visual Studio 2022, clang, or gcc).
-2. [Premake 5](https://premake.github.io/) in your `PATH` (or use the provided `premake5.exe` on Windows).
-3. [SFML](https://www.sfml-dev.org/) development libraries.
-4. Python 3 for the helper scripts under `Tools/`.
-5. Clone submodules and acquire additional dependencies (ImGui, ImGui‑SFML, sol2, etc.).
+- A **C++20-capable compiler** (Visual Studio 2022, Clang, or GCC)  
+- **Premake 5** available in your `PATH` *(or use the included `premake5.exe`)*  
+- **SFML 3.0** development libraries  
 
-```bash
-git submodule update --init --recursive
-```
+---
 
-## Generating Build Files
+## Getting Started
 
-Run Premake from the repository root. Pick the action that matches your toolchain.
+1. **Clone the repository and its submodules:**
+   ```bash
+   git clone --recursive https://github.com/yourname/LudenEngine.git
 
-```bash
-# Windows example
-premake5.exe vs2022
+2. **Run the external setup script (Windows):**
+   ```bash
+    setup-extern.bat
+   ```
+    This downloads and configures all required third-party libraries (SFML, ImGui, ImGui-SFML, nfd, etc.).
 
-# Linux/macOS example
-premake5 gmake2
-```
+3. **Generate project files:**
+     ```bash
+    generate.bat
+     ```
 
-Premake generates a Visual Studio solution or Makefiles inside the repository. Build them using your compiler or IDE of choice.
+On Windows, this creates a Visual Studio 2022 solution.
 
-## Running the Editor or Game
+Build the project using your IDE or compiler of choice.
 
-After building, executables are placed under `bin/<config>-<system>-<architecture>/`.
+## Running the Engine
 
-- **Editor:** `bin/Debug-windows-x86_64/Editor/Editor.exe` (or the corresponding path for your platform).
-- **Game:** `bin/Debug-windows-x86_64/Game/Game.exe`.
+After a successful build, binaries are located under:
+     ```
+    bin/<config>-<system>-<architecture>/
+     ```
 
-Launch the editor to create or modify scenes, or run the demo game directly.
+**Examples:**
 
+- Editor: bin/Debug-windows-x86_64/Editor/Editor.exe
+
+- Engine: bin/Debug-windows-x86_64/Engine/Engine.exe
+
+Launch the Editor to create or modify scenes, or run the Game to test the example project.
