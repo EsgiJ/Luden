@@ -5,7 +5,7 @@
 #include "ECS/EntityManager.h"
 #include "ECS/Entity.h"
 #include "Input/Action.h"
-#include "Math/Vec2.h"
+#include <glm/vec2.hpp>
 #include "Resource/Resource.h"
 #include "Core/UUID.h"
 #include "Core/TimeStep.h"
@@ -82,7 +82,7 @@ namespace Luden {
 		float Height() const;
 
 		// Utils
-		void DrawLine(const Math::Vec2& p1, const Math::Vec2& p2);
+		void DrawLine(const glm::vec2& p1, const glm::vec2& p2);
 		std::unordered_set<ResourceHandle> GetResourceList();
 
 		// Metadata

@@ -310,7 +310,7 @@ namespace Luden {
 	}
 
 	// Utils
-	void Scene::DrawLine(const Math::Vec2& p1, const Math::Vec2& p2) 
+	void Scene::DrawLine(const glm::vec2& p1, const glm::vec2& p2) 
 	{
 		sf::Vertex line[] = {
 			sf::Vertex(sf::Vector2f(p1.x, p1.y)),

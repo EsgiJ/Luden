@@ -44,15 +44,6 @@ if exist "extern\ImGui-SFML" (
     git clone https://github.com/SFML/imgui-sfml.git "extern\ImGui-SFML"
 )
 
-REM --- Sol2 ---
-if exist "extern\sol2" (
-    echo extern\sol2 already exists, pulling latest...
-    git -C "extern\sol2" pull
-) else (
-    echo Cloning Sol2...
-    git clone https://github.com/eliasdaler/sol2.git "extern\sol2"
-)
-
 REM --- JSON ---
 if exist "extern\json" (
     echo extern\json already exists, pulling latest...
@@ -78,6 +69,15 @@ if exist "extern\nfd" (
 ) else (
     echo Cloning nativefiledialog-extended...
     git clone https://github.com/btzy/nativefiledialog-extended "extern\nfd"
+)
+
+REM --- GLM ---
+if exist "extern\glm" (
+	echo extern\glm already exists, pulling latest...
+	git -C "extern\glm" pull
+) else (
+	echo Cloning glm...
+	git clone https://github.com/g-truc/glm.git "extern\glm"
 )
 
 echo.

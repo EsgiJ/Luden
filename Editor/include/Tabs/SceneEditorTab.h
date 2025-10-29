@@ -8,6 +8,7 @@
 #include "Scene/Scene.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
+#include <glm/vec2.hpp>
 
 namespace Luden
 {
@@ -44,7 +45,7 @@ namespace Luden
 
 		void ShowToolbarPlayPause();
 
-		ImVec2 WorldToScreen(const Math::Vec2& worldPos);
+		glm::vec2 WorldToScreen(const glm::vec2& worldPos);
 		void DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity);
 		void DrawGizmo(ImDrawList* drawList, Entity entity, ToolbarPanel::Tool tool);
 	private:

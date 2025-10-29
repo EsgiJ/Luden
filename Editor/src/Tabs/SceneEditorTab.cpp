@@ -182,7 +182,8 @@ namespace Luden
 							if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
 							{
 								auto& transformComponent = entity.Get<TransformComponent>();
-								ImVec2 minPos = WorldToScreen(transformComponent.pos);
+								glm::vec2 tempPos = WorldToScreen(transformComponent.pos);
+								ImVec2 minPos = ImVec2(tempPos.x, tempPos.y);
 
 								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
 								ImVec2 size = ImVec2(boxComponent.size.x, boxComponent.size.y);
@@ -450,7 +451,7 @@ namespace Luden
 		ImGui::PopStyleColor(3);
 	}
 
-	ImVec2 SceneEditorTab::WorldToScreen(const Math::Vec2& worldPos)
+	glm::vec2 SceneEditorTab::WorldToScreen(const glm::vec2& worldPos)
 	{
 		sf::Vector2f sfWorldPos(worldPos.x, worldPos.y);
 		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos);
@@ -470,20 +471,21 @@ namespace Luden
 		if (!texture) return;
 
 		sf::Vector2u texSize = texture->GetTexture().getSize();
-		Math::Vec2 scaledSize = { texSize.x * transform.scale.x, texSize.y * transform.scale.y };
+		glm::vec2 scaledSize = { texSize.x * transform.scale.x, texSize.y * transform.scale.y };
 
 
-		Math::Vec2 worldCorners[] = {
+		glm::vec2 worldCorners[] = {
 			transform.pos,                                         
-			transform.pos + Math::Vec2(scaledSize.x, 0),           
+			transform.pos + glm::vec2(scaledSize.x, 0),           
 			transform.pos + scaledSize,                            
-			transform.pos + Math::Vec2(0, scaledSize.y)            
+			transform.pos + glm::vec2(0, scaledSize.y)            
 		};
 
 		ImVec2 screenCorners[4];
 		for (int i = 0; i < 4; ++i)
 		{
-			screenCorners[i] = WorldToScreen(worldCorners[i]);
+			glm::vec2 tempPos = WorldToScreen(worldCorners[i]);
+			screenCorners[i] = ImVec2(tempPos.x, tempPos.y);
 		}
 
 		ImU32 color = IM_COL32(255, 255, 0, 255); 
@@ -502,7 +504,7 @@ namespace Luden
 
 		auto& transform = entity.Get<TransformComponent>();
 
-		Math::Vec2 centerWorldPos = transform.pos;
+		glm::vec2 centerWorldPos = transform.pos;
 		if (entity.Has<TextureComponent>())
 		{
 			auto& textureComp = entity.Get<TextureComponent>();
@@ -513,8 +515,8 @@ namespace Luden
 				centerWorldPos.y += texture->GetTexture().getSize().y * transform.scale.y / 2.0f;
 			}
 		}
-
-		ImVec2 center = WorldToScreen(centerWorldPos);
+		glm::vec2 tempPos = WorldToScreen(centerWorldPos);
+		ImVec2 center = ImVec2(tempPos.x, tempPos.y);
 
 		const float axisLength = 50.0f;
 		const float thickness = 3.0f;

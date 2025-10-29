@@ -4,7 +4,7 @@
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
-#include "Math/Vec2.h"
+#include <glm/vec2.hpp>
 #include "Reflection/ReflectionMacros.h"
 
 namespace Luden
@@ -42,12 +42,12 @@ namespace Luden
 	struct ENGINE_API FollowPLayerComponent : public IComponent
 	{
 	public:
-		Math::Vec2 home = { 0.0f, 0.0f };
+		glm::vec2 home = { 0.0f, 0.0f };
 		float speed = 0.0f;
 
 		FollowPLayerComponent() = default;
 
-		FollowPLayerComponent(Math::Vec2 p, float s) : home(p), speed(s) {}
+		FollowPLayerComponent(glm::vec2 p, float s) : home(p), speed(s) {}
 	};
 
 	struct ENGINE_API GravityComponent : public IComponent
@@ -90,16 +90,16 @@ namespace Luden
 	struct ENGINE_API BoxCollider2DComponent : public IComponent
 	{
 	public:
-		Math::Vec2 size;
-		Math::Vec2 halfSize;
-		Math::Vec2 center;
-		Math::Vec2 prevCenter;
+		glm::vec2 size;
+		glm::vec2 halfSize;
+		glm::vec2 center;
+		glm::vec2 prevCenter;
 		bool blockMove = false;
 		bool blockVision = false;
 
 		BoxCollider2DComponent() = default;
 
-		BoxCollider2DComponent(const Math::Vec2& c, const Math::Vec2& s, bool m, bool v)
+		BoxCollider2DComponent(const glm::vec2& c, const glm::vec2& s, bool m, bool v)
 			: size(s), halfSize(s.x / 2.0f, s.y / 2.0f), center(c), prevCenter(c), blockMove(m), blockVision(v) {}
 	};
 
@@ -161,13 +161,13 @@ namespace Luden
 	struct ENGINE_API PatrolComponent : public IComponent
 	{
 	public:
-		std::vector<Math::Vec2> positions;
+		std::vector<glm::vec2> positions;
 		size_t currentPosition = 0;
 		float speed = 0;
 
 		PatrolComponent() = default;
 
-		PatrolComponent(std::vector<Math::Vec2>& pos, float s) : positions(pos), speed(s) {}
+		PatrolComponent(std::vector<glm::vec2>& pos, float s) : positions(pos), speed(s) {}
 	};
 
 	struct ENGINE_API StateComponent : public IComponent
@@ -185,18 +185,18 @@ namespace Luden
 	struct ENGINE_API TransformComponent : public IComponent
 	{
 	public:
-		Math::Vec2 pos = { 0.0f, 0.0f };
-		Math::Vec2 prevPos = { 0.0f, 0.0f };
-		Math::Vec2 velocity = { 0.0f, 0.0f };
-		Math::Vec2 scale = { 1.0f, 1.0f };
-		Math::Vec2 facing = { 0.0f, 1.0f };
+		glm::vec2 pos = { 0.0f, 0.0f };
+		glm::vec2 prevPos = { 0.0f, 0.0f };
+		glm::vec2 velocity = { 0.0f, 0.0f };
+		glm::vec2 scale = { 1.0f, 1.0f };
+		glm::vec2 facing = { 0.0f, 1.0f };
 		float angle = 0;
 
 		TransformComponent() = default;
 
-		explicit TransformComponent(const Math::Vec2& p) : pos(p) {}
+		explicit TransformComponent(const glm::vec2& p) : pos(p) {}
 
-		TransformComponent(const Math::Vec2& p, const Math::Vec2& speed, const Math::Vec2& s, float a)
+		TransformComponent(const glm::vec2& p, const glm::vec2& speed, const glm::vec2& s, float a)
 			: pos(p), prevPos(p), velocity(speed), scale(s), angle(a) {}
 	};
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineAPI.h"
-#include "Math/Vec2.h"
+#include <glm/vec2.hpp>
 #include "Reflection/ReflectionMacros.h"
 #include "Resource/Resource.h"
 #include "Graphics/Texture.h"
@@ -29,8 +29,8 @@ namespace Luden::Graphics
 		const std::string& GetName() const { return m_Name; }
 		void SetName(const std::string& name) { m_Name = name; }
 
-		const Math::Vec2& GetSize() const { return m_Size; }
-		void SetSize(const Math::Vec2& size) { m_Size = size; }
+		const glm::vec2& GetSize() const { return m_Size; }
+		void SetSize(const glm::vec2& size) { m_Size = size; }
 
 		const ResourceHandle& GetTextureHandle() const { return m_TextureHandle; }
 		ResourceHandle GetTextureHandle() { return m_TextureHandle; }
@@ -44,7 +44,7 @@ namespace Luden::Graphics
 	private:
 		sf::Sprite m_Sprite;
 		size_t m_FrameCount = 1;
-		Math::Vec2 m_Size = { 1, 1 };
+		glm::vec2 m_Size = { 1, 1 };
 		std::string m_Name = "None";
 		ResourceHandle m_TextureHandle;
 	};

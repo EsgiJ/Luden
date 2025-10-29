@@ -5,35 +5,35 @@
 
 namespace Luden
 {
-	Math::Vec2 Physics::GetOverlap(const Entity& a, const Entity& b)
+	glm::vec2 Physics::GetOverlap(const Entity& a, const Entity& b)
 	{
-		Math::Vec2 posA = a.Get<TransformComponent>().pos;
-		Math::Vec2 posB = b.Get<TransformComponent>().pos;
-		Math::Vec2 halfA = a.Get<BoxCollider2DComponent>().halfSize;
-		Math::Vec2 halfB = b.Get<BoxCollider2DComponent>().halfSize;
+		glm::vec2 posA = a.Get<TransformComponent>().pos;
+		glm::vec2 posB = b.Get<TransformComponent>().pos;
+		glm::vec2 halfA = a.Get<BoxCollider2DComponent>().halfSize;
+		glm::vec2 halfB = b.Get<BoxCollider2DComponent>().halfSize;
 
-		Math::Vec2 delta{ std::abs(posA.x - posB.x), std::abs(posA.y - posB.y) };
+		glm::vec2 delta{ std::abs(posA.x - posB.x), std::abs(posA.y - posB.y) };
 		return halfA + halfB - delta;
 	}
 
-	Math::Vec2 Physics::GetPreviousOverlap(const Entity& a, const Entity& b)
+	glm::vec2 Physics::GetPreviousOverlap(const Entity& a, const Entity& b)
 	{
-		Math::Vec2 posA = a.Get<TransformComponent>().prevPos;
-		Math::Vec2 posB = b.Get<TransformComponent>().prevPos;
-		Math::Vec2 halfA = a.Get<BoxCollider2DComponent>().halfSize;
-		Math::Vec2 halfB = b.Get<BoxCollider2DComponent>().halfSize;
+		glm::vec2 posA = a.Get<TransformComponent>().prevPos;
+		glm::vec2 posB = b.Get<TransformComponent>().prevPos;
+		glm::vec2 halfA = a.Get<BoxCollider2DComponent>().halfSize;
+		glm::vec2 halfB = b.Get<BoxCollider2DComponent>().halfSize;
 
-		Math::Vec2 delta{ std::abs(posA.x - posB.x), std::abs(posA.y - posB.y) };
+		glm::vec2 delta{ std::abs(posA.x - posB.x), std::abs(posA.y - posB.y) };
 		return halfA + halfB - delta;
 	}
 
-	bool Physics::IsInside(const Math::Vec2& pos, const Entity& entity)
+	bool Physics::IsInside(const glm::vec2& pos, const Entity& entity)
 	{
 		auto cAnim = entity.Get<Animation2DComponent>();
 		auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(cAnim.animationHandle));
 
-		Math::Vec2 size = anim->GetSize();
-		Math::Vec2 ePos = entity.Get<TransformComponent>().pos;
+		glm::vec2 size = anim->GetSize();
+		glm::vec2 ePos = entity.Get<TransformComponent>().pos;
 
 		return (pos.x > ePos.x - size.x / 2 && 
 				pos.x < ePos.x + size.x / 2 &&
@@ -42,15 +42,15 @@ namespace Luden
 			);
 	}
 
-	Intersect Physics::LineIntersect(const Math::Vec2& a, const Math::Vec2& b, const Math::Vec2& c, const Math::Vec2& d)
+	Intersect Physics::LineIntersect(const glm::vec2& a, const glm::vec2& b, const glm::vec2& c, const glm::vec2& d)
 	{
-		Math::Vec2 r = b - a;
-		Math::Vec2 s = d - c;
+		glm::vec2 r = b - a;
+		glm::vec2 s = d - c;
 		float rxs = r.x * s.y - r.y * s.x;
-		Math::Vec2 cma = c - a;
+		glm::vec2 cma = c - a;
 
 		if (rxs == 0.0f)
-			return { false, Math::Vec2(0, 0) };
+			return { false, glm::vec2(0, 0) };
 
 		float t = (cma.x * s.y - cma.y * s.x) / rxs;
 		float u = (cma.x * r.y - cma.y * r.x) / rxs;
@@ -58,18 +58,18 @@ namespace Luden
 		if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
 			return { true, a + t * r };
 		else
-			return { false, Math::Vec2(0, 0) };
+			return { false, glm::vec2(0, 0) };
 	}
 
-	bool Physics::EntityIntersect(const Math::Vec2& a, const Math::Vec2& b, const Entity& entity)
+	bool Physics::EntityIntersect(const glm::vec2& a, const glm::vec2& b, const Entity& entity)
 	{
 		auto boxC = entity.Get<BoxCollider2DComponent>().center;
 		auto box = entity.Get<BoxCollider2DComponent>().halfSize;
 
-		Math::Vec2 e1{ boxC.x - box.x, boxC.y - box.y };
-		Math::Vec2 e2{ boxC.x + box.x, boxC.y - box.y };
-		Math::Vec2 e3{ boxC.x + box.x, boxC.y + box.y };
-		Math::Vec2 e4{ boxC.x - box.x, boxC.y + box.y };
+		glm::vec2 e1{ boxC.x - box.x, boxC.y - box.y };
+		glm::vec2 e2{ boxC.x + box.x, boxC.y - box.y };
+		glm::vec2 e3{ boxC.x + box.x, boxC.y + box.y };
+		glm::vec2 e4{ boxC.x - box.x, boxC.y + box.y };
 
 		return LineIntersect(a, b, e1, e2).hit ||
 			   LineIntersect(a, b, e2, e3).hit ||
@@ -77,11 +77,11 @@ namespace Luden
 			   LineIntersect(a, b, e4, e1).hit;
 	}
 
-	RectOverlap Physics::AIsNearB(const Entity& a, const Entity& b, const Math::Vec2& maxDist)
+	RectOverlap Physics::AIsNearB(const Entity& a, const Entity& b, const glm::vec2& maxDist)
 	{
 		ODirection dir = ODirection::NONE;
-		Math::Vec2 overlap = GetOverlap(a, b);
-		Math::Vec2 prevOverlap = GetPreviousOverlap(a, b);
+		glm::vec2 overlap = GetOverlap(a, b);
+		glm::vec2 prevOverlap = GetPreviousOverlap(a, b);
 
 		float dy = b.Get<TransformComponent>().pos.y - a.Get<TransformComponent>().pos.y;
 		if (overlap.x > 0 && overlap.y > 0 && -maxDist.y < overlap.y && prevOverlap.y <= 0)
@@ -98,9 +98,9 @@ namespace Luden
 		return { dir, overlap };
 	}
 
-	Math::Vec2 Physics::GetSpeedAB(const Math::Vec2& posA, const Math::Vec2& posB, float speed)
+	glm::vec2 Physics::GetSpeedAB(const glm::vec2& posA, const glm::vec2& posB, float speed)
 	{
 		float theta = std::atan2(posB.y - posA.y, posB.x - posA.x);
-		return Math::Vec2(speed * std::cos(theta), speed * std::sin(theta));
+		return glm::vec2(speed * std::cos(theta), speed * std::sin(theta));
 	}
 }

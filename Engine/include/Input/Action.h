@@ -3,7 +3,7 @@
 #include <string>
 
 #include "EngineAPI.h"
-#include "Math/Vec2.h"
+#include <glm/vec2.hpp>
 #include "Reflection/ReflectionMacros.h"
 
 namespace Luden {
@@ -13,17 +13,17 @@ namespace Luden {
 	private:
 		std::string m_Name;
 		std::string m_Type;
-		Math::Vec2 m_Pos = { 0.0f, 0.0f };
+		glm::vec2 m_Pos = { 0.0f, 0.0f };
 
 	public:
 		Action() = default;
 		Action(std::string name, std::string type);
-		Action(std::string name, Math::Vec2 pos);
-		Action(std::string name, std::string type, Math::Vec2 pos);
+		Action(std::string name, glm::vec2 pos);
+		Action(std::string name, std::string type, glm::vec2 pos);
 
 		[[nodiscard]] const std::string& Name() const;
 		[[nodiscard]] const std::string& Type() const;
-		[[nodiscard]] const Math::Vec2& Pos() const;
+		[[nodiscard]] const glm::vec2& Pos() const;
 
 		[[nodiscard]] std::string ToString() const;
 	};

@@ -24,7 +24,7 @@ namespace Luden::Graphics
 		, m_FrameCount(frameCount)
 	{
 		auto texture = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(textureHandle));
-		m_Size = Math::Vec2(
+		m_Size = glm::vec2(
 			static_cast<float>(texture->GetTexture().getSize().x) / static_cast<float>(frameCount),
 			static_cast<float>(texture->GetTexture().getSize().y)
 		);

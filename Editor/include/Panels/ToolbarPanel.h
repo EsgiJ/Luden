@@ -43,7 +43,7 @@ namespace Luden
 		void ShowToolbar();
 		void HandlePickEntityWithMouse();
 
-		Math::Vec2 GetMouseDelta();
+		glm::vec2 GetMouseDelta();
 
 		void Moving();
 		void Scaling();
@@ -83,7 +83,7 @@ namespace Luden
 
 		bool* m_ViewportHovered = nullptr;
 
-		Math::Vec2 m_MouseStart;
+		glm::vec2 m_MouseStart;
 		bool m_ToolStart = false;
 		bool m_ToolUsing = false;
 

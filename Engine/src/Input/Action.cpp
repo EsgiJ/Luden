@@ -8,11 +8,11 @@ namespace Luden {
 		: m_Name(std::move(name)), m_Type(std::move(type)) {
 	}
 
-	Action::Action(std::string name, Math::Vec2 pos)
+	Action::Action(std::string name, glm::vec2 pos)
 		: m_Name(std::move(name)), m_Pos(pos) {
 	}
 
-	Action::Action(std::string name, std::string type, Math::Vec2 pos)
+	Action::Action(std::string name, std::string type, glm::vec2 pos)
 		: m_Name(std::move(name)), m_Type(std::move(type)), m_Pos(pos) {
 	}
 
@@ -24,7 +24,7 @@ namespace Luden {
 		return m_Type;
 	}
 
-	const Math::Vec2& Action::Pos() const {
+	const glm::vec2& Action::Pos() const {
 		return m_Pos;
 	}
 

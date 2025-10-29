@@ -4,14 +4,14 @@
 
 #include "ECS/Entity.h"
 #include "EngineAPI.h"
-#include "Math/Vec2.h"
+#include <glm/vec2.hpp>
 
 namespace Luden
 {
 	struct ENGINE_API Intersect
 	{
 		bool hit = false;
-		Math::Vec2 position = { 0.0f, 0.0f };
+		glm::vec2 position = { 0.0f, 0.0f };
 	};
 
 	enum struct ODirection 
@@ -26,24 +26,24 @@ namespace Luden
 	struct ENGINE_API RectOverlap 
 	{
 		ODirection m_Direction = ODirection::NONE;
-		Math::Vec2 m_Overlap = { 0.0f, 0.0f };
+		glm::vec2 m_Overlap = { 0.0f, 0.0f };
 	};
 
 	class ENGINE_API Physics
 	{
 	public:
-		static Math::Vec2 GetOverlap(const Entity& a, const Entity& b);
+		static glm::vec2 GetOverlap(const Entity& a, const Entity& b);
 
-		static Math::Vec2 GetPreviousOverlap(const Entity& a, const Entity& b);
+		static glm::vec2 GetPreviousOverlap(const Entity& a, const Entity& b);
 
-		static bool IsInside(const Math::Vec2& pos, const Entity& entity);
+		static bool IsInside(const glm::vec2& pos, const Entity& entity);
 
-		static Intersect LineIntersect(const Math::Vec2& a, const Math::Vec2& b, const Math::Vec2& c, const Math::Vec2& d);
+		static Intersect LineIntersect(const glm::vec2& a, const glm::vec2& b, const glm::vec2& c, const glm::vec2& d);
 
-		static bool EntityIntersect(const Math::Vec2& a, const Math::Vec2& b, const Entity& entity);
+		static bool EntityIntersect(const glm::vec2& a, const glm::vec2& b, const Entity& entity);
 
-		static RectOverlap AIsNearB(const Entity& a, const Entity& b, const Math::Vec2& maxDist);
+		static RectOverlap AIsNearB(const Entity& a, const Entity& b, const glm::vec2& maxDist);
 
-		static Math::Vec2 GetSpeedAB(const Math::Vec2& posA, const Math::Vec2& posB, float speed);
+		static glm::vec2 GetSpeedAB(const glm::vec2& posA, const glm::vec2& posB, float speed);
 	};
 }

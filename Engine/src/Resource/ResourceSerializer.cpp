@@ -269,7 +269,7 @@ namespace Luden
 
 		std::string name = j["Name"];
 		size_t frameCount = j["FrameCount"];
-		Math::Vec2 size = { j["Size"][0], j["Size"][1] };
+		glm::vec2 size = { j["Size"][0], j["Size"][1] };
 		ResourceHandle textureHandle = j["TextureHandle"].get<uint64_t>();
 
 		anim->SetName(name);

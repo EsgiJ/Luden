@@ -122,7 +122,7 @@ namespace Luden {
 	{
 		if (m_ToolStart) 
 		{
-			m_MouseStart = Math::Vec2((float)move.position.x, (float)move.position.y);
+			m_MouseStart = glm::vec2((float)move.position.x, (float)move.position.y);
 			m_ToolStart = false;
 		}
 		return false;
@@ -368,10 +368,10 @@ namespace Luden {
 			if (texture == nullptr)
 				continue;
 
-			Math::Vec2 min = transformComponent.pos;
+			glm::vec2 min = transformComponent.pos;
 
 			sf::Vector2u textureSize = texture->GetTexture().getSize();
-			Math::Vec2 max = transformComponent.pos + Math::Vec2(static_cast<float>(textureSize.x), static_cast<float>(textureSize.y));
+			glm::vec2 max = transformComponent.pos + glm::vec2(static_cast<float>(textureSize.x), static_cast<float>(textureSize.y));
 
 			if (mousePos.x > min.x && mousePos.x < max.x && mousePos.y > min.y && mousePos.y < max.y)
 			{
@@ -388,14 +388,14 @@ namespace Luden {
 		m_ToolUsing = false;
 	}
 
-	Math::Vec2 ToolbarPanel::GetMouseDelta()
+	glm::vec2 ToolbarPanel::GetMouseDelta()
 	{
 		sf::Vector2i pixel = sf::Mouse::getPosition();
 		sf::Vector2f world = m_RenderWindow->mapPixelToCoords(pixel, m_RenderWindow->getView());
 
-		Math::Vec2 currentPos(world.x, world.y);
+		glm::vec2 currentPos(world.x, world.y);
 
-		Math::Vec2 diff = currentPos - m_MouseStart;
+		glm::vec2 diff = currentPos - m_MouseStart;
 
 		m_MouseStart = currentPos;
 
@@ -410,9 +410,9 @@ namespace Luden {
 
 		if (m_SceneHierarchyPanel->IsSelectedEntityValid())
 		{
-			Math::Vec2 diff = GetMouseDelta();
+			glm::vec2 diff = GetMouseDelta();
 
-			Math::Vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().pos;
+			glm::vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().pos;
 
 			if (!m_IsSnapEnabled)
 			{
@@ -450,9 +450,9 @@ namespace Luden {
 
 		if (m_SceneHierarchyPanel->IsSelectedEntityValid()) 
 		{
-			Math::Vec2 diff = GetMouseDelta();
+			glm::vec2 diff = GetMouseDelta();
 
-			Math::Vec2& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().scale;
+			glm::vec2& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().scale;
 
 			if (!m_IsSnapScaleEnabled)
 			{
@@ -492,12 +492,12 @@ namespace Luden {
 
 		if (m_SceneHierarchyPanel->IsSelectedEntityValid())
 		{
-			Math::Vec2 diff = GetMouseDelta();
+			glm::vec2 diff = GetMouseDelta();
 
 			float rotationDirection = (diff.x - diff.y > 0) ? 1.0f : -1.0f;
 
 			const float sensitivity = 0.05f;
-			float rotationAngle = diff.Length() * rotationDirection * sensitivity;
+			float rotationAngle = diff.length() * rotationDirection * sensitivity;
 
 			auto& transform = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>();
 

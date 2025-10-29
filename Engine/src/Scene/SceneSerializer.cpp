@@ -243,7 +243,7 @@ namespace Luden
 			if (jEntity.contains("FollowPLayerComponent"))
 			{
 				auto p = jEntity["FollowPLayerComponent"]["home"];
-				e.Add<FollowPLayerComponent>(Math::Vec2(p[0], p[1]), jEntity["FollowPLayerComponent"]["speed"]);
+				e.Add<FollowPLayerComponent>(glm::vec2(p[0], p[1]), jEntity["FollowPLayerComponent"]["speed"]);
 			}
 
 			if (jEntity.contains("GravityComponent"))
@@ -274,8 +274,8 @@ namespace Luden
 				auto size = jEntity["BoxCollider2DComponent"]["size"];
 				auto center = jEntity["BoxCollider2DComponent"]["center"];
 				e.Add<BoxCollider2DComponent>(
-					Math::Vec2(center[0], center[1]),
-					Math::Vec2(size[0], size[1]),
+					glm::vec2(center[0], center[1]),
+					glm::vec2(size[0], size[1]),
 					jEntity["BoxCollider2DComponent"]["blockMove"],
 					jEntity["BoxCollider2DComponent"]["blockVision"]
 				);
@@ -293,7 +293,7 @@ namespace Luden
 
 			if (jEntity.contains("PatrolComponent"))
 			{
-				std::vector<Math::Vec2> points;
+				std::vector<glm::vec2> points;
 				for (const auto& p : jEntity["PatrolComponent"]["positions"])
 					points.emplace_back(p[0], p[1]);
 
@@ -319,9 +319,9 @@ namespace Luden
 				auto scale = jEntity["TransformComponent"]["scale"];
 				auto facing = jEntity["TransformComponent"]["facing"];
 				e.Add<TransformComponent>(
-					Math::Vec2(pos[0], pos[1]),
-					Math::Vec2(velocity[0], velocity[1]),
-					Math::Vec2(scale[0], scale[1]),
+					glm::vec2(pos[0], pos[1]),
+					glm::vec2(velocity[0], velocity[1]),
+					glm::vec2(scale[0], scale[1]),
 					jEntity["TransformComponent"]["angle"]
 				);
 				auto& c = e.Get<TransformComponent>();
