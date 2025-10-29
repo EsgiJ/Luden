@@ -162,7 +162,8 @@ namespace Luden
 		if (m_SelectedEntity == entity)
 			flags |= ImGuiTreeNodeFlags_Selected;
 
-		bool isNodeOpen = ImGui::TreeNodeEx((void*)(uint64_t)entity.UUID(), flags, "%s", entity.Tag().c_str());
+		const char* icon = ICON_FA_CIRCLE;
+		bool isNodeOpen = ImGui::TreeNodeEx((void*)(uint64_t)entity.UUID(), flags, "%s %s", icon, entity.Tag().c_str());
 
 		if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
 		{
@@ -202,14 +203,16 @@ namespace Luden
 
 		if (ImGui::BeginPopup("SHCM"))
 		{
-			SetSelectedEntity(entity); 
+			SetSelectedEntity(entity);
+			ImGui::Text("%s %s", ICON_FA_CUBE, entity.Tag().c_str());
+			ImGui::Separator();
 
-			if (ImGui::MenuItem("Create Child Entity"))
+			if (ImGui::MenuItem(ICON_FA_PLUS " Create Child"))
 			{
 				Entity newChild = m_Context->CreateChildEntity(entity, "New Child Entity");
 				m_SelectedEntity = newChild;
 			}
-			if (ImGui::MenuItem("Delete Entity"))
+			if (ImGui::MenuItem(ICON_FA_TRASH " Delete"))
 			{
 				m_Context->DestroyEntity(entity);
 				m_SelectedEntity = {};
