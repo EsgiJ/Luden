@@ -80,6 +80,15 @@ if exist "extern\glm" (
 	git clone https://github.com/g-truc/glm.git "extern\glm"
 )
 
+REM --- Box2D ---
+if exist "extern\Box2D" (
+	echo extern\Box2D already exists, pulling latest...
+	git -C "extern\Box2D" pull
+) else (
+	echo Cloning Box2D...
+	git clone https://github.com/erincatto/box2d.git "extern\Box2D"
+)
+
 echo.
 echo === Building SFML ===
 if not exist "%SFML_BUILD_DIR%" mkdir "%SFML_BUILD_DIR%"
@@ -88,6 +97,21 @@ pushd "%SFML_BUILD_DIR%"
 for %%C in (%CONFIGS%) do (
     echo Building %%C configuration...
     cmake .. -G "Visual Studio 17 2022" -A %PLATFORM% -DCMAKE_BUILD_TYPE=%%C -DBUILD_SHARED_LIBS=ON
+    cmake --build . --config %%C
+)
+
+popd
+
+echo.
+echo === Building Box2D (Static Library) ===
+set BOX2D_DIR=extern\Box2D
+set BOX2D_BUILD_DIR=%BOX2D_DIR%\build
+if not exist "%BOX2D_BUILD_DIR%" mkdir "%BOX2D_BUILD_DIR%"
+pushd "%BOX2D_BUILD_DIR%"
+
+for %%C in (%CONFIGS%) do (
+    echo Building Box2D %%C configuration...
+    cmake .. -G "Visual Studio 17 2022" -A %PLATFORM% -DCMAKE_BUILD_TYPE=%%C -DBUILD_SHARED_LIBS=OFF
     cmake --build . --config %%C
 )
 

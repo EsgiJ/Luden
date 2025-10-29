@@ -257,7 +257,7 @@ namespace Luden {
 	std::filesystem::path FileSystem::OpenFileDialog(const std::initializer_list<FileDialogFilterItem> inFilters)
 	{
 		NFD::UniquePath filePath;
-		nfdresult_t result = NFD::OpenDialog(filePath, (const nfdfilteritem_t*)inFilters.begin(), inFilters.size());
+		nfdresult_t result = NFD::OpenDialog(filePath, (const nfdfilteritem_t*)inFilters.begin(), (nfdfiltersize_t)inFilters.size());
 
 		switch (result)
 		{
@@ -269,6 +269,7 @@ namespace Luden {
 			return "";
 		}
 		}
+		return "";
 	}
 
 	std::filesystem::path FileSystem::OpenFolderDialog(const char* initialFolder)
@@ -286,12 +287,13 @@ namespace Luden {
 			return "";
 		}
 		}
+		return "";
 	}
 
 	std::filesystem::path FileSystem::SaveFileDialog(const std::initializer_list<FileDialogFilterItem> inFilters)
 	{
 		NFD::UniquePath filePath;
-		nfdresult_t result = NFD::SaveDialog(filePath, (const nfdfilteritem_t*)inFilters.begin(), inFilters.size());
+		nfdresult_t result = NFD::SaveDialog(filePath, (const nfdfilteritem_t*)inFilters.begin(), (nfdfiltersize_t)inFilters.size());
 
 		switch (result)
 		{
@@ -303,6 +305,7 @@ namespace Luden {
 			return "";
 		}
 		}
+		return "";
 	}
 
 	std::filesystem::path FileSystem::GetPersistentStoragePath()

@@ -53,7 +53,10 @@ namespace Luden
 		static const ImWchar iconRanges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
 		io.Fonts->AddFontFromFileTTF("Resources/fonts/fa-solid-900.ttf", 22.0f, &fontConfig, iconRanges);
 		io.Fonts->Build();
-		ImGui::SFML::UpdateFontTexture();
+		if (!ImGui::SFML::UpdateFontTexture())
+		{
+			//TODO: ASSERT Unable to update the font texture
+		}
 		SetupImGuiStyle();
 	}
 

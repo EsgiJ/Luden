@@ -136,7 +136,10 @@ namespace Luden
 			if ((int)m_ViewportSize.x != (int)m_RenderTexture->getSize().x ||
 				(int)m_ViewportSize.y != (int)m_RenderTexture->getSize().y) 
 			{
-				m_RenderTexture->resize({ (uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y });
+				if (m_RenderTexture->resize({ (uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y }))
+				{
+					//TODO: ASSERT unable to resize the render texture
+				}
 			}
 
 			if (isViewportOpen)
