@@ -24,13 +24,17 @@ namespace Luden {
 	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
 
 		OnRenderRuntime(renderTexture);
+		OnPhysics2DUpdate(ts);
 		m_EntityManager.Update(ts);
+
 		if (m_Paused)
 			return;
 
 		if (m_ShouldSimulate) {
+			//m_EntityManager.Update(ts);
 		}
 		else if (m_IsPlaying) {
+			//m_EntityManager.Update(ts);
 			// UpdateAnimation
 		}
 	}
@@ -38,6 +42,7 @@ namespace Luden {
 	void Scene::OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture)
 	{
 		OnRenderEditor(renderTexture);
+		OnPhysics2DUpdate(ts);
 		m_EntityManager.Update(ts);
 		if (m_Paused)
 			return;
@@ -145,6 +150,9 @@ namespace Luden {
 
 	void Scene::OnPhysics2DInit()
 	{
+		//TODO: Fix this hacky solution to update the entitiesToAdd
+		m_EntityManager.Update(TimeStep(0.0f));
+
 		b2WorldDef worldDef = b2DefaultWorldDef();
 		worldDef.gravity = m_Gravity;
 		m_PhysicsWorldId = b2CreateWorld(&worldDef);
@@ -236,9 +244,43 @@ namespace Luden {
 		}
 	}
 
-	void Scene::OnPhysics2DUpdate()
+	void Scene::OnPhysics2DUpdate(TimeStep ts)
 	{
+		if (!b2World_IsValid(m_PhysicsWorldId))
+			return;
 
+		b2World_Step(m_PhysicsWorldId, static_cast<float>(ts), m_SubStepCount);
+
+		for (auto& entity : m_EntityManager.GetEntities())
+		{
+			if (entity.Has<RigidBody2DComponent>() && entity.Has<TransformComponent>())
+			{
+				auto& rb2d = entity.Get<RigidBody2DComponent>();
+				auto& transform = entity.Get<TransformComponent>();
+				b2BodyId bodyId = rb2d.RuntimeBodyId; 
+
+				if (b2Body_IsValid(bodyId))
+				{
+					b2Vec2 position = b2Body_GetPosition(bodyId); 
+					b2Rot rotation = b2Body_GetRotation(bodyId);
+
+					float angle = atan2f(rotation.s, rotation.c);
+
+					transform.pos.x = position.x * m_PhysicsScale;
+					transform.pos.y = position.y * m_PhysicsScale;
+					transform.angle = glm::degrees(angle);
+				}
+			}
+		}
+	}
+
+	void Scene::OnPhysics2DStop()
+	{
+		if (b2World_IsValid(m_PhysicsWorldId))
+		{
+			b2DestroyWorld(m_PhysicsWorldId);
+			m_PhysicsWorldId = b2_nullWorldId; 
+		}
 	}
 
 	// Input

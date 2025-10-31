@@ -60,6 +60,14 @@
                 "Children": null,
                 "ParentHandle": 0
             },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 1,
+                "FixedRotation": false,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
             "Tag": "Player",
             "TextureComponent": {
                 "textureHandle": 10713380733661294664
@@ -72,7 +80,7 @@
                 ],
                 "pos": [
                     256.0,
-                    512.0
+                    -2010.6737060546875
                 ],
                 "prevPos": [
                     5.0,
@@ -118,7 +126,7 @@
                 ],
                 "pos": [
                     256.0,
-                    384.0
+                    640.0
                 ],
                 "prevPos": [
                     3.0,
@@ -381,6 +389,14 @@
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
             },
             "Tag": "TileTreeMonster5",
             "TextureComponent": {
@@ -1216,6 +1232,37 @@
                 ]
             },
             "UUID": 1026000000000000000
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 1003000000000000000
+            },
+            "Tag": "New Child Entity",
+            "TransformComponent": {
+                "angle": 0.0,
+                "facing": [
+                    0.0,
+                    1.0
+                ],
+                "pos": [
+                    0.0,
+                    0.0
+                ],
+                "prevPos": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ],
+                "velocity": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "UUID": 6525552477521242951
         }
     ],
     "Name": "Scene_Zelda",

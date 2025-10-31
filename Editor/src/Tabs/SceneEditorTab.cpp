@@ -42,16 +42,17 @@ namespace Luden
 		UUID currentSelectedEntity = m_SceneHierarchyPanel.GetSelectedEntityUUID();
 
 		m_SceneState = SceneState::Play;
-
 		/* Copy Current Editor Scene */ 
 		{
-			std::shared_ptr<Scene> new_scene = std::make_shared<Scene>();
-			SceneSerializer serializer = SceneSerializer(new_scene);
+			std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
+			SceneSerializer serializer = SceneSerializer(newScene);
 			if (serializer.Deserialize(m_ActiveScenePath.string())) {
-				m_ActiveScene = new_scene;
+				m_ActiveScene = newScene;
 				SetPanelsContext();
+				m_ActiveScene->OnPhysics2DInit();
 			}
 		}
+
 
 		m_SceneHierarchyPanel.SetSelectedEntityWithUUID(currentSelectedEntity);
 		ImGui::SetWindowFocus(m_ViewportPanelName.c_str());
@@ -61,6 +62,10 @@ namespace Luden
 	{
 		OnScenePause(false);
 
+		if (m_ActiveScene) 
+		{
+			m_ActiveScene->OnPhysics2DStop(); 
+		}
 
 		UUID currentSelectedEntity = 0;
 		if (m_SceneHierarchyPanel.IsSelectedEntityValid()) 
@@ -303,7 +308,7 @@ namespace Luden
 			m_ActiveScene->OnUpdateEditor(timestep, m_RenderTexture);
 			break;
 		case SceneState::Play:
-			m_ActiveScene->OnUpdateRuntime(timestep, m_RenderTexture);
+			m_ActiveScene->OnUpdateEditor(timestep, m_RenderTexture);
 			break;
 		}
 

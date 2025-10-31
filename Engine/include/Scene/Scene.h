@@ -40,7 +40,9 @@ namespace Luden {
 
 		//Box2D
 		void OnPhysics2DInit();
-		void OnPhysics2DUpdate();
+		void OnPhysics2DUpdate(TimeStep ts);
+		void OnPhysics2DStop();
+
 		// Input
 		void DoAction(const Action& action);
 		void RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName);
@@ -121,7 +123,7 @@ namespace Luden {
 		b2WorldId m_PhysicsWorldId = b2_nullWorldId;
 		const float m_PhysicsScale = 100.0f; // 1 meter = 100 pixel
 		const b2Vec2 m_Gravity = { 0.0f, -10.0f };
-		const int s_SubStepCount = 4; 
+		const int m_SubStepCount = 4; 
 	};
 
 }
