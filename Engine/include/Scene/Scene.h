@@ -21,6 +21,8 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 
+#include <box2d/box2d.h>
+
 namespace Luden {
 
 	using ActionMap = std::map<int, std::string>;
@@ -36,6 +38,9 @@ namespace Luden {
 		virtual void OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target);
 		virtual void OnRenderEditor(std::shared_ptr<sf::RenderTexture> target);
 
+		//Box2D
+		void OnPhysics2DInit();
+		void OnPhysics2DUpdate();
 		// Input
 		void DoAction(const Action& action);
 		void RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName);
@@ -111,6 +116,12 @@ namespace Luden {
 		uint32_t m_ViewportWidth = 0;
 		uint32_t m_ViewportHeight = 0;
 		sf::View m_View;
+
+		//Physics2D
+		b2WorldId m_PhysicsWorldId = b2_nullWorldId;
+		const float m_PhysicsScale = 100.0f; // 1 meter = 100 pixel
+		const b2Vec2 m_Gravity = { 0.0f, -10.0f };
+		const int s_SubStepCount = 4; 
 	};
 
 }

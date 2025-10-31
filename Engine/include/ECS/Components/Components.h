@@ -4,8 +4,10 @@
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
-#include <glm/vec2.hpp>
 #include "Reflection/ReflectionMacros.h"
+
+#include <glm/vec2.hpp>
+#include <box2d/box2d.h>
 
 namespace Luden
 {
@@ -96,6 +98,7 @@ namespace Luden
 		float LinearDrag = 0.01f;
 		float AngularDrag = 0.05f;
 		float GravityScale = 1.0f;
+		b2BodyId RuntimeBodyId = b2_nullBodyId;
 
 		RigidBody2DComponent() = default;
 		RigidBody2DComponent(const RigidBody2DComponent& other) = default;
@@ -109,6 +112,8 @@ namespace Luden
 		float Density = 1.0f;
 		float Friction = 1.0f;
 
+		b2ShapeId RuntimeShapeId = b2_nullShapeId;
+
 		BoxCollider2DComponent() = default;
 		BoxCollider2DComponent(const BoxCollider2DComponent& other) = default;
 	};
@@ -120,6 +125,8 @@ namespace Luden
 
 		float Density = 1.0f;
 		float Friction = 1.0f;
+
+		b2ShapeId RuntimeShapeId = b2_nullShapeId;
 
 		CircleCollider2DComponent() = default;
 		CircleCollider2DComponent(const CircleCollider2DComponent& other) = default;

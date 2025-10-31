@@ -110,6 +110,7 @@ project "Editor"
     includedirs {
         "Editor/include",
         "Engine/include",
+        "extern/Box2D/include",
         "extern/imgui",            
         "extern/ImGui-SFML",    
         "extern/glm",  

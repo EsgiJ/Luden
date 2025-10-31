@@ -1,18 +1,6 @@
 {
     "Entities": [
         {
-            "BoxCollider2DComponent": {
-                "Density": 1.0,
-                "Friction": 1.0,
-                "Offset": [
-                    0.0,
-                    0.0
-                ],
-                "Size": [
-                    64.0,
-                    64.0
-                ]
-            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0

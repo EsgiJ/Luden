@@ -2,7 +2,10 @@
 #include "Core/RuntimeApplication.h"
 #include "Project/Project.h"
 
+#include <glm/glm.hpp>
+
 #include <SFML/Graphics.hpp>
+
 #include <iostream>
 
 namespace Luden {
@@ -138,6 +141,104 @@ namespace Luden {
 
 		}
 		//TODO: Editor overlay (gizmo, bounding box, grid)
+	}
+
+	void Scene::OnPhysics2DInit()
+	{
+		b2WorldDef worldDef = b2DefaultWorldDef();
+		worldDef.gravity = m_Gravity;
+		m_PhysicsWorldId = b2CreateWorld(&worldDef);
+		
+		for (auto& entity : GetEntityManager().GetEntities())
+		{
+			if (entity.Has<RigidBody2DComponent>() && entity.Has<TransformComponent>())
+			{
+				auto& rb2d = entity.Get<RigidBody2DComponent>();
+				auto& transformComponent = entity.Get<TransformComponent>();
+
+				b2BodyDef bodyDef = b2DefaultBodyDef();
+
+				if (rb2d.BodyType == RigidBody2DComponent::Type::Static)
+					bodyDef.type = b2_staticBody;
+				else if (rb2d.BodyType == RigidBody2DComponent::Type::Kinematic)
+					bodyDef.type = b2_kinematicBody;
+				else if (rb2d.BodyType == RigidBody2DComponent::Type::Dynamic)
+					bodyDef.type = b2_dynamicBody;
+
+				bodyDef.position = b2Vec2( transformComponent.pos.x / m_PhysicsScale, transformComponent.pos.y / m_PhysicsScale );
+				bodyDef.rotation = b2MakeRot(glm::radians(transformComponent.angle));
+
+				if (rb2d.FixedRotation)
+				{
+					bodyDef.motionLocks.angularZ = true;
+				}
+
+				bodyDef.linearDamping = rb2d.LinearDrag; 
+				bodyDef.angularDamping = rb2d.AngularDrag;
+				bodyDef.gravityScale = rb2d.GravityScale;
+
+				bodyDef.userData = (void*)(uintptr_t)entity.UUID(); 
+				rb2d.RuntimeBodyId = b2CreateBody(m_PhysicsWorldId, &bodyDef);
+
+				if (entity.Has<BoxCollider2DComponent>())
+				{
+					auto& bc2d = entity.Get<BoxCollider2DComponent>();
+					b2BodyId bodyId = rb2d.RuntimeBodyId;
+
+					float halfWidth = (bc2d.Size.x * transformComponent.scale.x) / (2.0f * m_PhysicsScale);
+					float halfHeight = (bc2d.Size.y * transformComponent.scale.y) / (2.0f * m_PhysicsScale);
+
+					b2Vec2 centerOffset = {
+						bc2d.Offset.x / m_PhysicsScale,
+						bc2d.Offset.y / m_PhysicsScale
+					};
+
+					b2Rot localRotation = b2MakeRot(0.0f);
+
+					b2Polygon boxShape = b2MakeOffsetBox(
+						(bc2d.Size.x * transformComponent.scale.x) / (2.0f * m_PhysicsScale),
+						(bc2d.Size.y * transformComponent.scale.y) / (2.0f * m_PhysicsScale),
+						centerOffset,
+						localRotation
+					);
+
+
+
+					b2ShapeDef shapeDef = b2DefaultShapeDef();
+					shapeDef.density = bc2d.Density;
+					shapeDef.material.friction = bc2d.Friction;
+
+					bc2d.RuntimeShapeId = b2CreatePolygonShape(bodyId, &shapeDef, &boxShape);
+				}
+
+				if (entity.Has<CircleCollider2DComponent>())
+				{
+					auto& cc2d = entity.Get<CircleCollider2DComponent>();
+					b2BodyId bodyId = rb2d.RuntimeBodyId;
+
+					float scale = glm::max(transformComponent.scale.x, transformComponent.scale.y);
+
+					b2Circle circle =
+					{
+						{ cc2d.Offset.x / m_PhysicsScale, cc2d.Offset.y / m_PhysicsScale },
+
+						(cc2d.Radius * scale) / m_PhysicsScale
+					};
+
+					b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+					shapeDef.density = cc2d.Density;
+					shapeDef.material.friction = cc2d.Friction;
+
+					cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
+				}
+			}
+		}
+	}
+
+	void Scene::OnPhysics2DUpdate()
+	{
+
 	}
 
 	// Input
