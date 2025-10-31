@@ -189,15 +189,15 @@ namespace Luden
 								ImVec2 minPos = ImVec2(tempPos.x, tempPos.y);
 
 								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
-								ImVec2 size = ImVec2(boxComponent.size.x, boxComponent.size.y);
+								ImVec2 size = ImVec2(boxComponent.Size.x , boxComponent.Size.y);
 								ImVec2 maxPos = ImVec2(minPos.x + size.x, minPos.y + size.y);
 
-								if (boxComponent.blockMove && m_ToolbarPanel.m_ShowMovementCollision)
+								if (m_ToolbarPanel.m_ShowMovementCollision)
 								{
 									ImGui::GetWindowDrawList()->AddRect(minPos, maxPos, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
 								}
 
-								if (boxComponent.blockVision && m_ToolbarPanel.m_ShowVisionCollision)
+								if (m_ToolbarPanel.m_ShowVisionCollision)
 								{
 									ImGui::GetWindowDrawList()->AddRect(minPos, maxPos, IM_COL32(100, 100, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
 								}

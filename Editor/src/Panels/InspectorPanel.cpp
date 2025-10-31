@@ -72,7 +72,9 @@ namespace Luden
 				DisplayComponentInPopup<GravityComponent>(ICON_FA_ARROW_DOWN " Gravity Component");
 				DisplayComponentInPopup<HealthComponent>(ICON_FA_HEART " Health Component");
 				DisplayComponentInPopup<InputComponent>(ICON_FA_GAMEPAD " Input Component");
-				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Bounding Box Component");
+				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component");
+				DisplayComponentInPopup<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component");
+				DisplayComponentInPopup<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component");
 				DisplayComponentInPopup<Animation2DComponent>(ICON_FA_PLAY " Animation Component");
 				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Font Component");
 				DisplayComponentInPopup<TextureComponent>(ICON_FA_IMAGE " Texture Component");
@@ -160,30 +162,64 @@ namespace Luden
 						ImGui::Checkbox("##Up", &inputComponent.canAttack);
 					});
 
-				DisplayComponentInInspector<BoxCollider2DComponent>(ICON_FA_SQUARE " Bounding Box Component", entity, true, [&]()
+				DisplayComponentInInspector<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component", entity, true, [&]()
 					{
-						auto& boundingBoxComponent = entity.Get<BoxCollider2DComponent>();
+						auto& rb = entity.Get<RigidBody2DComponent>();
+
+						ImGuiUtils::PrefixLabel("Body Type");
+						const char* types[] = { "None", "Static", "Dynamic", "Kinematic" };
+						int currentType = static_cast<int>(rb.BodyType) + 1; // because None = -1
+						if (ImGui::Combo("##BodyType", &currentType, types, IM_ARRAYSIZE(types)))
+							rb.BodyType = static_cast<RigidBody2DComponent::Type>(currentType - 1);
+
+						ImGuiUtils::PrefixLabel("Fixed Rotation");
+						ImGui::Checkbox("##FixedRotation", &rb.FixedRotation);
+
+						ImGuiUtils::PrefixLabel("Mass");
+						ImGui::DragFloat("##Mass", &rb.Mass, 0.1f, 0.0f, 100.0f);
+
+						ImGuiUtils::PrefixLabel("Linear Drag");
+						ImGui::DragFloat("##LinearDrag", &rb.LinearDrag, 0.01f, 0.0f, 10.0f);
+
+						ImGuiUtils::PrefixLabel("Angular Drag");
+						ImGui::DragFloat("##AngularDrag", &rb.AngularDrag, 0.01f, 0.0f, 10.0f);
+
+						ImGuiUtils::PrefixLabel("Gravity Scale");
+						ImGui::DragFloat("##GravityScale", &rb.GravityScale, 0.1f, 0.0f, 10.0f);
+					});
+
+				DisplayComponentInInspector<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component", entity, true, [&]()
+					{
+						auto& box = entity.Get<BoxCollider2DComponent>();
+
+						ImGuiUtils::PrefixLabel("Offset");
+						ImGui::DragFloat2("##Offset", &box.Offset.x, 0.1f);
+
 						ImGuiUtils::PrefixLabel("Size");
-						ImGui::DragFloat2("##Size", &boundingBoxComponent.size.x, 0.1f);
+						ImGui::DragFloat2("##Size", &box.Size.x, 0.1f);
 
-						ImGuiUtils::PrefixLabel("HalfSize");
-						ImGui::BeginDisabled();
-						ImGui::DragFloat2("##HalfSize", &boundingBoxComponent.halfSize.x);
-						ImGui::EndDisabled();
+						ImGuiUtils::PrefixLabel("Density");
+						ImGui::DragFloat("##Density", &box.Density, 0.1f, 0.0f, 10.0f);
 
-						ImGuiUtils::PrefixLabel("Center");
-						ImGui::DragFloat2("##Center", &boundingBoxComponent.center.x, 0.1f);
+						ImGuiUtils::PrefixLabel("Friction");
+						ImGui::DragFloat("##Friction", &box.Friction, 0.1f, 0.0f, 10.0f);
+					});
 
-						ImGuiUtils::PrefixLabel("PrevCenter");
-						ImGui::BeginDisabled();
-						ImGui::DragFloat2("##PrevCenter", &boundingBoxComponent.prevCenter.x);
-						ImGui::EndDisabled();
+				DisplayComponentInInspector<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component", entity, true, [&]()
+					{
+						auto& circle = entity.Get<CircleCollider2DComponent>();
 
-						ImGuiUtils::PrefixLabel("BlockMove");
-						ImGui::Checkbox("##BlockMove", &boundingBoxComponent.blockMove);
+						ImGuiUtils::PrefixLabel("Offset");
+						ImGui::DragFloat2("##Offset", &circle.Offset.x, 0.1f);
 
-						ImGuiUtils::PrefixLabel("BlockVision");
-						ImGui::Checkbox("##BlockVision", &boundingBoxComponent.blockVision);
+						ImGuiUtils::PrefixLabel("Radius");
+						ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
+
+						ImGuiUtils::PrefixLabel("Density");
+						ImGui::DragFloat("##Density", &circle.Density, 0.1f, 0.0f, 10.0f);
+
+						ImGuiUtils::PrefixLabel("Friction");
+						ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
 					});
 
 				DisplayComponentInInspector<Animation2DComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()

@@ -135,7 +135,6 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="include\IO\StreamReader.h" />
     <ClInclude Include="include\IO\StreamWriter.h" />
     <ClInclude Include="include\Input\Action.h" />
-    <ClInclude Include="include\Physics\Physics.h" />
     <ClInclude Include="include\Project\Project.h" />
     <ClInclude Include="include\Project\ProjectSerializer.h" />
     <ClInclude Include="include\Reflection\ReflectionMacros.h" />
@@ -183,7 +182,6 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClCompile Include="src\IO\StreamReader.cpp" />
     <ClCompile Include="src\IO\StreamWriter.cpp" />
     <ClCompile Include="src\Input\Action.cpp" />
-    <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Project\Project.cpp" />
     <ClCompile Include="src\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Resource\EditorResourceManager.cpp" />

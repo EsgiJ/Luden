@@ -108,16 +108,38 @@ namespace Luden
 				};
 			}
 
+			if (e.Has<RigidBody2DComponent>())
+			{
+				const auto& c = e.Get<RigidBody2DComponent>();
+				jEntity["RigidBody2DComponent"] = {
+					{"BodyType", static_cast<int>(c.BodyType)},
+					{"FixedRotation", c.FixedRotation},
+					{"Mass", c.Mass},
+					{"LinearDrag", c.LinearDrag},
+					{"AngularDrag", c.AngularDrag},
+					{"GravityScale", c.GravityScale}
+				};
+			}
+
 			if (e.Has<BoxCollider2DComponent>())
 			{
 				const auto& c = e.Get<BoxCollider2DComponent>();
 				jEntity["BoxCollider2DComponent"] = {
-					{"size", {c.size.x, c.size.y}},
-					{"halfSize", {c.halfSize.x, c.halfSize.y}},
-					{"center", {c.center.x, c.center.y}},
-					{"prevCenter", {c.prevCenter.x, c.prevCenter.y}},
-					{"blockMove", c.blockMove},
-					{"blockVision", c.blockVision}
+					{"Offset", {c.Offset.x, c.Offset.y}},
+					{"Size", {c.Size.x, c.Size.y}},
+					{"Density", c.Density},
+					{"Friction", c.Friction}
+				};
+			}
+
+			if (e.Has<CircleCollider2DComponent>())
+			{
+				const auto& c = e.Get<CircleCollider2DComponent>();
+				jEntity["CircleCollider2DComponent"] = {
+					{"Offset", {c.Offset.x, c.Offset.y}},
+					{"Radius", c.Radius},
+					{"Density", c.Density},
+					{"Friction", c.Friction}
 				};
 			}
 
@@ -269,16 +291,42 @@ namespace Luden
 				inputComponent.canAttack = jEntity["InputComponent"]["canAttack"];
 			}
 
+			if (jEntity.contains("RigidBody2DComponent"))
+			{
+				e.Add<RigidBody2DComponent>();
+				auto& c = e.Get<RigidBody2DComponent>();
+				c.BodyType = static_cast<RigidBody2DComponent::Type>(jEntity["RigidBody2DComponent"]["BodyType"].get<int>());
+				c.FixedRotation = jEntity["RigidBody2DComponent"]["FixedRotation"].get<bool>();
+				c.Mass = jEntity["RigidBody2DComponent"]["Mass"].get<float>();
+				c.LinearDrag = jEntity["RigidBody2DComponent"]["LinearDrag"].get<float>();
+				c.AngularDrag = jEntity["RigidBody2DComponent"]["AngularDrag"].get<float>();
+				c.GravityScale = jEntity["RigidBody2DComponent"]["GravityScale"].get<float>();
+			}
+
 			if (jEntity.contains("BoxCollider2DComponent"))
 			{
-				auto size = jEntity["BoxCollider2DComponent"]["size"];
-				auto center = jEntity["BoxCollider2DComponent"]["center"];
-				e.Add<BoxCollider2DComponent>(
-					glm::vec2(center[0], center[1]),
-					glm::vec2(size[0], size[1]),
-					jEntity["BoxCollider2DComponent"]["blockMove"],
-					jEntity["BoxCollider2DComponent"]["blockVision"]
-				);
+				e.Add<BoxCollider2DComponent>();
+				auto& c = e.Get<BoxCollider2DComponent>();
+
+				auto offset = jEntity["BoxCollider2DComponent"]["Offset"];
+				auto size = jEntity["BoxCollider2DComponent"]["Size"];
+
+				c.Offset = { offset[0].get<float>(), offset[1].get<float>() };
+				c.Size = { size[0].get<float>(), size[1].get<float>() };
+				c.Density = jEntity["BoxCollider2DComponent"]["Density"].get<float>();
+				c.Friction = jEntity["BoxCollider2DComponent"]["Friction"].get<float>();
+			}
+
+			if (jEntity.contains("CircleCollider2DComponent"))
+			{
+				e.Add<CircleCollider2DComponent>();
+				auto& c = e.Get<CircleCollider2DComponent>();
+
+				auto offset = jEntity["CircleCollider2DComponent"]["Offset"];
+				c.Offset = { offset[0].get<float>(), offset[1].get<float>() };
+				c.Radius = jEntity["CircleCollider2DComponent"]["Radius"].get<float>();
+				c.Density = jEntity["CircleCollider2DComponent"]["Density"].get<float>();
+				c.Friction = jEntity["CircleCollider2DComponent"]["Friction"].get<float>();
 			}
 
 			if (jEntity.contains("InvincibilityComponent"))

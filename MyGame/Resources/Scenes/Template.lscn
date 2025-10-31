@@ -2,24 +2,20 @@
     "Entities": [
         {
             "BoxCollider2DComponent": {
-                "blockMove": false,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    0.5,
-                    0.5
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    1.0,
-                    1.0
+                "Size": [
+                    64.0,
+                    64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "MainCamera",
             "TransformComponent": {
@@ -49,21 +45,13 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
@@ -79,6 +67,10 @@
                 "left": true,
                 "right": true,
                 "up": true
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "Player",
             "TextureComponent": {
@@ -111,24 +103,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileBush",
             "TextureComponent": {
@@ -161,24 +149,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileBush",
             "TextureComponent": {
@@ -211,24 +195,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileTreeMonster1",
             "TextureComponent": {
@@ -261,24 +241,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileTreeMonster2",
             "TextureComponent": {
@@ -311,24 +287,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileTreeMonster3",
             "TextureComponent": {
@@ -361,24 +333,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileTreeMonster4",
             "TextureComponent": {
@@ -411,24 +379,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileTreeMonster5",
             "TextureComponent": {
@@ -461,24 +425,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileTreeMonster6",
             "TextureComponent": {
@@ -511,24 +471,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": true,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileStair",
             "TextureComponent": {
@@ -561,24 +517,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileLake1",
             "TextureComponent": {
@@ -611,24 +563,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileLake2",
             "TextureComponent": {
@@ -661,24 +609,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileLake3",
             "TextureComponent": {
@@ -711,24 +655,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileLake7",
             "TextureComponent": {
@@ -761,24 +701,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileLake8",
             "TextureComponent": {
@@ -811,24 +747,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    32.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     64.0,
                     64.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileLake9",
             "TextureComponent": {
@@ -861,24 +793,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": false,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    16.0,
-                    16.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     32.0,
                     32.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileHeart",
             "TextureComponent": {
@@ -911,24 +839,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": false,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    16.0,
-                    16.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     32.0,
                     32.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileHeart",
             "TextureComponent": {
@@ -961,24 +885,20 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": false,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    16.0,
-                    16.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     32.0,
                     32.0
                 ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "TileHeart",
             "TextureComponent": {
@@ -1011,21 +931,13 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    64.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     128.0,
                     64.0
                 ]
@@ -1033,6 +945,10 @@
             "HealthComponent": {
                 "current": 3,
                 "max": 3
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "NPCTektite",
             "TextureComponent": {
@@ -1065,28 +981,24 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
+                "Size": [
                     64.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    128.0,
                     64.0
                 ]
             },
             "HealthComponent": {
                 "current": 3,
                 "max": 3
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "NPCArmos",
             "TextureComponent": {
@@ -1119,21 +1031,13 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    64.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     128.0,
                     64.0
                 ]
@@ -1141,6 +1045,10 @@
             "HealthComponent": {
                 "current": 2,
                 "max": 2
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "NPCTektite",
             "TextureComponent": {
@@ -1173,21 +1081,13 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    64.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     128.0,
                     64.0
                 ]
@@ -1195,6 +1095,10 @@
             "HealthComponent": {
                 "current": 2,
                 "max": 2
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "NPCTektite",
             "TextureComponent": {
@@ -1227,21 +1131,13 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    64.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     128.0,
                     64.0
                 ]
@@ -1249,6 +1145,10 @@
             "HealthComponent": {
                 "current": 2,
                 "max": 2
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "NPCArmos",
             "TextureComponent": {
@@ -1281,21 +1181,13 @@
         },
         {
             "BoxCollider2DComponent": {
-                "blockMove": true,
-                "blockVision": false,
-                "center": [
+                "Density": 1.0,
+                "Friction": 1.0,
+                "Offset": [
                     0.0,
                     0.0
                 ],
-                "halfSize": [
-                    64.0,
-                    32.0
-                ],
-                "prevCenter": [
-                    0.0,
-                    0.0
-                ],
-                "size": [
+                "Size": [
                     128.0,
                     64.0
                 ]
@@ -1303,6 +1195,10 @@
             "HealthComponent": {
                 "current": 2,
                 "max": 2
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
             },
             "Tag": "NPCArmos",
             "TextureComponent": {

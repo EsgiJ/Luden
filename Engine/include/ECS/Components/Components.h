@@ -87,20 +87,42 @@ namespace Luden
 			: up(up), down(down), left(left), right(right), attack(attack), canAttack(canAttack) { }
 	};
 
+	struct ENGINE_API RigidBody2DComponent : public IComponent
+	{
+		enum class Type { None = -1, Static, Dynamic, Kinematic };
+		Type BodyType;
+		bool FixedRotation = false;
+		float Mass = 1.0f;
+		float LinearDrag = 0.01f;
+		float AngularDrag = 0.05f;
+		float GravityScale = 1.0f;
+
+		RigidBody2DComponent() = default;
+		RigidBody2DComponent(const RigidBody2DComponent& other) = default;
+	};
+
 	struct ENGINE_API BoxCollider2DComponent : public IComponent
 	{
-	public:
-		glm::vec2 size;
-		glm::vec2 halfSize;
-		glm::vec2 center;
-		glm::vec2 prevCenter;
-		bool blockMove = false;
-		bool blockVision = false;
+		glm::vec2 Offset = { 0.0f,0.0f };
+		glm::vec2 Size = { 0.5f, 0.5f };
+
+		float Density = 1.0f;
+		float Friction = 1.0f;
 
 		BoxCollider2DComponent() = default;
+		BoxCollider2DComponent(const BoxCollider2DComponent& other) = default;
+	};
 
-		BoxCollider2DComponent(const glm::vec2& c, const glm::vec2& s, bool m, bool v)
-			: size(s), halfSize(s.x / 2.0f, s.y / 2.0f), center(c), prevCenter(c), blockMove(m), blockVision(v) {}
+	struct ENGINE_API CircleCollider2DComponent : public IComponent
+	{
+		glm::vec2 Offset = { 0.0f,0.0f };
+		float Radius = 1.0f;
+
+		float Density = 1.0f;
+		float Friction = 1.0f;
+
+		CircleCollider2DComponent() = default;
+		CircleCollider2DComponent(const CircleCollider2DComponent& other) = default;
 	};
 
 	struct ENGINE_API Animation2DComponent : public IComponent
