@@ -49,7 +49,8 @@ namespace Luden
 			if (serializer.Deserialize(m_ActiveScenePath.string())) {
 				m_ActiveScene = newScene;
 				SetPanelsContext();
-				m_ActiveScene->OnPhysics2DInit();
+
+				m_ActiveScene->OnRuntimeStart();
 			}
 		}
 
@@ -64,7 +65,7 @@ namespace Luden
 
 		if (m_ActiveScene) 
 		{
-			m_ActiveScene->OnPhysics2DStop(); 
+			m_ActiveScene->OnRuntimeStop(); 
 		}
 
 		UUID currentSelectedEntity = 0;

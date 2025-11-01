@@ -73,14 +73,14 @@
                 "textureHandle": 10713380733661294664
             },
             "TransformComponent": {
-                "angle": 0.0,
+                "angle": -0.0003406739851925522,
                 "facing": [
                     0.0,
                     -1.0
                 ],
                 "pos": [
-                    256.0,
-                    -2010.6737060546875
+                    256.0001525878906,
+                    576.009033203125
                 ],
                 "prevPos": [
                     5.0,
@@ -113,6 +113,14 @@
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
             },
             "Tag": "TileBush",
             "TextureComponent": {
@@ -160,6 +168,14 @@
                 "Children": null,
                 "ParentHandle": 0
             },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
             "Tag": "TileBush",
             "TextureComponent": {
                 "textureHandle": 7574791978689341845
@@ -171,8 +187,8 @@
                     0.0
                 ],
                 "pos": [
-                    192.0,
-                    384.0
+                    320.0,
+                    640.0
                 ],
                 "prevPos": [
                     4.0,

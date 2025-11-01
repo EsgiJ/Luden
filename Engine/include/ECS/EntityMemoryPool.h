@@ -31,6 +31,7 @@ namespace Luden
 		std::vector<Luden::RigidBody2DComponent>,
 		std::vector<Luden::BoxCollider2DComponent>,
 		std::vector<Luden::CircleCollider2DComponent>,
+		std::vector<Luden::NativeScriptComponent>,
 		std::vector<Luden::Animation2DComponent>,
 		std::vector<Luden::TextComponent>,
 		std::vector<Luden::TextureComponent>,

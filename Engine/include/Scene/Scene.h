@@ -38,6 +38,13 @@ namespace Luden {
 		virtual void OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target);
 		virtual void OnRenderEditor(std::shared_ptr<sf::RenderTexture> target);
 
+		// Runtime
+		void OnRuntimeStart();
+		void OnRuntimeStop();
+
+		void OnSimulationStart();
+		void OnSimulationStop();
+
 		//Box2D
 		void OnPhysics2DInit();
 		void OnPhysics2DUpdate(TimeStep ts);

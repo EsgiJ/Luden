@@ -132,6 +132,23 @@ namespace Luden
 		CircleCollider2DComponent(const CircleCollider2DComponent& other) = default;
 	};
 
+	class ScriptableEntity;
+
+	struct ENGINE_API NativeScriptComponent : public IComponent
+	{
+		ScriptableEntity* Instance = nullptr; 
+
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
+
+		template<typename T>
+		void Bind()
+		{
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+		}
+	};
+
 	struct ENGINE_API Animation2DComponent : public IComponent
 	{
 	public:

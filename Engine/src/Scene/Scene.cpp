@@ -1,6 +1,7 @@
 #include "Scene/Scene.h"
 #include "Core/RuntimeApplication.h"
 #include "Project/Project.h"
+#include "ECS/ScriptableEntity.h"
 
 #include <glm/glm.hpp>
 
@@ -29,6 +30,19 @@ namespace Luden {
 
 		if (m_Paused)
 			return;
+
+		for (auto& entity : GetEntityManager().GetEntities())
+		{
+			if (entity.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entity.Get<NativeScriptComponent>();
+
+				if (!nsc.Instance)
+				{
+					nsc.Instance->OnUpdate(ts);
+				}
+			}
+		}
 
 		if (m_ShouldSimulate) {
 			//m_EntityManager.Update(ts);
@@ -148,6 +162,54 @@ namespace Luden {
 		//TODO: Editor overlay (gizmo, bounding box, grid)
 	}
 
+	void Scene::OnRuntimeStart()
+	{
+		OnPhysics2DInit();
+
+		for (auto& entity : GetEntityManager().GetEntities())
+		{
+			if (entity.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entity.Get<NativeScriptComponent>();
+
+				if (!nsc.Instance)
+				{
+					nsc.InstantiateScript();
+					nsc.Instance->m_Entity = CreateEntity("NativeScriptEntity");
+					nsc.Instance->OnCreate();
+				}
+			}
+		}
+	}
+
+	void Scene::OnRuntimeStop()
+	{
+		OnPhysics2DStop();
+
+		for (auto& entity : GetEntityManager().GetEntities())
+		{
+			if (entity.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entity.Get<NativeScriptComponent>();
+
+				if (!nsc.Instance)
+				{
+					nsc.Instance->OnDestroy();
+				}
+			}
+		}
+	}
+
+	void Scene::OnSimulationStart()
+	{
+		OnPhysics2DInit();
+	}
+
+	void Scene::OnSimulationStop()
+	{
+		OnPhysics2DStop();
+	}
+
 	void Scene::OnPhysics2DInit()
 	{
 		//TODO: Fix this hacky solution to update the entitiesToAdd
@@ -173,7 +235,10 @@ namespace Luden {
 				else if (rb2d.BodyType == RigidBody2DComponent::Type::Dynamic)
 					bodyDef.type = b2_dynamicBody;
 
-				bodyDef.position = b2Vec2( transformComponent.pos.x / m_PhysicsScale, transformComponent.pos.y / m_PhysicsScale );
+				bodyDef.position = b2Vec2(
+					transformComponent.pos.x / m_PhysicsScale,
+					(m_ViewportHeight - transformComponent.pos.y) / m_PhysicsScale
+				);
 				bodyDef.rotation = b2MakeRot(glm::radians(transformComponent.angle));
 
 				if (rb2d.FixedRotation)
@@ -267,7 +332,7 @@ namespace Luden {
 					float angle = atan2f(rotation.s, rotation.c);
 
 					transform.pos.x = position.x * m_PhysicsScale;
-					transform.pos.y = position.y * m_PhysicsScale;
+					transform.pos.y = m_ViewportHeight - (position.y * m_PhysicsScale);
 					transform.angle = glm::degrees(angle);
 				}
 			}
