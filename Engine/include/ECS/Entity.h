@@ -5,12 +5,11 @@
 #include <string>
 #include <vector>
 
-// REMOVE: #include "ECS/IComponent.h"
-// REMOVE: #include "ECS/EntityMemoryPool.h"
+#include "ECS/EntityMemoryPool.h"
 
 namespace Luden
 {
-	class EntityMemoryPool;  // Forward declaration
+	class EntityMemoryPool; 
 	class Scene;
 
 	using EntityID = UUID;
@@ -47,22 +46,45 @@ namespace Luden
 		}
 
 		template<class T>
-		bool Has() const;
+		bool Has() const
+		{
+			if (!EntityMemoryPool::Instance().Exists(m_UUID))
+			{
+				return false;
+			}
+			return EntityMemoryPool::Instance().HasComponent<T>(m_UUID);
+		}
 
 		template<class T, typename... TArgs>
-		T& Add(TArgs&&... args);
+		T& Add(TArgs&&... args)
+		{
+			auto& component = EntityMemoryPool::Instance().template AddComponent<T>(m_UUID, std::forward<TArgs>(args)...);
+			return component;
+		}
 
 		template<class T>
-		T& Add(const T& component);
+		T& Add(const T& component)
+		{
+			return EntityMemoryPool::Instance().template AddComponent<T>(m_UUID, component);
+		}
 
 		template<class T>
-		T& Get();
+		T& Get()
+		{
+			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
+		}
 
 		template<class T>
-		const T& Get() const;
+		const T& Get() const
+		{
+			return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
+		}
 
 		template<class T>
-		void Remove() const;
+		void Remove() const
+		{
+			EntityMemoryPool::Instance().RemoveComponent<T>(m_UUID);
+		}
 
 	private:
 		Entity() = default;
@@ -79,48 +101,3 @@ namespace Luden
 	};
 }
 
-#include "ECS/EntityMemoryPool.h"
-
-namespace Luden
-{
-	template<class T>
-	bool Entity::Has() const
-	{
-		if (!EntityMemoryPool::Instance().Exists(m_UUID))
-		{
-			return false;
-		}
-		return EntityMemoryPool::Instance().HasComponent<T>(m_UUID);
-	}
-
-	template<class T, typename... TArgs>
-	T& Entity::Add(TArgs&&... args)
-	{
-		auto& component = EntityMemoryPool::Instance().template AddComponent<T>(m_UUID, std::forward<TArgs>(args)...);
-		return component;
-	}
-
-	template<class T>
-	T& Entity::Add(const T& component)
-	{
-		return EntityMemoryPool::Instance().template AddComponent<T>(m_UUID, component);
-	}
-
-	template<class T>
-	T& Entity::Get()
-	{
-		return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
-	}
-
-	template<class T>
-	const T& Entity::Get() const
-	{
-		return EntityMemoryPool::Instance().GetComponent<T>(m_UUID);
-	}
-
-	template<class T>
-	void Entity::Remove() const
-	{
-		EntityMemoryPool::Instance().RemoveComponent<T>(m_UUID);
-	}
-}
