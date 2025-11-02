@@ -37,7 +37,7 @@ namespace Luden {
 			{
 				auto& nsc = entity.Get<NativeScriptComponent>();
 
-				if (!nsc.Instance)
+				if (nsc.Instance)
 				{
 					nsc.Instance->OnUpdate(ts);
 				}
@@ -175,7 +175,7 @@ namespace Luden {
 				if (!nsc.Instance)
 				{
 					nsc.InstantiateScript();
-					nsc.Instance->m_Entity = CreateEntity("NativeScriptEntity");
+					nsc.Instance->m_Entity = CreateEntity("nsc");
 					nsc.Instance->OnCreate();
 				}
 			}
@@ -192,9 +192,19 @@ namespace Luden {
 			{
 				auto& nsc = entity.Get<NativeScriptComponent>();
 
-				if (!nsc.Instance)
+				if (nsc.Instance)
 				{
 					nsc.Instance->OnDestroy();
+				}
+
+				if (nsc.DestroyScript)
+				{
+					nsc.DestroyScript(nsc.Instance);
+				}
+				else
+				{
+					delete nsc.Instance;
+					nsc.Instance = nullptr;
 				}
 			}
 		}
@@ -418,6 +428,7 @@ namespace Luden {
 		CopyComponentIfExists<HealthComponent>(newEntity, entity);
 		CopyComponentIfExists<InputComponent>(newEntity, entity);
 		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
+		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
 		CopyComponentIfExists<Animation2DComponent>(newEntity, entity);
 		CopyComponentIfExists<TextComponent>(newEntity, entity);
 		CopyComponentIfExists<TextureComponent>(newEntity, entity);

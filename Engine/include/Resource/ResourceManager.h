@@ -5,6 +5,9 @@
 #include "Project/Project.h"
 #include "Resource/Resource.h"
 
+#include <unordered_map>
+#include <unordered_set>
+
 namespace Luden
 {
 	class ENGINE_API ResourceManager

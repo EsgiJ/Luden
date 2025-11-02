@@ -6,13 +6,12 @@
 
 #include "Core/UUID.h"
 #include "Resource/Resource.h"
-#include "Scene/Scene.h"
 #include "Serialization/ResourcePackFile.h"
 #include "Serialization/ResourcePackSerializer.h"
 
 namespace Luden 
 {
-
+	class Scene;
 	class ResourcePack
 	{
 	public:

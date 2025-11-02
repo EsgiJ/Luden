@@ -1,11 +1,12 @@
 #pragma once
 
-#include <filesystem>
-
 #include "EngineAPI.h"
-#include "Scene/Scene.h"
 #include "Resource/EditorResourceManager.h"
 #include "Resource/RuntimeResourceManager.h"
+#include "Resource/ResourceManagerBase.h"
+
+#include <filesystem>
+#include <assert.h>
 
 namespace Luden
 {

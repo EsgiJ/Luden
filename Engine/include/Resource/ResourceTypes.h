@@ -26,20 +26,22 @@ namespace Luden
 		Texture,
 		Audio,
 		Font,
-		Animation
+		Animation,
+		NativeScript
 	};
 
 	namespace Utils
 	{
 		inline ResourceType ResourceTypeToString(std::string_view resourceType)
 		{
-			if (resourceType == "None")			return ResourceType::None;
-			if (resourceType == "Scene")		return ResourceType::Scene;
-			if (resourceType == "Prefab")		return ResourceType::Prefab;
-			if (resourceType == "Texture")		return ResourceType::Texture;
-			if (resourceType == "Audio")		return ResourceType::Audio;
-			if (resourceType == "Font")			return ResourceType::Font;
-			if (resourceType == "Animation")	return ResourceType::Animation;
+			if (resourceType == "None")				return ResourceType::None;
+			if (resourceType == "Scene")			return ResourceType::Scene;
+			if (resourceType == "Prefab")			return ResourceType::Prefab;
+			if (resourceType == "Texture")			return ResourceType::Texture;
+			if (resourceType == "Audio")			return ResourceType::Audio;
+			if (resourceType == "Font")				return ResourceType::Font;
+			if (resourceType == "Animation")		return ResourceType::Animation;
+			if (resourceType == "NativieScript")	return ResourceType::NativeScript;
 
 			return ResourceType::None;
 		}
@@ -48,13 +50,14 @@ namespace Luden
 		{
 			switch (resourceType)
 			{
-			case ResourceType::None:		return "None";
-			case ResourceType::Scene:		return "Scene";
-			case ResourceType::Prefab:		return "Prefab";
-			case ResourceType::Texture:		return "Texture";
-			case ResourceType::Audio:		return "Audio";
-			case ResourceType::Font:		return "Font";
-			case ResourceType::Animation:	return "Animation";
+			case ResourceType::None:			return "None";
+			case ResourceType::Scene:			return "Scene";
+			case ResourceType::Prefab:			return "Prefab";
+			case ResourceType::Texture:			return "Texture";
+			case ResourceType::Audio:			return "Audio";
+			case ResourceType::Font:			return "Font";
+			case ResourceType::Animation:		return "Animation";
+			case ResourceType::NativeScript:	return "NativeScript";
 			}
 
 			return "None";

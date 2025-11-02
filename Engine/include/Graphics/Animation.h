@@ -1,15 +1,14 @@
 #pragma once
 
 #include "EngineAPI.h"
-#include <glm/vec2.hpp>
-#include "Reflection/ReflectionMacros.h"
 #include "Resource/Resource.h"
 #include "Graphics/Texture.h"
-
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 #include <string>
+
+#include <glm/vec2.hpp>
 
 namespace Luden::Graphics
 {

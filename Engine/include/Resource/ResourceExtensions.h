@@ -27,5 +27,6 @@ namespace Luden
 		{".ttf", ResourceType::Font},
 		{".ttc", ResourceType::Font},
 		{".otf", ResourceType::Font},
+		{".h", ResourceType::Scene},
 	};
 }

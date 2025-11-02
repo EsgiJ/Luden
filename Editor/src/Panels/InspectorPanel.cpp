@@ -3,6 +3,7 @@
 #include "ImGui/ImGuiUtils.h"
 #include "Project/Project.h"
 #include "Graphics/Animation.h"
+#include "ECS/Components/Components.h"
 
 #include <IconsFontAwesome7.h>
 #include <imgui.h>
@@ -220,6 +221,16 @@ namespace Luden
 
 						ImGuiUtils::PrefixLabel("Friction");
 						ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
+					});
+
+				DisplayComponentInInspector<NativeScriptComponent>(ICON_FA_CIRCLE " NativeScript Component", entity, true, [&]()
+					{
+						auto& nativeScript = entity.Get<NativeScriptComponent>();
+
+						if (ImGuiUtils::ResourceButton(nativeScript.ScriptHandle, ResourceType::NativeScript))
+						{
+							//TODO: Native Editor Panel
+						}
 					});
 
 				DisplayComponentInInspector<Animation2DComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()

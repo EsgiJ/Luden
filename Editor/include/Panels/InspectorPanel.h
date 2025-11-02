@@ -1,13 +1,14 @@
 #pragma once
 	
 #include "Panels/EditorPanel.h"
-
-#include "Scene/Scene.h"
 #include "Panels/SceneHierarchyPanel.h"
+
 #include <functional>
 
 namespace Luden
 {
+	class Scene;
+
 	class InspectorPanel : public EditorPanel
 	{
 	public:

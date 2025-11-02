@@ -1,10 +1,11 @@
 #pragma once
 
 #include "ECS/IComponent.h"
+#include "ECS/NativeScript.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
-#include "Reflection/ReflectionMacros.h"
+#include "Project/Project.h"
 
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
@@ -92,6 +93,7 @@ namespace Luden
 	struct ENGINE_API RigidBody2DComponent : public IComponent
 	{
 		enum class Type { None = -1, Static, Dynamic, Kinematic };
+
 		Type BodyType;
 		bool FixedRotation = false;
 		float Mass = 1.0f;
@@ -101,6 +103,10 @@ namespace Luden
 		b2BodyId RuntimeBodyId = b2_nullBodyId;
 
 		RigidBody2DComponent() = default;
+
+		explicit RigidBody2DComponent(Type bodyType, bool fixedRotation, float mass, float linearDrag, float angularDrag, float gravityScale, b2BodyId runtimeBodyId)
+			: BodyType(bodyType), FixedRotation(fixedRotation), Mass(mass), LinearDrag(linearDrag), AngularDrag(angularDrag), GravityScale(gravityScale), RuntimeBodyId(runtimeBodyId) { }
+
 		RigidBody2DComponent(const RigidBody2DComponent& other) = default;
 	};
 
@@ -136,16 +142,34 @@ namespace Luden
 
 	struct ENGINE_API NativeScriptComponent : public IComponent
 	{
-		ScriptableEntity* Instance = nullptr; 
+		ScriptableEntity* Instance = nullptr;
+		ResourceHandle ScriptHandle = 0;
 
-		ScriptableEntity* (*InstantiateScript)();
-		void (*DestroyScript)(NativeScriptComponent*);
+		ScriptInstantiateFunc InstantiateScript = nullptr;
+		ScriptDestroyFunc DestroyScript = nullptr;
 
 		template<typename T>
 		void Bind()
 		{
 			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+			DestroyScript = [](ScriptableEntity* se) { delete se; se = nullptr; };
+		}
+
+		void BindFromHandle(ResourceHandle handle)
+		{
+			if (!Project::GetResourceManager()->IsResourceHandleValid(handle))
+				return;
+
+			auto resource = Project::GetResourceManager()->GetResource(handle);
+			auto script = std::static_pointer_cast<NativeScript>(resource);
+
+			if (!script)
+				return;
+
+			ScriptHandle = handle;
+
+			InstantiateScript = script->GetInstantiateFunc();
+			DestroyScript = script->GetDestroyFunc();
 		}
 	};
 

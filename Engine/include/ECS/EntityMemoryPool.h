@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Core/UUID.h"
+#include "ECS/IComponent.h"
 #include "ECS/Components/Components.h"
-#include "Reflection/ReflectionMacros.h"
-
 #include <cassert>
 #include <memory>
 #include <string>
@@ -19,6 +18,7 @@ namespace Luden
 	class Scene;
 
 	using PoolIndex = std::size_t;
+	using EntityID = UUID;
 
 	using EntityComponentVectorTuple = std::tuple<
 		std::vector<Luden::RelationshipComponent>,
@@ -42,7 +42,6 @@ namespace Luden
 		std::vector<Luden::TransformComponent>
 	>;
 
-	using EntityID = UUID;
 	class ENGINE_API EntityMemoryPool
 	{
 	public:
@@ -96,6 +95,7 @@ namespace Luden
 			auto& destComponent = std::get<std::vector<T>>(m_Pool)[index];
 			destComponent = component;
 			destComponent.has = true;
+			return destComponent;
 		}
 
 		template <typename T>
