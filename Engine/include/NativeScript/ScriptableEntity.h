@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/TimeStep.h"
+#include "ECS/Entity.h"
 #include "EngineAPI.h"
 
 	namespace Luden
@@ -25,6 +27,7 @@
 
 		private:
 			Entity m_Entity;
+			friend struct NativeScriptComponent;
 			friend class Scene;
 		};
 	}

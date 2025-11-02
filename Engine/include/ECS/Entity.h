@@ -1,11 +1,11 @@
 #pragma once
 #include "Core/UUID.h"
 #include "EngineAPI.h"
+#include "ECS/EntityMemoryPool.h"
+
 #include <cstdint>
 #include <string>
 #include <vector>
-
-#include "ECS/EntityMemoryPool.h"
 
 namespace Luden
 {
@@ -98,6 +98,7 @@ namespace Luden
 		friend class ToolbarPanel;
 		friend class SceneHierarchyPanel;
 		friend class Scene;
+		friend class ScriptableEntity;
 	};
 }
 

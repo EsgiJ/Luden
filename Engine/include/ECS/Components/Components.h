@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS/IComponent.h"
-#include "ECS/NativeScript.h"
+#include "NativeScript/NativeScript.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
@@ -139,6 +139,7 @@ namespace Luden
 	};
 
 	class ScriptableEntity;
+	class Entity;
 
 	struct ENGINE_API NativeScriptComponent : public IComponent
 	{
@@ -149,28 +150,11 @@ namespace Luden
 		ScriptDestroyFunc DestroyScript = nullptr;
 
 		template<typename T>
-		void Bind()
-		{
-			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](ScriptableEntity* se) { delete se; se = nullptr; };
-		}
+		void Bind();
 
-		void BindFromHandle(ResourceHandle handle)
-		{
-			if (!Project::GetResourceManager()->IsResourceHandleValid(handle))
-				return;
-
-			auto resource = Project::GetResourceManager()->GetResource(handle);
-			auto script = std::static_pointer_cast<NativeScript>(resource);
-
-			if (!script)
-				return;
-
-			ScriptHandle = handle;
-
-			InstantiateScript = script->GetInstantiateFunc();
-			DestroyScript = script->GetDestroyFunc();
-		}
+		void BindFromHandle(ResourceHandle handle);
+		void CreateInstance(Entity entity);
+		void DestroyInstance();
 	};
 
 	struct ENGINE_API Animation2DComponent : public IComponent

@@ -1,7 +1,7 @@
 #include "Scene/Scene.h"
 #include "Core/RuntimeApplication.h"
 #include "Project/Project.h"
-#include "ECS/ScriptableEntity.h"
+#include "NativeScript/ScriptableEntity.h"
 
 #include <glm/glm.hpp>
 
@@ -172,12 +172,7 @@ namespace Luden {
 			{
 				auto& nsc = entity.Get<NativeScriptComponent>();
 
-				if (!nsc.Instance)
-				{
-					nsc.InstantiateScript();
-					nsc.Instance->m_Entity = CreateEntity("nsc");
-					nsc.Instance->OnCreate();
-				}
+				nsc.CreateInstance(entity);
 			}
 		}
 	}
@@ -192,20 +187,7 @@ namespace Luden {
 			{
 				auto& nsc = entity.Get<NativeScriptComponent>();
 
-				if (nsc.Instance)
-				{
-					nsc.Instance->OnDestroy();
-				}
-
-				if (nsc.DestroyScript)
-				{
-					nsc.DestroyScript(nsc.Instance);
-				}
-				else
-				{
-					delete nsc.Instance;
-					nsc.Instance = nullptr;
-				}
+				nsc.DestroyInstance();
 			}
 		}
 	}

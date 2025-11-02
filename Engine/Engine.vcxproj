@@ -125,8 +125,6 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="include\ECS\EntityMemoryPool.h" />
     <ClInclude Include="include\ECS\IComponent.h" />
     <ClInclude Include="include\ECS\ISystem.h" />
-    <ClInclude Include="include\ECS\NativeScript.h" />
-    <ClInclude Include="include\ECS\ScriptableEntity.h" />
     <ClInclude Include="include\ECS\Systems\AnimationSystem.h" />
     <ClInclude Include="include\EngineAPI.h" />
     <ClInclude Include="include\Graphics\Animation.h" />
@@ -137,12 +135,14 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="include\IO\StreamReader.h" />
     <ClInclude Include="include\IO\StreamWriter.h" />
     <ClInclude Include="include\Input\Action.h" />
+    <ClInclude Include="include\NativeScript\NativeScript.h" />
+    <ClInclude Include="include\NativeScript\NativeScriptRegistry.h" />
+    <ClInclude Include="include\NativeScript\ScriptableEntity.h" />
     <ClInclude Include="include\Physics2D\Physics2D.h" />
     <ClInclude Include="include\Project\Project.h" />
     <ClInclude Include="include\Project\ProjectSerializer.h" />
     <ClInclude Include="include\Reflection\ReflectionMacros.h" />
     <ClInclude Include="include\Resource\EditorResourceManager.h" />
-    <ClInclude Include="include\Resource\NativeScriptRegistry.h" />
     <ClInclude Include="include\Resource\Resource.h" />
     <ClInclude Include="include\Resource\ResourceExtensions.h" />
     <ClInclude Include="include\Resource\ResourceImporter.h" />
@@ -173,6 +173,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />
     <ClCompile Include="src\Core\UUID.cpp" />
+    <ClCompile Include="src\ECS\Components.cpp" />
     <ClCompile Include="src\ECS\Entity.cpp" />
     <ClCompile Include="src\ECS\EntityManager.cpp" />
     <ClCompile Include="src\ECS\EntityMemoryPool.cpp" />
@@ -186,11 +187,11 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClCompile Include="src\IO\StreamReader.cpp" />
     <ClCompile Include="src\IO\StreamWriter.cpp" />
     <ClCompile Include="src\Input\Action.cpp" />
+    <ClCompile Include="src\NativeScript\NativeScriptRegistry.cpp" />
     <ClCompile Include="src\Physics2D\Physics2D.cpp" />
     <ClCompile Include="src\Project\Project.cpp" />
     <ClCompile Include="src\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Resource\EditorResourceManager.cpp" />
-    <ClCompile Include="src\Resource\NativeScriptRegistry.cpp" />
     <ClCompile Include="src\Resource\ResourceImporter.cpp" />
     <ClCompile Include="src\Resource\ResourceManager.cpp" />
     <ClCompile Include="src\Resource\ResourceRegistry.cpp" />
