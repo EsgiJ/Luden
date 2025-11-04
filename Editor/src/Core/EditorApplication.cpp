@@ -16,6 +16,7 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
+#include "Core/Config.h"
 
 namespace Luden 
 {
@@ -34,7 +35,7 @@ namespace Luden
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-		,// Application Specification
+		// Application Specification
 		ApplicationSpecification spec;
 		spec.Name = "Luden Editor";
 		spec.WindowWidth = 1600;
@@ -63,8 +64,13 @@ namespace Luden
 
 		// Load Native Script Module
 		m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
-		std::filesystem::path modulePath = "../"
-		m_NativeScriptModuleLoader
+		std::filesystem::path modulePath = Config::GetGameModulePath();
+
+		if (m_NativeScriptModuleLoader->LoadModule(modulePath))
+		{
+			auto resourceManager = Project::GetResourceManager();
+			m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
+		}
 	}
 
 	void EditorApplication::Run()

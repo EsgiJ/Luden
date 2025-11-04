@@ -4,6 +4,7 @@
 #include "Core/EditorState.h"
 #include "Tabs/EditorTab.h"
 #include "Utils/EditorResources.h"
+#include "NativeScript/NativeScriptModuleLoader.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -16,7 +17,6 @@
 namespace Luden 
 {
 	class EditorTab;
-	class NativeScriptModuleLoader;
 
 	class EditorApplication 
 	{

@@ -1,6 +1,6 @@
 {
-	"Name": "MyGame",
-	"ProjectFileName": "MyGame",
+	"Name": "GameModule",
+	"ProjectFileName": "GameModule",
 	"ProjectDirectory": "C:\\GameProjects\\Luden\\GameModule",
 	"ResourceDirectory": "Resources",
 	"ResourceRegistry": "Resources\\ResourceRegistry.lr",

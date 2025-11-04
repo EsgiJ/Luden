@@ -6,6 +6,14 @@ workspace "LudenEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+filter "configurations:Debug"
+    defines { "LUDEN_CONFIG_DEBUG" }
+    symbols "On"
+
+filter "configurations:Release"
+    defines { "LUDEN_CONFIG_RELEASE" }
+    optimize "On"
+    
 -- Include directories
 IncludeDirs = {}
 IncludeDirs["SFML"] = "extern/SFML/include"

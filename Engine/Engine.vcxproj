@@ -57,7 +57,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LUDEN_CONFIG_DEBUG;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -83,7 +83,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LUDEN_CONFIG_RELEASE;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -109,6 +109,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
     <ClInclude Include="include\Audio\SoundBuffer.h" />
     <ClInclude Include="include\Core\Buffer.h" />
+    <ClInclude Include="include\Core\Config.h" />
     <ClInclude Include="include\Core\Platform.h" />
     <ClInclude Include="include\Core\RuntimeApplication.h" />
     <ClInclude Include="include\Core\TimeStep.h" />
@@ -183,6 +184,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\IO\StreamReader.cpp" />
     <ClCompile Include="src\IO\StreamWriter.cpp" />
     <ClCompile Include="src\Input\Action.cpp" />
+    <ClCompile Include="src\NativeScript\NativeScriptModuleLoader.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptRegistry.cpp" />
     <ClCompile Include="src\Physics2D\Physics2D.cpp" />
     <ClCompile Include="src\Project\Project.cpp" />
