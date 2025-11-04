@@ -34,18 +34,20 @@ namespace Luden
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
+		,// Application Specification
 		ApplicationSpecification spec;
 		spec.Name = "Luden Editor";
 		spec.WindowWidth = 1600;
 		spec.WindowHeight = 900;
 		spec.EnableImGui = false;
-		std::filesystem::path projectPath = std::filesystem::absolute("..\\MyGame\\MyGame.lproject");
+		std::filesystem::path projectPath = std::filesystem::absolute("..\\GameModule\\MyGame.lproject");
 		spec.m_ProjectPath = projectPath;
 
 		LoadProject(spec.m_ProjectPath);
 		
 		EditorResources::Init();
 
+		// Font config
 		io.Fonts->Clear();
 		ImFont* mainFont = io.Fonts->AddFontFromFileTTF("Resources/fonts/Oswald-Medium.ttf", 22.0f); // Kendi ana fontunuzu yükle
 		ImFontConfig fontConfig;
@@ -58,6 +60,11 @@ namespace Luden
 			//TODO: ASSERT Unable to update the font texture
 		}
 		SetupImGuiStyle();
+
+		// Load Native Script Module
+		m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
+		std::filesystem::path modulePath = "../"
+		m_NativeScriptModuleLoader
 	}
 
 	void EditorApplication::Run()
@@ -439,7 +446,7 @@ namespace Luden
 
 		m_MainDockspaceInitialized = true;
 
-		std::string scenePath = "C:\\GameProjects\\Luden\\MyGame\\Resources\\Scenes\\Template.lscn";
+		std::string scenePath = "C:\\GameProjects\\Luden\\GameModule\\Resources\\Scenes\\Template.lscn";
 		if (FileSystem::Exists(scenePath))
 			OpenResource(scenePath);
 		else

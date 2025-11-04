@@ -16,6 +16,7 @@
 namespace Luden 
 {
 	class EditorTab;
+	class NativeScriptModuleLoader;
 
 	class EditorApplication 
 	{
@@ -59,6 +60,9 @@ namespace Luden
 	private:
 		std::vector<std::shared_ptr<EditorTab>> m_EditorTabs;
 		std::shared_ptr<EditorTab> m_FocusedTab;
+
+		std::unique_ptr<NativeScriptModuleLoader> m_NativeScriptModuleLoader;
+		std::filesystem::file_time_type m_LastModuleWriteTime;
 
 		ImGuiID m_MainDockspaceID;
 		ImGuiWindowClass m_MainDockspaceClass;

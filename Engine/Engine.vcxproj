@@ -41,15 +41,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Debug-windows-x86_64\Engine\</OutDir>
-    <IntDir>..\bin-int\Debug-windows-x86_64\Engine\</IntDir>
+    <OutDir>bin\Debug-windows-x86_64\</OutDir>
+    <IntDir>bin-int\Debug-windows-x86_64\</IntDir>
     <TargetName>Engine</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Release-windows-x86_64\Engine\</OutDir>
-    <IntDir>..\bin-int\Release-windows-x86_64\Engine\</IntDir>
+    <OutDir>bin\Release-windows-x86_64\</OutDir>
+    <IntDir>bin-int\Release-windows-x86_64\</IntDir>
     <TargetName>Engine</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
@@ -70,13 +70,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>comdlg32.lib;ole32.lib;uuid.lib;shell32.lib;user32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;opengl32.lib;box2dd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Debug;..\extern\Box2D\build\src\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\Engine\Engine.lib</ImportLibrary>
+      <ImportLibrary>bin\Debug-windows-x86_64\Engine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-graphics-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-graphics-d-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-window-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-window-d-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-system-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-system-d-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll ..\bin\Debug-windows-x86_64\Engine\sfml-audio-d-3.dll</Command>
+      <Command>copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-graphics-d-3.dll bin\Debug-windows-x86_64\sfml-graphics-d-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-window-d-3.dll bin\Debug-windows-x86_64\sfml-window-d-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-system-d-3.dll bin\Debug-windows-x86_64\sfml-system-d-3.dll
+copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x86_64\sfml-audio-d-3.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,14 +100,8 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll ..\bin\Debug-window
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>comdlg32.lib;ole32.lib;uuid.lib;shell32.lib;user32.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\extern\SFML\build\lib\Release;..\extern\Box2D\build\src\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ImportLibrary>..\bin\Release-windows-x86_64\Engine\Engine.lib</ImportLibrary>
+      <ImportLibrary>bin\Release-windows-x86_64\Engine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>copy /B /Y ..\extern\SFML\build\bin\Release\sfml-graphics-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-graphics-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-window-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-window-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-system-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-system-3.dll
-copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-windows-x86_64\Engine\sfml-audio-3.dll</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
