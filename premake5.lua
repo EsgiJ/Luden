@@ -6,7 +6,7 @@ workspace "LudenEngine"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 --------------------------------------------------------------------
--- ENGINE PROJECT
+-- ENGINE PROJECT (DLL)
 --------------------------------------------------------------------
 project "Engine"
     location "Engine"
@@ -85,7 +85,74 @@ project "Engine"
         }
 
 --------------------------------------------------------------------
--- EDITOR PROJECT
+-- GAME MODULE PROJECT (DLL - Hot Reloadable)
+--------------------------------------------------------------------
+project "GameModule"
+    location "GameModule"
+    kind "SharedLib"
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "off"
+    dependson { "Engine" }
+    defines { "GAME_MODULE_EXPORTS", "SFML_DYNAMIC" }
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "GameModule/**.h",
+        "GameModule/**.cpp"
+    }
+
+    includedirs {
+        "GameModule/include",
+        "Engine/include",
+        "extern/Box2D/include",
+        "extern/glm",
+        "extern/SFML/include",
+        "extern/json/include"
+    }
+
+    links { "Engine" }
+
+    ----------------------------------------------------------------
+    -- Debug config
+    ----------------------------------------------------------------
+    filter { "system:windows", "configurations:Debug" }
+        runtime "Debug"
+        symbols "On"
+        libdirs { 
+            "bin/" .. outputdir .. "/Engine",
+            "extern/SFML/build/lib/Debug",
+            "extern/Box2D/build/src/Debug"
+        }
+        links { "sfml-graphics-d", "sfml-window-d", "sfml-system-d", "sfml-audio-d", "box2dd" }
+        
+        postbuildcommands {
+            "{COPYFILE} %{cfg.targetdir}/GameModule.dll ../bin/" .. outputdir .. "/Editor/GameModule.dll",
+            "{COPYFILE} %{cfg.targetdir}/GameModule.pdb ../bin/" .. outputdir .. "/Editor/GameModule.pdb"
+        }
+
+    ----------------------------------------------------------------
+    -- Release config
+    ----------------------------------------------------------------
+    filter { "system:windows", "configurations:Release" }
+        runtime "Release"
+        optimize "On"
+        libdirs { 
+            "bin/" .. outputdir .. "/Engine",
+            "extern/SFML/build/lib/Release",
+            "extern/Box2D/build/src/Release"
+        }
+        links { "sfml-graphics", "sfml-window", "sfml-system", "sfml-audio", "box2d" }
+        
+        postbuildcommands {
+            "{COPYFILE} %{cfg.targetdir}/GameModule.dll ../bin/" .. outputdir .. "/Editor/GameModule.dll",
+            "{COPYFILE} %{cfg.targetdir}/GameModule.pdb ../bin/" .. outputdir .. "/Editor/GameModule.pdb"
+        }
+
+--------------------------------------------------------------------
+-- EDITOR PROJECT (EXE)
 --------------------------------------------------------------------
 project "Editor"
     location "Editor"
@@ -93,7 +160,7 @@ project "Editor"
     language "C++"
     cppdialect "C++20"
     staticruntime "off"
-    dependson { "Engine" }
+    dependson { "Engine", "GameModule" } 
     defines { "EDITOR_EXPORTS", "SFML_DYNAMIC" }
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -120,6 +187,7 @@ project "Editor"
         "Tools"
     }
 
+    -- Only link the engine, game module will be linked on runtime
     links { "Engine" }
 
     ----------------------------------------------------------------
@@ -132,12 +200,17 @@ project "Editor"
         links { "sfml-graphics-d", "sfml-window-d", "sfml-system-d", "sfml-audio-d", "opengl32" }
         postbuildcommands {
             "{MKDIR} \"%{cfg.targetdir}\"",
+            -- SFML DLL
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-graphics-d-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-d-3.dll\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-window-d-3.dll\"  \"%{cfg.targetdir}\\sfml-window-d-3.dll\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-system-d-3.dll\"  \"%{cfg.targetdir}\\sfml-system-d-3.dll\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Debug\\sfml-audio-d-3.dll\"   \"%{cfg.targetdir}\\sfml-audio-d-3.dll\"",
-            "{COPYFILE} ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Engine/Engine.pdb %{cfg.targetdir}/Engine.pdb",
-            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
+            -- Engine DLL
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\"",
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.pdb\" \"%{cfg.targetdir}\\Engine.pdb\"",
+            -- GameModule DLL (copy for the first time, then copy for hot reload)
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\GameModule\\GameModule.dll\" \"%{cfg.targetdir}\\GameModule.dll\"",
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\GameModule\\GameModule.pdb\" \"%{cfg.targetdir}\\GameModule.pdb\""
         }
 
     ----------------------------------------------------------------
@@ -150,11 +223,16 @@ project "Editor"
         links { "sfml-graphics", "sfml-window", "sfml-system", "sfml-audio", "opengl32" }
         postbuildcommands {
             "{MKDIR} \"%{cfg.targetdir}\"",
+            -- SFML DLL'leri
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-graphics-3.dll\" \"%{cfg.targetdir}\\sfml-graphics-3.dll\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-window-3.dll\"  \"%{cfg.targetdir}\\sfml-window-3.dll\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-system-3.dll\"  \"%{cfg.targetdir}\\sfml-system-3.dll\"",
             "{COPYFILE} \"..\\extern\\SFML\\build\\bin\\Release\\sfml-audio-3.dll\"   \"%{cfg.targetdir}\\sfml-audio-3.dll\"",
-            "{COPYFILE} ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/Engine/Engine.pdb %{cfg.targetdir}/Engine.pdb",
-            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\""
+            -- Engine DLL
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.dll\" \"%{cfg.targetdir}\\Engine.dll\"",
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\Engine\\Engine.pdb\" \"%{cfg.targetdir}\\Engine.pdb\"",
+            -- GameModule DLL
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\GameModule\\GameModule.dll\" \"%{cfg.targetdir}\\GameModule.dll\"",
+            "{COPYFILE} \"..\\bin\\" .. outputdir .. "\\GameModule\\GameModule.pdb\" \"%{cfg.targetdir}\\GameModule.pdb\""
         }
 

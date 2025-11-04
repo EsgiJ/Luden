@@ -77,8 +77,10 @@ copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-graphics-d-3.dll" "..\bin\Debug-
 copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-window-d-3.dll"  "..\bin\Debug-windows-x86_64\Editor\sfml-window-d-3.dll"
 copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-system-d-3.dll"  "..\bin\Debug-windows-x86_64\Editor\sfml-system-d-3.dll"
 copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll"   "..\bin\Debug-windows-x86_64\Editor\sfml-audio-d-3.dll"
-copy /B /Y ..\bin\Debug-windows-x86_64\Engine\Engine.pdb ..\bin\Debug-windows-x86_64\Editor\Engine.pdb
-copy /B /Y "..\bin\Debug-windows-x86_64\Engine\Engine.dll" "..\bin\Debug-windows-x86_64\Editor\Engine.dll"</Command>
+copy /B /Y "..\bin\Debug-windows-x86_64\Engine\Engine.dll" "..\bin\Debug-windows-x86_64\Editor\Engine.dll"
+copy /B /Y "..\bin\Debug-windows-x86_64\Engine\Engine.pdb" "..\bin\Debug-windows-x86_64\Editor\Engine.pdb"
+copy /B /Y "..\bin\Debug-windows-x86_64\GameModule\GameModule.dll" "..\bin\Debug-windows-x86_64\Editor\GameModule.dll"
+copy /B /Y "..\bin\Debug-windows-x86_64\GameModule\GameModule.pdb" "..\bin\Debug-windows-x86_64\Editor\GameModule.pdb"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -109,8 +111,10 @@ copy /B /Y "..\extern\SFML\build\bin\Release\sfml-graphics-3.dll" "..\bin\Releas
 copy /B /Y "..\extern\SFML\build\bin\Release\sfml-window-3.dll"  "..\bin\Release-windows-x86_64\Editor\sfml-window-3.dll"
 copy /B /Y "..\extern\SFML\build\bin\Release\sfml-system-3.dll"  "..\bin\Release-windows-x86_64\Editor\sfml-system-3.dll"
 copy /B /Y "..\extern\SFML\build\bin\Release\sfml-audio-3.dll"   "..\bin\Release-windows-x86_64\Editor\sfml-audio-3.dll"
-copy /B /Y ..\bin\Release-windows-x86_64\Engine\Engine.pdb ..\bin\Release-windows-x86_64\Editor\Engine.pdb
-copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-windows-x86_64\Editor\Engine.dll"</Command>
+copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.dll" "..\bin\Release-windows-x86_64\Editor\Engine.dll"
+copy /B /Y "..\bin\Release-windows-x86_64\Engine\Engine.pdb" "..\bin\Release-windows-x86_64\Editor\Engine.pdb"
+copy /B /Y "..\bin\Release-windows-x86_64\GameModule\GameModule.dll" "..\bin\Release-windows-x86_64\Editor\GameModule.dll"
+copy /B /Y "..\bin\Release-windows-x86_64\GameModule\GameModule.pdb" "..\bin\Release-windows-x86_64\Editor\GameModule.pdb"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

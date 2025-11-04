@@ -135,7 +135,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll ..\bin\Release-wind
     <ClInclude Include="include\IO\StreamReader.h" />
     <ClInclude Include="include\IO\StreamWriter.h" />
     <ClInclude Include="include\Input\Action.h" />
+    <ClInclude Include="include\NativeScript\IScriptModule.h" />
     <ClInclude Include="include\NativeScript\NativeScript.h" />
+    <ClInclude Include="include\NativeScript\NativeScriptModuleLoader.h" />
     <ClInclude Include="include\NativeScript\NativeScriptRegistry.h" />
     <ClInclude Include="include\NativeScript\ScriptableEntity.h" />
     <ClInclude Include="include\Physics2D\Physics2D.h" />
