@@ -31,7 +31,7 @@ namespace Luden
 		virtual void RegisterDependency(ResourceHandle resourceHandle, ResourceHandle dependency) override;
 
 		virtual std::unordered_set<ResourceHandle> GetAllResourcesWithType(ResourceType type) override;
-		virtual const std::unordered_map<ResourceHandle, std::shared_ptr<Resource>>& GetLoadedResources() override { return m_LoadedResources; }
+		virtual std::unordered_map<ResourceHandle, std::shared_ptr<Resource>>& GetLoadedResources() override { return m_LoadedResources; }
 
 		// ------------- Editor-only ----------------
 		ResourceMetadata GetMetadata(ResourceHandle resourceHandle);

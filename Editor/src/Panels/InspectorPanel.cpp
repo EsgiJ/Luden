@@ -4,10 +4,15 @@
 #include "Project/Project.h"
 #include "Graphics/Animation.h"
 #include "ECS/Components/Components.h"
+#include "NativeScript/NativeScriptGenerator.h"
+#include "NativeScript/NativeScript.h"
 
 #include <IconsFontAwesome7.h>
 #include <imgui.h>
 #include <imgui_internal.h>
+
+#include <memory>
+#include <iostream>
 
 namespace Luden
 {
@@ -76,6 +81,7 @@ namespace Luden
 				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component");
 				DisplayComponentInPopup<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component");
 				DisplayComponentInPopup<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component");
+				DisplayComponentInPopup<NativeScriptComponent>(ICON_FA_CODE " Native Script Component");
 				DisplayComponentInPopup<Animation2DComponent>(ICON_FA_PLAY " Animation Component");
 				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Font Component");
 				DisplayComponentInPopup<TextureComponent>(ICON_FA_IMAGE " Texture Component");
@@ -223,13 +229,164 @@ namespace Luden
 						ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
 					});
 
-				DisplayComponentInInspector<NativeScriptComponent>(ICON_FA_CIRCLE " NativeScript Component", entity, true, [&]()
+				DisplayComponentInInspector<NativeScriptComponent>(
+					ICON_FA_CODE " Native Script", entity, true, [&]()
 					{
-						auto& nativeScript = entity.Get<NativeScriptComponent>();
+						auto& nsc = entity.Get<NativeScriptComponent>();
+						auto resourceManager = Project::GetResourceManager();
 
-						if (ImGuiUtils::ResourceButton(nativeScript.ScriptHandle, ResourceType::NativeScript))
+						ImGuiUtils::PrefixLabel(ICON_FA_FILE_CODE " Script");
+
+						// Current script name
+						std::string currentScriptName = "None";
+						if (nsc.ScriptHandle != 0)
 						{
-							//TODO: Native Editor Panel
+							auto resource = resourceManager->GetResource(nsc.ScriptHandle);
+							auto script = std::static_pointer_cast<NativeScript>(resource);
+							if (script)
+								currentScriptName = script->GetClassName();
+						}
+
+						if (ImGui::BeginCombo("##ScriptSelector", currentScriptName.c_str()))
+						{
+							// None option
+							if (ImGui::Selectable("None", nsc.ScriptHandle == 0))
+							{
+								nsc.DestroyInstance();
+								nsc.ScriptHandle = 0;
+								nsc.InstantiateScript = nullptr;
+								nsc.DestroyScript = nullptr;
+							}
+
+							// Get all NativeScript resources
+							auto scriptHandles = resourceManager->GetAllResourcesWithType(ResourceType::NativeScript);
+
+							for (auto handle : scriptHandles)
+							{
+								auto script = std::static_pointer_cast<NativeScript>(resourceManager->GetResource(handle));
+
+								if (!script)
+									continue;
+
+								bool isSelected = (nsc.ScriptHandle == handle);
+								bool hasBindings = (script->GetInstantiateFunc() != nullptr);
+
+								// Disable if not compiled
+								if (!hasBindings)
+									ImGui::BeginDisabled();
+
+								std::string displayName = script->GetClassName();
+								if (!hasBindings)
+									displayName += " (Not Compiled)";
+
+								if (ImGui::Selectable(displayName.c_str(), isSelected))
+								{
+									// Destroy old instance
+									nsc.DestroyInstance();
+
+									// Bind new script
+									nsc.BindFromHandle(handle);
+
+									// If playing, create instance immediately
+									/*if (m_Context->IsPlaying() && nsc.InstantiateScript)
+									{
+										nsc.CreateInstance(entity);
+									}
+									*/
+								}
+
+								if (!hasBindings)
+									ImGui::EndDisabled();
+							}
+
+							ImGui::EndCombo();
+						}
+
+						ImGui::SameLine();
+
+						// Create new script button
+						if (ImGui::Button(ICON_FA_PLUS))
+						{
+							ImGui::OpenPopup("CreateNewScript");
+						}
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::SetTooltip("Create New Script");
+						}
+
+						// Create script dialog
+						if (ImGui::BeginPopupModal("CreateNewScript", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+						{
+							static char scriptName[256] = "";
+
+							ImGui::Text("Create New Native Script");
+							ImGui::Separator();
+
+							ImGui::InputText("Class Name", scriptName, sizeof(scriptName));
+
+							if (ImGui::Button("Create", ImVec2(120, 0)))
+							{
+								if (strlen(scriptName) > 0)
+								{
+									ResourceHandle newHandle = NativeScriptGenerator::CreateNewScript(scriptName);
+
+									if (newHandle != 0)
+									{
+										// Auto-select the new script
+										nsc.BindFromHandle(newHandle);
+
+										scriptName[0] = '\0'; // Clear buffer
+										ImGui::CloseCurrentPopup();
+									}
+								}
+							}
+
+							ImGui::SameLine();
+
+							if (ImGui::Button("Cancel", ImVec2(120, 0)))
+							{
+								scriptName[0] = '\0';
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::EndPopup();
+						}
+
+						// Script status
+						if (nsc.ScriptHandle != 0)
+						{
+							auto script = std::static_pointer_cast<NativeScript>(
+								resourceManager->GetResource(nsc.ScriptHandle)
+							);
+
+							ImGuiUtils::PrefixLabel("Status");
+
+							if (!script->GetInstantiateFunc())
+							{
+								ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_XMARK " Not Compiled");
+
+								if (ImGui::Button(ICON_FA_HAMMER " Rebuild GameModule"))
+								{
+									// TODO: Trigger recompile
+									std::cout << "Rebuild triggered!" << std::endl;
+								}
+							}
+							else if (nsc.Instance)
+							{
+								ImGui::TextColored(ImVec4(0, 1, 0, 1), ICON_FA_CHECK " Active");
+							}
+							else
+							{
+								ImGui::TextColored(ImVec4(1, 1, 0, 1), ICON_FA_PAUSE " Not Instantiated");
+							}
+
+							// Show file paths
+							if (ImGui::TreeNode("Files"))
+							{
+								ImGui::Text("Header: %s", script->GetHeaderPath().string().c_str());
+								ImGui::Text("Source: %s", script->GetSourcePath().string().c_str());
+								ImGui::TreePop();
+							}
 						}
 					});
 

@@ -17,6 +17,7 @@ namespace Luden
 	class ToolbarPanel;
 	class ResourceBrowserPanel;
 
+	//TODO: Why all the functions virtual? Fix that
 	class SceneEditorTab : public EditorTab
 	{
 	public:
@@ -24,11 +25,21 @@ namespace Luden
 		virtual ~SceneEditorTab();
 
 	public:
+		enum class SceneState
+		{
+			Edit = 0,
+			Play = 1,
+			Pause = 2
+		};
+
 		virtual void OnScenePlay();
 		virtual void OnSceneStop();
 		void OnScenePause(bool isPaused = false);
 
 		virtual void SaveScene();
+		std::shared_ptr<Scene> GetActiveScene() { return m_ActiveScene; }
+
+		SceneState GetSceneState() { return m_SceneState; }
 	private:
 		virtual void RenderContent() override final;
 		virtual void InitializeDockspace() override final;
@@ -74,12 +85,6 @@ namespace Luden
 		ResourceBrowserPanel m_ResourceBrowserPanel;
 
 		std::filesystem::path m_ActiveScenePath = std::filesystem::canonical(".");
-
-		enum class SceneState 
-		{
-			Edit = 0,
-			Play = 1
-		};
 
 		SceneState m_SceneState = SceneState::Edit;
 

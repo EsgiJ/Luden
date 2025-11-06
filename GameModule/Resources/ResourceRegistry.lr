@@ -236,6 +236,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/PlayerController.lns",
+      "Handle": 16515081709759698630,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "images/zelda_stair.png",
       "Handle": 16675339296861051391,
       "Type": "Texture"

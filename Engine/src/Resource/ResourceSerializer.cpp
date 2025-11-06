@@ -34,6 +34,62 @@ namespace Luden
 		return true;
 	}
 
+	void NativeScriptResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
+	{
+		auto script = std::static_pointer_cast<NativeScript>(resource);
+
+		nlohmann::json j;
+
+		j["ClassName"] = script->GetClassName();
+		j["HeaderPath"] = script->GetHeaderPath().string();
+		j["SourcePath"] = script->GetSourcePath().string();
+		j["Handle"] = static_cast<uint64_t>(script->Handle);
+
+		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
+		out << j.dump(4);
+	}
+
+	bool NativeScriptResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
+	{
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		std::ifstream in(path);
+		if (!in.is_open())
+			return false;
+
+		nlohmann::json j;
+		in >> j;
+
+		auto script = std::make_shared<NativeScript>();
+		script->SetClassName(j["ClassName"].get<std::string>());
+		script->SetHeaderPath(j["HeaderPath"].get<std::string>());
+		script->SetSourcePath(j["SourcePath"].get<std::string>());
+		script->Handle = j["Handle"].get<uint64_t>();
+		resource = script;
+		return true;
+	}
+
+	bool NativeScriptResourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
+	{
+		outInfo.Offset = stream.GetStreamPosition();
+
+		auto script = ResourceManager::GetResource<NativeScript>(handle);
+
+		nlohmann::json j;
+		j["ClassName"] = script->GetClassName();
+		j["Handle"] = static_cast<uint64_t>(script->Handle);
+
+		std::string jsonStr = j.dump();
+		stream.WriteString(jsonStr);
+
+		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
+		return true;
+	}
+
+	std::shared_ptr<Resource> NativeScriptResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	{
+		return std::shared_ptr<Resource>();
+	}
+
 	bool TextureSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
 	{
 		outInfo.Offset = stream.GetStreamPosition();

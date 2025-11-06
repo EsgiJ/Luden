@@ -70,6 +70,8 @@ namespace Luden
 		{
 			auto resourceManager = Project::GetResourceManager();
 			m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
+
+			m_LastModuleWriteTime = FileSystem::GetLastWriteTime(modulePath);
 		}
 	}
 
@@ -199,6 +201,65 @@ namespace Luden
 		}
 
 		m_OpenResourceRequests.push_back(path);
+	}
+
+	void EditorApplication::HotReloadNativeScripts()
+	{
+		if (!m_NativeScriptModuleLoader->IsLoaded())
+			return;
+
+		std::filesystem::path modulePath = Config::GetGameModulePath();
+		auto currentWriteTime = FileSystem::GetLastWriteTime(modulePath);
+
+		if (currentWriteTime > m_LastModuleWriteTime)
+		{
+			std::cout << "DLL changed hot reloading..." << std::endl;
+			
+			if (!m_FocusedTab)
+				return;
+
+			if (auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab))
+			{
+				std::shared_ptr<Scene> activeScene = sceneTab->GetActiveScene();
+
+				if (activeScene == nullptr)
+					return;
+
+				bool wasPlaying = sceneTab->GetSceneState() == SceneEditorTab::SceneState::Play;
+				if (wasPlaying)
+					sceneTab->OnSceneStop();
+
+				//Clear all script instances
+				for (auto& entity : activeScene->GetEntityManager().GetEntities())
+				{
+					if (entity.Has<NativeScriptComponent>())
+					{
+						auto& nsc = entity.Get<NativeScriptComponent>();
+						nsc.DestroyInstance();
+					}
+				}
+
+				if (m_NativeScriptModuleLoader->ReloadModule())
+				{
+					m_NativeScriptModuleLoader->GetModule()->RegisterScripts(
+						Project::GetResourceManager().get()
+					);
+
+					m_LastModuleWriteTime = currentWriteTime;
+
+					std::cout << "Hot reload successful!" << std::endl;
+
+					if (wasPlaying)
+					{
+						sceneTab->OnScenePlay();
+					}
+				}
+				else
+				{
+					std::cerr << "Hot reload failed!" << std::endl;
+				}
+			}
+		}
 	}
 
 	void CreateNewScene()

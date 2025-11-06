@@ -34,6 +34,8 @@ namespace Luden
 
 		void RequestOpenResource(const std::filesystem::path& path);
 
+		void HotReloadNativeScripts();
+
 		void CreateNewScene();
 		void SaveActiveScene();
 		void CreateNewProject(const std::filesystem::path& path, NewProjectType type);
@@ -62,7 +64,7 @@ namespace Luden
 		std::shared_ptr<EditorTab> m_FocusedTab;
 
 		std::unique_ptr<NativeScriptModuleLoader> m_NativeScriptModuleLoader;
-		std::filesystem::file_time_type m_LastModuleWriteTime;
+		uint64_t m_LastModuleWriteTime;
 
 		ImGuiID m_MainDockspaceID;
 		ImGuiWindowClass m_MainDockspaceClass;

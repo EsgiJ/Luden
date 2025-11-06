@@ -2,8 +2,10 @@
 #include "Resource/Resource.h"
 #include "Utils/EditorResources.h"
 #include "Project/Project.h"
+#include "Core/Config.h"
 
 #include <IconsFontAwesome7.h>
+#include "NativeScript/NativeScriptGenerator.h"
 
 namespace Luden
 {
@@ -39,6 +41,57 @@ namespace Luden
 		} 
 		ImGui::PopID();
 		ImGui::EndDisabled();
+		
+		if (ImGui::Button(ICON_FA_FILE_CODE " New Script"))
+		{
+			ImGui::OpenPopup("CreateScriptDialog");
+		}
+
+		if (ImGui::BeginPopupModal("CreateScriptDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			static char className[256] = "";
+			static char sourcePath[256] = {};
+			static char headerPath[256] = {};
+
+			// paths klasör
+			snprintf(sourcePath, sizeof(sourcePath), "%s/Source", Project::GetProjectDirectory().string().c_str());
+			snprintf(headerPath, sizeof(headerPath), "%s/Source", Project::GetProjectDirectory().string().c_str());
+
+			// UI
+			ImGui::InputText("Class Name", className, sizeof(className));
+			ImGui::InputText("Source Path", sourcePath, sizeof(sourcePath));
+			ImGui::InputText("Header Path", headerPath, sizeof(headerPath));
+
+			// Eğer className doluysa otomatik dosya isimleri türet
+			if (className[0] != '\0')
+			{
+				char generatedHeader[256];
+				char generatedSource[256];
+
+				snprintf(generatedHeader, sizeof(generatedHeader), "%s/%s.h", headerPath, className);
+				snprintf(generatedSource, sizeof(generatedSource), "%s/%s.cpp", sourcePath, className);
+
+				ImGui::Text("Generated Files:");
+				ImGui::Text("Header: %s", generatedHeader);
+				ImGui::Text("Source: %s", generatedSource);
+
+				if (ImGui::Button("Create"))
+				{
+					NativeScriptGenerator::CreateNewScript(className, headerPath, sourcePath);
+					className[0] = '\0';
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
 
 		ImGui::Separator();
 
