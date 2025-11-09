@@ -9,6 +9,7 @@
 
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
+#include "glm/ext/vector_float3.hpp"
 
 namespace Luden
 {
@@ -239,18 +240,15 @@ namespace Luden
 	struct ENGINE_API TransformComponent : public IComponent
 	{
 	public:
-		glm::vec2 pos = { 0.0f, 0.0f };
-		glm::vec2 prevPos = { 0.0f, 0.0f };
-		glm::vec2 velocity = { 0.0f, 0.0f };
-		glm::vec2 scale = { 1.0f, 1.0f };
-		glm::vec2 facing = { 0.0f, 1.0f };
+		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
 		float angle = 0;
 
 		TransformComponent() = default;
 
-		explicit TransformComponent(const glm::vec2& p) : pos(p) {}
+		explicit TransformComponent(const glm::vec3& t) : Translation(t) {}
 
-		TransformComponent(const glm::vec2& p, const glm::vec2& speed, const glm::vec2& s, float a)
-			: pos(p), prevPos(p), velocity(speed), scale(s), angle(a) {}
+		TransformComponent(const glm::vec3& t, const glm::vec3& s, float a)
+			: Translation(t), Scale(s), angle(a) {}
 	};
 }

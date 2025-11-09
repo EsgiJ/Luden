@@ -368,10 +368,10 @@ namespace Luden {
 			if (texture == nullptr)
 				continue;
 
-			glm::vec2 min = transformComponent.pos;
+			glm::vec2 min = transformComponent.Translation;
 
 			sf::Vector2u textureSize = texture->GetTexture().getSize();
-			glm::vec2 max = transformComponent.pos + glm::vec2(static_cast<float>(textureSize.x), static_cast<float>(textureSize.y));
+			glm::vec2 max = transformComponent.Translation + glm::vec3(static_cast<float>(textureSize.x), static_cast<float>(textureSize.y), 0);
 
 			if (mousePos.x > min.x && mousePos.x < max.x && mousePos.y > min.y && mousePos.y < max.y)
 			{
@@ -412,7 +412,7 @@ namespace Luden {
 		{
 			glm::vec2 diff = GetMouseDelta();
 
-			glm::vec2& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().pos;
+			glm::vec3& entityPosition = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().Translation;
 
 			if (!m_IsSnapEnabled)
 			{
@@ -452,7 +452,7 @@ namespace Luden {
 		{
 			glm::vec2 diff = GetMouseDelta();
 
-			glm::vec2& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().scale;
+			glm::vec3& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().Scale;
 
 			if (!m_IsSnapScaleEnabled)
 			{

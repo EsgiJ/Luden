@@ -503,21 +503,10 @@ namespace Luden
 						auto& transformComponent = entity.Get<TransformComponent>();
 
 						ImGuiUtils::PrefixLabel(ICON_FA_LOCATION_ARROW " Position");
-						ImGui::DragFloat2("##Pos", &transformComponent.pos.x, 0.1f);
-
-						ImGuiUtils::PrefixLabel(ICON_FA_LOCATION_DOT " PrevPos");
-						ImGui::BeginDisabled();
-						ImGui::DragFloat2("##PrevPos", &transformComponent.prevPos.x);
-						ImGui::EndDisabled();
-
-						ImGuiUtils::PrefixLabel(ICON_FA_WIND " Velocity");
-						ImGui::DragFloat2("##Velocity", &transformComponent.velocity.x, 0.1f);
+						ImGui::DragFloat2("##Pos", &transformComponent.Translation.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel(ICON_FA_MAGNIFYING_GLASS_PLUS " Scale");
-						ImGui::DragFloat2("##Scale", &transformComponent.scale.x, 0.1f);
-
-						ImGuiUtils::PrefixLabel(ICON_FA_COMPASS " Facing");
-						ImGui::DragFloat2("##Facing", &transformComponent.facing.x, 0.1f);
+						ImGui::DragFloat2("##Scale", &transformComponent.Scale.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel(ICON_FA_ROTATE " Angle" );
 						ImGui::DragFloat("##Angle", &transformComponent.angle, 0.1f);

@@ -56,7 +56,7 @@ namespace Luden
 
 		void ShowToolbarPlayPause();
 
-		glm::vec2 WorldToScreen(const glm::vec2& worldPos);
+		glm::vec2 WorldToScreen(const glm::vec3& worldPos);
 		void DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity);
 		void DrawGizmo(ImDrawList* drawList, Entity entity, ToolbarPanel::Tool tool);
 	private:

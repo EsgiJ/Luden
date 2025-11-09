@@ -4,6 +4,7 @@
 #include "Project/Project.h"
 
 #include <fstream>
+#include "glm/ext/vector_float3.hpp"
 
 using json = nlohmann::json;
 
@@ -210,11 +211,8 @@ namespace Luden
 			{
 				const auto& c = e.Get<TransformComponent>();
 				jEntity["TransformComponent"] = {
-					{"pos", {c.pos.x, c.pos.y}},
-					{"prevPos", {c.prevPos.x, c.prevPos.y}},
-					{"velocity", {c.velocity.x, c.velocity.y}},
-					{"scale", {c.scale.x, c.scale.y}},
-					{"facing", {c.facing.x, c.facing.y}},
+					{"Translation", {c.Translation.x, c.Translation.y, c.Translation.z}},
+					{"Scale", {c.Scale.x, c.Scale.y, c.Scale.y}},
 					{"angle", c.angle}
 				};
 			}
@@ -367,20 +365,14 @@ namespace Luden
 
 			if (jEntity.contains("TransformComponent"))
 			{
-				auto pos = jEntity["TransformComponent"]["pos"];
-				auto prevPos = jEntity["TransformComponent"]["prevPos"];
-				auto velocity = jEntity["TransformComponent"]["velocity"];
-				auto scale = jEntity["TransformComponent"]["scale"];
-				auto facing = jEntity["TransformComponent"]["facing"];
+				auto translation = jEntity["TransformComponent"]["Translation"];
+				auto scale = jEntity["TransformComponent"]["Scale"];
+
 				e.Add<TransformComponent>(
-					glm::vec2(pos[0], pos[1]),
-					glm::vec2(velocity[0], velocity[1]),
-					glm::vec2(scale[0], scale[1]),
+					glm::vec3(translation[0], translation[1], translation[2]),
+					glm::vec3(scale[0], scale[1], scale[2]),
 					jEntity["TransformComponent"]["angle"]
 				);
-				auto& c = e.Get<TransformComponent>();
-				c.prevPos = { prevPos[0], prevPos[1] };
-				c.facing = { facing[0], facing[1] };
 			}
 
 			if (jEntity.contains("NativeScriptComponent"))

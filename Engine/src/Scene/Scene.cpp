@@ -90,8 +90,8 @@ namespace Luden {
 				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
 				sf::Sprite sprite = animation->GetSprite();
 
-				sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
-				sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
+				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
 				sprite.setColor(c);
 
 				target->draw(sprite);
@@ -105,8 +105,8 @@ namespace Luden {
 				if (textureRes)
 				{
 					sf::Sprite sprite(textureRes->GetTexture());
-					sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
-					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+					sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
+					sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
 					sprite.setColor(c);
 
 					target->draw(sprite);
@@ -135,8 +135,8 @@ namespace Luden {
 				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
 				sf::Sprite sprite = animation->GetSprite();
 
-				sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
-				sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
+				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
 				sprite.setColor(c);
 				target->draw(sprite);
 			}
@@ -149,8 +149,8 @@ namespace Luden {
 				if (textureRes)
 				{
 					sf::Sprite sprite(textureRes->GetTexture());
-					sprite.setPosition(sf::Vector2f(transform.pos.x, transform.pos.y));
-					sprite.setScale(sf::Vector2f(transform.scale.x, transform.scale.y));
+					sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
+					sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
 					sprite.setColor(c);
 					sprite.setRotation(sf::degrees(transform.angle));
 					target->draw(sprite);
@@ -232,8 +232,8 @@ namespace Luden {
 					bodyDef.type = b2_dynamicBody;
 
 				bodyDef.position = b2Vec2(
-					transformComponent.pos.x / m_PhysicsScale,
-					(m_ViewportHeight - transformComponent.pos.y) / m_PhysicsScale
+					transformComponent.Translation.x / m_PhysicsScale,
+					(m_ViewportHeight - transformComponent.Translation.y) / m_PhysicsScale
 				);
 				bodyDef.rotation = b2MakeRot(glm::radians(transformComponent.angle));
 
@@ -254,8 +254,8 @@ namespace Luden {
 					auto& bc2d = entity.Get<BoxCollider2DComponent>();
 					b2BodyId bodyId = rb2d.RuntimeBodyId;
 
-					float halfWidth = (bc2d.Size.x * transformComponent.scale.x) / (2.0f * m_PhysicsScale);
-					float halfHeight = (bc2d.Size.y * transformComponent.scale.y) / (2.0f * m_PhysicsScale);
+					float halfWidth = (bc2d.Size.x * transformComponent.Scale.x) / (2.0f * m_PhysicsScale);
+					float halfHeight = (bc2d.Size.y * transformComponent.Scale.y) / (2.0f * m_PhysicsScale);
 
 					b2Vec2 centerOffset = {
 						bc2d.Offset.x / m_PhysicsScale,
@@ -265,8 +265,8 @@ namespace Luden {
 					b2Rot localRotation = b2MakeRot(0.0f);
 
 					b2Polygon boxShape = b2MakeOffsetBox(
-						(bc2d.Size.x * transformComponent.scale.x) / (2.0f * m_PhysicsScale),
-						(bc2d.Size.y * transformComponent.scale.y) / (2.0f * m_PhysicsScale),
+						(bc2d.Size.x * transformComponent.Scale.x) / (2.0f * m_PhysicsScale),
+						(bc2d.Size.y * transformComponent.Scale.y) / (2.0f * m_PhysicsScale),
 						centerOffset,
 						localRotation
 					);
@@ -285,7 +285,7 @@ namespace Luden {
 					auto& cc2d = entity.Get<CircleCollider2DComponent>();
 					b2BodyId bodyId = rb2d.RuntimeBodyId;
 
-					float scale = glm::max(transformComponent.scale.x, transformComponent.scale.y);
+					float scale = glm::max(transformComponent.Scale.x, transformComponent.Scale.y);
 
 					b2Circle circle =
 					{
@@ -327,8 +327,8 @@ namespace Luden {
 
 					float angle = atan2f(rotation.s, rotation.c);
 
-					transform.pos.x = position.x * m_PhysicsScale;
-					transform.pos.y = m_ViewportHeight - (position.y * m_PhysicsScale);
+					transform.Translation.x = position.x * m_PhysicsScale;
+					transform.Translation.y = m_ViewportHeight - (position.y * m_PhysicsScale);
 					transform.angle = glm::degrees(angle);
 				}
 			}

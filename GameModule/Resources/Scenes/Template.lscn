@@ -7,27 +7,17 @@
             },
             "Tag": "MainCamera",
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    0.0,
-                    0.0
-                ],
-                "prevPos": [
-                    0.0,
-                    0.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
+                "Translation": [
+                    0.0,
                     0.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1001000000000000000
         },
@@ -76,27 +66,17 @@
                 "textureHandle": 10713380733661294664
             },
             "TransformComponent": {
-                "angle": 0.0025776142720133066,
-                "facing": [
-                    0.0,
-                    -1.0
-                ],
-                "pos": [
-                    285.9892883300781,
-                    576.0029296875
-                ],
-                "prevPos": [
-                    5.0,
-                    7.0
-                ],
-                "scale": [
+                "Scale": [
+                    1.0,
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    275.9942932128906,
+                    576.004150390625,
                     0.0
-                ]
+                ],
+                "angle": 0.0048221698962152
             },
             "UUID": 1002000000000000000
         },
@@ -130,27 +110,17 @@
                 "textureHandle": 7574791978689341845
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    256.0,
-                    640.0
-                ],
-                "prevPos": [
-                    3.0,
-                    8.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    256.0,
+                    640.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1003000000000000000
         },
@@ -184,27 +154,17 @@
                 "textureHandle": 7574791978689341845
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    320.0,
-                    640.0
-                ],
-                "prevPos": [
-                    4.0,
-                    3.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    320.0,
+                    640.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1004000000000000000
         },
@@ -230,27 +190,17 @@
                 "textureHandle": 1778777879503230346
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    704.0,
-                    64.0
-                ],
-                "prevPos": [
-                    11.0,
-                    4.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    704.0,
+                    64.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1005000000000000000
         },
@@ -276,27 +226,17 @@
                 "textureHandle": 11101103845089673357
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    768.0,
-                    64.0
-                ],
-                "prevPos": [
-                    12.0,
-                    4.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    768.0,
+                    64.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1006000000000000000
         },
@@ -322,27 +262,17 @@
                 "textureHandle": 17456551125940696384
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    832.0,
-                    64.0
-                ],
-                "prevPos": [
-                    13.0,
-                    4.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    832.0,
+                    64.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1007000000000000000
         },
@@ -368,27 +298,17 @@
                 "textureHandle": 3141527581550012513
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    704.0,
-                    128.0
-                ],
-                "prevPos": [
-                    11.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    704.0,
+                    128.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1008000000000000000
         },
@@ -422,27 +342,17 @@
                 "textureHandle": 5582313727379296300
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    768.0,
-                    128.0
-                ],
-                "prevPos": [
-                    12.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    768.0,
+                    128.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1009000000000000000
         },
@@ -468,27 +378,17 @@
                 "textureHandle": 41324236550034339
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    832.0,
-                    128.0
-                ],
-                "prevPos": [
-                    13.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    832.0,
+                    128.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1010000000000000000
         },
@@ -514,27 +414,17 @@
                 "textureHandle": 16675339296861051391
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    448.0,
-                    384.0
-                ],
-                "prevPos": [
-                    7.0,
-                    2.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    448.0,
+                    384.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1011000000000000000
         },
@@ -560,27 +450,17 @@
                 "textureHandle": 5904733657860222223
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    384.0,
-                    192.0
-                ],
-                "prevPos": [
-                    5.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    384.0,
+                    192.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1012000000000000000
         },
@@ -606,27 +486,17 @@
                 "textureHandle": 7587639301444688835
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    448.0,
-                    192.0
-                ],
-                "prevPos": [
-                    6.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    448.0,
+                    192.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1013000000000000000
         },
@@ -652,27 +522,17 @@
                 "textureHandle": 14901163932743642916
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    512.0,
-                    192.0
-                ],
-                "prevPos": [
-                    7.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    512.0,
+                    192.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1014000000000000000
         },
@@ -698,27 +558,17 @@
                 "textureHandle": 8066417851571793255
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    384.0,
-                    256.0
-                ],
-                "prevPos": [
-                    5.0,
-                    6.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    384.0,
+                    256.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1015000000000000000
         },
@@ -744,27 +594,17 @@
                 "textureHandle": 11780503573412209219
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    448.0,
-                    256.0
-                ],
-                "prevPos": [
-                    6.0,
-                    6.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    448.0,
+                    256.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1016000000000000000
         },
@@ -790,27 +630,17 @@
                 "textureHandle": 4583100103902977791
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    512.0,
-                    256.0
-                ],
-                "prevPos": [
-                    7.0,
-                    6.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    512.0,
+                    256.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1017000000000000000
         },
@@ -836,27 +666,17 @@
                 "textureHandle": 14376994147307639119
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    384.0,
-                    150.0
-                ],
-                "prevPos": [
-                    11.0,
-                    10.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    384.0,
+                    150.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1018000000000000000
         },
@@ -882,27 +702,17 @@
                 "textureHandle": 14376994147307639119
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    448.0,
-                    150.0
-                ],
-                "prevPos": [
-                    5.0,
-                    7.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    448.0,
+                    150.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1019000000000000000
         },
@@ -928,27 +738,17 @@
                 "textureHandle": 14376994147307639119
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    512.0,
-                    150.0
-                ],
-                "prevPos": [
-                    2.0,
-                    11.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    512.0,
+                    150.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1020000000000000000
         },
@@ -978,27 +778,17 @@
                 "textureHandle": 14913595247856052817
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    832.0,
-                    576.0
-                ],
-                "prevPos": [
-                    2.0,
-                    8.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    832.0,
+                    576.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1021000000000000000
         },
@@ -1028,27 +818,17 @@
                 "textureHandle": 13120669987925077891
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    192.0,
-                    256.0
-                ],
-                "prevPos": [
-                    3.0,
-                    3.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    192.0,
+                    256.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1022000000000000000
         },
@@ -1078,27 +858,17 @@
                 "textureHandle": 14913595247856052817
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    64.0,
-                    640.0
-                ],
-                "prevPos": [
-                    8.0,
-                    5.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    64.0,
+                    640.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1023000000000000000
         },
@@ -1128,27 +898,17 @@
                 "textureHandle": 14913595247856052817
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    192.0,
-                    64.0
-                ],
-                "prevPos": [
-                    15.0,
-                    7.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    192.0,
+                    64.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1024000000000000000
         },
@@ -1178,27 +938,17 @@
                 "textureHandle": 13120669987925077891
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    896.0,
-                    192.0
-                ],
-                "prevPos": [
-                    5.0,
-                    6.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    896.0,
+                    192.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1025000000000000000
         },
@@ -1228,27 +978,17 @@
                 "textureHandle": 13120669987925077891
             },
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
+                "Scale": [
                     1.0,
-                    0.0
-                ],
-                "pos": [
-                    704.0,
-                    384.0
-                ],
-                "prevPos": [
-                    9.0,
-                    6.0
-                ],
-                "scale": [
                     1.0,
                     1.0
                 ],
-                "velocity": [
-                    0.0,
+                "Translation": [
+                    704.0,
+                    384.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 1026000000000000000
         },
@@ -1259,27 +999,17 @@
             },
             "Tag": "New Child Entity",
             "TransformComponent": {
-                "angle": 0.0,
-                "facing": [
-                    0.0,
-                    1.0
-                ],
-                "pos": [
-                    0.0,
-                    0.0
-                ],
-                "prevPos": [
-                    0.0,
-                    0.0
-                ],
-                "scale": [
+                "Scale": [
+                    1.0,
                     1.0,
                     1.0
                 ],
-                "velocity": [
+                "Translation": [
+                    0.0,
                     0.0,
                     0.0
-                ]
+                ],
+                "angle": 0.0
             },
             "UUID": 6525552477521242951
         }

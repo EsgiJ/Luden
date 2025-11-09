@@ -191,7 +191,7 @@ namespace Luden
 							if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
 							{
 								auto& transformComponent = entity.Get<TransformComponent>();
-								glm::vec2 tempPos = WorldToScreen(transformComponent.pos);
+								glm::vec2 tempPos = WorldToScreen(transformComponent.Translation);
 								ImVec2 minPos = ImVec2(tempPos.x, tempPos.y);
 
 								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
@@ -335,7 +335,7 @@ namespace Luden
 
 		auto& transform = entity.Get<TransformComponent>();
 
-		transform.pos = { worldCoords.x, worldCoords.y };
+		transform.Translation = { worldCoords.x, worldCoords.y, 0};
 	}
 
 	void SceneEditorTab::SetPanelsContext()
@@ -460,7 +460,7 @@ namespace Luden
 		ImGui::PopStyleColor(3);
 	}
 
-	glm::vec2 SceneEditorTab::WorldToScreen(const glm::vec2& worldPos)
+	glm::vec2 SceneEditorTab::WorldToScreen(const glm::vec3& worldPos)
 	{
 		sf::Vector2f sfWorldPos(worldPos.x, worldPos.y);
 		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos);
@@ -480,14 +480,14 @@ namespace Luden
 		if (!texture) return;
 
 		sf::Vector2u texSize = texture->GetTexture().getSize();
-		glm::vec2 scaledSize = { texSize.x * transform.scale.x, texSize.y * transform.scale.y };
+		glm::vec3 scaledSize = { texSize.x * transform.Scale.x, texSize.y * transform.Scale.y, 0.0f };
 
 
-		glm::vec2 worldCorners[] = {
-			transform.pos,                                         
-			transform.pos + glm::vec2(scaledSize.x, 0),           
-			transform.pos + scaledSize,                            
-			transform.pos + glm::vec2(0, scaledSize.y)            
+		glm::vec3 worldCorners[] = {
+			transform.Translation,                                         
+			transform.Translation + glm::vec3(scaledSize.x, 0, 0),
+			transform.Translation + scaledSize,
+			transform.Translation + glm::vec3(0, scaledSize.y, 0)
 		};
 
 		ImVec2 screenCorners[4];
@@ -513,15 +513,15 @@ namespace Luden
 
 		auto& transform = entity.Get<TransformComponent>();
 
-		glm::vec2 centerWorldPos = transform.pos;
+		glm::vec3 centerWorldPos = transform.Translation;
 		if (entity.Has<TextureComponent>())
 		{
 			auto& textureComp = entity.Get<TextureComponent>();
 			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComp.textureHandle));
 			if (texture)
 			{
-				centerWorldPos.x += texture->GetTexture().getSize().x * transform.scale.x / 2.0f;
-				centerWorldPos.y += texture->GetTexture().getSize().y * transform.scale.y / 2.0f;
+				centerWorldPos.x += texture->GetTexture().getSize().x * transform.Scale.x / 2.0f;
+				centerWorldPos.y += texture->GetTexture().getSize().y * transform.Scale.y / 2.0f;
 			}
 		}
 		glm::vec2 tempPos = WorldToScreen(centerWorldPos);
