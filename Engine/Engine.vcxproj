@@ -132,10 +132,10 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Input\Action.h" />
     <ClInclude Include="include\NativeScript\IScriptModule.h" />
     <ClInclude Include="include\NativeScript\NativeScript.h" />
+    <ClInclude Include="include\NativeScript\NativeScriptGenerator.h" />
     <ClInclude Include="include\NativeScript\NativeScriptModuleLoader.h" />
     <ClInclude Include="include\NativeScript\NativeScriptRegistry.h" />
     <ClInclude Include="include\NativeScript\ScriptableEntity.h" />
-    <ClInclude Include="include\NativeScript\NativeScriptGenerator.h" />
     <ClInclude Include="include\Physics2D\Physics2D.h" />
     <ClInclude Include="include\Project\Project.h" />
     <ClInclude Include="include\Project\ProjectSerializer.h" />
@@ -185,9 +185,9 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\IO\StreamReader.cpp" />
     <ClCompile Include="src\IO\StreamWriter.cpp" />
     <ClCompile Include="src\Input\Action.cpp" />
+    <ClCompile Include="src\NativeScript\NativeScriptGenerator.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptModuleLoader.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptRegistry.cpp" />
-    <ClCompile Include="src\NativeScript\NativeScriptGenerator.cpp" />
     <ClCompile Include="src\Physics2D\Physics2D.cpp" />
     <ClCompile Include="src\Project\Project.cpp" />
     <ClCompile Include="src\Project\ProjectSerializer.cpp" />

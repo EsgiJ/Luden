@@ -62,7 +62,6 @@ namespace Luden
 			ImGui::InputText("Source Path", sourcePath, sizeof(sourcePath));
 			ImGui::InputText("Header Path", headerPath, sizeof(headerPath));
 
-			// Eğer className doluysa otomatik dosya isimleri türet
 			if (className[0] != '\0')
 			{
 				char generatedHeader[256];
@@ -77,7 +76,7 @@ namespace Luden
 
 				if (ImGui::Button("Create"))
 				{
-					NativeScriptGenerator::CreateNewScript(className, headerPath, sourcePath);
+					NativeScriptGenerator::CreateNewScript(className, "", generatedSource, generatedHeader);
 					className[0] = '\0';
 					ImGui::CloseCurrentPopup();
 				}

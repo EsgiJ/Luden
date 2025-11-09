@@ -64,7 +64,7 @@ namespace Luden
 		std::ofstream out(path);
 
 		out << "#pragma once\n";
-		out << "#include \"ECS/ScriptableEntity.h\"\n\n";
+		out << "#include \"NativeScript/ScriptableEntity.h\"\n\n";
 		out << "namespace Luden\n{\n";
 		out << "	class " << className << " : public " << baseClassName << "\n";
 		out << "    {\n";
@@ -75,6 +75,7 @@ namespace Luden
 		out << "    };\n";
 		out << "}\n";
 
+		out.close();
 	}
 	void NativeScriptGenerator::GenerateSourceFile(const std::filesystem::path& path, const std::string& className)
 	{
@@ -95,5 +96,8 @@ namespace Luden
 		out << "        // TODO: Cleanup\n";
 		out << "    }\n";
 		out << "}\n";
+
+		out.close();
+
 	}
 }
