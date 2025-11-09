@@ -41,7 +41,7 @@ namespace Luden
 			if (resourceType == "Audio")			return ResourceType::Audio;
 			if (resourceType == "Font")				return ResourceType::Font;
 			if (resourceType == "Animation")		return ResourceType::Animation;
-			if (resourceType == "NativieScript")	return ResourceType::NativeScript;
+			if (resourceType == "NativeScript")		return ResourceType::NativeScript;
 
 			return ResourceType::None;
 		}

@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class PlayerController : public 
+	class PlayerController : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;

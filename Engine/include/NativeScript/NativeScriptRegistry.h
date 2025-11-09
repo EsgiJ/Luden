@@ -32,8 +32,7 @@ namespace Luden
 				if (existingScript && existingScript->GetClassName() == className)
 				{
 					script->Handle = handle;
-					auto& resources = rm->GetLoadedResources()[handle];
-					resources[handle] = std::static_pointer_cast<Resource>(script);
+					rm->GetLoadedResources()[handle] = std::static_pointer_cast<Resource>(script);
 
 					std::cout << "Registered script: " << className
 						<< " (Handle: " << handle << ")" << std::endl;

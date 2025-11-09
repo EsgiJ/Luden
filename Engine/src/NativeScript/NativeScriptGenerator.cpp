@@ -51,6 +51,7 @@ namespace Luden
 		j["ClassName"] = className;
 		j["HeaderPath"] = script->GetHeaderPath().string();
 		j["SourcePath"] = script->GetSourcePath().string();
+		j["Handle"] = static_cast<uint64_t>(script->Handle);
 		out << j.dump(4);
 
 		std::cout << "Script created: " << className << std::endl;

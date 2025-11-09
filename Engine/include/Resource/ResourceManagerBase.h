@@ -34,6 +34,6 @@ namespace Luden
 		virtual void RegisterDependency(ResourceHandle resourceHandle, ResourceHandle dependency) = 0;
 
 		virtual std::unordered_set<ResourceHandle> GetAllResourcesWithType(ResourceType type) = 0;
-		virtual const std::unordered_map<ResourceHandle, std::shared_ptr<Resource>>& GetLoadedResources() = 0;
+		virtual std::unordered_map<ResourceHandle, std::shared_ptr<Resource>>& GetLoadedResources() = 0;
 	};
 }

@@ -10,9 +10,11 @@ namespace Luden
 	{
 		// Luden types
 		{".lscn", ResourceType::Scene},
+		{".lscene", ResourceType::Scene},
 		{".lanim", ResourceType::Animation},
 		{".lprefab", ResourceType::Prefab},
-		{".lscene", ResourceType::Scene},
+		{".lns", ResourceType::NativeScript},
+
 
 		//Textures
 		{".png", ResourceType::Texture},
@@ -27,6 +29,5 @@ namespace Luden
 		{".ttf", ResourceType::Font},
 		{".ttc", ResourceType::Font},
 		{".otf", ResourceType::Font},
-		{".h", ResourceType::Scene},
 	};
 }

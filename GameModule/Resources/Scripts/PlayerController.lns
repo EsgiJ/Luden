@@ -1,5 +1,6 @@
 {
     "ClassName": "PlayerController",
     "HeaderPath": "C:\\GameProjects\\Luden\\GameModule\\Source\\PlayerController.h",
-    "SourcePath": "C:\\GameProjects\\Luden\\GameModule\\Source\\PlayerController.cpp"
+    "SourcePath": "C:\\GameProjects\\Luden\\GameModule\\Source\\PlayerController.cpp",
+	"Handle": 9528046412522239773
 }

@@ -1,4 +1,7 @@
 #include "GameModule.h"
+#include "NativeScript/NativeScriptRegistry.h"
+#include "PlayerController.h"
+
 #include <iostream>
 
 using namespace Luden;
@@ -16,6 +19,8 @@ void GameModule::OnUnload()
 void GameModule::RegisterScripts(ResourceManagerBase* resourceManager)
 {
 	std::cout << "Registering scripts..." << std::endl;
+
+	NativeScriptRegistry::RegisterScript<PlayerController>("PlayerController", resourceManager);
 }
 
 uint32_t GameModule::GetVersion() const

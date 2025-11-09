@@ -11,6 +11,7 @@ namespace Luden
 		s_Serializers[ResourceType::Scene] = std::make_unique<SceneResourceSerializer>();
 		s_Serializers[ResourceType::Font] = std::make_unique<FontSerializer>();
 		s_Serializers[ResourceType::Animation] = std::make_unique<AnimationResourceSerializer>();
+		s_Serializers[ResourceType::NativeScript] = std::make_unique<NativeScriptResourceSerializer>();
 	}
 	void ResourceImporter::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource)
 	{

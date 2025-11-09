@@ -109,7 +109,7 @@ namespace Luden
 		Buffer textureData;
 		stream.ReadBuffer(textureData);
 
-		auto texture = std::make_shared <Texture>();
+		auto texture = std::make_shared<Texture>();
 		sf::Texture sfTexture;
 		if (!sfTexture.loadFromMemory(textureData.Data, textureData.GetSize()))
 			return nullptr;

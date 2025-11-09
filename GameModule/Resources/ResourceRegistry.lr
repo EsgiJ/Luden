@@ -161,6 +161,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/PlayerController.lns",
+      "Handle": 9528046412522239773,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "sounds/zelda_EnemyDamaged.wav",
       "Handle": 9951704957219376627,
       "Type": "Audio"
