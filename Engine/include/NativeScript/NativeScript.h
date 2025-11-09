@@ -44,7 +44,7 @@ namespace Luden
 		std::filesystem::path m_HeaderPath;
 		std::filesystem::path m_SourcePath;
 
-		ScriptInstantiateFunc m_InstantiateFunc;
-		ScriptDestroyFunc m_DestroyFunc;
+		ScriptInstantiateFunc m_InstantiateFunc = nullptr;
+		ScriptDestroyFunc m_DestroyFunc = nullptr;
 	};
 }

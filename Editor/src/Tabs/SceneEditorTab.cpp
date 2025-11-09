@@ -309,7 +309,7 @@ namespace Luden
 			m_ActiveScene->OnUpdateEditor(timestep, m_RenderTexture);
 			break;
 		case SceneState::Play:
-			m_ActiveScene->OnUpdateEditor(timestep, m_RenderTexture);
+			m_ActiveScene->OnUpdateRuntime(timestep, m_RenderTexture);
 			break;
 		}
 

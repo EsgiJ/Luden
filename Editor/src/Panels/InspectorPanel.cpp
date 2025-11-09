@@ -285,14 +285,7 @@ namespace Luden
 									nsc.DestroyInstance();
 
 									// Bind new script
-									nsc.BindFromHandle(handle);
-
-									// If playing, create instance immediately
-									/*if (m_Context->IsPlaying() && nsc.InstantiateScript)
-									{
-										nsc.CreateInstance(entity);
-									}
-									*/
+									nsc.BindFromHandle(handle);									
 								}
 
 								if (!hasBindings)

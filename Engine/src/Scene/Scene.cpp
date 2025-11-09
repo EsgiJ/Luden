@@ -73,7 +73,7 @@ namespace Luden {
 	// Render
 	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target)
 	{
-		target->clear();
+		target->clear(sf::Color(255, 192, 122));
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
@@ -164,6 +164,8 @@ namespace Luden {
 
 	void Scene::OnRuntimeStart()
 	{
+		m_IsPlaying = true;
+
 		OnPhysics2DInit();
 
 		for (auto& entity : GetEntityManager().GetEntities())
@@ -179,6 +181,8 @@ namespace Luden {
 
 	void Scene::OnRuntimeStop()
 	{
+		m_IsPlaying = false;
+
 		OnPhysics2DStop();
 
 		for (auto& entity : GetEntityManager().GetEntities())

@@ -110,6 +110,8 @@ namespace Luden {
 		static ResourceType GetStaticType() { return ResourceType::Scene; }
 		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 
+		bool IsPlaying() { return m_IsPlaying; }
+
 	private:
 		EntityManager m_EntityManager;
 		ActionMap m_ActionMap;

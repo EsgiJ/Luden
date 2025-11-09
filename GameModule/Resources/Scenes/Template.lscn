@@ -56,6 +56,9 @@
                 "right": true,
                 "up": true
             },
+            "NativeScriptComponent": {
+                "ScriptHandle": -8918697661187311843
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
@@ -73,14 +76,14 @@
                 "textureHandle": 10713380733661294664
             },
             "TransformComponent": {
-                "angle": 0.0052894605323672295,
+                "angle": 0.0025776142720133066,
                 "facing": [
                     0.0,
                     -1.0
                 ],
                 "pos": [
-                    256.00341796875,
-                    384.0
+                    285.9892883300781,
+                    576.0029296875
                 ],
                 "prevPos": [
                     5.0,

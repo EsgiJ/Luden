@@ -10,6 +10,7 @@ namespace Luden
     void PlayerController::OnUpdate(TimeStep ts)
     {
         // TODO: Update logic
+        GetComponent<TransformComponent>().pos.x += 5;
     }
 
     void PlayerController::OnDestroy()

@@ -143,6 +143,12 @@ namespace Luden
 				};
 			}
 
+			if (e.Has<NativeScriptComponent>())
+			{
+				const auto& c = e.Get<NativeScriptComponent>();
+				jEntity["NativeScriptComponent"]["ScriptHandle"] = static_cast<int64_t>(c.ScriptHandle);
+			}
+
 			if (e.Has<Animation2DComponent>())
 			{
 				const auto& c = e.Get<Animation2DComponent>();
@@ -377,6 +383,14 @@ namespace Luden
 				c.facing = { facing[0], facing[1] };
 			}
 
+			if (jEntity.contains("NativeScriptComponent"))
+			{
+				auto& c = e.Add<NativeScriptComponent>();
+				c.ScriptHandle = jEntity["NativeScriptComponent"]["ScriptHandle"].get<uint64_t>();
+
+				if (c.ScriptHandle != 0)
+					c.BindFromHandle(c.ScriptHandle);
+			}
 			if (jEntity.contains("Animation2DComponent"))
 			{
 				const auto& jAnim = jEntity["Animation2DComponent"];
