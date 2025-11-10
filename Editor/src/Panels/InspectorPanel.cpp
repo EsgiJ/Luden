@@ -151,22 +151,22 @@ namespace Luden
 				DisplayComponentInInspector<InputComponent>(ICON_FA_GAMEPAD " Input Component", entity, true, [&]()
 					{
 						auto& inputComponent = entity.Get<InputComponent>();
-						ImGuiUtils::PrefixLabel(ICON_FA_ARROW_UP " Up");
+						ImGuiUtils::PrefixLabel("Up");
 						ImGui::Checkbox("##Up", &inputComponent.up);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_ARROW_DOWN " Down");
+						ImGuiUtils::PrefixLabel("Down");
 						ImGui::Checkbox("##Down", &inputComponent.down);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_ARROW_LEFT " Left");
+						ImGuiUtils::PrefixLabel("Left");
 						ImGui::Checkbox("##Left", &inputComponent.left);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_ARROW_RIGHT " Right");
+						ImGuiUtils::PrefixLabel("Right");
 						ImGui::Checkbox("##Right", &inputComponent.right);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_GUN " Attack");
+						ImGuiUtils::PrefixLabel("Attack");
 						ImGui::Checkbox("##Attack", &inputComponent.attack);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_CHECK " CanAttack");
+						ImGuiUtils::PrefixLabel("CanAttack");
 						ImGui::Checkbox("##Up", &inputComponent.canAttack);
 					});
 
@@ -236,7 +236,7 @@ namespace Luden
 						auto& nsc = entity.Get<NativeScriptComponent>();
 						auto resourceManager = Project::GetResourceManager();
 
-						ImGuiUtils::PrefixLabel(ICON_FA_FILE_CODE " Script");
+						ImGuiUtils::PrefixLabel("Script");
 
 						// Current script name
 						std::string currentScriptName = "None";
@@ -388,7 +388,7 @@ namespace Luden
 					{
 						auto& animationComponent = entity.Get<Animation2DComponent>();
 						auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetEditorResourceManager()->GetResource(animationComponent.animationHandle));
-						ImGuiUtils::PrefixLabel(ICON_FA_FILE_VIDEO " Current");
+						ImGuiUtils::PrefixLabel("Current");
 						if (ImGuiUtils::ResourceButton(animationComponent.animationHandle, ResourceType::Animation))
 						{
 							//TODO: Animation Editor Panel
@@ -464,7 +464,7 @@ namespace Luden
 						ImGui::DragInt("##CurrentPosition", reinterpret_cast<int*>(&patrolComponent.currentPosition), 1, 0, (int)patrolComponent.positions.size() - 1);
 
 						ImGui::Separator();
-						ImGui::Text(ICON_FA_LOCATION_DOT " Positions:");
+						ImGui::Text("Positions:");
 						for (size_t i = 0; i < patrolComponent.positions.size(); i++)
 						{
 							ImGui::PushID((int)i);
@@ -495,7 +495,7 @@ namespace Luden
 						ImGui::InputText("##PrevState", stateComponent.previousState.data(), stateComponent.previousState.capacity() + 1);
 						ImGui::EndDisabled();
 
-						ImGuiUtils::PrefixLabel(ICON_FA_ARROW_RIGHT_ARROW_LEFT " Change Animation");
+						ImGuiUtils::PrefixLabel("Change Animation");
 						ImGui::Checkbox("##ChangeAnim", &stateComponent.changeAnimation);
 					});
 
@@ -503,13 +503,13 @@ namespace Luden
 					{
 						auto& transformComponent = entity.Get<TransformComponent>();
 
-						ImGuiUtils::PrefixLabel(ICON_FA_LOCATION_ARROW " Position");
+						ImGuiUtils::PrefixLabel("Position");
 						ImGuiUtils::DragFloat2Colored("##Pos", &transformComponent.Translation.x, 0.1f);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_MAGNIFYING_GLASS_PLUS " Scale");
+						ImGuiUtils::PrefixLabel("Scale");
 						ImGuiUtils::DragFloat2Colored("##Scale", &transformComponent.Scale.x, 0.1f);
 
-						ImGuiUtils::PrefixLabel(ICON_FA_ROTATE " Angle" );
+						ImGuiUtils::PrefixLabel("Angle" );
 						ImGui::DragFloat("##Angle", &transformComponent.angle, 0.1f);
 					});
 
