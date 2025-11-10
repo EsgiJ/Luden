@@ -19,77 +19,6 @@ namespace Luden
 		}
 
 		RenderFilterAndReloadToolbar();
-		// Icon Size Slider
-		ImGui::Text("Icon Size");
-		ImGui::SameLine();
-		ImGui::SliderFloat("##IconSize", &m_IconSize, 32.0f, 128.0f, "%.0f");
-		ImGui::SameLine();
-		HelpMarker("Use CTRL+Wheel to zoom");
-
-		ImGui::Separator();
-
-		static bool disabled = true;
-		disabled = m_CurrentDirectory != Project::GetActiveResourceDirectory() &&  m_CurrentDirectory.has_parent_path();
-		// Navigation bar
-
-		ImGui::BeginDisabled(!disabled);
-		ImGui::PushID("BackFolder");
-		if (ImGui::Button(ICON_FA_ARROW_LEFT))
-		{
-			m_CurrentDirectory = m_CurrentDirectory.parent_path();
-			m_Selection.clear();
-		} 
-		ImGui::PopID();
-		ImGui::EndDisabled();
-		
-		if (ImGui::Button(ICON_FA_FILE_CODE " New Script"))
-		{
-			ImGui::OpenPopup("CreateScriptDialog");
-		}
-
-		if (ImGui::BeginPopupModal("CreateScriptDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-		{
-			static char className[256] = "";
-			static char sourcePath[256] = {};
-			static char headerPath[256] = {};
-
-			snprintf(sourcePath, sizeof(sourcePath), "%s/Source", Project::GetProjectDirectory().string().c_str());
-			snprintf(headerPath, sizeof(headerPath), "%s/Source", Project::GetProjectDirectory().string().c_str());
-
-			// UI
-			ImGui::InputText("Class Name", className, sizeof(className));
-			ImGui::InputText("Source Path", sourcePath, sizeof(sourcePath));
-			ImGui::InputText("Header Path", headerPath, sizeof(headerPath));
-
-			if (className[0] != '\0')
-			{
-				char generatedHeader[256];
-				char generatedSource[256];
-
-				snprintf(generatedHeader, sizeof(generatedHeader), "%s/%s.h", headerPath, className);
-				snprintf(generatedSource, sizeof(generatedSource), "%s/%s.cpp", sourcePath, className);
-
-				ImGui::Text("Generated Files:");
-				ImGui::Text("Header: %s", generatedHeader);
-				ImGui::Text("Source: %s", generatedSource);
-
-				if (ImGui::Button("Create"))
-				{
-					NativeScriptGenerator::CreateNewScript(className, "", generatedSource, generatedHeader);
-					className[0] = '\0';
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			ImGui::SameLine();
-
-			if (ImGui::Button("Cancel"))
-			{
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
-		}
 
 		ImGui::Separator();
 
@@ -258,11 +187,6 @@ namespace Luden
 			}
 		}
 		ImGui::EndChild();
-
-		ImGui::Separator();
-		ImGui::Text("Resources in Registry: %d", (int)resources.Count());
-		ImGui::Text("Items in Current View: %d", (int)m_Entries.size());
-		ImGui::Text("Selected: %d items", (int)m_Selection.size());
 	}
 
 	void ResourceBrowserPanel::UpdateLayoutSizes(float availWidth)
@@ -342,12 +266,78 @@ namespace Luden
 		ImGui::SameLine();
 		char buffer[256];
 		strcpy_s(buffer, m_SearchFilter.c_str());
+		ImGui::SetNextItemWidth(200.0f);
 		if (ImGui::InputText("##SearchFilter", buffer, sizeof(buffer)))
 		{
 			m_SearchFilter = buffer;
 		}
 
-		ImGui::SameLine(ImGui::GetContentRegionAvail().x - 100); 
+		static bool disabled = true;
+		disabled = m_CurrentDirectory != Project::GetActiveResourceDirectory() && m_CurrentDirectory.has_parent_path();
+		// Navigation bar
+		ImGui::SameLine();
+		ImGui::BeginDisabled(!disabled);
+		ImGui::PushID("BackFolder");
+		if (ImGui::Button(ICON_FA_ARROW_LEFT))
+		{
+			m_CurrentDirectory = m_CurrentDirectory.parent_path();
+			m_Selection.clear();
+		}
+		ImGui::PopID();
+		ImGui::EndDisabled();
+
+		ImGui::SameLine();
+
+		if (ImGui::Button(ICON_FA_FILE_CODE " New Script"))
+		{
+			ImGui::OpenPopup("CreateScriptDialog");
+		}
+
+		if (ImGui::BeginPopupModal("CreateScriptDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			static char className[256] = "";
+			static char sourcePath[256] = {};
+			static char headerPath[256] = {};
+
+			snprintf(sourcePath, sizeof(sourcePath), "%s/Source", Project::GetProjectDirectory().string().c_str());
+			snprintf(headerPath, sizeof(headerPath), "%s/Source", Project::GetProjectDirectory().string().c_str());
+
+			// UI
+			ImGui::InputText("Class Name", className, sizeof(className));
+			ImGui::InputText("Source Path", sourcePath, sizeof(sourcePath));
+			ImGui::InputText("Header Path", headerPath, sizeof(headerPath));
+
+			if (className[0] != '\0')
+			{
+				char generatedHeader[256];
+				char generatedSource[256];
+
+				snprintf(generatedHeader, sizeof(generatedHeader), "%s/%s.h", headerPath, className);
+				snprintf(generatedSource, sizeof(generatedSource), "%s/%s.cpp", sourcePath, className);
+
+				ImGui::Text("Generated Files:");
+				ImGui::Text("Header: %s", generatedHeader);
+				ImGui::Text("Source: %s", generatedSource);
+
+				if (ImGui::Button("Create"))
+				{
+					NativeScriptGenerator::CreateNewScript(className, "", generatedSource, generatedHeader);
+					className[0] = '\0';
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::SameLine(); 
 
 		if (ImGui::Button(ICON_FA_ARROW_ROTATE_RIGHT " Reload"))
 		{

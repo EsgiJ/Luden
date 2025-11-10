@@ -47,7 +47,8 @@ namespace Luden
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
 			strcpy_s(buffer, text.c_str());
-
+			
+			ImGui::SetNextItemWidth(200.0f);
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer))) 
 			{
 				text = std::string(buffer);
