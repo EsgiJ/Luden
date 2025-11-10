@@ -110,6 +110,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Audio\SoundBuffer.h" />
     <ClInclude Include="include\Core\Buffer.h" />
     <ClInclude Include="include\Core\Config.h" />
+    <ClInclude Include="include\Core\InputAction.h" />
     <ClInclude Include="include\Core\Platform.h" />
     <ClInclude Include="include\Core\RuntimeApplication.h" />
     <ClInclude Include="include\Core\TimeStep.h" />
@@ -167,6 +168,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_win.cpp" />
     <ClCompile Include="src\Audio\SoundBuffer.cpp" />
+    <ClCompile Include="src\Core\InputAction.cpp" />
     <ClCompile Include="src\Core\Platform.cpp" />
     <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />

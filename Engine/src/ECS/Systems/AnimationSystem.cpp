@@ -9,6 +9,11 @@
 
 namespace Luden
 {
+	void AnimationSystem::OnStart()
+	{
+
+	}
+	,
 	void AnimationSystem::Update(float dt)
 	{	
 		/*auto& entities = GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
@@ -32,5 +37,10 @@ namespace Luden
 			));
 		}
 	*/
+	}
+
+	void AnimationSystem::OnStop().
+	{
+
 	}
 }

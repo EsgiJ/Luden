@@ -7,6 +7,8 @@ namespace Luden
 	class AnimationSystem : public ISystem
 	{
 	public:
-		void Update(float dt) override;
+		void OnStart() override;
+		void OnUpdate(float dt) override;
+		void OnStop() override;
 	};
 }

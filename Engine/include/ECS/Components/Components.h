@@ -10,6 +10,7 @@
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
 #include "glm/ext/vector_float3.hpp"
+#include "Core/InputAction.h"
 
 namespace Luden
 {
@@ -149,13 +150,20 @@ namespace Luden
 
 		ScriptInstantiateFunc InstantiateScript = nullptr;
 		ScriptDestroyFunc DestroyScript = nullptr;
-
+		sf::Joystick
 		template<typename T>
 		void Bind();
 
 		void BindFromHandle(ResourceHandle handle);
 		void CreateInstance(Entity entity);
 		void DestroyInstance();
+	};
+
+	struct ENGINE_API InputComponent : public IComponent
+	{
+		std::vector<InputAction> InputActions;
+
+		InputComponent() = default;
 	};
 
 	struct ENGINE_API Animation2DComponent : public IComponent
