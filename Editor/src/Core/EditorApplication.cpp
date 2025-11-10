@@ -50,11 +50,11 @@ namespace Luden
 
 		// Font config
 		io.Fonts->Clear();
-		ImFont* mainFont = io.Fonts->AddFontFromFileTTF("Resources/fonts/Oswald-Medium.ttf", 22.0f); // Kendi ana fontunuzu yükle
+		ImFont* mainFont = io.Fonts->AddFontFromFileTTF("Resources/fonts/JetBrainsMono-Medium.ttf", 18.0f);
 		ImFontConfig fontConfig;
 		fontConfig.MergeMode = true;
 		static const ImWchar iconRanges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
-		io.Fonts->AddFontFromFileTTF("Resources/fonts/fa-solid-900.ttf", 22.0f, &fontConfig, iconRanges);
+		io.Fonts->AddFontFromFileTTF("Resources/fonts/fa-solid-900.ttf", 18.0f, &fontConfig, iconRanges);
 		io.Fonts->Build();
 		if (!ImGui::SFML::UpdateFontTexture())
 		{

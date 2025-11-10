@@ -53,7 +53,6 @@ namespace Luden
 			static char sourcePath[256] = {};
 			static char headerPath[256] = {};
 
-			// paths klasör
 			snprintf(sourcePath, sizeof(sourcePath), "%s/Source", Project::GetProjectDirectory().string().c_str());
 			snprintf(headerPath, sizeof(headerPath), "%s/Source", Project::GetProjectDirectory().string().c_str());
 
@@ -208,6 +207,7 @@ namespace Luden
 						case ResourceType::Audio: browseEntryTexture = EditorResources::AudioIcon; break;
 						case ResourceType::Font: browseEntryTexture = EditorResources::FontIcon; break;
 						case ResourceType::Animation: browseEntryTexture = EditorResources::Anim2DIcon; break;
+						case ResourceType::NativeScript: browseEntryTexture = EditorResources::NativeScriptIcon; break;
 						default: break;
 						}
 

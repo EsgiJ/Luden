@@ -124,10 +124,11 @@ namespace Luden
 					{
 						auto& followPlayerComponent = entity.Get<FollowPLayerComponent>();
 						ImGuiUtils::PrefixLabel("Home");
-						ImGui::DragFloat2("##Home", &followPlayerComponent.home.x, 0.1f);
+						ImGuiUtils::DragFloat2Colored("##Home", &followPlayerComponent.home.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Speed");
-						ImGui::DragFloat2("##Speed", &followPlayerComponent.home.x, 0.1f);
+						ImGui::DragFloat("##Speed", &followPlayerComponent.speed, 0.1f);
+
 					});
 
 				DisplayComponentInInspector<GravityComponent>(ICON_FA_ARROW_DOWN " Gravity Component", entity, true, [&]()
@@ -200,10 +201,10 @@ namespace Luden
 						auto& box = entity.Get<BoxCollider2DComponent>();
 
 						ImGuiUtils::PrefixLabel("Offset");
-						ImGui::DragFloat2("##Offset", &box.Offset.x, 0.1f);
+						ImGuiUtils::DragFloat2Colored("##Offset", &box.Offset.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Size");
-						ImGui::DragFloat2("##Size", &box.Size.x, 0.1f);
+						ImGuiUtils::DragFloat2Colored("##Size", &box.Size.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Density");
 						ImGui::DragFloat("##Density", &box.Density, 0.1f, 0.0f, 10.0f);
@@ -217,7 +218,7 @@ namespace Luden
 						auto& circle = entity.Get<CircleCollider2DComponent>();
 
 						ImGuiUtils::PrefixLabel("Offset");
-						ImGui::DragFloat2("##Offset", &circle.Offset.x, 0.1f);
+						ImGuiUtils::DragFloat2Colored("##Offset", &circle.Offset.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Radius");
 						ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
@@ -468,7 +469,7 @@ namespace Luden
 						{
 							ImGui::PushID((int)i);
 							ImGuiUtils::PrefixLabel(("Pos " + std::to_string(i)).c_str());
-							ImGui::DragFloat2("##Pos", &patrolComponent.positions[i].x, 0.1f);
+							ImGuiUtils::DragFloat2Colored("##Pos", &patrolComponent.positions[i].x, 0.1f);
 							ImGui::PopID();
 						}
 
@@ -503,10 +504,10 @@ namespace Luden
 						auto& transformComponent = entity.Get<TransformComponent>();
 
 						ImGuiUtils::PrefixLabel(ICON_FA_LOCATION_ARROW " Position");
-						ImGui::DragFloat2("##Pos", &transformComponent.Translation.x, 0.1f);
+						ImGuiUtils::DragFloat2Colored("##Pos", &transformComponent.Translation.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel(ICON_FA_MAGNIFYING_GLASS_PLUS " Scale");
-						ImGui::DragFloat2("##Scale", &transformComponent.Scale.x, 0.1f);
+						ImGuiUtils::DragFloat2Colored("##Scale", &transformComponent.Scale.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel(ICON_FA_ROTATE " Angle" );
 						ImGui::DragFloat("##Angle", &transformComponent.angle, 0.1f);

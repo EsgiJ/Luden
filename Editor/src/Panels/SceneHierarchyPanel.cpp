@@ -5,6 +5,8 @@
 #include <IconsFontAwesome7.h>
 #include <imgui.h>
 #include <imgui_internal.h>
+#include "ImGui/ImGuiUtils.h"
+#include "Utils/ImGuiStyle.h"
 
 namespace Luden
 {
@@ -116,6 +118,7 @@ namespace Luden
 			return;
 		}
 		ImGui::PopStyleVar();
+
 
 		auto& allEntities = m_Context->GetEntityManager().GetEntities();
 

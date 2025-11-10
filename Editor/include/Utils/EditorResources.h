@@ -35,6 +35,7 @@ namespace Luden
 		static inline std::shared_ptr<Texture> SceneIcon;
 		static inline std::shared_ptr<Texture> AudioIcon;
 		static inline std::shared_ptr<Texture> FontIcon;
+		static inline std::shared_ptr<Texture> NativeScriptIcon;
 
 		static inline std::filesystem::path ProjectTemplate;
 
@@ -55,6 +56,8 @@ namespace Luden
 			SceneIcon = LoadTexture("Icons\\scene_icon.png", "SceneIcon");
 			AudioIcon = LoadTexture("Icons\\audio_icon.png", "AudioIcon");
 			FontIcon = LoadTexture("Icons\\font_icon.png", "FontIcon");
+			NativeScriptIcon = LoadTexture("Icons\\nativescript_icon.png", "NativeScript");
+
 		}
 
 	private:
