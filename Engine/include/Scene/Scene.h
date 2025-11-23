@@ -4,12 +4,10 @@
 #include "ECS/EntityMemoryPool.h"
 #include "ECS/EntityManager.h"
 #include "ECS/Entity.h"
-#include "Input/Action.h"
 #include <glm/vec2.hpp>
 #include "Resource/Resource.h"
 #include "Core/UUID.h"
 #include "Core/TimeStep.h"
-
 
 #include <map>
 #include <memory>
@@ -24,9 +22,7 @@
 #include <box2d/box2d.h>
 
 namespace Luden {
-
-	using ActionMap = std::map<int, std::string>;
-
+;
 	class ENGINE_API Scene : public Resource {
 	public:
 		Scene(const std::string& name = "Untitled");
@@ -51,9 +47,7 @@ namespace Luden {
 		void OnPhysics2DStop();
 
 		// Input
-		void DoAction(const Action& action);
-		void RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName);
-		const ActionMap& GetActionMap() const { return m_ActionMap; }
+		void OnEvent(const std::optional<sf::Event>& evt);
 
 		// Entity management
 		Entity CreateEntity(const std::string& tag = "");
@@ -114,7 +108,6 @@ namespace Luden {
 
 	private:
 		EntityManager m_EntityManager;
-		ActionMap m_ActionMap;
 
 		std::string m_Name;
 

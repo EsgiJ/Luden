@@ -9,5 +9,8 @@ namespace Luden
         virtual void OnCreate() override;
         virtual void OnUpdate(TimeStep ts) override;
         virtual void OnDestroy() override;
+
+    private:
+        InputAction m_MoveAction;
     };
 }

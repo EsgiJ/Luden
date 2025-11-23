@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+#include "SFML/Window/Event.hpp"
 
 namespace Luden {
 
@@ -344,15 +345,8 @@ namespace Luden {
 		}
 	}
 
-	// Input
-	void Scene::DoAction(const Action& action) 
+	void Scene::OnEvent(const std::optional<sf::Event>& evt)
 	{
-
-	}
-
-	void Scene::RegisterAction(sf::Keyboard::Key inputKey, const std::string& actionName) 
-	{
-		m_ActionMap[static_cast<int>(inputKey)] = actionName;
 	}
 
 	// Entity Management

@@ -13,8 +13,8 @@ namespace Luden
 	{
 
 	}
-	,
-	void AnimationSystem::Update(float dt)
+	
+	void AnimationSystem::OnUpdate(float dt)
 	{	
 		/*auto& entities = GameEngine::Get().GetCurrentScene()->GetEntityManager().GetEntities();
 		for (Entity& e : entities)
@@ -36,10 +36,10 @@ namespace Luden
 				{ static_cast<int>(anim->GetSize().x), static_cast<int>(anim->GetSize().y) }
 			));
 		}
-	*/
+		*/
 	}
 
-	void AnimationSystem::OnStop().
+	void AnimationSystem::OnStop()
 	{
 
 	}

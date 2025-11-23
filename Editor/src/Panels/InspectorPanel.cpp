@@ -152,23 +152,7 @@ namespace Luden
 				DisplayComponentInInspector<InputComponent>(ICON_FA_GAMEPAD " Input Component", entity, true, [&]()
 					{
 						auto& inputComponent = entity.Get<InputComponent>();
-						ImGuiUtils::PrefixLabel("Up");
-						ImGui::Checkbox("##Up", &inputComponent.up);
-
-						ImGuiUtils::PrefixLabel("Down");
-						ImGui::Checkbox("##Down", &inputComponent.down);
-
-						ImGuiUtils::PrefixLabel("Left");
-						ImGui::Checkbox("##Left", &inputComponent.left);
-
-						ImGuiUtils::PrefixLabel("Right");
-						ImGui::Checkbox("##Right", &inputComponent.right);
-
-						ImGuiUtils::PrefixLabel("Attack");
-						ImGui::Checkbox("##Attack", &inputComponent.attack);
-
-						ImGuiUtils::PrefixLabel("CanAttack");
-						ImGui::Checkbox("##Up", &inputComponent.canAttack);
+						//TODO: 
 					});
 
 				DisplayComponentInInspector<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component", entity, true, [&]()

@@ -100,12 +100,6 @@ namespace Luden
 			{
 				const auto& c = e.Get<InputComponent>();
 				jEntity["InputComponent"] = {
-					{"up", c.up}, 
-					{"down", c.down}, 
-					{"left", c.left},
-					{"right", c.right}, 
-					{"attack", c.attack}, 
-					{"canAttack", c.canAttack}
 				};
 			}
 
@@ -287,12 +281,6 @@ namespace Luden
 			{
 				e.Add<InputComponent>();
 				auto& inputComponent = e.Get<InputComponent>();
-				inputComponent.up = jEntity["InputComponent"]["up"];
-				inputComponent.down = jEntity["InputComponent"]["down"];
-				inputComponent.left = jEntity["InputComponent"]["left"];
-				inputComponent.right = jEntity["InputComponent"]["right"];
-				inputComponent.attack = jEntity["InputComponent"]["attack"];
-				inputComponent.canAttack = jEntity["InputComponent"]["canAttack"];
 			}
 
 			if (jEntity.contains("RigidBody2DComponent"))

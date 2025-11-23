@@ -156,6 +156,7 @@ namespace Luden
 			m_FocusedTab->OnEvent(evt);
 		}
 	}
+
 	void EditorApplication::OnImGuiRender()
 	{
 		RenderTitleBar();

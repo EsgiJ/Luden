@@ -6,11 +6,12 @@
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
 #include "Project/Project.h"
+#include "Input/InputAction.h"
+#include "Input/InputTypes.h"
 
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
 #include "glm/ext/vector_float3.hpp"
-#include "Core/InputAction.h"
 
 namespace Luden
 {
@@ -76,22 +77,6 @@ namespace Luden
 		HealthComponent(int m, int c) : max(m), current(c) {}
 	};
 
-	struct ENGINE_API InputComponent : public IComponent
-	{
-	public:
-		bool up = false;
-		bool down = false;
-		bool left = false;
-		bool right = false;
-		bool attack = false;
-		bool canAttack = true;
-
-		InputComponent() = default;
-
-		explicit InputComponent(bool up, bool down, bool left, bool right, bool attack, bool canAttack)
-			: up(up), down(down), left(left), right(right), attack(attack), canAttack(canAttack) { }
-	};
-
 	struct ENGINE_API RigidBody2DComponent : public IComponent
 	{
 		enum class Type { None = -1, Static, Dynamic, Kinematic };
@@ -150,7 +135,7 @@ namespace Luden
 
 		ScriptInstantiateFunc InstantiateScript = nullptr;
 		ScriptDestroyFunc DestroyScript = nullptr;
-		sf::Joystick
+		
 		template<typename T>
 		void Bind();
 
@@ -161,11 +146,48 @@ namespace Luden
 
 	struct ENGINE_API InputComponent : public IComponent
 	{
-		std::vector<InputAction> InputActions;
+		std::unordered_map<UUID, std::vector<InputCallback>> callbacks;
 
 		InputComponent() = default;
-	};
 
+		template<typename T>
+		void BindAction(const InputAction& action, ETriggerEvent trigger, T* object, void(T::* func)())
+		{
+			callbacks[action.Handle].push_back(
+				[object, func, trigger](ETriggerEvent evt, const InputValue& val)
+				{
+					if (trigger == evt)
+					{
+						object->*func(evt, val);
+					}
+				}
+			);
+		}
+
+		void UnbindAction(const InputAction& action)
+		{
+			callbacks.erase(action.Handle);
+		}
+
+		void UnbindAll()
+		{
+			callbacks.clear();
+		}
+
+		void TriggerAction(const InputAction& action, ETriggerEvent trigger, const InputValue& value)
+		{
+			auto it = callbacks.find(action.Handle);
+
+			if (it != callbacks.end())
+			{
+				for (auto callback : it->second)
+				{
+					callback(trigger, value);
+				}
+			}
+		}
+	};
+	
 	struct ENGINE_API Animation2DComponent : public IComponent
 	{
 	public:

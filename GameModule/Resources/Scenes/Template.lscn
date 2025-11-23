@@ -39,12 +39,6 @@
                 "max": 10
             },
             "InputComponent": {
-                "attack": true,
-                "canAttack": true,
-                "down": true,
-                "left": true,
-                "right": true,
-                "up": true
             },
             "NativeScriptComponent": {
                 "ScriptHandle": -8918697661187311843

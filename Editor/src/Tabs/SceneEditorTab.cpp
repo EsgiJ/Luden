@@ -295,6 +295,9 @@ namespace Luden
 	void SceneEditorTab::OnEvent(const std::optional<sf::Event>& evt)
 	{
 		m_ToolbarPanel.OnEvent(evt);
+
+		if (m_ActiveScene)
+			m_ActiveScene->OnEvent(evt);	
 	}
 	void SceneEditorTab::OnUpdate(TimeStep timestep)
 	{
