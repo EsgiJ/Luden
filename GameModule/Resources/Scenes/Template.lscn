@@ -38,8 +38,7 @@
                 "current": 6,
                 "max": 10
             },
-            "InputComponent": {
-            },
+            "InputComponent": null,
             "NativeScriptComponent": {
                 "ScriptHandle": -8918697661187311843
             },
@@ -53,7 +52,7 @@
                 "FixedRotation": false,
                 "GravityScale": 1.0,
                 "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
+                "Mass": 0.10000000149011612
             },
             "Tag": "Player",
             "TextureComponent": {
@@ -66,11 +65,11 @@
                     1.0
                 ],
                 "Translation": [
-                    275.9942932128906,
-                    384.0,
+                    314.8775939941406,
+                    320.0080871582031,
                     0.0
                 ],
-                "angle": 0.0048221698962152
+                "angle": -0.00022372708190232515
             },
             "UUID": 1002000000000000000
         },
@@ -110,8 +109,8 @@
                     1.0
                 ],
                 "Translation": [
-                    256.0,
-                    640.0,
+                    320.0,
+                    384.0,
                     0.0
                 ],
                 "angle": 0.0

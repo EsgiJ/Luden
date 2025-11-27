@@ -19,6 +19,18 @@
 			{
 				return m_Entity.Get<T>();
 			}
+
+			template<typename T>
+			bool HasComponent()
+			{
+				return m_Entity.Has<T>();
+			}
+
+			template<typename T>
+			T& AddComponent()
+			{
+				return m_Entity.Add<T>();
+			}
 	
 		protected:
 			virtual void OnCreate() {}

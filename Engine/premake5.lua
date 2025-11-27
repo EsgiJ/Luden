@@ -1,4 +1,3 @@
--- Engine/premake5.lua
 project "Engine"
     location "."
     kind "SharedLib"
@@ -6,7 +5,6 @@ project "Engine"
     cppdialect "C++20"
     staticruntime "off"
     
-    -- Engine'in kendi bin klasörü
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir)
     

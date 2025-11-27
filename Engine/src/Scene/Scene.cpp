@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include "SFML/Window/Event.hpp"
+#include "Input/InputManager.h"
 
 namespace Luden {
 
@@ -26,8 +27,6 @@ namespace Luden {
 	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
 
 		OnRenderRuntime(renderTexture);
-		OnPhysics2DUpdate(ts);
-		m_EntityManager.Update(ts);
 
 		if (m_Paused)
 			return;
@@ -44,14 +43,9 @@ namespace Luden {
 				}
 			}
 		}
-
-		if (m_ShouldSimulate) {
-			//m_EntityManager.Update(ts);
-		}
-		else if (m_IsPlaying) {
-			//m_EntityManager.Update(ts);
-			// UpdateAnimation
-		}
+		OnPhysics2DUpdate(ts);
+		InputManager::Instance().Update(ts, m_EntityManager);
+		m_EntityManager.Update(ts);
 	}
 
 	void Scene::OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture)
@@ -167,8 +161,6 @@ namespace Luden {
 	{
 		m_IsPlaying = true;
 
-		OnPhysics2DInit();
-
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
 			if (entity.Has<NativeScriptComponent>())
@@ -178,6 +170,7 @@ namespace Luden {
 				nsc.CreateInstance(entity);
 			}
 		}
+		OnPhysics2DInit();
 	}
 
 	void Scene::OnRuntimeStop()
@@ -185,6 +178,7 @@ namespace Luden {
 		m_IsPlaying = false;
 
 		OnPhysics2DStop();
+		InputManager::Instance().ClearAllInput();
 
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
@@ -215,7 +209,8 @@ namespace Luden {
 		b2WorldDef worldDef = b2DefaultWorldDef();
 		worldDef.gravity = m_Gravity;
 		m_PhysicsWorldId = b2CreateWorld(&worldDef);
-		
+		int bodyCount = 0;
+
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
 			if (entity.Has<RigidBody2DComponent>() && entity.Has<TransformComponent>())
@@ -272,8 +267,6 @@ namespace Luden {
 						localRotation
 					);
 
-
-
 					b2ShapeDef shapeDef = b2DefaultShapeDef();
 					shapeDef.density = bc2d.Density;
 					shapeDef.material.friction = bc2d.Friction;
@@ -291,7 +284,6 @@ namespace Luden {
 					b2Circle circle =
 					{
 						{ cc2d.Offset.x / m_PhysicsScale, cc2d.Offset.y / m_PhysicsScale },
-
 						(cc2d.Radius * scale) / m_PhysicsScale
 					};
 
@@ -303,7 +295,18 @@ namespace Luden {
 					cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
 				}
 			}
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				auto& rb = entity.Get<RigidBody2DComponent>();
+				if (b2Body_IsValid(rb.RuntimeBodyId))
+					bodyCount++;
+				else
+					std::cout << "INVALID BODY for entity: " << entity.Tag() << "\n";
+			}
 		}
+		std::cout << "Created " << bodyCount << " physics bodies\n";
+
 	}
 
 	void Scene::OnPhysics2DUpdate(TimeStep ts)
@@ -341,12 +344,24 @@ namespace Luden {
 		if (b2World_IsValid(m_PhysicsWorldId))
 		{
 			b2DestroyWorld(m_PhysicsWorldId);
-			m_PhysicsWorldId = b2_nullWorldId; 
+			m_PhysicsWorldId = b2_nullWorldId;
+		}
+
+		for (auto& e : m_EntityManager.GetEntities())
+		{
+			if (e.Has<RigidBody2DComponent>())
+			{
+				e.Get<RigidBody2DComponent>().RuntimeBodyId = b2_nullBodyId;
+			}
 		}
 	}
 
 	void Scene::OnEvent(const std::optional<sf::Event>& evt)
 	{
+		if (!m_IsPlaying && !m_ShouldSimulate)
+			return;
+
+		InputManager::Instance().ProcessEvent(*evt, m_EntityManager);
 	}
 
 	// Entity Management

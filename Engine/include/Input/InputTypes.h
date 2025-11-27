@@ -1,13 +1,21 @@
 #pragma once
 
+#include "EngineAPI.h"
+
+#include <functional>
+#include <variant>
+
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
-#include <functional>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Joystick.hpp>
+
 
 namespace Luden
 {
-	enum class ETriggerEvent : uint8_t
+	enum class ENGINE_API ETriggerEvent : uint8_t
 	{
 		Started,
 		Ongoing,
@@ -16,7 +24,7 @@ namespace Luden
 		Cancelled
 	};
 
-	enum class ETriggerType : uint8_t
+	enum class ENGINE_API ETriggerType : uint8_t
 	{
 		Down,		// Basically every pressed
 		Pressed,	// First frame pressed
@@ -28,14 +36,14 @@ namespace Luden
 		Combo		// Combo!
 	};
 
-	enum class EInputValueType : uint8_t
+	enum class ENGINE_API EInputValueType : uint8_t
 	{
 		Boolean,
 		Axis1D,		// Single float
 		Axis2D,		// 2D vector
 		Axis3D		// 3D vector
 	};
-	struct InputValue
+	struct ENGINE_API InputValue
 	{
 		EInputValueType type = EInputValueType::Boolean;
 
@@ -68,6 +76,35 @@ namespace Luden
 		glm::vec2 GetAxis2D() const { return axis2D; }
 		glm::vec2 GetAxis3D() const { return axis3D; }
 
+		float GetMagnitude() const;
+
+		InputValue ApplyDeadZone(float deadZone) const;
+		InputValue Normalize() const;
+		InputValue Invert() const;
+	};
+
+	struct ENGINE_API ModifierConfig
+	{
+		float scale = 1.0f;
+		float deadZone = 0.0f;
+		float sensitivity = 1.0f;
+		bool invert = false;
+		bool normalize = false;
+		float smoothing = 0.0f;
+
+		ModifierConfig() = default;
+	};
+
+	struct ENGINE_API TriggerConfig
+	{
+		ETriggerType type = ETriggerType::Down;
+		float holdTime = 0.5f;
+		float tapTime = 0.3f;
+		float pulseInterval = 0.1f;
+		float activationThreshold = 0.5f;
+
+		TriggerConfig() = default;
+		explicit TriggerConfig(ETriggerType t) : type(t) {}
 	};
 
 	using InputCallback = std::function<void(ETriggerEvent, const InputValue&)>;

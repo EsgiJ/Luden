@@ -1,4 +1,3 @@
--- GameModule/premake5.lua
 project "GameModule"
     location "."
     kind "SharedLib"
@@ -32,17 +31,14 @@ project "GameModule"
         runtime "Debug"
         symbols "On"
         
-        -- Engine'in DLL'ini bul
         libdirs { 
             "../Engine/bin/" .. outputdir,
-            "../extern/SFML/build/lib/Debug",
-            "../extern/Box2D/build/src/Debug"
+            "../extern/SFML/build/lib/Debug"
         }
         
         links { 
             "sfml-graphics-d", "sfml-window-d", 
-            "sfml-system-d", "sfml-audio-d", 
-            "box2dd" 
+            "sfml-system-d", "sfml-audio-d"
         }
 
     filter { "system:windows", "configurations:Release" }
@@ -51,12 +47,10 @@ project "GameModule"
         
         libdirs { 
             "../Engine/bin/" .. outputdir,
-            "../extern/SFML/build/lib/Release",
-            "../extern/Box2D/build/src/Release"
+            "../extern/SFML/build/lib/Release"
         }
         
         links { 
             "sfml-graphics", "sfml-window", 
-            "sfml-system", "sfml-audio", 
-            "box2d" 
+            "sfml-system", "sfml-audio",
         }

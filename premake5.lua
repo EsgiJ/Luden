@@ -1,4 +1,3 @@
--- LudenEngine/premake5.lua
 workspace "LudenEngine"
     architecture "x64"
     configurations { "Debug", "Release" }

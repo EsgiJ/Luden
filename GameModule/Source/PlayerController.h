@@ -10,6 +10,8 @@ namespace Luden
         virtual void OnUpdate(TimeStep ts) override;
         virtual void OnDestroy() override;
 
+        void OnJump(const InputValue& value);
+        void OnMove(const InputValue& value);
     private:
         InputAction m_MoveAction;
     };

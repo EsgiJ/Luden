@@ -146,20 +146,22 @@ namespace Luden
 
 	struct ENGINE_API InputComponent : public IComponent
 	{
+		int priority = 0;
+		bool enabled = true;
+		bool consumeInput = false;
+
 		std::unordered_map<UUID, std::vector<InputCallback>> callbacks;
 
 		InputComponent() = default;
 
 		template<typename T>
-		void BindAction(const InputAction& action, ETriggerEvent trigger, T* object, void(T::* func)())
+		void BindAction(const InputAction& action, ETriggerEvent trigger, T* object, void(T::* func)(const InputValue&))
 		{
 			callbacks[action.Handle].push_back(
 				[object, func, trigger](ETriggerEvent evt, const InputValue& val)
 				{
-					if (trigger == evt)
-					{
-						object->*func(evt, val);
-					}
+					if (evt == trigger)
+						(object->*func)(val);
 				}
 			);
 		}
