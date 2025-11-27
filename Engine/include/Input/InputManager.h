@@ -29,8 +29,8 @@ namespace Luden
 
 		static InputManager& Instance()
 		{
-			static InputManager İnputManager;
-			return İnputManager;
+			static InputManager s_Instance;
+			return s_Instance;
 		}
 
 		InputManager(const InputManager&) = delete;

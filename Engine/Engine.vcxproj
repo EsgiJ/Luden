@@ -115,6 +115,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Core\RuntimeApplication.h" />
     <ClInclude Include="include\Core\TimeStep.h" />
     <ClInclude Include="include\Core\UUID.h" />
+    <ClInclude Include="include\Debug\DebugManager.h" />
     <ClInclude Include="include\ECS\Components\Components.h" />
     <ClInclude Include="include\ECS\Entity.h" />
     <ClInclude Include="include\ECS\EntityManager.h" />
@@ -178,6 +179,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />
     <ClCompile Include="src\Core\UUID.cpp" />
+    <ClCompile Include="src\Debug\DebugManager.cpp" />
     <ClCompile Include="src\ECS\Components.cpp" />
     <ClCompile Include="src\ECS\Entity.cpp" />
     <ClCompile Include="src\ECS\EntityManager.cpp" />

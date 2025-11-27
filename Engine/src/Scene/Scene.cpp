@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
+#include "Debug/DebugManager.h"
 
 
 namespace Luden {
@@ -49,6 +50,7 @@ namespace Luden {
 		}
 		OnPhysics2DUpdate(ts);
 		InputManager::Instance().Update(ts, m_EntityManager);
+		DebugManager::Instance().Update(ts);
 		m_EntityManager.Update(ts);
 	}
 
@@ -112,6 +114,8 @@ namespace Luden {
 				}
 			}
 		}
+
+		DebugManager::Instance().Render(target);
 	}
 
 
@@ -164,6 +168,8 @@ namespace Luden {
 	void Scene::OnRuntimeStart()
 	{
 		m_IsPlaying = true;
+
+		m_EntityManager.Update(0.0f);
 
 		GEngine.SetActiveScene(this);
 

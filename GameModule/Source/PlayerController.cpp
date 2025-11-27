@@ -2,6 +2,8 @@
 #include "Input/InputContext.h"
 #include "Input/InputManager.h"
 #include "ECS/Components/Components.h"
+#include "ScriptAPI/DebugAPI.h"
+
 #include <iostream>
 
 namespace Luden
@@ -16,6 +18,15 @@ namespace Luden
 		gameplayContext->AddMapping({
 			jumpAction,
 			sf::Keyboard::Key::Space,
+			ModifierConfig(),
+			TriggerConfig(ETriggerType::Pressed)
+			});
+
+		InputAction fireAction("Fire");
+
+		gameplayContext->AddMapping({
+			fireAction,
+			sf::Keyboard::Key::P,
 			ModifierConfig(),
 			TriggerConfig(ETriggerType::Pressed)
 			});
@@ -52,6 +63,13 @@ namespace Luden
 			this,
 			&PlayerController::OnMove
 		);
+
+		input.BindAction(
+			fireAction,
+			ETriggerEvent::Started,
+			this,
+			&PlayerController::OnShoot
+		);
     }
 
     void PlayerController::OnUpdate(TimeStep ts)
@@ -71,5 +89,16 @@ namespace Luden
 
 	void PlayerController::OnMove(const InputValue& value)
 	{
+	}
+
+	void PlayerController::OnShoot(const InputValue& value)
+	{
+		auto& transform = GetComponent<TransformComponent>().Translation;
+
+		glm::vec3 start = transform;
+		glm::vec3 direction = glm::vec3(1.0f, 0.0f, 0.0f); 
+		glm::vec3 end = start + direction * 500.0f;        
+
+		DebugAPI::DrawDebugLine(start, end, sf::Color::Red, 10000.0f);
 	}
 }
