@@ -115,10 +115,11 @@ namespace Luden
 		return m_EntityMap[tag];
 	}
 
-	const EntityMap& EntityManager::GetEntityMap()
+	EntityMap& EntityManager::GetEntityMap()
 	{
 		return m_EntityMap;
 	}
+
 	const EntityVec& EntityManager::GetEntityVec()
 	{
 		return m_Entities;

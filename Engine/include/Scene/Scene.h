@@ -67,6 +67,8 @@ namespace Luden {
 		Entity TryGetEntityWithUUID(const UUID& uuid) const;
 		Entity TryGetEntityWithTag(const std::string& tag) const;
 
+		std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag);
+
 		template<typename T>
 		void CopyComponentIfExists(Entity dest, Entity source)
 		{

@@ -32,7 +32,7 @@ namespace Luden
 		EntityVec& GetEntities();
 		EntityVec& GetEntities(const std::string& tag);
 
-		const EntityMap& GetEntityMap();
+		EntityMap& GetEntityMap();
 		const EntityVec& GetEntityVec();
 
 		void Clear();

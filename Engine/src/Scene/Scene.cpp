@@ -504,6 +504,11 @@ namespace Luden {
 		return m_EntityManager.TryGetEntityWithTag(tag);
 	}
 
+	std::vector<Entity>& Scene::FindAllEntitiesWithTag(const std::string& tag)
+	{
+		return m_EntityManager.GetEntityMap().at(tag);
+	}
+
 	// Viewport
 	void Scene::SetViewportSize(uint32_t width, uint32_t height) 
 	{
