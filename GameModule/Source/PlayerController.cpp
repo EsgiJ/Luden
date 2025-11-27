@@ -99,6 +99,6 @@ namespace Luden
 		glm::vec3 direction = glm::vec3(1.0f, 0.0f, 0.0f); 
 		glm::vec3 end = start + direction * 500.0f;        
 
-		DebugAPI::DrawDebugLine(start, end, sf::Color::Red, 10000.0f);
+		DebugAPI::DrawDebugCircle(start, 100, sf::Color::Red, 10.0f);
 	}
 }

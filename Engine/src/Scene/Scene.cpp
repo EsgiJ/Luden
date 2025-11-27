@@ -162,6 +162,8 @@ namespace Luden {
 
 
 		}
+		DebugManager::Instance().Render(target);
+
 		//TODO: Editor overlay (gizmo, bounding box, grid)
 	}
 
