@@ -12,40 +12,33 @@ namespace Luden
 {
 	class Scene;
 	class Entity;
-
-	class ENGINE_API GameplayAPI
+	namespace GameplayAPI
 	{
-	public:
-		static void LoadScene(const std::string& sceneName);
+		 ENGINE_API void LoadScene(const std::string& sceneName);
 
-		static Scene* GetCurrentScene();
+		 ENGINE_API Scene* GetCurrentScene();
 
-		static void ReloadCurrentScene();
+		 ENGINE_API void ReloadCurrentScene();
 
-		static Entity SpawnEntity(const std::string& tag, const glm::vec3& location);
+		 ENGINE_API Entity SpawnEntity(const std::string& tag, const glm::vec3& location);
 
+		 ENGINE_API void DestroyEntity(Entity entity);
 
-		static void DestroyEntity(Entity entity);
+		 ENGINE_API Entity FindEntityWithTag(const std::string& tag);
 
-		static Entity FindEntityWithTag(const std::string& tag);
+		 ENGINE_API std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag);
 
-		static std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag);
+		 ENGINE_API std::vector<Entity> FindEntitiesInRadius(const glm::vec3& center, float radius);
 
-		static std::vector<Entity> FindEntitiesInRadius(const glm::vec3& center, float radius);
+		 ENGINE_API float GetDeltaTime();
 
-		static float GetDeltaTime();
+		 ENGINE_API float GetGameTime();
 
-		static float GetGameTime();
+		 ENGINE_API float GetTimeScale();
 
-		static float GetTimeScale();
+		 ENGINE_API void SetTimeScale(float scale);
 
-		static void SetTimeScale(float scale);
-
-		static void PlaySound2DAtLocation(const std::string& soundName, const glm::vec2& location);
-
-		static void PlaySound2D(const std::string& soundName);
-
-		static void QuitGame();
-	};
+		 ENGINE_API void QuitGame();
+	}
 }
 

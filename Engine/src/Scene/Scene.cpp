@@ -2,14 +2,15 @@
 #include "Core/RuntimeApplication.h"
 #include "Project/Project.h"
 #include "NativeScript/ScriptableEntity.h"
-
-#include <glm/glm.hpp>
-
-#include <SFML/Graphics.hpp>
+#include "Input/InputManager.h"
+#include "Core/EngineContext.h"
 
 #include <iostream>
-#include "SFML/Window/Event.hpp"
-#include "Input/InputManager.h"
+
+#include <glm/glm.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window/Event.hpp>
+
 
 namespace Luden {
 
@@ -27,6 +28,9 @@ namespace Luden {
 	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
 
 		OnRenderRuntime(renderTexture);
+
+		GEngine.SetDeltaTime(static_cast<float>(ts));
+		GEngine.SetGameTime(GEngine.GetGameTime() + static_cast<float>(ts) * GEngine.GetTimeScale());
 
 		if (m_Paused)
 			return;
@@ -161,6 +165,8 @@ namespace Luden {
 	{
 		m_IsPlaying = true;
 
+		GEngine.SetActiveScene(this);
+
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
 			if (entity.Has<NativeScriptComponent>())
@@ -176,6 +182,11 @@ namespace Luden {
 	void Scene::OnRuntimeStop()
 	{
 		m_IsPlaying = false;
+
+		if (GEngine.GetActiveScene() == this)
+		{
+			GEngine.SetActiveScene(nullptr);
+		}
 
 		OnPhysics2DStop();
 		InputManager::Instance().ClearAllInput();
@@ -295,18 +306,7 @@ namespace Luden {
 					cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
 				}
 			}
-
-			if (entity.Has<RigidBody2DComponent>())
-			{
-				auto& rb = entity.Get<RigidBody2DComponent>();
-				if (b2Body_IsValid(rb.RuntimeBodyId))
-					bodyCount++;
-				else
-					std::cout << "INVALID BODY for entity: " << entity.Tag() << "\n";
-			}
 		}
-		std::cout << "Created " << bodyCount << " physics bodies\n";
-
 	}
 
 	void Scene::OnPhysics2DUpdate(TimeStep ts)

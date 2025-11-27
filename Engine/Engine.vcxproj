@@ -108,7 +108,6 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
     <ClInclude Include="include\Audio\SoundBuffer.h" />
-    <ClInclude Include="include\Core\Application.h" />
     <ClInclude Include="include\Core\Buffer.h" />
     <ClInclude Include="include\Core\Config.h" />
     <ClInclude Include="include\Core\EngineContext.h" />
@@ -159,6 +158,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Resource\RuntimeResourceManager.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\SceneSerializer.h" />
+    <ClInclude Include="include\ScriptAPI\DebugAPI.h" />
     <ClInclude Include="include\ScriptAPI\GameplayAPI.h" />
     <ClInclude Include="include\Serialization\ResourcePack.h" />
     <ClInclude Include="include\Serialization\ResourcePackFile.h" />
@@ -209,6 +209,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Resource\RuntimeResourceManager.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\ScriptAPI\DebugAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\GameplayAPI.cpp" />
     <ClCompile Include="src\Serialization\ResourcePack.cpp" />
     <ClCompile Include="src\Serialization\ResourcePackSerializer.cpp" />
