@@ -13,6 +13,10 @@
                     64.0
                 ]
             },
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
             "HealthComponent": {
                 "current": 6,
                 "max": 10
