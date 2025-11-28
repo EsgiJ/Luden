@@ -11,10 +11,11 @@ namespace Luden {
 		SetContext(context, sceneHierarchyPanel);
 	}
 
-	void ToolbarPanel::SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel)
+	void ToolbarPanel::SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel, Camera2D* editorCamera)
 	{
 		m_Context = context;
 		m_SceneHierarchyPanel = sceneHierarchyPanel;
+		m_Camera = editorCamera;
 	}
 
 	void ToolbarPanel::InitValues(const std::shared_ptr<sf::RenderTexture> renderWindow, bool& isViewportHovered)
@@ -350,8 +351,12 @@ namespace Luden {
 			return;
 
 		ImVec2 mousePos = ImGui::GetMousePos();
-		mousePos.x -= m_ViewportBoundMin.x;
-		mousePos.y -= m_ViewportBoundMin.y;
+
+		int pixelX = (int)(mousePos.x - m_ViewportBoundMin.x);
+		int pixelY = (int)(mousePos.y - m_ViewportBoundMin.y);
+
+		sf::Vector2i pixelPos(pixelX, pixelY);
+		sf::Vector2f worldPos = m_RenderWindow->mapPixelToCoords(pixelPos, m_RenderWindow->getView());
 
 		Entity selected;
 
@@ -368,10 +373,10 @@ namespace Luden {
 			if (texture == nullptr)
 				continue;
 
-			glm::vec2 min = transformComponent.Translation;
+			glm::vec2 min = glm::vec2(transformComponent.Translation.x, transformComponent.Translation.y);
 
 			sf::Vector2u textureSize = texture->GetTexture().getSize();
-			glm::vec2 max = transformComponent.Translation + glm::vec3(static_cast<float>(textureSize.x), static_cast<float>(textureSize.y), 0);
+			glm::vec2 max = min + glm::vec2(textureSize.x * transformComponent.Scale.x,textureSize.y * transformComponent.Scale.y);
 
 			if (mousePos.x > min.x && mousePos.x < max.x && mousePos.y > min.y && mousePos.y < max.y)
 			{

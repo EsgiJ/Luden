@@ -23,6 +23,15 @@ namespace Luden
 		LoadScene(path);
 
 		SetPanelsContext();
+
+		glm::vec2 initialPos = { m_ViewportSize.x * 0.5f, m_ViewportSize.y * 0.5f };
+
+		m_EditorCamera.SetDragEnabled(true);
+		m_EditorCamera.SetZoomEnabled(true);
+		m_EditorCamera.SetMinZoom(0.2f);
+		m_EditorCamera.SetMaxZoom(5.0f);
+		m_EditorCamera.SetPosition(initialPos);
+		m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
 	}
 
 	SceneEditorTab::~SceneEditorTab() 
@@ -167,14 +176,44 @@ namespace Luden
 			}
 
 			// Draw Grid
+			if (m_ToolbarPanel.m_ShowGrid)
 			{
-				if (m_ToolbarPanel.m_ShowGrid)
-				{
-					for (float x = m_ViewportBounds[0].x; x < m_ViewportBounds[1].x; x += (m_ToolbarPanel.m_GridStep))
-						ImGui::GetWindowDrawList()->AddLine(ImVec2(x, m_ViewportBounds[0].y), ImVec2(x, m_ViewportBounds[1].y), IM_COL32(0, 0, 0, 100), 1.0f);
+				sf::Vector2f topLeft = m_RenderTexture->mapPixelToCoords(
+					sf::Vector2i(0, 0),
+					m_SceneState == SceneState::Edit ? m_EditorCamera.GetView() : m_RenderTexture->getView()
+				);
 
-					for (float y = m_ViewportBounds[0].y; y < m_ViewportBounds[1].y; y += (m_ToolbarPanel.m_GridStep))
-						ImGui::GetWindowDrawList()->AddLine(ImVec2(m_ViewportBounds[0].x, y), ImVec2(m_ViewportBounds[1].x, y), IM_COL32(0, 0, 0, 100), 1.0f);
+				sf::Vector2f bottomRight = m_RenderTexture->mapPixelToCoords(
+					sf::Vector2i(m_ViewportSize.x, m_ViewportSize.y),
+					m_SceneState == SceneState::Edit ? m_EditorCamera.GetView() : m_RenderTexture->getView()
+				);
+
+				float gridStep = m_ToolbarPanel.m_GridStep;
+
+				float startX = floor(topLeft.x / gridStep) * gridStep;
+				for (float x = startX; x <= bottomRight.x; x += gridStep)
+				{
+					glm::vec2 p1 = WorldToScreen(glm::vec3(x, topLeft.y, 0));
+					glm::vec2 p2 = WorldToScreen(glm::vec3(x, bottomRight.y, 0));
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(p1.x, p1.y),
+						ImVec2(p2.x, p2.y),
+						IM_COL32(0, 0, 0, 100),
+						1.0f
+					);
+				}
+
+				float startY = floor(topLeft.y / gridStep) * gridStep;
+				for (float y = startY; y <= bottomRight.y; y += gridStep)
+				{
+					glm::vec2 p1 = WorldToScreen(glm::vec3(topLeft.x, y, 0));
+					glm::vec2 p2 = WorldToScreen(glm::vec3(bottomRight.x, y, 0));
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(p1.x, p1.y),
+						ImVec2(p2.x, p2.y),
+						IM_COL32(0, 0, 0, 100),
+						1.0f
+					);
 				}
 			}
 
@@ -297,7 +336,13 @@ namespace Luden
 		m_ToolbarPanel.OnEvent(evt);
 
 		if (m_ActiveScene)
-			m_ActiveScene->OnEvent(evt);	
+		{
+			if (m_SceneState == SceneState::Edit && m_ViewportHovered)
+			{
+				m_EditorCamera.OnEvent(evt);
+			}
+			m_ActiveScene->OnEvent(evt);
+		}
 	}
 	void SceneEditorTab::OnUpdate(TimeStep timestep)
 	{
@@ -309,7 +354,7 @@ namespace Luden
 
 		switch (m_SceneState) {
 		case SceneState::Edit:
-			m_ActiveScene->OnUpdateEditor(timestep, m_RenderTexture);
+			m_ActiveScene->OnUpdateEditor(timestep, m_RenderTexture, m_EditorCamera);
 			break;
 		case SceneState::Play:
 			m_ActiveScene->OnUpdateRuntime(timestep, m_RenderTexture);
@@ -344,7 +389,7 @@ namespace Luden
 	void SceneEditorTab::SetPanelsContext()
 	{
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-		m_ToolbarPanel.SetContext(m_ActiveScene, &m_SceneHierarchyPanel);
+		m_ToolbarPanel.SetContext(m_ActiveScene, &m_SceneHierarchyPanel, &m_EditorCamera);
 		m_InspectorPanel.SetContext(m_ActiveScene, &m_SceneHierarchyPanel);
 		m_Appearing = true;
 	}
@@ -466,9 +511,28 @@ namespace Luden
 	glm::vec2 SceneEditorTab::WorldToScreen(const glm::vec3& worldPos)
 	{
 		sf::Vector2f sfWorldPos(worldPos.x, worldPos.y);
-		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos);
 
-		return { m_ViewportBounds[0].x + pixelPos.x,m_ViewportBounds[0].y + pixelPos.y };
+		const sf::View* activeView = nullptr;
+
+		if (m_SceneState == SceneState::Edit)
+		{
+			activeView = &m_EditorCamera.GetView();
+		}
+		else if (m_SceneState == SceneState::Play)
+		{
+			Entity cameraEntity = m_ActiveScene->GetMainCameraEntity();
+			if (cameraEntity.IsValid())
+			{
+				activeView = &cameraEntity.Get<Camera2DComponent>().Camera.GetView();
+			}
+		}
+
+		if (!activeView)
+			return { worldPos.x, worldPos.y };
+
+		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos, *activeView);
+
+		return { m_ViewportBounds[0].x + pixelPos.x, m_ViewportBounds[0].y + pixelPos.y };
 	}
 
 	void SceneEditorTab::DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity)

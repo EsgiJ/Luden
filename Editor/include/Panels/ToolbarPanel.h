@@ -24,7 +24,7 @@ namespace Luden
 			ROTATE
 		};
 
-		void SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel = nullptr);
+		void SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel = nullptr, Camera2D* editorCamera = nullptr);
 
 		void InitValues(const std::shared_ptr<sf::RenderTexture> renderWindow, bool& isViewportHovered);
 
@@ -57,7 +57,8 @@ namespace Luden
 		friend class SceneEditorTab;
 
 		std::shared_ptr<Scene> m_Context;
-		SceneHierarchyPanel* m_SceneHierarchyPanel;
+		SceneHierarchyPanel* m_SceneHierarchyPanel = nullptr;
+		Camera2D* m_Camera = nullptr;
 		std::shared_ptr<sf::RenderTexture> m_RenderWindow;
 
 		constexpr static float m_Padding = 4.0f;

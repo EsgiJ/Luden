@@ -10,6 +10,8 @@ project "Engine"
     
     defines { "ENGINE_EXPORTS", "SFML_DYNAMIC" }
 
+    disablewarnings { "4251" }
+    
     files {
         "src/**.cpp",
         "src/Generated/**.cpp",

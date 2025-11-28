@@ -28,6 +28,7 @@ namespace Luden
 		std::vector<Luden::GravityComponent>,
 		std::vector<Luden::HealthComponent>,
 		std::vector<Luden::InputComponent>,
+		std::vector<Luden::Camera2DComponent>,
 		std::vector<Luden::RigidBody2DComponent>,
 		std::vector<Luden::BoxCollider2DComponent>,
 		std::vector<Luden::CircleCollider2DComponent>,

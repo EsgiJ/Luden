@@ -8,6 +8,8 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 filter "configurations:Debug"
     defines { "LUDEN_CONFIG_DEBUG" }
     symbols "On"
+    editandcontinue "Off"  
+    flags { "MultiProcessorCompile" }  
 
 filter "configurations:Release"
     defines { "LUDEN_CONFIG_RELEASE" }

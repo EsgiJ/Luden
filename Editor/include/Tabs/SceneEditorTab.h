@@ -16,6 +16,7 @@ namespace Luden
 	class InspectorPanel;
 	class ToolbarPanel;
 	class ResourceBrowserPanel;
+	class Camera2D;
 
 	//TODO: Why all the functions virtual? Fix that
 	class SceneEditorTab : public EditorTab
@@ -76,6 +77,8 @@ namespace Luden
 
 
 		ImVec2 m_ViewportPosition{ 0.0f, 0.0f };
+
+		Camera2D m_EditorCamera;
 
 		bool m_ShowColliders = true;
 

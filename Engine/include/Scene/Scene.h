@@ -30,9 +30,9 @@ namespace Luden {
 
 		// Update & Render
 		virtual void OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture);
-		virtual void OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture);
-		virtual void OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target);
-		virtual void OnRenderEditor(std::shared_ptr<sf::RenderTexture> target);
+		virtual void OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture, Camera2D& editorCamera);
+		virtual void OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target, Camera2D& runtimeCamera);
+		virtual void OnRenderEditor(std::shared_ptr<sf::RenderTexture> target, Camera2D& editorCamera);
 
 		// Runtime
 		void OnRuntimeStart();
@@ -85,8 +85,8 @@ namespace Luden {
 		void SetViewportSize(uint32_t width, uint32_t height);
 		uint32_t GetViewportWidth() const { return m_ViewportWidth; }
 		uint32_t GetViewportHeight() const { return m_ViewportHeight; }
-		sf::View& GetView() { return m_View; }
-		const sf::View& GetView() const { return m_View; }
+		
+		Entity GetMainCameraEntity();
 
 		float Width() const;
 		float Height() const;
@@ -121,7 +121,6 @@ namespace Luden {
 
 		uint32_t m_ViewportWidth = 0;
 		uint32_t m_ViewportHeight = 0;
-		sf::View m_View;
 
 		//Physics2D
 		b2WorldId m_PhysicsWorldId = b2_nullWorldId;

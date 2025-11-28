@@ -93,13 +93,25 @@ namespace Luden
 			if (e.Has<HealthComponent>())
 			{
 				const auto& c = e.Get<HealthComponent>();
-				jEntity["HealthComponent"] = { {"max", c.max}, {"current", c.current} };
+				jEntity["HealthComponent"] = { 
+					{"max", c.max}, 
+					{"current", c.current} 
+				};
 			}
 
 			if (e.Has<InputComponent>())
 			{
 				const auto& c = e.Get<InputComponent>();
 				jEntity["InputComponent"] = {
+				};
+			}
+
+			if (e.Has<Camera2DComponent>())
+			{
+				const auto& c = e.Get<Camera2DComponent>();
+				jEntity["Camera2DComponent"] = {
+					{ "Type", Camera2D::CameraTypeToString(c.Camera.GetCameraType()) },
+					{ "Primary", c.Primary }
 				};
 			}
 
@@ -281,6 +293,16 @@ namespace Luden
 			{
 				e.Add<InputComponent>();
 				auto& inputComponent = e.Get<InputComponent>();
+			}
+
+			if (jEntity.contains("Camera2DComponent"))
+			{
+				e.Add<Camera2DComponent>();
+				auto& camera2DComponent = e.Get<Camera2DComponent>();
+
+				Camera2D::Type type = Camera2D::CameraTypeFromString(jEntity["Camera2DComponent"]["Type"]);
+				camera2DComponent.Camera.SetCameraType(type);
+				camera2DComponent.Primary = jEntity["Camera2DComponent"]["Primary"];
 			}
 
 			if (jEntity.contains("RigidBody2DComponent"))

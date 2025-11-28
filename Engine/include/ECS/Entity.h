@@ -20,19 +20,25 @@ namespace Luden
 		void Destroy();
 		EntityID UUID() const { return m_UUID; }
 		void SetUUID(EntityID uuid) { m_UUID = uuid; }
+
 		void SetTag(const std::string& tag);
 		const std::string& Tag() const;
+
 		void SetParent(Entity parent);
 		Entity GetParent();
+
 		void SetParentUUID(EntityID parent);
 		EntityID GetParentUUID() const;
+
 		std::vector<EntityID>& Children();
 		const std::vector<EntityID>& Children() const;
 		bool RemoveChild(Entity child);
 		bool IsAncestorOf(Entity& entity) const;
 		bool IsDescendantOf(Entity& entity) { return entity.IsAncestorOf(*this); }
+
 		bool IsActive() const;
 		bool IsValid() const { return m_UUID != 0; }
+
 		operator bool() const { return IsValid(); }
 
 		bool operator==(const Entity& other) const

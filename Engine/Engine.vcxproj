@@ -57,6 +57,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>LUDEN_CONFIG_DEBUG;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -83,6 +84,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>LUDEN_CONFIG_RELEASE;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
@@ -146,6 +148,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Project\Project.h" />
     <ClInclude Include="include\Project\ProjectSerializer.h" />
     <ClInclude Include="include\Reflection\ReflectionMacros.h" />
+    <ClInclude Include="include\Render\Camera2D.h" />
     <ClInclude Include="include\Resource\EditorResourceManager.h" />
     <ClInclude Include="include\Resource\Resource.h" />
     <ClInclude Include="include\Resource\ResourceExtensions.h" />
@@ -203,6 +206,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Physics2D\Physics2D.cpp" />
     <ClCompile Include="src\Project\Project.cpp" />
     <ClCompile Include="src\Project\ProjectSerializer.cpp" />
+    <ClCompile Include="src\Render\Camera2D.cpp" />
     <ClCompile Include="src\Resource\EditorResourceManager.cpp" />
     <ClCompile Include="src\Resource\ResourceImporter.cpp" />
     <ClCompile Include="src\Resource\ResourceManager.cpp" />

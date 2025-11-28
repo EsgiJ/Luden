@@ -8,6 +8,7 @@
 #include "Project/Project.h"
 #include "Input/InputAction.h"
 #include "Input/InputTypes.h"
+#include "Render/Camera2D.h"
 
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
@@ -75,6 +76,18 @@ namespace Luden
 		HealthComponent() = default;
 
 		HealthComponent(int m, int c) : max(m), current(c) {}
+	};
+
+	struct ENGINE_API Camera2DComponent : public IComponent
+	{
+	public:
+		Camera2D Camera;
+		bool Primary = true;
+
+		Camera2DComponent() = default;
+
+		operator Camera2D& () { return Camera; }
+		operator const Camera2D& () const { return Camera; }
 	};
 
 	struct ENGINE_API RigidBody2DComponent : public IComponent

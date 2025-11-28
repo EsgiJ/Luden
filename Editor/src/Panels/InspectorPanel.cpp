@@ -79,6 +79,7 @@ namespace Luden
 				DisplayComponentInPopup<GravityComponent>(ICON_FA_ARROW_DOWN " Gravity Component");
 				DisplayComponentInPopup<HealthComponent>(ICON_FA_HEART " Health Component");
 				DisplayComponentInPopup<InputComponent>(ICON_FA_GAMEPAD " Input Component");
+				DisplayComponentInPopup<Camera2DComponent>(ICON_FA_CAMERA " Camera2D Component");
 				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component");
 				DisplayComponentInPopup<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component");
 				DisplayComponentInPopup<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component");
@@ -153,6 +154,41 @@ namespace Luden
 					{
 						auto& inputComponent = entity.Get<InputComponent>();
 						//TODO: 
+					});
+
+				DisplayComponentInInspector<Camera2DComponent>(ICON_FA_CAMERA " Camera2D Component", entity, true, [&]()
+					{
+						auto& cameraComponent = entity.Get<Camera2DComponent>();
+						auto& camera = cameraComponent.Camera; 
+
+						ImGuiUtils::PrefixLabel("Camera Type");
+						const char* types[] = { "None", "FollowXY", "Box" };
+						int currentType = static_cast<int>(camera.GetCameraType()) + 1;
+
+						if (ImGui::Combo("##CameraType", &currentType, types, IM_ARRAYSIZE(types)))
+							camera.SetCameraType(static_cast<Camera2D::Type>(currentType - 1));
+
+						ImGuiUtils::PrefixLabel("Primary");
+						ImGui::Checkbox("##Primary", &cameraComponent.Primary);
+
+						ImGui::Separator();
+
+						ImGuiUtils::PrefixLabel("Position");
+						glm::vec2 position = camera.GetPosition();
+						if (ImGuiUtils::DragFloat2Colored("##CameraPosition", &position.x, 0.1f))
+							camera.SetPosition(position);
+
+						ImGuiUtils::PrefixLabel("View Center");
+						glm::vec2 viewCenter = { camera.GetView().getCenter().x, camera.GetView().getCenter().y };
+						if (ImGuiUtils::DragFloat2Colored("##ViewCenter", &viewCenter.x, 0.1f))
+						{
+
+						}
+
+						float rotation = camera.GetRotation();
+						ImGuiUtils::PrefixLabel("Rotation");
+						if (ImGui::DragFloat("##CameraRotation", &rotation, 1.0f, -360.0f, 360.0f))
+							camera.SetRotation(rotation);
 					});
 
 				DisplayComponentInInspector<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component", entity, true, [&]()

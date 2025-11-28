@@ -18,8 +18,6 @@ namespace Luden {
 	Scene::Scene(const std::string& name)
 		: m_Name(name) 
 	{
-		m_View.setCenter({ 0.0f, 0.0f });
-		m_View.setSize({ 1280.0f, 720.0f });
 	}
 
 	Scene::~Scene() 
@@ -28,7 +26,20 @@ namespace Luden {
 
 	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
 
-		OnRenderRuntime(renderTexture);
+
+		SetViewportSize(renderTexture->getSize().x, renderTexture->getSize().y);
+
+		Entity cameraEntity = GetMainCameraEntity();
+
+		if (!cameraEntity.IsValid())
+			return;
+
+		Camera2D& camera = cameraEntity.Get<Camera2DComponent>();
+		camera.SetAttachedEntity(&cameraEntity);
+		camera.SetViewportSize({ (float)m_ViewportWidth, (float)m_ViewportHeight });
+		camera.Update();
+
+		OnRenderRuntime(renderTexture, camera);
 
 		GEngine.SetDeltaTime(static_cast<float>(ts));
 		GEngine.SetGameTime(GEngine.GetGameTime() + static_cast<float>(ts) * GEngine.GetTimeScale());
@@ -54,11 +65,19 @@ namespace Luden {
 		m_EntityManager.Update(ts);
 	}
 
-	void Scene::OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture)
+	void Scene::OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture, Camera2D& editorCamera)
 	{
-		OnRenderEditor(renderTexture);
+		SetViewportSize(renderTexture->getSize().x, renderTexture->getSize().y);
+
+		editorCamera.SetViewportSize({ (float)m_ViewportWidth, (float)m_ViewportHeight });
+		editorCamera.Update();
+
+		OnRenderEditor(renderTexture, editorCamera);
+
 		OnPhysics2DUpdate(ts);
+
 		m_EntityManager.Update(ts);
+
 		if (m_Paused)
 			return;
 
@@ -72,9 +91,11 @@ namespace Luden {
 	}
 
 	// Render
-	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target)
+	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target, Camera2D& runtimeCamera)
 	{
 		target->clear(sf::Color(255, 192, 122));
+
+		target->setView(runtimeCamera.GetView());
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
@@ -118,10 +139,11 @@ namespace Luden {
 		DebugManager::Instance().Render(target);
 	}
 
-
-	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target)
+	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target, Camera2D& editorCamera)
 	{
 		target->clear(sf::Color(255, 192, 122));
+
+		target->setView(editorCamera.GetView());
 
 		for (auto& e : m_EntityManager.GetEntities())
 		{
@@ -522,11 +544,22 @@ namespace Luden {
 	{
 		m_ViewportWidth = width;
 		m_ViewportHeight = height;
-		m_View.setSize({ (float)width, (float)height });
-		m_View.setCenter({ (float)width / 2.0f, (float)height / 2.0f });
 	}
 
-	float Scene::Width() const 
+	Entity Scene::GetMainCameraEntity()
+	{
+		for (auto& entity : m_EntityManager.GetEntities())
+		{
+			if (entity.Has<TransformComponent>() && entity.Has<Camera2DComponent>())
+			{
+				if (entity.Get<Camera2DComponent>().Primary)
+					return entity;
+			}
+		}
+		return {};
+	}
+
+	float Scene::Width() const
 	{
 		return (float)m_ViewportWidth;
 	}

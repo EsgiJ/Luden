@@ -1,27 +1,6 @@
 {
     "Entities": [
         {
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 0
-            },
-            "Tag": "MainCamera",
-            "TransformComponent": {
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "Translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 1001000000000000000
-        },
-        {
             "BoxCollider2DComponent": {
                 "Density": 1.0,
                 "Friction": 1.0,
