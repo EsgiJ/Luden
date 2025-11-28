@@ -59,6 +59,7 @@ namespace Luden
 				m_ActiveScene = newScene;
 				SetPanelsContext();
 
+				m_ActiveScene->SetViewportSize(m_RenderTexture->getSize().x, m_RenderTexture->getSize().y);
 				m_ActiveScene->OnRuntimeStart();
 			}
 		}
@@ -148,6 +149,11 @@ namespace Luden
 			ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = ImVec2(viewportSize.x, viewportSize.y);
 
+			if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f)
+			{
+				m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
+			}
+
 			if ((int)m_ViewportSize.x != (int)m_RenderTexture->getSize().x ||
 				(int)m_ViewportSize.y != (int)m_RenderTexture->getSize().y) 
 			{
@@ -230,27 +236,40 @@ namespace Luden
 							if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
 							{
 								auto& transformComponent = entity.Get<TransformComponent>();
-								glm::vec2 tempPos = WorldToScreen(transformComponent.Translation);
-								ImVec2 minPos = ImVec2(tempPos.x, tempPos.y);
-
 								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
-								ImVec2 size = ImVec2(boxComponent.Size.x , boxComponent.Size.y);
-								ImVec2 maxPos = ImVec2(minPos.x + size.x, minPos.y + size.y);
+
+								glm::vec3 topLeftWorld = transformComponent.Translation;
+								glm::vec3 bottomRightWorld = transformComponent.Translation + glm::vec3(boxComponent.Size.x * transformComponent.Scale.x, boxComponent.Size.y * transformComponent.Scale.y, 0.0f);
+
+								glm::vec2 topLeftScreen = WorldToScreen(topLeftWorld);
+								glm::vec2 bottomRightScreen = WorldToScreen(bottomRightWorld);
+
+								ImVec2 minPos = ImVec2(topLeftScreen.x, topLeftScreen.y);
+								ImVec2 maxPos = ImVec2(bottomRightScreen.x, bottomRightScreen.y);
 
 								if (m_ToolbarPanel.m_ShowMovementCollision)
 								{
-									ImGui::GetWindowDrawList()->AddRect(minPos, maxPos, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
+									ImGui::GetWindowDrawList()->AddRect(
+										minPos, maxPos,
+										IM_COL32(240, 240, 10, 240),
+										0.0f, ImDrawFlags_RoundCornersAll, 3.0f
+									);
 								}
 
 								if (m_ToolbarPanel.m_ShowVisionCollision)
 								{
-									ImGui::GetWindowDrawList()->AddRect(minPos, maxPos, IM_COL32(100, 100, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
+									ImGui::GetWindowDrawList()->AddRect(
+										minPos, maxPos,
+										IM_COL32(100, 100, 10, 240),
+										0.0f, ImDrawFlags_RoundCornersAll, 3.0f
+									);
 								}
 							}
 						}
 					}
 				}
 			}
+
 			// Drag drop target
 			{
 				if (ImGui::BeginDragDropTarget()) 
@@ -265,6 +284,7 @@ namespace Luden
 							// draw rect to show it can be draggable
 							ImVec2 drawStart = ImVec2(m_ViewportBounds[0].x + 2, m_ViewportBounds[0].y + 2);
 							ImVec2 drawEnd = ImVec2(m_ViewportBounds[1].x - 2, m_ViewportBounds[1].y - 2);
+
 							ImGui::GetWindowDrawList()->AddRect(drawStart, drawEnd, IM_COL32(240, 240, 10, 240), 0.0f, ImDrawFlags_RoundCornersAll, 3.0f);
 
 							if (payload->IsDelivery()) 
@@ -375,16 +395,32 @@ namespace Luden
 		int pixelX = (int)(mousePosImGui.x - viewportStart.x);
 		int pixelY = (int)(mousePosImGui.y - viewportStart.y);
 
-		int sfmlPixelY = pixelY;
+		sf::Vector2i sfmlPixelPos(pixelX, pixelY);
 
-		sf::Vector2i sfmlPixelPos(pixelX, sfmlPixelY);
+		sf::Vector2f worldCoords;
 
-		sf::Vector2f worldCoords = m_RenderTexture->mapPixelToCoords(sfmlPixelPos);
+		if (m_SceneState == SceneState::Edit)
+		{
+			worldCoords = m_RenderTexture->mapPixelToCoords(sfmlPixelPos, m_EditorCamera.GetView());
+		}
+		else if (m_SceneState == SceneState::Play)
+		{
+			Entity cameraEntity = m_ActiveScene->GetMainCameraEntity();
+			if (cameraEntity.IsValid())
+			{
+				const sf::View& cameraView = cameraEntity.Get<Camera2DComponent>().Camera.GetView();
+				worldCoords = m_RenderTexture->mapPixelToCoords(sfmlPixelPos, cameraView);
+			}
+			else
+			{
+				worldCoords = m_RenderTexture->mapPixelToCoords(sfmlPixelPos);
+			}
+		}
 
 		auto& transform = entity.Get<TransformComponent>();
-
-		transform.Translation = { worldCoords.x, worldCoords.y, 0};
+		transform.Translation = { worldCoords.x, worldCoords.y, 0.0f };
 	}
+
 
 	void SceneEditorTab::SetPanelsContext()
 	{

@@ -123,7 +123,14 @@ namespace Luden {
 	{
 		if (m_ToolStart) 
 		{
-			m_MouseStart = glm::vec2((float)move.position.x, (float)move.position.y);
+			ImVec2 mousePosImGui = ImGui::GetMousePos();
+			sf::Vector2i pixel(
+				(int)(mousePosImGui.x - m_ViewportBoundMin.x),
+				(int)(mousePosImGui.y - m_ViewportBoundMin.y)
+			);
+			sf::Vector2f worldPos = m_RenderWindow->mapPixelToCoords(pixel, m_RenderWindow->getView());
+			m_MouseStart = glm::vec2(worldPos.x, worldPos.y);
+
 			m_ToolStart = false;
 		}
 		return false;
@@ -356,7 +363,10 @@ namespace Luden {
 		int pixelY = (int)(mousePos.y - m_ViewportBoundMin.y);
 
 		sf::Vector2i pixelPos(pixelX, pixelY);
-		sf::Vector2f worldPos = m_RenderWindow->mapPixelToCoords(pixelPos, m_RenderWindow->getView());
+
+		sf::Vector2f worldPos;
+
+		worldPos = m_RenderWindow->mapPixelToCoords(pixelPos, m_RenderWindow->getView());
 
 		Entity selected;
 
@@ -370,15 +380,16 @@ namespace Luden {
 			auto& textureComponent = entity.Get<TextureComponent>();
 			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
 
-			if (texture == nullptr)
+			if (!texture)
 				continue;
 
 			glm::vec2 min = glm::vec2(transformComponent.Translation.x, transformComponent.Translation.y);
 
 			sf::Vector2u textureSize = texture->GetTexture().getSize();
-			glm::vec2 max = min + glm::vec2(textureSize.x * transformComponent.Scale.x,textureSize.y * transformComponent.Scale.y);
+			glm::vec2 max = min + glm::vec2(textureSize.x * transformComponent.Scale.x, textureSize.y * transformComponent.Scale.y);
 
-			if (mousePos.x > min.x && mousePos.x < max.x && mousePos.y > min.y && mousePos.y < max.y)
+			if (worldPos.x > min.x && worldPos.x < max.x &&
+				worldPos.y > min.y && worldPos.y < max.y)
 			{
 				selected = entity;
 				break;
@@ -395,18 +406,20 @@ namespace Luden {
 
 	glm::vec2 ToolbarPanel::GetMouseDelta()
 	{
-		sf::Vector2i pixel = sf::Mouse::getPosition();
+		ImVec2 mousePosImGui = ImGui::GetMousePos();
+		sf::Vector2i pixel(
+			(int)(mousePosImGui.x - m_ViewportBoundMin.x),
+			(int)(mousePosImGui.y - m_ViewportBoundMin.y)
+		);
+
 		sf::Vector2f world = m_RenderWindow->mapPixelToCoords(pixel, m_RenderWindow->getView());
 
 		glm::vec2 currentPos(world.x, world.y);
-
 		glm::vec2 diff = currentPos - m_MouseStart;
-
 		m_MouseStart = currentPos;
 
 		return diff;
 	}
-
 
 	void ToolbarPanel::Moving()
 	{
@@ -458,17 +471,18 @@ namespace Luden {
 			glm::vec2 diff = GetMouseDelta();
 
 			glm::vec3& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().Scale;
+			const float scaleSensitivity = 0.01f;
 
 			if (!m_IsSnapScaleEnabled)
 			{
-				entityScale.x += diff.x;
-				entityScale.y += diff.y;
+				entityScale.x += diff.x * scaleSensitivity;
+				entityScale.y += diff.y * scaleSensitivity;
 			}
 			else
 			{
 
-				m_MouseDeltaAccumX += diff.x;
-				m_MouseDeltaAccumY += diff.y;
+				entityScale.x += diff.x * scaleSensitivity;
+				entityScale.y += diff.y * scaleSensitivity;
 
 				if (fabsf(m_MouseDeltaAccumX) >= m_SnapScaleStep)
 				{
