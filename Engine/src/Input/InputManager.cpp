@@ -201,10 +201,12 @@ namespace Luden
 			// Normal mappings
 			for (const auto& mapping : context->GetMappings())
 			{
-				const InputKey& key = mapping.key;
-				if (std::holds_alternative<sf::Keyboard::Key>(key))
+				if (auto* mappedKey = std::get_if<sf::Keyboard::Key>(&mapping.key))
 				{
-					ProcessMapping(mapping, key, true, em);
+					if (*mappedKey == evt.code)
+					{
+						ProcessMapping(mapping, key, true, em);
+					}
 				}
 			}
 
@@ -245,28 +247,27 @@ namespace Luden
 
 			for (const auto& mapping : context->GetMappings())
 			{
-				const InputKey& key = mapping.key;
-				if (std::holds_alternative<sf::Keyboard::Key>(key))
+				if (auto* mappedKey = std::get_if<sf::Keyboard::Key>(&mapping.key))
 				{
-					if (mapping.triggerConfig.type == ETriggerType::Released)
+					if (*mappedKey == evt.code)
 					{
-						TriggerAction(mapping.action, ETriggerEvent::Completed,
-							InputValue(false), em);
-					}
-					else if (mapping.triggerConfig.type == ETriggerType::Tap)
-					{
-						if (holdDuration <= mapping.triggerConfig.tapTime)
+						if (mapping.triggerConfig.type == ETriggerType::Released)
 						{
-							TriggerAction(mapping.action, ETriggerEvent::Triggered,
-								InputValue(true), em);
+							TriggerAction(mapping.action, ETriggerEvent::Completed, InputValue(false), em);
 						}
-					}
-					else if (mapping.triggerConfig.type == ETriggerType::Hold)
-					{
-						if (holdDuration >= mapping.triggerConfig.holdTime)
+						else if (mapping.triggerConfig.type == ETriggerType::Tap)
 						{
-							TriggerAction(mapping.action, ETriggerEvent::Completed,
-								InputValue(true), em);
+							if (holdDuration <= mapping.triggerConfig.tapTime)
+							{
+								TriggerAction(mapping.action, ETriggerEvent::Triggered, InputValue(true), em);
+							}
+						}
+						else if (mapping.triggerConfig.type == ETriggerType::Hold)
+						{
+							if (holdDuration >= mapping.triggerConfig.holdTime)
+							{
+								TriggerAction(mapping.action, ETriggerEvent::Completed, InputValue(true), em);
+							}
 						}
 					}
 				}
