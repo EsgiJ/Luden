@@ -31,7 +31,8 @@
 			{
 				return m_Entity.Add<T>();
 			}
-	
+			
+			Entity GetEntity() { return m_Entity; }
 		protected:
 			virtual void OnCreate() {}
 			virtual void OnUpdate(TimeStep ts) {}

@@ -60,9 +60,11 @@
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>LUDEN_CONFIG_DEBUG;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -164,6 +166,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Scene\SceneSerializer.h" />
     <ClInclude Include="include\ScriptAPI\DebugAPI.h" />
     <ClInclude Include="include\ScriptAPI\GameplayAPI.h" />
+    <ClInclude Include="include\ScriptAPI\Physics2DAPI.h" />
     <ClInclude Include="include\Serialization\ResourcePack.h" />
     <ClInclude Include="include\Serialization\ResourcePackFile.h" />
     <ClInclude Include="include\Serialization\ResourcePackSerializer.h" />
@@ -217,6 +220,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\ScriptAPI\DebugAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\GameplayAPI.cpp" />
+    <ClCompile Include="src\ScriptAPI\Physics2DAPI.cpp" />
     <ClCompile Include="src\Serialization\ResourcePack.cpp" />
     <ClCompile Include="src\Serialization\ResourcePackSerializer.cpp" />
     <ClCompile Include="src\Utilities\StringUtils.cpp" />

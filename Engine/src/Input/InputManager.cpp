@@ -327,16 +327,14 @@ namespace Luden
 					switch (mapping.triggerConfig.type)
 					{
 					case ETriggerType::Down:
-						TriggerAction(mapping.action, ETriggerEvent::Ongoing,
-							state.currentValue, em);
+						TriggerAction(mapping.action, ETriggerEvent::Ongoing, state.currentValue, em);
 						break;
 
 					case ETriggerType::Hold:
 						if (pressedDuration >= mapping.triggerConfig.holdTime &&
 							!state.wasPressed)
 						{
-							TriggerAction(mapping.action, ETriggerEvent::Triggered,
-								InputValue(true), em);
+							TriggerAction(mapping.action, ETriggerEvent::Triggered, InputValue(true), em);
 						}
 						break;
 
@@ -346,8 +344,7 @@ namespace Luden
 						if (m_CurrentTime - mutableState.lastPulseTime >=
 							mapping.triggerConfig.pulseInterval)
 						{
-							TriggerAction(mapping.action, ETriggerEvent::Triggered,
-								InputValue(true), em);
+							TriggerAction(mapping.action, ETriggerEvent::Triggered, InputValue(true), em);
 							mutableState.lastPulseTime = m_CurrentTime;
 						}
 						break;
@@ -470,11 +467,8 @@ namespace Luden
 		if (IsKeyDown(mapping.downKey))
 			value.y += 1.0f;
 
-		if (value.x != 0.0f || value.y != 0.0f)
-		{
-			InputValue inputValue(value);
-			inputValue = ApplyModifierConfig(inputValue, mapping.modifierConfig);
-			TriggerAction(mapping.action, ETriggerEvent::Ongoing, inputValue, em);
-		}
+		InputValue inputValue(value);
+		inputValue = ApplyModifierConfig(inputValue, mapping.modifierConfig);
+		TriggerAction(mapping.action, ETriggerEvent::Ongoing, inputValue, em);
 	}
 }

@@ -267,7 +267,7 @@ namespace Luden {
 					bodyDef.type = b2_kinematicBody;
 				else if (rb2d.BodyType == RigidBody2DComponent::Type::Dynamic)
 					bodyDef.type = b2_dynamicBody;
-
+				
 				bodyDef.position = b2Vec2(
 					transformComponent.Translation.x / m_PhysicsScale,
 					(m_ViewportHeight - transformComponent.Translation.y) / m_PhysicsScale
