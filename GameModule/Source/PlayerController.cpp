@@ -57,7 +57,7 @@ namespace Luden
 		input.BindAction(jumpAction, ETriggerEvent::Started, this, &PlayerController::OnJump);
 		input.BindAction(moveAction, ETriggerEvent::Ongoing, this, &PlayerController::OnMove);
 		input.BindAction(moveAction, ETriggerEvent::Completed, this, &PlayerController::OnMoveStop); 
-		input.BindAction(fireAction, ETriggerEvent::Started, this, &PlayerController::OnShoot);
+		//input.BindAction(fireAction, ETriggerEvent::Started, this, &PlayerController::OnShoot);
     }
 
     void PlayerController::OnUpdate(TimeStep ts)
@@ -84,7 +84,7 @@ namespace Luden
 
 	void PlayerController::OnJump(const InputValue& value)
 	{
-		Physics2DAPI::AddImpulse(GetEntity(), glm::vec2(0.0f, JUMP_FORCE));
+		Physics2DAPI::AddImpulseToCenter(GetEntity(), glm::vec2(0.0f, JUMP_FORCE));
 
 		std::cout << "Jump" << std::endl;
 	}

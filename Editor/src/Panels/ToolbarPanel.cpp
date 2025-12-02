@@ -468,21 +468,22 @@ namespace Luden {
 
 		if (m_SceneHierarchyPanel->IsSelectedEntityValid()) 
 		{
+			const float scaleSensitivity = 0.01f;
+
 			glm::vec2 diff = GetMouseDelta();
 
 			glm::vec3& entityScale = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>().Scale;
-			const float scaleSensitivity = 0.01f;
 
 			if (!m_IsSnapScaleEnabled)
 			{
-				entityScale.x += diff.x * scaleSensitivity;
-				entityScale.y += diff.y * scaleSensitivity;
+				entityScale.x += diff.x;
+				entityScale.y += diff.y;
 			}
 			else
 			{
 
-				entityScale.x += diff.x * scaleSensitivity;
-				entityScale.y += diff.y * scaleSensitivity;
+				m_MouseDeltaAccumX += diff.x;
+				m_MouseDeltaAccumY += diff.y;
 
 				if (fabsf(m_MouseDeltaAccumX) >= m_SnapScaleStep)
 				{
@@ -515,8 +516,7 @@ namespace Luden {
 
 			float rotationDirection = (diff.x - diff.y > 0) ? 1.0f : -1.0f;
 
-			const float sensitivity = 0.05f;
-			float rotationAngle = diff.length() * rotationDirection * sensitivity;
+			float rotationAngle = diff.length() * rotationDirection;
 
 			auto& transform = m_SceneHierarchyPanel->GetSelectedEntity().Get<TransformComponent>();
 

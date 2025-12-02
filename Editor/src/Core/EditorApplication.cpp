@@ -26,7 +26,7 @@ namespace Luden
 	void EditorApplication::Init() 
 	{
 		// Editor window
-		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::None);
+		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::Titlebar);
 		m_Window.setFramerateLimit(60);
 
 		if (!ImGui::SFML::Init(m_Window))

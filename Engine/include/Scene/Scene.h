@@ -69,6 +69,8 @@ namespace Luden {
 
 		std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag);
 
+		Entity FindEntityByBodyId(b2BodyId bodyId);
+
 		template<typename T>
 		void CopyComponentIfExists(Entity dest, Entity source)
 		{
@@ -95,6 +97,7 @@ namespace Luden {
 		void DrawLine(const glm::vec2& p1, const glm::vec2& p2);
 		std::unordered_set<ResourceHandle> GetResourceList();
 
+		b2WorldId GetPhysicsWorldId();
 		// Metadata
 		const std::string& GetName() const { return m_Name; }
 		void SetName(const std::string& name) { m_Name = name; }

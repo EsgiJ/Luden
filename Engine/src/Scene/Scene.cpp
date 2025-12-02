@@ -358,7 +358,7 @@ namespace Luden {
 				{
 					b2Vec2 position = b2Body_GetPosition(bodyId); 
 					b2Rot rotation = b2Body_GetRotation(bodyId);
-
+						
 					float angle = atan2f(rotation.s, rotation.c);
 
 					transform.Translation.x = position.x * m_PhysicsScale;
@@ -539,6 +539,23 @@ namespace Luden {
 		return m_EntityManager.GetEntityMap().at(tag);
 	}
 
+	Entity Scene::FindEntityByBodyId(b2BodyId bodyId)
+	{
+		for (const auto& entity : m_EntityManager.GetEntities())
+		{
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				auto& rb = entity.Get<RigidBody2DComponent>();
+				if (B2_ID_EQUALS(rb.RuntimeBodyId, bodyId))
+				{
+					return entity;
+				}
+			}
+		}
+
+		return {};
+	}
+
 	// Viewport
 	void Scene::SetViewportSize(uint32_t width, uint32_t height) 
 	{
@@ -606,6 +623,11 @@ namespace Luden {
 			resourceList.insert(texture);
 		}
 		return resourceList;
+	}
+
+	b2WorldId Scene::GetPhysicsWorldId()
+	{
+		return m_PhysicsWorldId;
 	}
 
 }
