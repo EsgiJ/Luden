@@ -383,10 +383,15 @@ namespace Luden {
 			if (!texture)
 				continue;
 
-			glm::vec2 min = glm::vec2(transformComponent.Translation.x, transformComponent.Translation.y);
-
 			sf::Vector2u textureSize = texture->GetTexture().getSize();
-			glm::vec2 max = min + glm::vec2(textureSize.x * transformComponent.Scale.x, textureSize.y * transformComponent.Scale.y);
+
+			float halfWidth = (textureSize.x * transformComponent.Scale.x) / 2.0f;
+			float halfHeight = (textureSize.y * transformComponent.Scale.y) / 2.0f;
+
+			glm::vec2 center = glm::vec2(transformComponent.Translation.x, transformComponent.Translation.y);
+
+			glm::vec2 min = center - glm::vec2(halfWidth, halfHeight);
+			glm::vec2 max = center + glm::vec2(halfWidth, halfHeight);
 
 			if (worldPos.x > min.x && worldPos.x < max.x &&
 				worldPos.y > min.y && worldPos.y < max.y)

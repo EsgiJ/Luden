@@ -57,7 +57,7 @@ namespace Luden
 		input.BindAction(jumpAction, ETriggerEvent::Started, this, &PlayerController::OnJump);
 		input.BindAction(moveAction, ETriggerEvent::Ongoing, this, &PlayerController::OnMove);
 		input.BindAction(moveAction, ETriggerEvent::Completed, this, &PlayerController::OnMoveStop); 
-		//input.BindAction(fireAction, ETriggerEvent::Started, this, &PlayerController::OnShoot);
+		input.BindAction(fireAction, ETriggerEvent::Started, this, &PlayerController::OnShoot);
     }
 
     void PlayerController::OnUpdate(TimeStep ts)

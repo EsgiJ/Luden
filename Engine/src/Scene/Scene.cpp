@@ -111,9 +111,12 @@ namespace Luden {
 				auto& animationComp = e.Get<Animation2DComponent>();
 				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
 				sf::Sprite sprite = animation->GetSprite();
-
-				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
-				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
+				sf::FloatRect bounds = sprite.getLocalBounds();
+	
+				sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
+				sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
+				sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
+				sprite.setRotation(sf::degrees(transform.angle));
 				sprite.setColor(c);
 
 				target->draw(sprite);
@@ -127,8 +130,12 @@ namespace Luden {
 				if (textureRes)
 				{
 					sf::Sprite sprite(textureRes->GetTexture());
-					sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
-					sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
+					sf::FloatRect bounds = sprite.getLocalBounds();
+
+					sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
+					sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
+					sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
+					sprite.setRotation(sf::degrees(transform.angle));
 					sprite.setColor(c);
 
 					target->draw(sprite);
@@ -137,6 +144,7 @@ namespace Luden {
 		}
 
 		DebugManager::Instance().Render(target);
+		DebugManager::Instance().DebugDrawPhysics2D(m_PhysicsWorldId);
 	}
 
 	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target, Camera2D& editorCamera)
@@ -159,10 +167,14 @@ namespace Luden {
 				auto& animationComp = e.Get<Animation2DComponent>();
 				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
 				sf::Sprite sprite = animation->GetSprite();
+				sf::FloatRect bounds = sprite.getLocalBounds();
 
-				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
-				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
+				sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
+				sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
+				sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
+				sprite.setRotation(sf::degrees(transform.angle));
 				sprite.setColor(c);
+
 				target->draw(sprite);
 			}
 			else if (e.Has<TextureComponent>())
@@ -174,19 +186,21 @@ namespace Luden {
 				if (textureRes)
 				{
 					sf::Sprite sprite(textureRes->GetTexture());
-					sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
-					sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
-					sprite.setColor(c);
+					sf::FloatRect bounds = sprite.getLocalBounds();
+
+					sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
+					sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
+					sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
 					sprite.setRotation(sf::degrees(transform.angle));
+					sprite.setColor(c);
+
 					target->draw(sprite);
 				}
 			}
-
-
 		}
-		DebugManager::Instance().Render(target);
 
-		//TODO: Editor overlay (gizmo, bounding box, grid)
+		DebugManager::Instance().DebugDrawPhysics2D(m_PhysicsWorldId);
+		DebugManager::Instance().Render(target);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -337,6 +351,8 @@ namespace Luden {
 				}
 			}
 		}
+
+		DebugManager::Instance().SetDebugDraw(m_PhysicsWorldId, m_PhysicsScale, m_ViewportHeight, m_ViewportWidth);
 	}
 
 	void Scene::OnPhysics2DUpdate(TimeStep ts)

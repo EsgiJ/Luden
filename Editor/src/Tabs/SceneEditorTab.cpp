@@ -116,6 +116,7 @@ namespace Luden
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_InspectorPanel.OnImGuiRender();
 		m_ResourceBrowserPanel.OnImGuiRender();
+		m_DebugSettingsPanel.OnImGuiRender();
 
 		if (m_Appearing)
 		{ 
@@ -238,19 +239,28 @@ namespace Luden
 								auto& transformComponent = entity.Get<TransformComponent>();
 								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
 
-								glm::vec3 topLeftWorld = transformComponent.Translation;
-								glm::vec3 bottomRightWorld = transformComponent.Translation + glm::vec3(boxComponent.Size.x * transformComponent.Scale.x, boxComponent.Size.y * transformComponent.Scale.y, 0.0f);
+								float halfWidth = (boxComponent.Size.x * transformComponent.Scale.x) / 2.0f;
+								float halfHeight = (boxComponent.Size.y * transformComponent.Scale.y) / 2.0f;
+
+								glm::vec3 entityCenter = transformComponent.Translation;
+
+								glm::vec3 colliderCenter = entityCenter + glm::vec3(
+									boxComponent.Offset.x * transformComponent.Scale.x,
+									boxComponent.Offset.y * transformComponent.Scale.y,
+									0.0f
+								);
+
+								glm::vec3 topLeftWorld = colliderCenter - glm::vec3(halfWidth, halfHeight, 0.0f);
+								glm::vec3 bottomRightWorld = colliderCenter + glm::vec3(halfWidth, halfHeight, 0.0f);
 
 								glm::vec2 topLeftScreen = WorldToScreen(topLeftWorld);
 								glm::vec2 bottomRightScreen = WorldToScreen(bottomRightWorld);
 
-								ImVec2 minPos = ImVec2(topLeftScreen.x, topLeftScreen.y);
-								ImVec2 maxPos = ImVec2(bottomRightScreen.x, bottomRightScreen.y);
-
 								if (m_ToolbarPanel.m_ShowMovementCollision)
 								{
 									ImGui::GetWindowDrawList()->AddRect(
-										minPos, maxPos,
+										ImVec2(topLeftScreen.x, topLeftScreen.y),
+										ImVec2(bottomRightScreen.x, bottomRightScreen.y),
 										IM_COL32(240, 240, 10, 240),
 										0.0f, ImDrawFlags_RoundCornersAll, 3.0f
 									);
@@ -259,7 +269,8 @@ namespace Luden
 								if (m_ToolbarPanel.m_ShowVisionCollision)
 								{
 									ImGui::GetWindowDrawList()->AddRect(
-										minPos, maxPos,
+										ImVec2(topLeftScreen.x, topLeftScreen.y),
+										ImVec2(bottomRightScreen.x, bottomRightScreen.y),
 										IM_COL32(100, 100, 10, 240),
 										0.0f, ImDrawFlags_RoundCornersAll, 3.0f
 									);
@@ -347,6 +358,7 @@ namespace Luden
 		m_SceneHierarchyPanel.DockTo(dockLeft);
 		m_InspectorPanel.DockTo(dockRight);
 		m_ResourceBrowserPanel.DockTo(dockDown);
+		m_DebugSettingsPanel.DockTo(dockRight);
 
 		ImGui::DockBuilderFinish(dockSpaceMainID);
 		m_Appearing = true;
@@ -583,14 +595,16 @@ namespace Luden
 		if (!texture) return;
 
 		sf::Vector2u texSize = texture->GetTexture().getSize();
-		glm::vec3 scaledSize = { texSize.x * transform.Scale.x, texSize.y * transform.Scale.y, 0.0f };
+		float halfWidth = (texSize.x * transform.Scale.x) / 2.0f;
+		float halfHeight = (texSize.y * transform.Scale.y) / 2.0f;
 
+		glm::vec3 center = transform.Translation;
 
 		glm::vec3 worldCorners[] = {
-			transform.Translation,                                         
-			transform.Translation + glm::vec3(scaledSize.x, 0, 0),
-			transform.Translation + scaledSize,
-			transform.Translation + glm::vec3(0, scaledSize.y, 0)
+			center + glm::vec3(-halfWidth, -halfHeight, 0), 
+			center + glm::vec3(halfWidth, -halfHeight, 0),  
+			center + glm::vec3(halfWidth, halfHeight, 0),   
+			center + glm::vec3(-halfWidth, halfHeight, 0)   
 		};
 
 		ImVec2 screenCorners[4];
@@ -600,13 +614,12 @@ namespace Luden
 			screenCorners[i] = ImVec2(tempPos.x, tempPos.y);
 		}
 
-		ImU32 color = IM_COL32(255, 255, 0, 255); 
+		ImU32 color = IM_COL32(255, 255, 0, 255);
 		float thickness = 2.0f;
-
-		drawList->AddLine(screenCorners[0], screenCorners[1], color, thickness); 
-		drawList->AddLine(screenCorners[1], screenCorners[2], color, thickness); 
-		drawList->AddLine(screenCorners[2], screenCorners[3], color, thickness); 
-		drawList->AddLine(screenCorners[3], screenCorners[0], color, thickness); 
+		drawList->AddLine(screenCorners[0], screenCorners[1], color, thickness);
+		drawList->AddLine(screenCorners[1], screenCorners[2], color, thickness);
+		drawList->AddLine(screenCorners[2], screenCorners[3], color, thickness);
+		drawList->AddLine(screenCorners[3], screenCorners[0], color, thickness);
 	}
 
 	void SceneEditorTab::DrawGizmo(ImDrawList* drawList, Entity entity, ToolbarPanel::Tool tool)
@@ -617,16 +630,7 @@ namespace Luden
 		auto& transform = entity.Get<TransformComponent>();
 
 		glm::vec3 centerWorldPos = transform.Translation;
-		if (entity.Has<TextureComponent>())
-		{
-			auto& textureComp = entity.Get<TextureComponent>();
-			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComp.textureHandle));
-			if (texture)
-			{
-				centerWorldPos.x += texture->GetTexture().getSize().x * transform.Scale.x / 2.0f;
-				centerWorldPos.y += texture->GetTexture().getSize().y * transform.Scale.y / 2.0f;
-			}
-		}
+
 		glm::vec2 tempPos = WorldToScreen(centerWorldPos);
 		ImVec2 center = ImVec2(tempPos.x, tempPos.y);
 

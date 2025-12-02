@@ -5,6 +5,7 @@
 #include "Panels/InspectorPanel.h"
 #include "Panels/ToolbarPanel.h"
 #include "Panels/ResourceBrowserPanel.h"
+#include "Panels/DebugSettingsPanel.h"
 #include "Scene/Scene.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -86,6 +87,7 @@ namespace Luden
 		InspectorPanel m_InspectorPanel;
 		ToolbarPanel m_ToolbarPanel;
 		ResourceBrowserPanel m_ResourceBrowserPanel;
+		DebugSettingsPanel m_DebugSettingsPanel;
 
 		std::filesystem::path m_ActiveScenePath = std::filesystem::canonical(".");
 
