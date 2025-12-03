@@ -164,6 +164,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Resource\RuntimeResourceManager.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\SceneSerializer.h" />
+    <ClInclude Include="include\ScriptAPI\AnimationAPI.h" />
     <ClInclude Include="include\ScriptAPI\DebugAPI.h" />
     <ClInclude Include="include\ScriptAPI\GameplayAPI.h" />
     <ClInclude Include="include\ScriptAPI\Physics2DAPI.h" />
@@ -218,6 +219,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Resource\RuntimeResourceManager.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\ScriptAPI\AnimationAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\DebugAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\GameplayAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\Physics2DAPI.cpp" />
