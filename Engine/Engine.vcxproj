@@ -126,7 +126,6 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\ECS\EntityMemoryPool.h" />
     <ClInclude Include="include\ECS\IComponent.h" />
     <ClInclude Include="include\ECS\ISystem.h" />
-    <ClInclude Include="include\ECS\Systems\AnimationSystem.h" />
     <ClInclude Include="include\EngineAPI.h" />
     <ClInclude Include="include\Graphics\Animation.h" />
     <ClInclude Include="include\Graphics\AnimationManager.h" />
@@ -193,7 +192,6 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\ECS\EntityManager.cpp" />
     <ClCompile Include="src\ECS\EntityMemoryPool.cpp" />
     <ClCompile Include="src\ECS\ISystem.cpp" />
-    <ClCompile Include="src\ECS\Systems\AnimationSystem.cpp" />
     <ClCompile Include="src\Graphics\Animation.cpp" />
     <ClCompile Include="src\Graphics\AnimationManager.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />
