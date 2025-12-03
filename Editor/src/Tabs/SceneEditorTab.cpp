@@ -438,7 +438,8 @@ namespace Luden
 	{
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		m_ToolbarPanel.SetContext(m_ActiveScene, &m_SceneHierarchyPanel, &m_EditorCamera);
-		m_InspectorPanel.SetContext(m_ActiveScene, &m_SceneHierarchyPanel);
+		m_InspectorPanel.SetContext(m_ActiveScene, &m_SceneHierarchyPanel, m_EditorApplication);
+		m_ResourceBrowserPanel.SetContext(m_EditorApplication);
 		m_Appearing = true;
 	}
 	void SceneEditorTab::LoadScene(const std::filesystem::path& path)

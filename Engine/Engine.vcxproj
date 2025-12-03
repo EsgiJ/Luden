@@ -129,6 +129,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\ECS\Systems\AnimationSystem.h" />
     <ClInclude Include="include\EngineAPI.h" />
     <ClInclude Include="include\Graphics\Animation.h" />
+    <ClInclude Include="include\Graphics\AnimationManager.h" />
     <ClInclude Include="include\Graphics\Font.h" />
     <ClInclude Include="include\Graphics\Texture.h" />
     <ClInclude Include="include\IO\FileStream.h" />
@@ -194,6 +195,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\ECS\ISystem.cpp" />
     <ClCompile Include="src\ECS\Systems\AnimationSystem.cpp" />
     <ClCompile Include="src\Graphics\Animation.cpp" />
+    <ClCompile Include="src\Graphics\AnimationManager.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\IO\FileStream.cpp" />

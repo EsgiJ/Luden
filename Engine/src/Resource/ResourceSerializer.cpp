@@ -12,6 +12,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <iostream>
 
 namespace Luden
 {
@@ -293,28 +294,40 @@ namespace Luden
 // AnimationResourceSerializer
 //////////////////////////////////////////////////////////////////////////////////
 
-	void AnimationResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
+	void AnimationResourceSerializer::Serialize(const ResourceMetadata & metadata, const std::shared_ptr<Resource>&resource) const
 	{
-		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
+		auto anim = std::static_pointer_cast<Animation>(resource);
 
-		// JSON 
 		nlohmann::json j;
+
 		j["Name"] = anim->GetName();
+		j["Loop"] = anim->IsLooping();
 		j["FrameCount"] = anim->GetFrameCount();
-		j["Size"] = { anim->GetSize().x, anim->GetSize().y };
-		j["TextureHandle"] = static_cast<uint64_t>(anim->GetTextureHandle());
+
+		j["Frames"] = nlohmann::json::array();
+
+		for (size_t i = 0; i < anim->GetFrameCount(); i++)
+		{
+			const auto& frame = anim->GetFrame(i);
+
+			nlohmann::json jFrame;
+			jFrame["TextureHandle"] = static_cast<uint64_t>(frame.textureHandle);
+			jFrame["Duration"] = frame.duration;
+			jFrame["Offset"] = { frame.offset.x, frame.offset.y };
+
+			j["Frames"].push_back(jFrame);
+		}
 
 		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
-		out << j.dump(4);
+		if (out.is_open())
+		{
+			out << j.dump(4);
+		}
 	}
 
 	bool AnimationResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
-		/*
 		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
-		resource = std::make_shared<Graphics::Animation>();
-
-		auto anim = std::static_pointer_cast<Graphics::Animation>(resource);
 
 		std::ifstream in(path);
 		if (!in.is_open())
@@ -323,29 +336,65 @@ namespace Luden
 		nlohmann::json j;
 		in >> j;
 
-		std::string name = j["Name"];
-		size_t frameCount = j["FrameCount"];
-		glm::vec2 size = { j["Size"][0], j["Size"][1] };
-		ResourceHandle textureHandle = j["TextureHandle"].get<uint64_t>();
+		auto anim = std::make_shared<Animation>();
 
-		anim->SetName(name);
-		anim->SetFrameCount(frameCount);
-		anim->SetSize(size);
-		anim->SetTextureHandle(textureHandle);
-		anim->SetSprite(Graphics::Animation::MakeSpriteFromHandle(textureHandle));
-		*/
+		if (j.contains("Name"))
+			anim->SetName(j["Name"].get<std::string>());
+
+		if (j.contains("Loop"))
+			anim->SetLooping(j["Loop"].get<bool>());
+
+		if (j.contains("Frames") && j["Frames"].is_array())
+		{
+			for (const auto& jFrame : j["Frames"])
+			{
+				ResourceHandle textureHandle = jFrame["TextureHandle"].get<uint64_t>();
+				float duration = jFrame.value("Duration", 0.1f);
+
+				anim->AddFrame(textureHandle, duration);
+
+				if (jFrame.contains("Offset"))
+				{
+					auto& frame = anim->GetFrame(anim->GetFrameCount() - 1);
+					frame.offset.x = jFrame["Offset"][0].get<float>();
+					frame.offset.y = jFrame["Offset"][1].get<float>();
+				}
+			}
+		}
+
+		resource = anim;
 		return true;
-
 	}
 
 	bool AnimationResourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
 	{
 		outInfo.Offset = stream.GetStreamPosition();
 
-		std::shared_ptr<Graphics::Animation> anim = ResourceManager::GetResource<Graphics::Animation>(handle);
-		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(handle);
-		Buffer animData = FileSystem::ReadBytes(path);
-		stream.WriteBuffer(animData);
+		std::shared_ptr<Animation> anim = ResourceManager::GetResource<Animation>(handle);
+
+		if (!anim)
+			return false;
+
+		nlohmann::json j;
+		j["Name"] = anim->GetName();
+		j["Loop"] = anim->IsLooping();
+		j["FrameCount"] = anim->GetFrameCount();
+
+		j["Frames"] = nlohmann::json::array();
+		for (size_t i = 0; i < anim->GetFrameCount(); i++)
+		{
+			const auto& frame = anim->GetFrame(i);
+
+			nlohmann::json jFrame;
+			jFrame["TextureHandle"] = static_cast<uint64_t>(frame.textureHandle);
+			jFrame["Duration"] = frame.duration;
+			jFrame["Offset"] = { frame.offset.x, frame.offset.y };
+
+			j["Frames"].push_back(jFrame);
+		}
+
+		std::string jsonStr = j.dump();
+		stream.WriteString(jsonStr);
 
 		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
 		return true;
@@ -355,17 +404,37 @@ namespace Luden
 	{
 		stream.SetStreamPosition(resourceInfo.PackedOffset);
 
-		Buffer animData;
-		stream.ReadBuffer(animData);
+		std::string jsonStr;
+		stream.ReadString(jsonStr);
 
-		nlohmann::json j = nlohmann::json::parse(std::string((char*)animData.Data, animData.GetSize()));
+		nlohmann::json j;
+		j = nlohmann::json::parse(jsonStr);
 
-		std::string name = j["Name"].get<std::string>();
-		size_t frameCount = j["FrameCount"].get<size_t>();
-		ResourceHandle textureHandle = j["TextureHandle"].get<uint64_t>();
+		auto anim = std::make_shared<Animation>();
 
-		auto anim = std::make_shared<Graphics::Animation>(name, textureHandle, frameCount);
-		anim->SetSize({ 1.0f, 1.0f });
+		if (j.contains("Name"))
+			anim->SetName(j["Name"].get<std::string>());
+
+		if (j.contains("Loop"))
+			anim->SetLooping(j["Loop"].get<bool>());
+
+		if (j.contains("Frames") && j["Frames"].is_array())
+		{
+			for (const auto& jFrame : j["Frames"])
+			{
+				ResourceHandle textureHandle = jFrame["TextureHandle"].get<uint64_t>();
+				float duration = jFrame.value("Duration", 0.1f);
+
+				anim->AddFrame(textureHandle, duration);
+
+				if (jFrame.contains("Offset"))
+				{
+					auto& frame = anim->GetFrame(anim->GetFrameCount() - 1);
+					frame.offset.x = jFrame["Offset"][0].get<float>();
+					frame.offset.y = jFrame["Offset"][1].get<float>();
+				}
+			}
+		}
 
 		return anim;
 	}

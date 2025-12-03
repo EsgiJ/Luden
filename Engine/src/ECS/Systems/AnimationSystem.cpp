@@ -22,7 +22,7 @@ namespace Luden
 			if (!e.Has<Animation2DComponent>()) continue;
 
 			auto& cAnim = e.Get<Animation2DComponent>();
-			auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(cAnim.animationHandle));
+			auto anim = std::static_pointer_cast<Animation>(Project::GetResourceManager()->GetResource(cAnim.animationHandle));
 			if (!anim) continue;
 
 			cAnim.currentFrame++;

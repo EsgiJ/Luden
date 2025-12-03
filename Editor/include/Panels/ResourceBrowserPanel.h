@@ -10,6 +10,7 @@
 class ResourceHandle;
 class Resource; 
 namespace Luden {
+	class EditorApplication;
 
 	struct BrowserEntry
 	{
@@ -26,6 +27,8 @@ namespace Luden {
 	public:
 		ResourceBrowserPanel() : EditorPanel("Resource Browser"){}
 		~ResourceBrowserPanel() = default;
+
+		void SetContext(EditorApplication* editorApplication);
 
 	protected:
 		void RenderContent() override;
@@ -70,5 +73,7 @@ namespace Luden {
 		float m_ZoomWheelAccum = 0.0f;
 		bool m_RequestSort = false;
 		std::filesystem::path m_CurrentDirectory;
+
+		EditorApplication* m_EditorApplication;
 	};
 }

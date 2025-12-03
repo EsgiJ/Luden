@@ -159,17 +159,20 @@ namespace Luden
 			if (e.Has<Animation2DComponent>())
 			{
 				const auto& c = e.Get<Animation2DComponent>();
-				auto anim = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(c.animationHandle));
+
+				json jAnimHandles = json::array();
+				for (auto handle : c.animationHandles)
+				{
+					jAnimHandles.push_back(static_cast<uint64_t>(handle));
+				}
 
 				jEntity["Animation2DComponent"] = {
-					{ "animationHandle", static_cast<uint64_t>(c.animationHandle) },
+					{ "animationHandles", jAnimHandles },
+					{ "currentAnimationIndex", c.currentAnimationIndex },
 					{ "repeat", c.repeat },
-					{ "name", anim->GetName() },
-					{ "frameCount", anim->GetFrameCount() },
-					{ "currentFrame", c.currentFrame },
 					{ "speed", c.speed },
-					{ "size", { anim->GetSize().x, anim->GetSize().y } },
-					{ "textureHandle", static_cast<uint64_t>(anim->GetTextureHandle()) }
+					{ "currentFrame", c.currentFrame },
+					{ "frameTimer", c.frameTimer }
 				};
 			}
 
@@ -393,29 +396,27 @@ namespace Luden
 				if (c.ScriptHandle != 0)
 					c.BindFromHandle(c.ScriptHandle);
 			}
+
 			if (jEntity.contains("Animation2DComponent"))
 			{
 				const auto& jAnim = jEntity["Animation2DComponent"];
 
-				ResourceHandle texHandle(jAnim["textureHandle"].get<uint64_t>());
+				auto& c = e.Add<Animation2DComponent>();
 
-				Graphics::Animation anim(
-					jAnim["name"].get<std::string>(),
-					texHandle,
-					jAnim["frameCount"].get<size_t>()
-				);
+				if (jAnim.contains("animationHandles"))
+				{
+					for (const auto& handleJson : jAnim["animationHandles"])
+					{
+						ResourceHandle handle = handleJson.get<uint64_t>();
+						c.animationHandles.push_back(handle);
+					}
+				}
 
-				anim.SetSize({
-					jAnim["size"][0].get<float>(),
-					jAnim["size"][1].get<float>()
-					});
-
-				ResourceHandle animationHandle(jAnim["animationHandle"].get<uint64_t>());
-				bool repeat = jAnim["repeat"].get<bool>();
-				size_t speed = jAnim["speed"].get<size_t>();
-				size_t currentFrame = jAnim["currentFrame"].get<size_t>();
-
-				auto& c = e.Add<Animation2DComponent>(animationHandle, speed, currentFrame, repeat);
+				c.currentAnimationIndex = jAnim.value("currentAnimationIndex", 0);
+				c.repeat = jAnim.value("repeat", true);
+				c.speed = jAnim.value("speed", 1);
+				c.currentFrame = jAnim.value("currentFrame", 0);
+				c.frameTimer = jAnim.value("frameTimer", 0);
 			}
 
 			if (jEntity.contains("TextComponent"))

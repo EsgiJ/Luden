@@ -27,7 +27,7 @@ namespace Luden
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const = 0;
 	};
 
-	class TextureSerializer : public ResourceSerializer
+	class ENGINE_API TextureSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override {}
@@ -37,7 +37,7 @@ namespace Luden
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
 
-	class NativeScriptResourceSerializer : public ResourceSerializer
+	class ENGINE_API NativeScriptResourceSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
@@ -47,7 +47,7 @@ namespace Luden
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const override;
 	};
 
-	class FontSerializer : public ResourceSerializer
+	class ENGINE_API FontSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override {}
@@ -57,7 +57,7 @@ namespace Luden
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
 
-	class AudioFileSourceSerializer : public ResourceSerializer
+	class ENGINE_API AudioFileSourceSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
@@ -80,7 +80,7 @@ namespace Luden
 		bool DeserializeFromJSON(const std::string& jsonString, std::shared_ptr<Prefab> prefab) const;
 	};
 */
-	class SceneResourceSerializer : public ResourceSerializer
+	class ENGINE_API SceneResourceSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
@@ -91,7 +91,7 @@ namespace Luden
 		std::shared_ptr<Scene> DeserializeSceneFromResourcePack(FileStreamReader& stream, const ResourcePackFile::SceneInfo& sceneInfo) const;
 	};
 
-	class AnimationResourceSerializer : public ResourceSerializer
+	class ENGINE_API AnimationResourceSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;

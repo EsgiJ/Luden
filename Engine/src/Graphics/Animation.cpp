@@ -5,45 +5,46 @@
 #include <utility>
 
 
-namespace Luden::Graphics
+namespace Luden
 {
-	Animation::Animation(const std::string& name, const ResourceHandle& textureHandle)
-		: m_Sprite(MakeSpriteFromHandle(textureHandle))
-		, m_Name(name)
-		, m_TextureHandle(textureHandle)
-		, m_FrameCount(1)
+	void Animation::AddFrame(ResourceHandle texture, float duration)
 	{
-		auto texture = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(textureHandle));
-		m_Sprite.setTexture(texture->GetTexture());
+		AnimationFrame frame;
+		frame.textureHandle = texture;
+		frame.duration = duration;
+		m_Frames.push_back(frame);
 	}
 
-	Animation::Animation(const std::string& name, const ResourceHandle& textureHandle, size_t frameCount)
-		: m_Sprite(MakeSpriteFromHandle(textureHandle))
-		, m_Name(name)
-		, m_TextureHandle(textureHandle)
-		, m_FrameCount(frameCount)
+	void Animation::InsertFrame(size_t index, ResourceHandle texture, float duration)
 	{
-		auto texture = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(textureHandle));
-		m_Size = glm::vec2(
-			static_cast<float>(texture->GetTexture().getSize().x) / static_cast<float>(frameCount),
-			static_cast<float>(texture->GetTexture().getSize().y)
-		);
+		if (index > m_Frames.size())
+			index = m_Frames.size();
 
-		m_Sprite.setTexture(texture->GetTexture());
-		m_Sprite.setOrigin(sf::Vector2f(m_Size.x / 2.0f, m_Size.y / 2.0f));
-
-		m_Sprite.setTextureRect(sf::IntRect(
-			{ static_cast<int>(std::floor(static_cast<float>(1) * m_Size.x)), 0 },
-			{ static_cast<int>(m_Size.x), static_cast<int>(m_Size.y) }
-		));
+		AnimationFrame frame;
+		frame.textureHandle = texture;
+		frame.duration = duration;
+		m_Frames.insert(m_Frames.begin() + index, frame);
 	}
 
-	sf::Sprite Animation::MakeSpriteFromHandle(const ResourceHandle& handle)
+	void Animation::RemoveFrame(size_t index)
 	{
-		auto tex = std::static_pointer_cast<Luden::Texture>(
-			Project::GetResourceManager()->GetResource(handle)
-		);
-		return sf::Sprite(tex->GetTexture());
+		if (index < m_Frames.size())
+			m_Frames.erase(m_Frames.begin() + index);
 	}
 
+	void Animation::ClearFrames()
+	{
+		m_Frames.clear();
+	}
+
+	float Animation::GetTotalDuration() const
+	{
+		float total = 0.0f;
+		for (const auto& frame : m_Frames)
+		{
+			total += frame.duration;
+		}
+
+		return total;
+	}
 }

@@ -206,14 +206,15 @@ namespace Luden
 	struct ENGINE_API Animation2DComponent : public IComponent
 	{
 	public:
-		ResourceHandle animationHandle;
-		size_t speed = 0;
-		size_t currentFrame = 0;
+		std::vector<ResourceHandle> animationHandles;
+		size_t currentAnimationIndex = 0;
 
-		bool repeat = false;
+		size_t speed = 1;
+		size_t currentFrame = 0;
+		size_t frameTimer = 0;
+		bool repeat = true;
 
 		Animation2DComponent() = default;
-		Animation2DComponent(ResourceHandle a, size_t s, size_t cf, bool r) : animationHandle(a), speed(s), currentFrame(cf), repeat(r) {};
 	};
 
 	struct ENGINE_API TextComponent : public IComponent

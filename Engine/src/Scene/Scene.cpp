@@ -4,14 +4,14 @@
 #include "NativeScript/ScriptableEntity.h"
 #include "Input/InputManager.h"
 #include "Core/EngineContext.h"
+#include "Debug/DebugManager.h"
+#include "Graphics/AnimationManager.h"
 
 #include <iostream>
 
 #include <glm/glm.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
-#include "Debug/DebugManager.h"
-
 
 namespace Luden {
 
@@ -62,6 +62,7 @@ namespace Luden {
 		OnPhysics2DUpdate(ts);
 		InputManager::Instance().Update(ts, m_EntityManager);
 		DebugManager::Instance().Update(ts);
+		AnimationManager::Instance().Update(ts);
 		m_EntityManager.Update(ts);
 	}
 
@@ -73,21 +74,10 @@ namespace Luden {
 		editorCamera.Update();
 
 		OnRenderEditor(renderTexture, editorCamera);
-
+		AnimationManager::Instance().Update(ts);
 		OnPhysics2DUpdate(ts);
 
 		m_EntityManager.Update(ts);
-
-		if (m_Paused)
-			return;
-
-		if (m_ShouldSimulate) {
-			//m_EntityManager.Update(ts);
-		}
-		else if (m_IsPlaying) {
-			//m_EntityManager.Update(ts);
-			// UpdateAnimation
-		}
 	}
 
 	// Render
@@ -108,14 +98,36 @@ namespace Luden {
 
 			if (e.Has<Animation2DComponent>())
 			{
-				auto& animationComp = e.Get<Animation2DComponent>();
-				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
-				sf::Sprite sprite = animation->GetSprite();
+				auto& animComp = e.Get<Animation2DComponent>();
+
+				if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
+					continue;
+
+				ResourceHandle currentAnimHandle = animComp.animationHandles[animComp.currentAnimationIndex];
+				auto animation = std::static_pointer_cast<Animation>(
+					Project::GetResourceManager()->GetResource(currentAnimHandle)
+				);
+
+				if (!animation)
+					continue;
+
+				if (animComp.currentFrame >= animation->GetFrameCount())
+					animComp.currentFrame = 0;
+
+				const auto& frame = animation->GetFrame(animComp.currentFrame);
+				auto texture = std::static_pointer_cast<Texture>(
+					Project::GetResourceManager()->GetResource(frame.textureHandle)
+				);
+
+				if (!texture)
+					continue;
+
+				sf::Sprite sprite(texture->GetTexture());
 				sf::FloatRect bounds = sprite.getLocalBounds();
-	
-				sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
-				sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
-				sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
+
+				sprite.setOrigin(sf::Vector2f(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
+				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
+				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
 				sprite.setRotation(sf::degrees(transform.angle));
 				sprite.setColor(c);
 
@@ -164,14 +176,36 @@ namespace Luden {
 
 			if (e.Has<Animation2DComponent>())
 			{
-				auto& animationComp = e.Get<Animation2DComponent>();
-				auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetResourceManager()->GetResource(animationComp.animationHandle));
-				sf::Sprite sprite = animation->GetSprite();
+				auto& animComp = e.Get<Animation2DComponent>();
+
+				if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
+					continue;
+
+				ResourceHandle currentAnimHandle = animComp.animationHandles[animComp.currentAnimationIndex];
+				auto animation = std::static_pointer_cast<Animation>(
+					Project::GetResourceManager()->GetResource(currentAnimHandle)
+				);
+
+				if (!animation)
+					continue;
+
+				if (animComp.currentFrame >= animation->GetFrameCount())
+					animComp.currentFrame = 0;
+
+				const auto& frame = animation->GetFrame(animComp.currentFrame);
+				auto texture = std::static_pointer_cast<Texture>(
+					Project::GetResourceManager()->GetResource(frame.textureHandle)
+				);
+
+				if (!texture)
+					continue;
+
+				sf::Sprite sprite(texture->GetTexture());
 				sf::FloatRect bounds = sprite.getLocalBounds();
 
-				sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
-				sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
-				sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
+				sprite.setOrigin(sf::Vector2f(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
+				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
+				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
 				sprite.setRotation(sf::degrees(transform.angle));
 				sprite.setColor(c);
 

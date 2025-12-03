@@ -6,23 +6,25 @@
 #include "ECS/Components/Components.h"
 #include "NativeScript/NativeScriptGenerator.h"
 #include "NativeScript/NativeScript.h"
+#include "Core/EditorApplication.h"
+
+#include <memory>
+#include <iostream>
 
 #include <IconsFontAwesome7.h>
 #include <imgui.h>
 #include <imgui_internal.h>
-
-#include <memory>
-#include <iostream>
 
 namespace Luden
 {
 	constexpr ImGuiTreeNodeFlags innerTreeNodeFlags = ImGuiTreeNodeFlags_OpenOnDoubleClick |
 		ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
 
-	void InspectorPanel::SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* scene_tree_panel)
+	void InspectorPanel::SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel, EditorApplication* editorApplication)
 	{
 		m_Context = context;
-		m_SceneHierarchyPanel = scene_tree_panel;
+		m_SceneHierarchyPanel = sceneHierarchyPanel;
+		m_EditorApplication = editorApplication;
 	}
 
 	void InspectorPanel::RenderContent() 
@@ -405,33 +407,152 @@ namespace Luden
 						}
 					});
 
-				DisplayComponentInInspector<Animation2DComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
-					{
-						auto& animationComponent = entity.Get<Animation2DComponent>();
-						auto animation = std::static_pointer_cast<Graphics::Animation>(Project::GetEditorResourceManager()->GetResource(animationComponent.animationHandle));
-						ImGuiUtils::PrefixLabel("Current");
-						if (ImGuiUtils::ResourceButton(animationComponent.animationHandle, ResourceType::Animation))
+					DisplayComponentInInspector<Animation2DComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
 						{
-							//TODO: Animation Editor Panel
-						}
+							auto& animComp = entity.Get<Animation2DComponent>();
 
-						ImGuiUtils::PrefixLabel("Repeat");
-						ImGui::Checkbox("##Paused", &animationComponent.repeat);
+							ImGui::Text("Animations:");
+							ImGui::Separator();
 
-						ImGuiUtils::PrefixLabel("Speed");
-						int speedTmp = static_cast<int>(animationComponent.speed);
-						if (ImGui::DragInt("##Speed", &speedTmp, 1, 0, 1000)) {
-							animationComponent.speed = static_cast<size_t>(std::max(0, speedTmp));
-						}
+							for (size_t i = 0; i < animComp.animationHandles.size(); i++)
+							{
+								ImGui::PushID((int)i);
 
-						ImGuiUtils::PrefixLabel("CurrentFrame");
-						ImGui::BeginDisabled();
-						int currentFrameTmp = static_cast<int>(animationComponent.currentFrame);
-						if (ImGui::DragInt("##CurrentFrame", &currentFrameTmp, 1, 0, 1000)) {
-							animationComponent.currentFrame = static_cast<size_t>(std::max(0, currentFrameTmp));
-						}
-						ImGui::EndDisabled();
-					});
+								auto animRes = std::static_pointer_cast<Animation>(
+									Project::GetEditorResourceManager()->GetResource(animComp.animationHandles[i])
+								);
+
+								std::string label = animRes ? animRes->GetName() : "Unknown";
+								bool isPlaying = (animComp.currentAnimationIndex == i);
+
+								if (isPlaying)
+									ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.6f, 0.2f, 1.0f));
+
+								if (ImGui::Button((label + "##" + std::to_string(i)).c_str(), ImVec2(150, 0)))
+								{
+									if (m_EditorApplication)
+									{
+										auto path = Project::GetEditorResourceManager()->GetFileSystemPath(animComp.animationHandles[i]);
+										path = Project::GetEditorResourceManager()->GetRelativePath(path);
+										m_EditorApplication->RequestOpenResource(path);
+									}
+								}
+
+								if (isPlaying)
+									ImGui::PopStyleColor();
+
+								ImGui::SameLine();
+
+								if (ImGui::Button((std::string(ICON_FA_PLAY) + "##Play" + std::to_string(i)).c_str()))
+								{
+									animComp.currentAnimationIndex = i;
+									animComp.currentFrame = 0;
+									animComp.frameTimer = 0;
+								}
+
+								ImGui::SameLine();
+
+								if (ImGui::Button((std::string(ICON_FA_TRASH) + "##Del" + std::to_string(i)).c_str()))
+								{
+									animComp.animationHandles.erase(animComp.animationHandles.begin() + i);
+									if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
+										animComp.currentAnimationIndex = 0;
+									ImGui::PopID();
+									break;
+								}
+
+								if (animRes)
+								{
+									ImGui::SameLine();
+									ImGui::TextDisabled("(%d frames)", (int)animRes->GetFrameCount());
+								}
+
+								ImGui::PopID();
+							}
+
+							ImGui::Separator();
+
+							if (ImGui::Button(ICON_FA_PLUS " Add Animation", ImVec2(-1, 0)))
+							{
+								ImGui::OpenPopup("SelectAnimationPopup");
+							}
+
+							if (ImGui::BeginPopup("SelectAnimationPopup"))
+							{
+								ImGui::Text("Select Animation:");
+								ImGui::Separator();
+
+								if (ImGui::BeginDragDropTarget())
+								{
+									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
+									{
+										std::filesystem::path path = std::filesystem::path(static_cast<const char*>(payload->Data));
+
+										if (FileSystem::GetExtension(path) == ".lanim")
+										{
+											ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
+											animComp.animationHandles.push_back(handle);
+											ImGui::CloseCurrentPopup();
+										}
+									}
+									ImGui::EndDragDropTarget();
+								}
+
+								auto animHandles = Project::GetEditorResourceManager()->GetAllResourcesWithType(ResourceType::Animation);
+
+								for (auto handle : animHandles)
+								{
+									auto anim = std::static_pointer_cast<Animation>(
+										Project::GetEditorResourceManager()->GetResource(handle)
+									);
+
+									if (!anim)
+										continue;
+
+									if (ImGui::Selectable(anim->GetName().c_str()))
+									{
+										animComp.animationHandles.push_back(handle);
+										ImGui::CloseCurrentPopup();
+									}
+								}
+
+								ImGui::EndPopup();
+							}
+
+							ImGui::Separator();
+
+							ImGuiUtils::PrefixLabel("Current Animation");
+							if (animComp.animationHandles.empty())
+							{
+								ImGui::TextDisabled("No animations");
+							}
+							else
+							{
+								int currentIdx = (int)animComp.currentAnimationIndex;
+								if (ImGui::DragInt("##CurrentAnim", &currentIdx, 1, 0, (int)animComp.animationHandles.size() - 1))
+								{
+									animComp.currentAnimationIndex = (size_t)currentIdx;
+									animComp.currentFrame = 0;
+									animComp.frameTimer = 0;
+								}
+							}
+
+							ImGuiUtils::PrefixLabel("Speed");
+							int speed = (int)animComp.speed;
+							if (ImGui::DragInt("##Speed", &speed, 1, 1, 100))
+							{
+								animComp.speed = (size_t)std::max(1, speed);
+							}
+
+							ImGuiUtils::PrefixLabel("Repeat");
+							ImGui::Checkbox("##Repeat", &animComp.repeat);
+
+							ImGuiUtils::PrefixLabel("Current Frame");
+							ImGui::BeginDisabled();
+							int frame = (int)animComp.currentFrame;
+							ImGui::DragInt("##Frame", &frame);
+							ImGui::EndDisabled();
+						});
 
 				DisplayComponentInInspector<TextComponent>(ICON_FA_FONT " Font Component", entity, true, [&]()
 					{

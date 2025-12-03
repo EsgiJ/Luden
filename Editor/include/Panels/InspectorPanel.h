@@ -8,6 +8,7 @@
 namespace Luden
 {
 	class Scene;
+	class EditorApplication;
 
 	class InspectorPanel : public EditorPanel
 	{
@@ -15,7 +16,7 @@ namespace Luden
 		InspectorPanel() : EditorPanel("Inspector") {}
 		~InspectorPanel() = default;
 
-		void SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel);
+		void SetContext(const std::shared_ptr<Scene>& context, SceneHierarchyPanel* sceneHierarchyPanel, EditorApplication* editorApplication);
 
 	private:
 		virtual void RenderContent() override final;
@@ -35,5 +36,6 @@ namespace Luden
 		std::shared_ptr<Scene> m_Context;
 
 		SceneHierarchyPanel* m_SceneHierarchyPanel = nullptr;
+		EditorApplication* m_EditorApplication = nullptr;
 	};
 }

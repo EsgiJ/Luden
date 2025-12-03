@@ -3,12 +3,20 @@
 #include "Utils/EditorResources.h"
 #include "Project/Project.h"
 #include "Core/Config.h"
+#include "Resource/ResourceSerializer.h"
+#include "NativeScript/NativeScriptGenerator.h"
+#include "Graphics/Animation.h"
+#include "Core/EditorApplication.h"
 
 #include <IconsFontAwesome7.h>
-#include "NativeScript/NativeScriptGenerator.h"
+
 
 namespace Luden
 {
+	void ResourceBrowserPanel::SetContext(EditorApplication* editorApplication)
+	{
+		m_EditorApplication = editorApplication;
+	}
 	void ResourceBrowserPanel::RenderContent()
 	{
 		auto& resources = Project::GetEditorResourceManager()->GetResourceRegistry();
@@ -82,7 +90,13 @@ namespace Luden
 						}
 						else if (!entry.IsDirectory && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 						{
-							// TODO: Open resource on a new tab
+							if (entry.Type == ResourceType::Animation && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+							{
+								if (m_EditorApplication)
+								{
+									m_EditorApplication->RequestOpenResource(entry.Path);
+								}
+							}
 						}
 						else
 						{
@@ -335,6 +349,29 @@ namespace Luden
 			}
 
 			ImGui::EndPopup();
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button(ICON_FA_FILM " New Animation"))
+		{
+			std::filesystem::path newPath = m_CurrentDirectory / "NewAnimation.lanim";
+
+			auto newAnim = std::make_shared<Animation>();
+
+			ResourceMetadata metadata;
+			metadata.Handle = newAnim->Handle;
+			metadata.FilePath = Project::GetEditorResourceManager()->GetRelativePath(newPath);
+			AnimationResourceSerializer serializer;
+
+			serializer.Serialize(metadata, newAnim);
+
+			Project::GetEditorResourceManager()->ReloadResources();
+
+			if (m_EditorApplication)
+			{
+				m_EditorApplication->RequestOpenResource(newPath);
+			}
 		}
 
 		ImGui::SameLine(); 

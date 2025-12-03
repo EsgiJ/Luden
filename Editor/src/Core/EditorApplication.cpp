@@ -8,6 +8,7 @@
 #include "Scene/SceneSerializer.h"
 #include "Utils/EditorResources.h"
 #include "Utils/ImGuiStyle.h"
+#include "NativeScript/NativeScriptModuleLoader.h"
 
 #include <filesystem>
 #include <iostream>
