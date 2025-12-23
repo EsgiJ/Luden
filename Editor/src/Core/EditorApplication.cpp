@@ -9,6 +9,8 @@
 #include "Utils/EditorResources.h"
 #include "Utils/ImGuiStyle.h"
 #include "NativeScript/NativeScriptModuleLoader.h"
+#include "Core/Config.h"
+#include <Tabs/Animation2DEditorTab.h>
 
 #include <filesystem>
 #include <iostream>
@@ -17,7 +19,8 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
-#include "Core/Config.h"
+#include "Tabs/SpriteEditorTab.h"
+
 
 namespace Luden 
 {
@@ -137,7 +140,10 @@ namespace Luden
 				{
 					if (auto set = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab)) 
 					{
-						set->OnSceneStop();
+						if (set->GetSceneState() == SceneEditorTab::SceneState::Play)
+						{
+							set->OnSceneStop();
+						}
 					}
 				}
 				m_FocusedTab = tab;
@@ -343,8 +349,19 @@ namespace Luden
 		std::string filename = path.filename().string();
 
 		std::shared_ptr<EditorTab> tab = nullptr;
-		if (ext == ".lscn") {
+
+		if (ext == ".lscn") 
+		{
 			tab = std::static_pointer_cast<EditorTab>(std::make_shared<SceneEditorTab>(path));
+			tab->SetEditorContext(this);
+		}
+		else if (ext == ".lanim")
+		{
+			tab = std::static_pointer_cast<EditorTab>(std::make_shared<AnimationEditorTab>(path));
+		}
+		else if (ext == ".lsprite")
+		{
+			tab = std::static_pointer_cast<EditorTab>(std::make_shared<SpriteEditorTab>(path));
 		}
 
 		if (tab) 
@@ -352,6 +369,7 @@ namespace Luden
 			tab->DockTo(m_MainDockspaceID);
 			m_EditorTabs.push_back(tab);
 			m_FocusedTab = tab;
+			tab->SetEditorContext(this);
 			ImGui::FocusWindow(ImGui::FindWindowByName(tab->GetWindowName().c_str()));
 		}
 	}
@@ -517,7 +535,7 @@ namespace Luden
 
 		std::string scenePath = "C:\\GameProjects\\Luden\\GameModule\\Resources\\Scenes\\Template.lscn";
 		if (FileSystem::Exists(scenePath))
-			OpenResource(scenePath);
+			RequestOpenResource(scenePath);
 		else
 			std::cerr << "Error";
 	}

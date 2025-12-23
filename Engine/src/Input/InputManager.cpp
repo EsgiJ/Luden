@@ -149,6 +149,7 @@ namespace Luden
 	void InputManager::ClearAllInput()
 	{
 		m_KeyStates.clear();
+		m_ContextStack.ClearContexts();
 	}
 
 	void InputManager::ProcessEvent(const sf::Event& evt, EntityManager& entityManager)

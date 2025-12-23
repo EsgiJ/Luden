@@ -56,6 +56,7 @@ namespace Luden
 		if (!script)
 			return;
 
+
 		Instance->OnDestroy();
 		script->GetDestroyFunc()(Instance);
 	}

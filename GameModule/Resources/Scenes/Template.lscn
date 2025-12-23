@@ -3,7 +3,7 @@
         {
             "BoxCollider2DComponent": {
                 "Density": 1.0,
-                "Friction": 1.0,
+                "Friction": 0.0,
                 "Offset": [
                     0.0,
                     0.0
@@ -37,10 +37,22 @@
                 "LinearDrag": 0.10000000149011612,
                 "Mass": 5.0
             },
-            "Tag": "Player",
-            "TextureComponent": {
-                "textureHandle": 10713380733661294664
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    4913110786464515850
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 1,
+                "frameTimer": 2.7600600719451904,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
             },
+            "Tag": "Player",
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -48,8 +60,8 @@
                     1.0
                 ],
                 "Translation": [
-                    86.30284881591797,
-                    530.0090942382813,
+                    93.22686004638672,
+                    530.009521484375,
                     0.0
                 ],
                 "angle": 0.0
@@ -82,9 +94,6 @@
                 "Mass": 1.0
             },
             "Tag": "TileBush",
-            "TextureComponent": {
-                "textureHandle": 7574791978689341845
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -96,7 +105,7 @@
                     466.0,
                     0.0
                 ],
-                "angle": 0.00013932613364886492
+                "angle": 0.0002249223762191832
             },
             "UUID": 1003000000000000000
         },
@@ -126,9 +135,6 @@
                 "Mass": 1.0
             },
             "Tag": "TileBush",
-            "TextureComponent": {
-                "textureHandle": 7574791978689341845
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -168,9 +174,6 @@
                 "ParentHandle": 0
             },
             "Tag": "TileTreeMonster1",
-            "TextureComponent": {
-                "textureHandle": 1778777879503230346
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -204,9 +207,6 @@
                 "ParentHandle": 1005000000000000000
             },
             "Tag": "TileTreeMonster2",
-            "TextureComponent": {
-                "textureHandle": 11101103845089673357
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -240,9 +240,6 @@
                 "ParentHandle": 1005000000000000000
             },
             "Tag": "TileTreeMonster3",
-            "TextureComponent": {
-                "textureHandle": 17456551125940696384
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -276,9 +273,6 @@
                 "ParentHandle": 1005000000000000000
             },
             "Tag": "TileTreeMonster4",
-            "TextureComponent": {
-                "textureHandle": 3141527581550012513
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -320,9 +314,6 @@
                 "Mass": 1.0
             },
             "Tag": "TileTreeMonster5",
-            "TextureComponent": {
-                "textureHandle": 5582313727379296300
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -331,7 +322,7 @@
                 ],
                 "Translation": [
                     768.0,
-                    -46.0,
+                    128.0,
                     0.0
                 ],
                 "angle": 0.0
@@ -356,9 +347,6 @@
                 "ParentHandle": 1005000000000000000
             },
             "Tag": "TileTreeMonster6",
-            "TextureComponent": {
-                "textureHandle": 41324236550034339
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -392,9 +380,6 @@
                 "ParentHandle": 0
             },
             "Tag": "TileStair",
-            "TextureComponent": {
-                "textureHandle": 16675339296861051391
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -442,9 +427,6 @@
                 "Mass": 1.0
             },
             "Tag": "TileLake1",
-            "TextureComponent": {
-                "textureHandle": 5904733657860222223
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -453,7 +435,7 @@
                 ],
                 "Translation": [
                     384.0,
-                    18.0,
+                    192.0,
                     0.0
                 ],
                 "angle": 0.0
@@ -478,9 +460,6 @@
                 "ParentHandle": 1012000000000000000
             },
             "Tag": "TileLake2",
-            "TextureComponent": {
-                "textureHandle": 7587639301444688835
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -514,9 +493,6 @@
                 "ParentHandle": 1012000000000000000
             },
             "Tag": "TileLake3",
-            "TextureComponent": {
-                "textureHandle": 14901163932743642916
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -550,9 +526,6 @@
                 "ParentHandle": 1012000000000000000
             },
             "Tag": "TileLake7",
-            "TextureComponent": {
-                "textureHandle": 8066417851571793255
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -586,9 +559,6 @@
                 "ParentHandle": 1012000000000000000
             },
             "Tag": "TileLake8",
-            "TextureComponent": {
-                "textureHandle": 11780503573412209219
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -622,9 +592,6 @@
                 "ParentHandle": 1012000000000000000
             },
             "Tag": "TileLake9",
-            "TextureComponent": {
-                "textureHandle": 4583100103902977791
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -658,9 +625,6 @@
                 "ParentHandle": 0
             },
             "Tag": "TileHeart",
-            "TextureComponent": {
-                "textureHandle": 14376994147307639119
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -694,9 +658,6 @@
                 "ParentHandle": 0
             },
             "Tag": "TileHeart",
-            "TextureComponent": {
-                "textureHandle": 14376994147307639119
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -730,9 +691,6 @@
                 "ParentHandle": 0
             },
             "Tag": "TileHeart",
-            "TextureComponent": {
-                "textureHandle": 14376994147307639119
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -770,9 +728,6 @@
                 "ParentHandle": 0
             },
             "Tag": "NPCTektite",
-            "TextureComponent": {
-                "textureHandle": 14913595247856052817
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -810,9 +765,6 @@
                 "ParentHandle": 0
             },
             "Tag": "NPCArmos",
-            "TextureComponent": {
-                "textureHandle": 13120669987925077891
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -850,9 +802,6 @@
                 "ParentHandle": 0
             },
             "Tag": "NPCTektite",
-            "TextureComponent": {
-                "textureHandle": 14913595247856052817
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -890,9 +839,6 @@
                 "ParentHandle": 0
             },
             "Tag": "NPCTektite",
-            "TextureComponent": {
-                "textureHandle": 14913595247856052817
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -930,9 +876,6 @@
                 "ParentHandle": 0
             },
             "Tag": "NPCArmos",
-            "TextureComponent": {
-                "textureHandle": 13120669987925077891
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -970,9 +913,6 @@
                 "ParentHandle": 0
             },
             "Tag": "NPCArmos",
-            "TextureComponent": {
-                "textureHandle": 13120669987925077891
-            },
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -1035,9 +975,6 @@
                 "Mass": 1.0
             },
             "Tag": "Floor",
-            "TextureComponent": {
-                "textureHandle": 5810258430872960929
-            },
             "TransformComponent": {
                 "Scale": [
                     64.0,

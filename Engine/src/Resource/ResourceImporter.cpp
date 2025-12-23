@@ -1,5 +1,6 @@
 #include "Resource/ResourceImporter.h"
 #include "Resource/ResourceManager.h"
+#include "Audio/SoundBuffer.h"
 
 namespace Luden
 {
@@ -12,7 +13,10 @@ namespace Luden
 		s_Serializers[ResourceType::Font] = std::make_unique<FontSerializer>();
 		s_Serializers[ResourceType::Animation] = std::make_unique<AnimationResourceSerializer>();
 		s_Serializers[ResourceType::NativeScript] = std::make_unique<NativeScriptResourceSerializer>();
+		s_Serializers[ResourceType::Sprite] = std::make_unique<SpriteSerializer>();
+
 	}
+
 	void ResourceImporter::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource)
 	{
 		if (s_Serializers.find(metadata.Type) == s_Serializers.end())
@@ -20,17 +24,20 @@ namespace Luden
 
 		s_Serializers[resource->GetResourceType()]->Serialize(metadata, resource);
 	}
+
 	void ResourceImporter::Serialize(const std::shared_ptr<Resource>& resource)
 	{
 		const ResourceMetadata& metadata = Project::GetEditorResourceManager()->GetMetadata(resource->Handle);
 		Serialize(metadata, resource);
 	}
+
 	bool ResourceImporter::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource)
 	{
 		if (s_Serializers.find(metadata.Type) == s_Serializers.end())
 			return false;
 		return s_Serializers[metadata.Type]->TryLoadData(metadata, resource);
 	}
+
 	bool ResourceImporter::SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo)
 	{
 		outInfo.Size = 0;
@@ -47,6 +54,7 @@ namespace Luden
 
 		return s_Serializers[type]->SerializeToResourcePack(resourceHandle, stream, outInfo);
 	}
+
 	std::shared_ptr<Resource> ResourceImporter::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo)
 	{
 		ResourceType resourceType = (ResourceType)resourceInfo.Type;
@@ -55,6 +63,7 @@ namespace Luden
 
 		return s_Serializers[resourceType]->DeserializeFromResourcePack(stream, resourceInfo);
 	}
+
 	std::shared_ptr<Scene> ResourceImporter::DeserializeSceneFromResourcePack(FileStreamReader& stream, const ResourcePackFile::SceneInfo& sceneInfo)
 	{
 		ResourceType resourceType = ResourceType::Scene;
@@ -63,6 +72,32 @@ namespace Luden
 
 		SceneResourceSerializer* sceneResourceSerializer = (SceneResourceSerializer*)s_Serializers[resourceType].get();
 		return sceneResourceSerializer->DeserializeSceneFromResourcePack(stream, sceneInfo);
+	}
+
+	std::shared_ptr<Resource> ResourceImporter::CreateResource(ResourceType type, const std::string& name)
+	{
+		switch (type)
+		{
+		case Luden::ResourceType::None:			return nullptr;
+		case Luden::ResourceType::Scene:		return std::make_shared<Scene>();
+		case Luden::ResourceType::Texture:		return std::make_shared<Texture>();
+		case Luden::ResourceType::Sprite:	
+		{
+			auto resource = std::make_shared<Sprite>();
+			resource->SetName(name);
+			return resource;
+		}
+		case Luden::ResourceType::Audio:		return std::make_shared<SoundBuffer>();
+		case Luden::ResourceType::Font:			return std::make_shared<Font>();
+		case Luden::ResourceType::Animation:	
+		{
+			auto resource = std::make_shared<Animation>();
+			resource->SetName(name);
+			return resource;
+		}
+		case Luden::ResourceType::NativeScript: return std::make_shared<NativeScript>();
+		default:								return nullptr;
+		}
 	}
 
 	std::unordered_map<ResourceType, std::unique_ptr<ResourceSerializer>> ResourceImporter::s_Serializers;

@@ -16,24 +16,10 @@
 
 namespace Luden
 {
-//////////////////////////////////////////////////////////////////////////////////
-// TextureSerializer
-//////////////////////////////////////////////////////////////////////////////////
-	bool TextureSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
-	{
-		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
-		resource = std::make_shared<Texture>();
 
-		auto texture = std::static_pointer_cast<Texture>(resource);
-
-		if (!texture->GetTexture().loadFromFile(path))
-		{
-			resource->SetFlag(ResourceFlag::Invalid);
-			return false;
-		}
-
-		return true;
-	}
+	//////////////////////////////////////////////////////////////////////////////////
+	// NativeScriptSerializer
+	//////////////////////////////////////////////////////////////////////////////////
 
 	void NativeScriptResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
@@ -89,6 +75,177 @@ namespace Luden
 	std::shared_ptr<Resource> NativeScriptResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
 	{
 		return std::shared_ptr<Resource>();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// SpriteSerializer
+	//////////////////////////////////////////////////////////////////////////////////
+	void SpriteSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
+	{
+		auto sprite = std::static_pointer_cast<Sprite>(resource);
+
+		nlohmann::json j;
+		j["Name"] = sprite->GetName();
+		j["TextureHandle"] = static_cast<uint64_t>(sprite->GetTextureHandle());
+
+		const auto& rect = sprite->GetTextureRect();
+		j["TextureRect"] = {
+			{"x", rect.position.x},
+			{"y", rect.position.y},
+			{"width", rect.size.x},
+			{"height", rect.size.y}
+		};
+
+		j["Pivot"] = {
+			{"x", sprite->GetPivot().x},
+			{"y", sprite->GetPivot().y}
+		};
+
+		j["Handle"] = static_cast<uint64_t>(sprite->Handle);
+
+		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
+		if (out.is_open())
+		{
+			out << j.dump(4);
+		}
+	}
+
+	bool SpriteSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
+	{
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+
+		std::ifstream in(path);
+		if (!in.is_open())
+			return false;
+
+		nlohmann::json j;
+		in >> j;
+
+		auto sprite = std::make_shared<Sprite>();
+
+		if (j.contains("Name"))
+			sprite->SetName(j["Name"].get<std::string>());
+
+		if (j.contains("TextureHandle"))
+			sprite->SetTextureHandle(j["TextureHandle"].get<uint64_t>());
+
+		if (j.contains("TextureRect"))
+		{
+			const auto& jRect = j["TextureRect"];
+			sf::IntRect rect(
+				{ jRect["x"].get<int>(), jRect["y"].get<int>() },
+				{ jRect["width"].get<int>(), jRect["height"].get<int>() }
+			);
+			sprite->SetTextureRect(rect);
+		}
+
+		if (j.contains("Pivot"))
+		{
+			glm::vec2 pivot(
+				j["Pivot"]["x"].get<float>(),
+				j["Pivot"]["y"].get<float>()
+			);
+			sprite->SetPivot(pivot);
+		}
+
+		sprite->Handle = j["Handle"].get<uint64_t>();
+
+		resource = sprite;
+		return true;
+	}
+
+	bool SpriteSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
+	{
+		outInfo.Offset = stream.GetStreamPosition();
+
+		auto sprite = ResourceManager::GetResource<Sprite>(handle);
+		if (!sprite)
+			return false;
+
+		nlohmann::json j;
+
+		j["Name"] = sprite->GetName();
+		j["TextureHandle"] = static_cast<uint64_t>(sprite->GetTextureHandle());
+
+		const auto& rect = sprite->GetTextureRect();
+		j["TextureRect"] = {
+			{"x", rect.position.x},
+			{"y", rect.position.y},
+			{"width", rect.size.x},
+			{"height", rect.size.y}
+		};
+
+		j["Pivot"] = {
+			{"x", sprite->GetPivot().x},
+			{"y", sprite->GetPivot().y}
+		};
+
+		j["Handle"] = static_cast<uint64_t>(sprite->Handle);
+
+		std::string jsonStr = j.dump();
+		stream.WriteString(jsonStr);
+
+		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
+		return true;
+	}
+
+	std::shared_ptr<Resource> SpriteSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	{
+		stream.SetStreamPosition(resourceInfo.PackedOffset);
+
+		std::string jsonStr;
+		stream.ReadString(jsonStr);
+
+		nlohmann::json j = nlohmann::json::parse(jsonStr);
+
+		auto sprite = std::make_shared<Sprite>();
+
+		if (j.contains("Name"))
+			sprite->SetName(j["Name"].get<std::string>());
+
+		if (j.contains("TextureHandle"))
+			sprite->SetTextureHandle(j["TextureHandle"].get<uint64_t>());
+
+		if (j.contains("TextureRect"))
+		{
+			const auto& jRect = j["TextureRect"];
+			sf::IntRect rect(
+				{ jRect["x"].get<int>(), jRect["y"].get<int>() },
+				{ jRect["width"].get<int>(), jRect["height"].get<int>() }
+			);
+			sprite->SetTextureRect(rect);
+		}
+
+		if (j.contains("Pivot"))
+		{
+			glm::vec2 pivot(
+				j["Pivot"]["x"].get<float>(),
+				j["Pivot"]["y"].get<float>()
+			);
+			sprite->SetPivot(pivot);
+		}
+
+		return sprite;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// TextureSerializer
+	//////////////////////////////////////////////////////////////////////////////////
+
+	bool TextureSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
+	{
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		resource = std::make_shared<Texture>();
+
+		auto texture = std::static_pointer_cast<Texture>(resource);
+
+		if (!texture->GetTexture().loadFromFile(path))
+		{
+			resource->SetFlag(ResourceFlag::Invalid);
+			return false;
+		}
+
+		return true;
 	}
 
 	bool TextureSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
@@ -294,12 +451,11 @@ namespace Luden
 // AnimationResourceSerializer
 //////////////////////////////////////////////////////////////////////////////////
 
-	void AnimationResourceSerializer::Serialize(const ResourceMetadata & metadata, const std::shared_ptr<Resource>&resource) const
+	void AnimationResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
 		auto anim = std::static_pointer_cast<Animation>(resource);
 
 		nlohmann::json j;
-
 		j["Name"] = anim->GetName();
 		j["Loop"] = anim->IsLooping();
 		j["FrameCount"] = anim->GetFrameCount();
@@ -311,12 +467,14 @@ namespace Luden
 			const auto& frame = anim->GetFrame(i);
 
 			nlohmann::json jFrame;
-			jFrame["TextureHandle"] = static_cast<uint64_t>(frame.textureHandle);
+			jFrame["SpriteHandle"] = static_cast<uint64_t>(frame.spriteHandle); 
 			jFrame["Duration"] = frame.duration;
 			jFrame["Offset"] = { frame.offset.x, frame.offset.y };
 
 			j["Frames"].push_back(jFrame);
 		}
+
+		j["Handle"] = static_cast<uint64_t>(anim->Handle);
 
 		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
 		if (out.is_open())
@@ -348,10 +506,10 @@ namespace Luden
 		{
 			for (const auto& jFrame : j["Frames"])
 			{
-				ResourceHandle textureHandle = jFrame["TextureHandle"].get<uint64_t>();
+				ResourceHandle spriteHandle = jFrame["SpriteHandle"].get<uint64_t>();
 				float duration = jFrame.value("Duration", 0.1f);
 
-				anim->AddFrame(textureHandle, duration);
+				anim->AddFrame(spriteHandle, duration);
 
 				if (jFrame.contains("Offset"))
 				{
@@ -362,6 +520,8 @@ namespace Luden
 			}
 		}
 
+		anim->Handle = j["Handle"].get<uint64_t>();
+
 		resource = anim;
 		return true;
 	}
@@ -370,8 +530,7 @@ namespace Luden
 	{
 		outInfo.Offset = stream.GetStreamPosition();
 
-		std::shared_ptr<Animation> anim = ResourceManager::GetResource<Animation>(handle);
-
+		auto anim = ResourceManager::GetResource<Animation>(handle);
 		if (!anim)
 			return false;
 
@@ -386,12 +545,14 @@ namespace Luden
 			const auto& frame = anim->GetFrame(i);
 
 			nlohmann::json jFrame;
-			jFrame["TextureHandle"] = static_cast<uint64_t>(frame.textureHandle);
+			jFrame["SpriteHandle"] = static_cast<uint64_t>(frame.spriteHandle);
 			jFrame["Duration"] = frame.duration;
 			jFrame["Offset"] = { frame.offset.x, frame.offset.y };
 
 			j["Frames"].push_back(jFrame);
 		}
+
+		j["Handle"] = static_cast<uint64_t>(anim->Handle);
 
 		std::string jsonStr = j.dump();
 		stream.WriteString(jsonStr);
@@ -407,8 +568,7 @@ namespace Luden
 		std::string jsonStr;
 		stream.ReadString(jsonStr);
 
-		nlohmann::json j;
-		j = nlohmann::json::parse(jsonStr);
+		nlohmann::json j = nlohmann::json::parse(jsonStr);
 
 		auto anim = std::make_shared<Animation>();
 
@@ -422,10 +582,10 @@ namespace Luden
 		{
 			for (const auto& jFrame : j["Frames"])
 			{
-				ResourceHandle textureHandle = jFrame["TextureHandle"].get<uint64_t>();
+				ResourceHandle spriteHandle = jFrame["SpriteHandle"].get<uint64_t>(); 
 				float duration = jFrame.value("Duration", 0.1f);
 
-				anim->AddFrame(textureHandle, duration);
+				anim->AddFrame(spriteHandle, duration);
 
 				if (jFrame.contains("Offset"))
 				{

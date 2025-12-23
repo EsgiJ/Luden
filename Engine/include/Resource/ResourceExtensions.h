@@ -14,6 +14,7 @@ namespace Luden
 		{".lanim", ResourceType::Animation},
 		{".lprefab", ResourceType::Prefab},
 		{".lns", ResourceType::NativeScript},
+		{".lsprite", ResourceType::Sprite},
 
 
 		//Textures

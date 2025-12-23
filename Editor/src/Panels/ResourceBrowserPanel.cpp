@@ -9,6 +9,7 @@
 #include "Core/EditorApplication.h"
 
 #include <IconsFontAwesome7.h>
+#include "Resource/ResourceImporter.h"
 
 
 namespace Luden
@@ -17,6 +18,7 @@ namespace Luden
 	{
 		m_EditorApplication = editorApplication;
 	}
+
 	void ResourceBrowserPanel::RenderContent()
 	{
 		auto& resources = Project::GetEditorResourceManager()->GetResourceRegistry();
@@ -90,12 +92,9 @@ namespace Luden
 						}
 						else if (!entry.IsDirectory && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
 						{
-							if (entry.Type == ResourceType::Animation && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+							if (m_EditorApplication)
 							{
-								if (m_EditorApplication)
-								{
-									m_EditorApplication->RequestOpenResource(entry.Path);
-								}
+								m_EditorApplication->RequestOpenResource(entry.Path);
 							}
 						}
 						else
@@ -302,6 +301,7 @@ namespace Luden
 
 		ImGui::SameLine();
 
+		//TODO: refactor this resource creation mess
 		if (ImGui::Button(ICON_FA_FILE_CODE " New Script"))
 		{
 			ImGui::OpenPopup("CreateScriptDialog");
@@ -353,28 +353,93 @@ namespace Luden
 
 		ImGui::SameLine();
 
-		if (ImGui::Button(ICON_FA_FILM " New Animation"))
+		if (ImGui::Button(ICON_FA_FILM " New Animation2D"))
 		{
-			std::filesystem::path newPath = m_CurrentDirectory / "NewAnimation.lanim";
+			ImGui::OpenPopup("CreateAnimation2DDialog");
+		}
 
-			auto newAnim = std::make_shared<Animation>();
+		if (ImGui::BeginPopupModal("CreateAnimation2DDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			std::filesystem::path newPath = m_CurrentDirectory;
 
-			ResourceMetadata metadata;
-			metadata.Handle = newAnim->Handle;
-			metadata.FilePath = Project::GetEditorResourceManager()->GetRelativePath(newPath);
-			AnimationResourceSerializer serializer;
+			static char animName[256] = "";
+			// UI
+			ImGui::InputText("Animation2D Name", animName, sizeof(animName));
 
-			serializer.Serialize(metadata, newAnim);
-
-			Project::GetEditorResourceManager()->ReloadResources();
-
-			if (m_EditorApplication)
+			if (animName[0] != '\0')
 			{
-				m_EditorApplication->RequestOpenResource(newPath);
+				if (ImGui::Button("Create"))
+				{
+					if (m_EditorApplication)
+					{
+						snprintf(animName, sizeof(animName), "%s.lanim", animName);
+						ImGui::Text("Generated File: %s", animName);
+						newPath = m_CurrentDirectory / animName;
+
+						Project::GetEditorResourceManager()->CreateResource(ResourceType::Animation, newPath);
+						m_EditorApplication->RequestOpenResource(newPath);
+					}
+
+					animName[0] = '\0';
+					ImGui::CloseCurrentPopup();
+				}
 			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
 		}
 
 		ImGui::SameLine(); 
+
+		if (ImGui::Button(ICON_FA_FILM " New Sprite"))
+		{
+			ImGui::OpenPopup("CreateSpriteDialog");
+		}
+
+		if (ImGui::BeginPopupModal("CreateSpriteDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			std::filesystem::path newPath;
+
+			static char spriteName[256] = "";
+			// UI
+			ImGui::InputText("Sprite Name", spriteName, sizeof(spriteName));
+
+			if (spriteName[0] != '\0')
+			{
+				if (ImGui::Button("Create"))
+				{
+					if (m_EditorApplication)
+					{
+						snprintf(spriteName, sizeof(spriteName), "%s.lsprite", spriteName);
+						ImGui::Text("Generated File: %s", spriteName);
+						newPath = m_CurrentDirectory / spriteName;
+
+						Project::GetEditorResourceManager()->CreateResource(ResourceType::Sprite, newPath);
+						m_EditorApplication->RequestOpenResource(newPath);
+					}
+
+					spriteName[0] = '\0';
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::SameLine();
 
 		if (ImGui::Button(ICON_FA_ARROW_ROTATE_RIGHT " Reload"))
 		{
@@ -418,6 +483,11 @@ namespace Luden
 			if (ImGui::Selectable("Animation", m_SelectedFilter == ResourceType::Animation))
 			{
 				m_SelectedFilter = ResourceType::Animation;
+			}
+
+			if (ImGui::Selectable("Sprite", m_SelectedFilter == ResourceType::Sprite))
+			{
+				m_SelectedFilter = ResourceType::Sprite;
 			}
 
 			ImGui::EndCombo();

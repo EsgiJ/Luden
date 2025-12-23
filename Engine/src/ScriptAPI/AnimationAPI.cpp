@@ -10,10 +10,10 @@ namespace Luden
 	{
 		size_t AddAnimation(Entity entity, Animation* animation)
 		{
-			if (!entity.Has<Animation2DComponent>() || animation == nullptr)
+			if (!entity.Has<SpriteAnimatorComponent>() || animation == nullptr)
 				return 0;
 
-			auto& animationComponent = entity.Get<Animation2DComponent>();
+			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
 			animationComponent.animationHandles.push_back(animation->Handle);
 
 			return animationComponent.animationHandles.size() - 1;
@@ -25,7 +25,7 @@ namespace Luden
 			if (index == size_t(-1))
 				return;
 
-			auto& anim = entity.Get<Animation2DComponent>();
+			auto& anim = entity.Get<SpriteAnimatorComponent>();
 
 			if (anim.currentAnimationIndex == index)
 				return;
@@ -41,7 +41,7 @@ namespace Luden
 			if (index == size_t(-1))
 				return;
 
-			auto& anim = entity.Get<Animation2DComponent>();
+			auto& anim = entity.Get<SpriteAnimatorComponent>();
 
 			if (anim.currentAnimationIndex == index)
 				return;
@@ -53,10 +53,10 @@ namespace Luden
 
 		Animation* GetCurrentAnimation(Entity entity)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return nullptr;
 
-			auto& animationComponent = entity.Get<Animation2DComponent>();
+			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
 			ResourceHandle handle = animationComponent.animationHandles[animationComponent.currentAnimationIndex];
 
 			auto animationResource = std::static_pointer_cast<Animation>(Project::GetResourceManager()->GetResource(handle));
@@ -65,19 +65,19 @@ namespace Luden
 
 		ResourceHandle GetCurrentAnimationHandle(Entity entity)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return ResourceHandle();
 
-			auto& animationComponent = entity.Get<Animation2DComponent>();
+			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
 			return animationComponent.animationHandles[animationComponent.currentAnimationIndex];
 		}
 
 		size_t GetAnimationIndex(Entity entity, Animation* animation)
 		{
-			if (!entity.Has<Animation2DComponent>() || animation == nullptr)
+			if (!entity.Has<SpriteAnimatorComponent>() || animation == nullptr)
 				return static_cast<size_t>(-1);
 
-			auto& anim = entity.Get<Animation2DComponent>();
+			auto& anim = entity.Get<SpriteAnimatorComponent>();
 			ResourceHandle target = animation->Handle;
 
 			for (size_t i = 0; i < anim.animationHandles.size(); i++)
@@ -91,10 +91,10 @@ namespace Luden
 
 		size_t GetAnimationIndexByHandle(Entity entity, ResourceHandle handle)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return size_t(-1);
 
-			auto& anim = entity.Get<Animation2DComponent>();
+			auto& anim = entity.Get<SpriteAnimatorComponent>();
 
 			for (size_t i = 0; i < anim.animationHandles.size(); i++)
 				if (anim.animationHandles[i] == handle)
@@ -105,44 +105,36 @@ namespace Luden
 
 		size_t GetCurrentAnimationIndex(Entity entity)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return size_t(-1);
 
-			auto& animationComponent = entity.Get<Animation2DComponent>();
+			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
 			return animationComponent.currentAnimationIndex;
 		}
 
 		size_t GetCurrentFrame(Entity entity)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return size_t(-1);
 
-			auto& animationComponent = entity.Get<Animation2DComponent>();
+			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
 			return animationComponent.currentFrame;
 		}
 
 		void SetAnimationSpeed(Entity entity, size_t speed)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return;
 
-			entity.Get<Animation2DComponent>().speed = speed;
-		}
-
-		void SetAnimationRepeat(Entity entity, bool repeat)
-		{
-			if (!entity.Has<Animation2DComponent>())
-				return;
-
-			entity.Get<Animation2DComponent>().repeat = repeat;
+			entity.Get<SpriteAnimatorComponent>().playbackSpeed = speed;
 		}
 
 		size_t GetAnimationCount(Entity entity)
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				return size_t(-1);
 
-			return entity.Get<Animation2DComponent>().animationHandles.size();
+			return entity.Get<SpriteAnimatorComponent>().animationHandles.size();
 		}
 	}
 }

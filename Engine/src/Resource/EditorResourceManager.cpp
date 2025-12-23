@@ -97,6 +97,38 @@ namespace Luden
 		return FileSystem::Exists(Project::GetActiveProject()->GetResourceDirectory() / metadata.FilePath);
 	}
 
+	ResourceHandle EditorResourceManager::CreateResource(ResourceType type,const std::filesystem::path& absolutePath)
+	{
+		if (type == ResourceType::None)
+			return 0;
+
+		std::filesystem::path relativePath = GetRelativePath(absolutePath);
+
+		if (auto& existing = GetMetadata(relativePath); existing.IsValid())
+			return existing.Handle;
+
+		ResourceMetadata metadata;
+		metadata.Handle = ResourceHandle();
+		metadata.FilePath = relativePath;
+		metadata.Type = type;
+
+		SetMetadata(metadata.Handle, metadata);
+
+		const std::string name = relativePath.stem().string();
+
+		std::shared_ptr<Resource> resource = ResourceImporter::CreateResource(type, name);
+		if (!resource)
+			return 0;
+
+		resource->Handle = metadata.Handle;
+
+		ResourceImporter::Serialize(metadata, resource);
+
+		ReloadResources();
+
+		return metadata.Handle;
+	}
+
 	void EditorResourceManager::RemoveResource(ResourceHandle resourceHandle)
 	{
 		if (m_LoadedResources.contains(resourceHandle))
@@ -176,7 +208,7 @@ namespace Luden
 
 	ResourceType EditorResourceManager::GetResourceTypeFromExtension(const std::string& extension)
 	{
-		//TODO(esgij): write StringUtils to lower the extension
+		//TODO: write StringUtils to lower the extension
 		if (s_ResourceExtensionMap.find(extension) == s_ResourceExtensionMap.end())
 			return ResourceType::None;
 

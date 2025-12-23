@@ -156,9 +156,18 @@ namespace Luden
 				jEntity["NativeScriptComponent"]["ScriptHandle"] = static_cast<int64_t>(c.ScriptHandle);
 			}
 
-			if (e.Has<Animation2DComponent>())
+			if (e.Has<SpriteRendererComponent>())
 			{
-				const auto& c = e.Get<Animation2DComponent>();
+				const auto& c = e.Get<SpriteRendererComponent>();
+				jEntity["SpriteRendererComponent"] = {
+					{"spriteHandle", static_cast<uint64_t>(c.spriteHandle)},
+					{"tint", {c.tint.r, c.tint.g, c.tint.b, c.tint.a}}
+				};
+			}
+
+			if (e.Has<SpriteAnimatorComponent>())
+			{
+				const auto& c = e.Get<SpriteAnimatorComponent>();
 
 				json jAnimHandles = json::array();
 				for (auto handle : c.animationHandles)
@@ -166,13 +175,13 @@ namespace Luden
 					jAnimHandles.push_back(static_cast<uint64_t>(handle));
 				}
 
-				jEntity["Animation2DComponent"] = {
-					{ "animationHandles", jAnimHandles },
-					{ "currentAnimationIndex", c.currentAnimationIndex },
-					{ "repeat", c.repeat },
-					{ "speed", c.speed },
-					{ "currentFrame", c.currentFrame },
-					{ "frameTimer", c.frameTimer }
+				jEntity["SpriteAnimatorComponent"] = {
+					{"animationHandles", jAnimHandles},
+					{"currentAnimationIndex", c.currentAnimationIndex},
+					{"currentFrame", c.currentFrame},
+					{"frameTimer", c.frameTimer},
+					{"playbackSpeed", c.playbackSpeed},
+					{"tint", {c.tint.r, c.tint.g, c.tint.b, c.tint.a}}
 				};
 			}
 
@@ -181,9 +190,9 @@ namespace Luden
 				jEntity["TextComponent"]["fontHandle"] = static_cast<uint64_t>(e.Get<TextComponent>().fontHandle);
 			}
 
-			if (e.Has<TextureComponent>())
+			if (e.Has<SpriteRendererComponent>())
 			{
-				jEntity["TextureComponent"]["textureHandle"] = static_cast<uint64_t>(e.Get<TextureComponent>().textureHandle);
+				jEntity["SpriteRendererComponent"]["textureHandle"] = static_cast<uint64_t>(e.Get<SpriteRendererComponent>().spriteHandle);
 			}
 
 			if (e.Has<InvincibilityComponent>())
@@ -397,26 +406,55 @@ namespace Luden
 					c.BindFromHandle(c.ScriptHandle);
 			}
 
-			if (jEntity.contains("Animation2DComponent"))
+			if (jEntity.contains("SpriteRendererComponent"))
 			{
-				const auto& jAnim = jEntity["Animation2DComponent"];
+				const auto& jSprite = jEntity["SpriteRendererComponent"];
 
-				auto& c = e.Add<Animation2DComponent>();
+				auto& c = e.Add<SpriteRendererComponent>();
+				c.spriteHandle = jSprite["spriteHandle"].get<uint64_t>();
+
+				if (jSprite.contains("tint"))
+				{
+					const auto& jTint = jSprite["tint"];
+					c.tint = sf::Color(
+						jTint[0].get<uint8_t>(),
+						jTint[1].get<uint8_t>(),
+						jTint[2].get<uint8_t>(),
+						jTint[3].get<uint8_t>()
+					);
+				}
+			}
+
+			if (jEntity.contains("SpriteAnimatorComponent"))
+			{
+				const auto& jAnim = jEntity["SpriteAnimatorComponent"];
+
+				auto& c = e.Add<SpriteAnimatorComponent>();
 
 				if (jAnim.contains("animationHandles"))
 				{
 					for (const auto& handleJson : jAnim["animationHandles"])
 					{
-						ResourceHandle handle = handleJson.get<uint64_t>();
-						c.animationHandles.push_back(handle);
+						c.animationHandles.push_back(handleJson.get<uint64_t>());
 					}
 				}
 
 				c.currentAnimationIndex = jAnim.value("currentAnimationIndex", 0);
-				c.repeat = jAnim.value("repeat", true);
-				c.speed = jAnim.value("speed", 1);
 				c.currentFrame = jAnim.value("currentFrame", 0);
-				c.frameTimer = jAnim.value("frameTimer", 0);
+				c.frameTimer = jAnim.value("frameTimer", 0.0f);
+				c.playbackSpeed = jAnim.value("playbackSpeed", 1.0f);
+
+				if (jAnim.contains("tint"))
+				{
+					const auto& jTint = jAnim["tint"];
+					c.tint = sf::Color(
+						jTint[0].get<uint8_t>(),
+						jTint[1].get<uint8_t>(),
+						jTint[2].get<uint8_t>(),
+						jTint[3].get<uint8_t>()
+					);
+				}
+
 			}
 
 			if (jEntity.contains("TextComponent"))
@@ -424,9 +462,9 @@ namespace Luden
 				e.Add<TextComponent>(jEntity["TextComponent"]["fontHandle"].get<uint64_t>());
 			}
 
-			if (jEntity.contains("TextureComponent"))
+			if (jEntity.contains("SpriteRendererComponent"))
 			{
-				e.Add<TextureComponent>(jEntity["TextureComponent"]["textureHandle"].get<uint64_t>());
+				e.Add<SpriteRendererComponent>(jEntity["SpriteRendererComponent"]["textureHandle"].get<uint64_t>());
 			}
 		}
 

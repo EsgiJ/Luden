@@ -34,6 +34,8 @@ namespace Luden {
 		virtual void OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target, Camera2D& runtimeCamera);
 		virtual void OnRenderEditor(std::shared_ptr<sf::RenderTexture> target, Camera2D& editorCamera);
 
+		void RenderAnimatedEntity(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target);
+		void RenderStaticSprite(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target);
 		// Runtime
 		void OnRuntimeStart();
 		void OnRuntimeStop();
@@ -80,6 +82,7 @@ namespace Luden {
 				dest.Add<T>(component);
 			}
 		}
+
 		EntityManager& GetEntityManager() { return m_EntityManager; }
 		const EntityManager& GetEntityManager() const { return m_EntityManager; }
 
@@ -98,7 +101,7 @@ namespace Luden {
 		std::unordered_set<ResourceHandle> GetResourceList();
 
 		b2WorldId GetPhysicsWorldId();
-		// Metadata
+
 		const std::string& GetName() const { return m_Name; }
 		void SetName(const std::string& name) { m_Name = name; }
 		UUID GetUUID() const { return Handle; }

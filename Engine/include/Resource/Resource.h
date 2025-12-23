@@ -10,7 +10,7 @@ namespace Luden
 	class ENGINE_API Resource 
 	{
 	public:
-		ResourceHandle Handle = 0;
+		ResourceHandle Handle;
 		uint16_t Flags = (uint16_t)ResourceFlag::None;
 
 		virtual ~Resource() {}

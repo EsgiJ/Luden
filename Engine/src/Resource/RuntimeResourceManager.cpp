@@ -34,7 +34,6 @@ namespace Luden {
 		}
 		else
 		{
-			// If we're main thread, we can just loading the resource as normal
 			resource = m_ResourcePack->LoadResource(m_ActiveScene, resourceHandle);
 			if (resource)
 				m_LoadedResources[resourceHandle] = resource;
@@ -99,7 +98,6 @@ namespace Luden {
 
 	std::unordered_set<ResourceHandle> RuntimeResourceManager::GetAllResourcesWithType(ResourceType type)
 	{
-		//TODO: Not implemented
 		std::unordered_set<ResourceHandle> result;
 		
 		return result;

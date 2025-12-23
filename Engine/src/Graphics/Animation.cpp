@@ -7,21 +7,21 @@
 
 namespace Luden
 {
-	void Animation::AddFrame(ResourceHandle texture, float duration)
+	void Animation::AddFrame(ResourceHandle spriteHandle, float duration)
 	{
 		AnimationFrame frame;
-		frame.textureHandle = texture;
+		frame.spriteHandle = spriteHandle;
 		frame.duration = duration;
 		m_Frames.push_back(frame);
 	}
 
-	void Animation::InsertFrame(size_t index, ResourceHandle texture, float duration)
+	void Animation::InsertFrame(size_t index, ResourceHandle spriteHandle, float duration)
 	{
 		if (index > m_Frames.size())
 			index = m_Frames.size();
 
 		AnimationFrame frame;
-		frame.textureHandle = texture;
+		frame.spriteHandle = spriteHandle;
 		frame.duration = duration;
 		m_Frames.insert(m_Frames.begin() + index, frame);
 	}
@@ -37,6 +37,12 @@ namespace Luden
 		m_Frames.clear();
 	}
 
+	std::shared_ptr<Sprite> Animation::GetSprite(size_t index)
+	{
+		auto sprite = std::static_pointer_cast<Sprite>(Project::GetResourceManager()->GetResource(m_Frames[index].spriteHandle));
+		return sprite;
+	}
+
 	float Animation::GetTotalDuration() const
 	{
 		float total = 0.0f;
@@ -44,7 +50,6 @@ namespace Luden
 		{
 			total += frame.duration;
 		}
-
 		return total;
 	}
 }

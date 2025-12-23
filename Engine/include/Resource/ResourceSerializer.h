@@ -37,6 +37,15 @@ namespace Luden
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
 
+	class ENGINE_API SpriteSerializer : public ResourceSerializer
+	{
+	public:
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
+		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const override;
+		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const override;
+	};
+
 	class ENGINE_API NativeScriptResourceSerializer : public ResourceSerializer
 	{
 	public:

@@ -33,7 +33,7 @@ namespace Luden
 	private:
 		EngineContext() = default;
 
-		Scene* m_ActiveScene;
+		Scene* m_ActiveScene = nullptr;
 
 		float m_DeltaTime = 0.0f;
 		float m_GameTime = 0.0f;

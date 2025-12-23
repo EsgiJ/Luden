@@ -35,6 +35,8 @@ namespace Luden
 		const std::string& GetWindowName() const { return m_WindowName; }
 		inline void SetWindowName(const std::string& name) { m_WindowName = name + "##tab" + std::to_string(m_TabID); }
 
+		void SetEditorContext(EditorApplication* application) { m_EditorApplication = application; }
+
 		bool ShouldClose() const { return !m_IsOpen; }
 		bool IsFocused() const { return m_IsFocused; }
 		bool IsDirty() const { return m_IsDirty; }

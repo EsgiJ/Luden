@@ -27,7 +27,6 @@ namespace Luden
 		virtual bool IsResourceValid(ResourceHandle resourceHandle) override;
 		virtual bool IsResourceMissing(ResourceHandle resourceHandle) override;
 		virtual void RemoveResource(ResourceHandle resourceHandle) override;
-
 		virtual void RegisterDependency(ResourceHandle resourceHandle, ResourceHandle dependency) override;
 
 		virtual std::unordered_set<ResourceHandle> GetAllResourcesWithType(ResourceType type) override;
@@ -40,6 +39,7 @@ namespace Luden
 
 		ResourceHandle ImportResource(const std::filesystem::path& filepath);
 		void ReloadResources();
+		ResourceHandle CreateResource(ResourceType type, const std::filesystem::path& absolutePath);
 
 		ResourceHandle GetResourceHandleFromFilePath(const std::filesystem::path& filepath);
 

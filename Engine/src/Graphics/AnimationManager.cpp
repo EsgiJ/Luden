@@ -14,39 +14,43 @@ namespace Luden
 
 		for (auto entity : scene->GetEntityManager().GetEntities())
 		{
-			if (!entity.Has<Animation2DComponent>())
+			if (!entity.Has<SpriteAnimatorComponent>())
 				continue;
 
-			auto& animationComponent = entity.Get<Animation2DComponent>();
+			auto& animatorComponent = entity.Get<SpriteAnimatorComponent>();
 
-			if (animationComponent.currentAnimationIndex >= animationComponent.animationHandles.size())
+			if (animatorComponent.currentAnimationIndex >= animatorComponent.animationHandles.size())
 				continue;
 
-			ResourceHandle currentHandle = animationComponent.animationHandles[animationComponent.currentAnimationIndex];
+			ResourceHandle currentHandle = animatorComponent.animationHandles[animatorComponent.currentAnimationIndex];
 
 			auto animationResource = std::static_pointer_cast<Animation>(Project::GetResourceManager()->GetResource(currentHandle));
 
-			if (!animationResource)
+			if (!animationResource || animationResource->GetFrameCount() == 0)
 				continue;
 
-			size_t totalFrames = animationResource->GetFrameCount();
+			animatorComponent.frameTimer += static_cast<float>(ts) * animatorComponent.playbackSpeed;
 
-			animationComponent.frameTimer++;
+			if (animatorComponent.currentFrame >= animationResource->GetFrameCount())
+				animatorComponent.currentFrame = 0;
 
-			if (animationComponent.frameTimer >= animationComponent.speed)
+			const auto& currentFrame = animationResource->GetFrame(animatorComponent.currentFrame);
+
+			if (animatorComponent.frameTimer >= currentFrame.duration)
 			{
-				animationComponent.frameTimer = 0;
-				animationComponent.currentFrame++;
+				animatorComponent.frameTimer = 0.0f;
+				animatorComponent.currentFrame++;
 
-				if (animationComponent.currentFrame >= totalFrames)
+				if (animatorComponent.currentFrame >= animationResource->GetFrameCount())
 				{
-					if (animationComponent.repeat)
+					if (animationResource->IsLooping())
 					{
-						animationComponent.currentFrame = 0;
+						animatorComponent.currentFrame = 0;
 					}
 					else
 					{
-						animationComponent.currentFrame = totalFrames - 1;
+						animatorComponent.currentFrame = animationResource->GetFrameCount() - 1;
+						animatorComponent.frameTimer = 0.0f;
 					}
 				}
 			}

@@ -24,6 +24,7 @@ namespace Luden
 		Scene,
 		Prefab,
 		Texture,
+		Sprite,
 		Audio,
 		Font,
 		Animation,
@@ -38,6 +39,7 @@ namespace Luden
 			if (resourceType == "Scene")			return ResourceType::Scene;
 			if (resourceType == "Prefab")			return ResourceType::Prefab;
 			if (resourceType == "Texture")			return ResourceType::Texture;
+			if (resourceType == "Sprite")			return ResourceType::Sprite;
 			if (resourceType == "Audio")			return ResourceType::Audio;
 			if (resourceType == "Font")				return ResourceType::Font;
 			if (resourceType == "Animation")		return ResourceType::Animation;
@@ -54,6 +56,7 @@ namespace Luden
 			case ResourceType::Scene:			return "Scene";
 			case ResourceType::Prefab:			return "Prefab";
 			case ResourceType::Texture:			return "Texture";
+			case ResourceType::Sprite:			return "Sprite";
 			case ResourceType::Audio:			return "Audio";
 			case ResourceType::Font:			return "Font";
 			case ResourceType::Animation:		return "Animation";

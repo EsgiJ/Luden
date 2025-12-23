@@ -86,9 +86,9 @@ namespace Luden
 				DisplayComponentInPopup<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component");
 				DisplayComponentInPopup<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component");
 				DisplayComponentInPopup<NativeScriptComponent>(ICON_FA_CODE " Native Script Component");
-				DisplayComponentInPopup<Animation2DComponent>(ICON_FA_PLAY " Animation Component");
+				DisplayComponentInPopup<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component");
 				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Font Component");
-				DisplayComponentInPopup<TextureComponent>(ICON_FA_IMAGE " Texture Component");
+				DisplayComponentInPopup<SpriteRendererComponent>(ICON_FA_IMAGE " Sprite Renderer Component");
 				DisplayComponentInPopup<InvincibilityComponent>(ICON_FA_SHIELD_HALVED " Invincibility Component");
 				DisplayComponentInPopup<LifespanComponent>(ICON_FA_CLOCK " Lifespan Component");
 				DisplayComponentInPopup<PatrolComponent>(ICON_FA_ROAD " Patrol Component");
@@ -407,9 +407,9 @@ namespace Luden
 						}
 					});
 
-					DisplayComponentInInspector<Animation2DComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
+					DisplayComponentInInspector<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
 						{
-							auto& animComp = entity.Get<Animation2DComponent>();
+							auto& animComp = entity.Get<SpriteAnimatorComponent>();
 
 							ImGui::Text("Animations:");
 							ImGui::Separator();
@@ -496,6 +496,7 @@ namespace Luden
 										}
 									}
 									ImGui::EndDragDropTarget();
+									ImGui::EndPopup();
 								}
 
 								auto animHandles = Project::GetEditorResourceManager()->GetAllResourcesWithType(ResourceType::Animation);
@@ -509,7 +510,8 @@ namespace Luden
 									if (!anim)
 										continue;
 
-									if (ImGui::Selectable(anim->GetName().c_str()))
+									std::string animName = anim->GetName() + "##";
+									if (ImGui::Selectable(animName.c_str()))
 									{
 										animComp.animationHandles.push_back(handle);
 										ImGui::CloseCurrentPopup();
@@ -538,14 +540,11 @@ namespace Luden
 							}
 
 							ImGuiUtils::PrefixLabel("Speed");
-							int speed = (int)animComp.speed;
+							int speed = (int)animComp.playbackSpeed;
 							if (ImGui::DragInt("##Speed", &speed, 1, 1, 100))
 							{
-								animComp.speed = (size_t)std::max(1, speed);
+								animComp.playbackSpeed = (size_t)std::max(1, speed);
 							}
-
-							ImGuiUtils::PrefixLabel("Repeat");
-							ImGui::Checkbox("##Repeat", &animComp.repeat);
 
 							ImGuiUtils::PrefixLabel("Current Frame");
 							ImGui::BeginDisabled();
@@ -565,12 +564,12 @@ namespace Luden
 						}
 					});
 
-				DisplayComponentInInspector<TextureComponent>(ICON_FA_IMAGE " Texture Component", entity, true, [&]()
+				DisplayComponentInInspector<SpriteRendererComponent>(ICON_FA_IMAGE " Sprite Renderer Component", entity, true, [&]()
 					{
-						auto& textureComponent = entity.Get<TextureComponent>();
-						auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
+						auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
+						auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(spriteRendererComponent.spriteHandle));
 						ImGuiUtils::PrefixLabel(ICON_FA_FILE_IMAGE " Current");
-						if (ImGuiUtils::ResourceButton(textureComponent.textureHandle, ResourceType::Texture))
+						if (ImGuiUtils::ResourceButton(spriteRendererComponent.spriteHandle, ResourceType::Sprite))
 						{
 							//TODO: Font Editor Panel
 						}

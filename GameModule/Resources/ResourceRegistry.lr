@@ -11,9 +11,19 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/zelda_PickupHeart.wav",
+      "Handle": 453966660105400551,
+      "Type": "Audio"
+    },
+    {
       "FilePath": "images/zelda_lake4.png",
       "Handle": 499216849077385787,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Idle_02.lsprite",
+      "Handle": 643139030047457254,
+      "Type": "Sprite"
     },
     {
       "FilePath": "fonts/mario.ttf",
@@ -36,6 +46,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_treemonster5.png",
+      "Handle": 1741316365993102300,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "images/zelda_treemonster1.png",
       "Handle": 1778777879503230346,
       "Type": "Texture"
@@ -49,6 +64,16 @@
       "FilePath": "images/zelda_rock5.png",
       "Handle": 2472646557763328299,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_link_su.png",
+      "Handle": 2723249711660048828,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Fonts/tech.ttf",
+      "Handle": 2930546537639292555,
+      "Type": "Font"
     },
     {
       "FilePath": "fonts/tech.ttf",
@@ -76,9 +101,29 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_lake2.png",
+      "Handle": 3798661428483138879,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sounds/zelda_LinkLowHealth.wav",
+      "Handle": 3941988118263678052,
+      "Type": "Audio"
+    },
+    {
+      "FilePath": "Images/zelda_lake6.png",
+      "Handle": 3949792513272180103,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "sounds/zelda_WalkingOnStairs.wav",
       "Handle": 4109708534718919932,
       "Type": "Audio"
+    },
+    {
+      "FilePath": "Images/zelda_rock6.png",
+      "Handle": 4158668818724935786,
+      "Type": "Texture"
     },
     {
       "FilePath": "images/zelda_lake9.png",
@@ -86,13 +131,43 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_rock4.png",
+      "Handle": 4885478709167606137,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Animations/IdleAnim.lanim",
+      "Handle": 4913110786464515850,
+      "Type": "Animation"
+    },
+    {
       "FilePath": "images/zelda_rock3.png",
       "Handle": 5033609687254006226,
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_link_mvu.png",
+      "Handle": 5217741458008677780,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_treemonster3.png",
+      "Handle": 5467345974691887259,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "images/zelda_treemonster5.png",
       "Handle": 5582313727379296300,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sounds/zelda_EnemyDied.wav",
+      "Handle": 5634467662426203002,
+      "Type": "Audio"
+    },
+    {
+      "FilePath": "Images/zelda_armos_sf.png",
+      "Handle": 5657255848619676110,
       "Type": "Texture"
     },
     {
@@ -116,6 +191,16 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_bush.png",
+      "Handle": 6175529088522394048,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_lake9.png",
+      "Handle": 6560417150791165294,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "sounds/zelda_EnemyDied.wav",
       "Handle": 6663180588518992592,
       "Type": "Audio"
@@ -124,6 +209,16 @@
       "FilePath": "sounds/zelda_PickupHeart.wav",
       "Handle": 6945048863921230804,
       "Type": "Audio"
+    },
+    {
+      "FilePath": "Sounds/zelda_EnemyDamaged.wav",
+      "Handle": 7073969121648870549,
+      "Type": "Audio"
+    },
+    {
+      "FilePath": "Images/zelda_link_atku.png",
+      "Handle": 7333765218244746214,
+      "Type": "Texture"
     },
     {
       "FilePath": "images/zelda_bush.png",
@@ -146,9 +241,24 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_lake8.png",
+      "Handle": 8078327200880430200,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "sounds/zelda_SwordSlash.wav",
       "Handle": 8395689193455666351,
       "Type": "Audio"
+    },
+    {
+      "FilePath": "Images/zelda_black.png",
+      "Handle": 8745520750142242353,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_tektite_sf.png",
+      "Handle": 8882835457609919157,
+      "Type": "Texture"
     },
     {
       "FilePath": "Scenes/Template.lscn",
@@ -161,9 +271,29 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Fonts/mario.ttf",
+      "Handle": 9340752619502439282,
+      "Type": "Font"
+    },
+    {
       "FilePath": "Scripts/PlayerController.lns",
       "Handle": 9528046412522239773,
       "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Images/zelda_rock1.png",
+      "Handle": 9663883729848020328,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Idle_01.lsprite",
+      "Handle": 9762675142640278566,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/zelda_rock2.png",
+      "Handle": 9770387246994776380,
+      "Type": "Texture"
     },
     {
       "FilePath": "sounds/zelda_EnemyDamaged.wav",
@@ -171,8 +301,28 @@
       "Type": "Audio"
     },
     {
+      "FilePath": "",
+      "Handle": 10052118177801159118,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "images/zelda_link_atku.png",
       "Handle": 10156582578040183696,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sounds/zelda_TitleTheme.ogg",
+      "Handle": 10169724445277714047,
+      "Type": "Audio"
+    },
+    {
+      "FilePath": "Images/zelda_armos_sb.png",
+      "Handle": 10180697260970277653,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_stair.png",
+      "Handle": 10487606559404862196,
       "Type": "Texture"
     },
     {
@@ -186,8 +336,28 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_link_mvd.png",
+      "Handle": 10815607500020937808,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "images/zelda_treemonster2.png",
       "Handle": 11101103845089673357,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_lake1.png",
+      "Handle": 11112840024743840676,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_lake3.png",
+      "Handle": 11286678080864543529,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_heart.png",
+      "Handle": 11743679297943261435,
       "Type": "Texture"
     },
     {
@@ -196,14 +366,44 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_treemonster6.png",
+      "Handle": 11798581190578334931,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_rock5.png",
+      "Handle": 11828763087173020917,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_treemonster1.png",
+      "Handle": 12296104664722019181,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "images/zelda_rock1.png",
       "Handle": 12337921535501351805,
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/zelda_LinkDamaged.wav",
+      "Handle": 12888784550228919304,
+      "Type": "Audio"
+    },
+    {
       "FilePath": "images/zelda_armos_sf.png",
       "Handle": 13120669987925077891,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sounds/zelda_SwordSlash.wav",
+      "Handle": 13433880967882707474,
+      "Type": "Audio"
+    },
+    {
+      "FilePath": "Sounds/zelda_LinkDied.wav",
+      "Handle": 13789945759096769733,
+      "Type": "Audio"
     },
     {
       "FilePath": "images/zelda_heart.png",
@@ -231,8 +431,28 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_link_atkr.png",
+      "Handle": 14977886200418524117,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "images/zelda_rock2.png",
       "Handle": 15339604755093960665,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_link_mvr.png",
+      "Handle": 15474335633318222346,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_link_sd.png",
+      "Handle": 15632634877503840483,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_lake4.png",
+      "Handle": 16274611540890321515,
       "Type": "Texture"
     },
     {
@@ -241,13 +461,53 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/zelda_WalkingOnStairs.wav",
+      "Handle": 16474997060112998316,
+      "Type": "Audio"
+    },
+    {
       "FilePath": "images/zelda_stair.png",
       "Handle": 16675339296861051391,
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/zelda_treemonster2.png",
+      "Handle": 17040924106707985376,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_lake7.png",
+      "Handle": 17062731501631044060,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_rock3.png",
+      "Handle": 17179751478129563200,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "images/zelda_treemonster3.png",
       "Handle": 17456551125940696384,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_lake5.png",
+      "Handle": 17885541694469653861,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_link_sr.png",
+      "Handle": 17900211962262859736,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_treemonster4.png",
+      "Handle": 18097736982931391590,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/zelda_link_atkd.png",
+      "Handle": 18284008146231421985,
       "Type": "Texture"
     }
   ]

@@ -21,6 +21,8 @@ namespace Luden
 		static bool SerializeToResourcePack(ResourceHandle resourceHandle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo);
 		static std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo);
 		static std::shared_ptr<Scene> DeserializeSceneFromResourcePack(FileStreamReader& stream, const ResourcePackFile::SceneInfo& sceneInfo);
+
+		static std::shared_ptr<Resource> CreateResource(ResourceType type, const std::string& name);
 	private:
 		static std::unordered_map<ResourceType, std::unique_ptr<ResourceSerializer>> s_Serializers;
 	};

@@ -6,6 +6,7 @@
 #include "Core/EngineContext.h"
 #include "Debug/DebugManager.h"
 #include "Graphics/AnimationManager.h"
+#include "Graphics/Sprite.h"
 
 #include <iostream>
 
@@ -22,6 +23,7 @@ namespace Luden {
 
 	Scene::~Scene() 
 	{
+		InputManager::Instance().ClearAllInput();
 	}
 
 	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
@@ -80,7 +82,6 @@ namespace Luden {
 		m_EntityManager.Update(ts);
 	}
 
-	// Render
 	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target, Camera2D& runtimeCamera)
 	{
 		target->clear(sf::Color(255, 192, 122));
@@ -94,64 +95,13 @@ namespace Luden {
 
 			auto& transform = e.Get<TransformComponent>();
 
-			sf::Color c = sf::Color::White;
-
-			if (e.Has<Animation2DComponent>())
+			if (e.Has<SpriteAnimatorComponent>())
 			{
-				auto& animComp = e.Get<Animation2DComponent>();
-
-				if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
-					continue;
-
-				ResourceHandle currentAnimHandle = animComp.animationHandles[animComp.currentAnimationIndex];
-				auto animation = std::static_pointer_cast<Animation>(
-					Project::GetResourceManager()->GetResource(currentAnimHandle)
-				);
-
-				if (!animation)
-					continue;
-
-				if (animComp.currentFrame >= animation->GetFrameCount())
-					animComp.currentFrame = 0;
-
-				const auto& frame = animation->GetFrame(animComp.currentFrame);
-				auto texture = std::static_pointer_cast<Texture>(
-					Project::GetResourceManager()->GetResource(frame.textureHandle)
-				);
-
-				if (!texture)
-					continue;
-
-				sf::Sprite sprite(texture->GetTexture());
-				sf::FloatRect bounds = sprite.getLocalBounds();
-
-				sprite.setOrigin(sf::Vector2f(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
-				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
-				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
-				sprite.setRotation(sf::degrees(transform.angle));
-				sprite.setColor(c);
-
-				target->draw(sprite);
+				RenderAnimatedEntity(e, transform, target);
 			}
-			else if (e.Has<TextureComponent>())
+			else if (e.Has<SpriteRendererComponent>())
 			{
-				auto& textureComp = e.Get<TextureComponent>();
-				auto texHandle = textureComp.textureHandle;
-
-				auto textureRes = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(texHandle));
-				if (textureRes)
-				{
-					sf::Sprite sprite(textureRes->GetTexture());
-					sf::FloatRect bounds = sprite.getLocalBounds();
-
-					sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
-					sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
-					sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
-					sprite.setRotation(sf::degrees(transform.angle));
-					sprite.setColor(c);
-
-					target->draw(sprite);
-				}
+				RenderStaticSprite(e, transform, target);
 			}
 		}
 
@@ -172,69 +122,102 @@ namespace Luden {
 
 			auto& transform = e.Get<TransformComponent>();
 
-			sf::Color c = sf::Color::White;
-
-			if (e.Has<Animation2DComponent>())
+			if (e.Has<SpriteAnimatorComponent>())
 			{
-				auto& animComp = e.Get<Animation2DComponent>();
-
-				if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
-					continue;
-
-				ResourceHandle currentAnimHandle = animComp.animationHandles[animComp.currentAnimationIndex];
-				auto animation = std::static_pointer_cast<Animation>(
-					Project::GetResourceManager()->GetResource(currentAnimHandle)
-				);
-
-				if (!animation)
-					continue;
-
-				if (animComp.currentFrame >= animation->GetFrameCount())
-					animComp.currentFrame = 0;
-
-				const auto& frame = animation->GetFrame(animComp.currentFrame);
-				auto texture = std::static_pointer_cast<Texture>(
-					Project::GetResourceManager()->GetResource(frame.textureHandle)
-				);
-
-				if (!texture)
-					continue;
-
-				sf::Sprite sprite(texture->GetTexture());
-				sf::FloatRect bounds = sprite.getLocalBounds();
-
-				sprite.setOrigin(sf::Vector2f(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
-				sprite.setPosition(sf::Vector2f(transform.Translation.x, transform.Translation.y));
-				sprite.setScale(sf::Vector2f(transform.Scale.x, transform.Scale.y));
-				sprite.setRotation(sf::degrees(transform.angle));
-				sprite.setColor(c);
-
-				target->draw(sprite);
+				RenderAnimatedEntity(e, transform, target);
 			}
-			else if (e.Has<TextureComponent>())
+			else if (e.Has<SpriteRendererComponent>())
 			{
-				auto& textureComp = e.Get<TextureComponent>();
-				auto texHandle = textureComp.textureHandle;
-
-				auto textureRes = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(texHandle));
-				if (textureRes)
-				{
-					sf::Sprite sprite(textureRes->GetTexture());
-					sf::FloatRect bounds = sprite.getLocalBounds();
-
-					sprite.setOrigin(sf::Vector2(bounds.size.x / 2.0f, bounds.size.y / 2.0f));
-					sprite.setPosition(sf::Vector2(transform.Translation.x, transform.Translation.y));
-					sprite.setScale(sf::Vector2(transform.Scale.x, transform.Scale.y));
-					sprite.setRotation(sf::degrees(transform.angle));
-					sprite.setColor(c);
-
-					target->draw(sprite);
-				}
+				RenderStaticSprite(e, transform, target);
 			}
 		}
 
 		DebugManager::Instance().DebugDrawPhysics2D(m_PhysicsWorldId);
 		DebugManager::Instance().Render(target);
+	}
+
+	void Scene::RenderStaticSprite(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target)
+	{
+		auto& spriteComp = e.Get<SpriteRendererComponent>();
+		if (spriteComp.spriteHandle == 0)
+			return;
+
+		auto sprite = std::static_pointer_cast<Sprite>(Project::GetResourceManager()->GetResource(spriteComp.spriteHandle));
+		if (!sprite) return;
+
+		auto texture = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(sprite->GetTextureHandle()));
+		if (!texture) return;
+
+		sf::Sprite sfSprite(texture->GetTexture());
+
+		if (!sprite->UsesFullTexture())
+		{
+			sfSprite.setTextureRect(sprite->GetTextureRect());
+		}
+
+		sf::FloatRect bounds = sfSprite.getLocalBounds();
+		sfSprite.setOrigin(
+			{ bounds.size.x * sprite->GetPivot().x,
+			bounds.size.y * sprite->GetPivot().y }
+		);
+
+		sfSprite.setPosition({ transform.Translation.x, transform.Translation.y });
+		sfSprite.setScale({ transform.Scale.x, transform.Scale.y });
+		sfSprite.setRotation(sf::degrees(transform.angle));
+		sfSprite.setColor(spriteComp.tint);
+
+		target->draw(sfSprite);
+	}
+
+	void Scene::RenderAnimatedEntity(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target)
+	{
+		auto& animator = e.Get<SpriteAnimatorComponent>();
+
+		// Validations
+		if (animator.animationHandles.empty()) return;
+		if (animator.currentAnimationIndex >= animator.animationHandles.size()) return;
+
+		auto animation = std::static_pointer_cast<Animation>(
+			Project::GetResourceManager()->GetResource(
+				animator.animationHandles[animator.currentAnimationIndex]
+			)
+		);
+		if (!animation || animation->GetFrameCount() == 0) return;
+
+		if (animator.currentFrame >= animation->GetFrameCount())
+			animator.currentFrame = 0;
+
+		const auto& frame = animation->GetFrame(animator.currentFrame);
+
+		auto sprite = std::static_pointer_cast<Sprite>(
+			Project::GetResourceManager()->GetResource(frame.spriteHandle)
+		);
+		if (!sprite) return;
+
+		auto texture = std::static_pointer_cast<Texture>(
+			Project::GetResourceManager()->GetResource(sprite->GetTextureHandle())
+		);
+		if (!texture) return;
+
+		sf::Sprite sfSprite(texture->GetTexture());
+
+		if (!sprite->UsesFullTexture())
+		{
+			sfSprite.setTextureRect(sprite->GetTextureRect());
+		}
+
+		sf::FloatRect bounds = sfSprite.getLocalBounds();
+		sfSprite.setOrigin(
+			{ bounds.size.x * sprite->GetPivot().x + frame.offset.x,
+			bounds.size.y * sprite->GetPivot().y + frame.offset.y}
+		);
+
+		sfSprite.setPosition({ transform.Translation.x, transform.Translation.y });
+		sfSprite.setScale({ transform.Scale.x, transform.Scale.y });
+		sfSprite.setRotation(sf::degrees(transform.angle));
+		sfSprite.setColor(animator.tint);
+
+		target->draw(sfSprite);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -266,18 +249,24 @@ namespace Luden {
 			GEngine.SetActiveScene(nullptr);
 		}
 
-		OnPhysics2DStop();
-		InputManager::Instance().ClearAllInput();
-
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
 			if (entity.Has<NativeScriptComponent>())
 			{
 				auto& nsc = entity.Get<NativeScriptComponent>();
-
 				nsc.DestroyInstance();
 			}
+
+			if (entity.Has<InputComponent>())
+			{
+
+				entity.Get<InputComponent>().UnbindAll();
+			}
 		}
+
+
+		OnPhysics2DStop();
+		InputManager::Instance().ClearAllInput();
 	}
 
 	void Scene::OnSimulationStart()
@@ -504,9 +493,9 @@ namespace Luden {
 		CopyComponentIfExists<InputComponent>(newEntity, entity);
 		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
 		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
-		CopyComponentIfExists<Animation2DComponent>(newEntity, entity);
+		CopyComponentIfExists<SpriteAnimatorComponent>(newEntity, entity);
 		CopyComponentIfExists<TextComponent>(newEntity, entity);
-		CopyComponentIfExists<TextureComponent>(newEntity, entity);
+		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
 		CopyComponentIfExists<InvincibilityComponent>(newEntity, entity);
 		CopyComponentIfExists<LifespanComponent>(newEntity, entity);
 		CopyComponentIfExists<PatrolComponent>(newEntity, entity);

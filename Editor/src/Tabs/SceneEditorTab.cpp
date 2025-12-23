@@ -36,7 +36,6 @@ namespace Luden
 
 	SceneEditorTab::~SceneEditorTab() 
 	{
-		OnSceneStop();
 	}
 
 	void SceneEditorTab::OnScenePlay()
@@ -308,15 +307,15 @@ namespace Luden
 									}
 								}
 
-								if (pathExtension == ".png" || pathExtension == ".jpeg" || pathExtension == ".jpg")
+								if (pathExtension == ".lsprite")
 								{
 									if (m_EditorApplication)
 									{
 										auto newEntity = m_ActiveScene->CreateEntity(path.string());
 										ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
-										auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(handle));
-										auto& textureComponent = newEntity.Add<TextureComponent>();
-										textureComponent.textureHandle = handle;
+										auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(handle));
+										auto& spriteRendererComponent = newEntity.Add<SpriteRendererComponent>();
+										spriteRendererComponent.spriteHandle = handle;
 										
 										auto& transformComponent = newEntity.Add<TransformComponent>();
 										SetEntityPositionToMouse(newEntity);
@@ -345,8 +344,10 @@ namespace Luden
 		ImGui::PopStyleColor(pushedStyleColorCount);
 		m_Appearing = false;
 	}
+
 	void SceneEditorTab::InitializeDockspace()
 	{
+		SetPanelsContext();
 		ImGuiID dockSpaceMainID = m_DockspaceID;
 
 		ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Left, 0.25f, nullptr, &dockSpaceMainID);
@@ -363,6 +364,7 @@ namespace Luden
 		ImGui::DockBuilderFinish(dockSpaceMainID);
 		m_Appearing = true;
 	}
+
 	void SceneEditorTab::OnEvent(const std::optional<sf::Event>& evt)
 	{
 		m_ToolbarPanel.OnEvent(evt);
@@ -376,6 +378,7 @@ namespace Luden
 			m_ActiveScene->OnEvent(evt);
 		}
 	}
+
 	void SceneEditorTab::OnUpdate(TimeStep timestep)
 	{
 		m_TimeStep = timestep;
@@ -433,7 +436,6 @@ namespace Luden
 		transform.Translation = { worldCoords.x, worldCoords.y, 0.0f };
 	}
 
-
 	void SceneEditorTab::SetPanelsContext()
 	{
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -442,6 +444,7 @@ namespace Luden
 		m_ResourceBrowserPanel.SetContext(m_EditorApplication);
 		m_Appearing = true;
 	}
+
 	void SceneEditorTab::LoadScene(const std::filesystem::path& path)
 	{
 		if (!FileSystem::Exists(path))
@@ -478,6 +481,7 @@ namespace Luden
 			}
 		}
 	}
+
 	void SceneEditorTab::ShowToolbarPlayPause()
 	{
 		constexpr ImVec2 toolbarSize = ImVec2(32.0f, 32.0f);
@@ -586,16 +590,17 @@ namespace Luden
 
 	void SceneEditorTab::DrawSelectedEntityOutline(ImDrawList* drawList, Entity entity)
 	{
-		if (!entity.IsValid() || !entity.Has<TransformComponent>() || !entity.Has<TextureComponent>())
+		if (!entity.IsValid() || !entity.Has<TransformComponent>() || !entity.Has<SpriteRendererComponent>())
 			return;
 
 		auto& transform = entity.Get<TransformComponent>();
-		auto& textureComponent = entity.Get<TextureComponent>();
-		auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
+		auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
+		auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(spriteRendererComponent.spriteHandle));
 
-		if (!texture) return;
+		if (!sprite) return;
 
-		sf::Vector2u texSize = texture->GetTexture().getSize();
+		sf::Vector2u texSize = sprite->GetSize();
+
 		float halfWidth = (texSize.x * transform.Scale.x) / 2.0f;
 		float halfHeight = (texSize.y * transform.Scale.y) / 2.0f;
 

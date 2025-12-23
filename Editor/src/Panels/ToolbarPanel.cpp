@@ -373,20 +373,20 @@ namespace Luden {
 		auto& manager = m_Context->GetEntityManager();
 		for (auto& entity : manager.GetEntities())
 		{
-			if (!entity.Has<TransformComponent>() || !entity.Has<TextureComponent>())
+			if (!entity.Has<TransformComponent>() || !entity.Has<SpriteRendererComponent>())
 				continue;
 
 			auto& transformComponent = entity.Get<TransformComponent>();
-			auto& textureComponent = entity.Get<TextureComponent>();
-			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(textureComponent.textureHandle));
+			auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
+			auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(spriteRendererComponent.spriteHandle));
 
-			if (!texture)
+			if (!sprite)
 				continue;
 
-			sf::Vector2u textureSize = texture->GetTexture().getSize();
+			sf::Vector2u spriteSize = sprite->GetSize();
 
-			float halfWidth = (textureSize.x * transformComponent.Scale.x) / 2.0f;
-			float halfHeight = (textureSize.y * transformComponent.Scale.y) / 2.0f;
+			float halfWidth = (spriteSize.x * transformComponent.Scale.x) / 2.0f;
+			float halfHeight = (spriteSize.y * transformComponent.Scale.y) / 2.0f;
 
 			glm::vec2 center = glm::vec2(transformComponent.Translation.x, transformComponent.Translation.y);
 

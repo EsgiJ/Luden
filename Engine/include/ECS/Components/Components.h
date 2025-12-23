@@ -13,6 +13,7 @@
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
 #include "glm/ext/vector_float3.hpp"
+#include "SFML/Graphics/Color.hpp"
 
 namespace Luden
 {
@@ -203,18 +204,18 @@ namespace Luden
 		}
 	};
 	
-	struct ENGINE_API Animation2DComponent : public IComponent
+	struct ENGINE_API SpriteAnimatorComponent : public IComponent
 	{
 	public:
-		std::vector<ResourceHandle> animationHandles;
+		std::vector<ResourceHandle> animationHandles; 
 		size_t currentAnimationIndex = 0;
 
-		size_t speed = 1;
 		size_t currentFrame = 0;
-		size_t frameTimer = 0;
-		bool repeat = true;
+		float frameTimer = 0.0f;  
+		sf::Color tint = sf::Color::White;
+		float playbackSpeed = 1.0f;
 
-		Animation2DComponent() = default;
+		SpriteAnimatorComponent() = default;
 	};
 
 	struct ENGINE_API TextComponent : public IComponent
@@ -227,14 +228,15 @@ namespace Luden
 		TextComponent(ResourceHandle f) : fontHandle(f) {};
 	};
 
-	struct ENGINE_API TextureComponent : public IComponent
+	struct ENGINE_API SpriteRendererComponent : public IComponent
 	{
-	public:
-		ResourceHandle textureHandle;
+		ResourceHandle spriteHandle = 0;
+		sf::Color tint = sf::Color::White;
 
-		TextureComponent() = default;
-
-		TextureComponent(ResourceHandle t) : textureHandle(t) {};
+		SpriteRendererComponent() = default;
+		explicit SpriteRendererComponent(ResourceHandle sprite)
+			: spriteHandle(sprite) {
+		}
 	};
 
 	struct ENGINE_API InvincibilityComponent : public IComponent
