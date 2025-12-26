@@ -8,6 +8,7 @@
 #include "Resource/Resource.h"
 #include "Core/UUID.h"
 #include "Core/TimeStep.h"
+#include "Physics2D/Physics2DManager.h"
 
 #include <map>
 #include <memory>
@@ -42,11 +43,6 @@ namespace Luden {
 
 		void OnSimulationStart();
 		void OnSimulationStop();
-
-		//Box2D
-		void OnPhysics2DInit();
-		void OnPhysics2DUpdate(TimeStep ts);
-		void OnPhysics2DStop();
 
 		// Input
 		void OnEvent(const std::optional<sf::Event>& evt);
@@ -129,10 +125,7 @@ namespace Luden {
 		uint32_t m_ViewportHeight = 0;
 
 		//Physics2D
-		b2WorldId m_PhysicsWorldId = b2_nullWorldId;
-		const float m_PhysicsScale = 100.0f; // 1 meter = 100 pixel
-		const b2Vec2 m_Gravity = { 0.0f, -10.0f };
-		const int m_SubStepCount = 4; 
+		Physics2DManager m_PhysicsManager;
 	};
 
 }

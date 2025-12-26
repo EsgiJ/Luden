@@ -2,8 +2,11 @@
     "Entities": [
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -70,8 +73,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -111,8 +117,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -152,8 +161,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -191,8 +203,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -224,8 +239,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -257,8 +275,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -290,8 +311,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -331,8 +355,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -364,8 +391,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -397,8 +427,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -444,8 +477,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -477,8 +513,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -510,8 +549,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -543,8 +585,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -576,8 +621,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -609,8 +657,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -642,8 +693,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -675,8 +729,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -708,8 +765,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -745,8 +805,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -782,8 +845,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -819,8 +885,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -856,8 +925,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -893,8 +965,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0
@@ -951,8 +1026,11 @@
         },
         {
             "BoxCollider2DComponent": {
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
                 "Offset": [
                     0.0,
                     0.0

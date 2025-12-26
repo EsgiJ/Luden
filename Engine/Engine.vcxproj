@@ -148,7 +148,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\NativeScript\NativeScriptRegistry.h" />
     <ClInclude Include="include\NativeScript\ScriptableEntity.h" />
     <ClInclude Include="include\Physics2D\CollisionChannelRegistry.h" />
-    <ClInclude Include="include\Physics2D\Physics2D.h" />
+    <ClInclude Include="include\Physics2D\Physics2DManager.h" />
     <ClInclude Include="include\Project\Project.h" />
     <ClInclude Include="include\Project\ProjectSerializer.h" />
     <ClInclude Include="include\Reflection\ReflectionMacros.h" />
@@ -211,7 +211,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\NativeScript\NativeScriptModuleLoader.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptRegistry.cpp" />
     <ClCompile Include="src\Physics2D\CollisionChannelRegistry.cpp" />
-    <ClCompile Include="src\Physics2D\Physics2D.cpp" />
+    <ClCompile Include="src\Physics2D\Physics2DManager.cpp" />
     <ClCompile Include="src\Project\Project.cpp" />
     <ClCompile Include="src\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Render\Camera2D.cpp" />
