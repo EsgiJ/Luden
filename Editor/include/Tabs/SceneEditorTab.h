@@ -6,6 +6,7 @@
 #include "Panels/ToolbarPanel.h"
 #include "Panels/ResourceBrowserPanel.h"
 #include "Panels/DebugSettingsPanel.h"
+#include "Panels/CollisionChannelPanel.h"
 #include "Scene/Scene.h"
 
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -17,6 +18,7 @@ namespace Luden
 	class InspectorPanel;
 	class ToolbarPanel;
 	class ResourceBrowserPanel;
+	class CollisionChannelPanel;
 	class Camera2D;
 
 	//TODO: Why all the functions virtual? Fix that
@@ -88,6 +90,7 @@ namespace Luden
 		ToolbarPanel m_ToolbarPanel;
 		ResourceBrowserPanel m_ResourceBrowserPanel;
 		DebugSettingsPanel m_DebugSettingsPanel;
+		CollisionChannelPanel m_CollisionChannelPanel;
 
 		std::filesystem::path m_ActiveScenePath = std::filesystem::canonical(".");
 

@@ -13,6 +13,7 @@
 #include <glm/glm.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
+#include "Physics2D/CollisionChannelRegistry.h"
 
 namespace Luden {
 
@@ -228,6 +229,12 @@ namespace Luden {
 
 		GEngine.SetActiveScene(this);
 
+		std::filesystem::path channelsPath = Project::GetActiveResourceDirectory() / "CollisionChannels.dat";
+		if (std::filesystem::exists(channelsPath))
+		{
+			CollisionChannelRegistry::Instance().Deserialize(channelsPath);
+		}
+
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
 			if (entity.Has<NativeScriptComponent>())
@@ -349,6 +356,10 @@ namespace Luden {
 					shapeDef.density = bc2d.Density;
 					shapeDef.material.friction = bc2d.Friction;
 
+					shapeDef.filter.categoryBits = bc2d.CategoryBits;
+					shapeDef.filter.maskBits = bc2d.MaskBits;
+					shapeDef.filter.groupIndex = bc2d.GroupIndex;
+
 					bc2d.RuntimeShapeId = b2CreatePolygonShape(bodyId, &shapeDef, &boxShape);
 				}
 
@@ -369,6 +380,10 @@ namespace Luden {
 
 					shapeDef.density = cc2d.Density;
 					shapeDef.material.friction = cc2d.Friction;
+
+					shapeDef.filter.categoryBits = cc2d.CategoryBits;
+					shapeDef.filter.maskBits = cc2d.MaskBits;
+					shapeDef.filter.groupIndex = cc2d.GroupIndex;
 
 					cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
 				}
@@ -491,7 +506,10 @@ namespace Luden {
 		CopyComponentIfExists<GravityComponent>(newEntity, entity);
 		CopyComponentIfExists<HealthComponent>(newEntity, entity);
 		CopyComponentIfExists<InputComponent>(newEntity, entity);
-		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
+		CopyComponentIfExists<Camera2DComponent>(newEntity, entity);
+		CopyComponentIfExists<RigidBody2DComponent>(newEntity, entity);
+		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);      
+		CopyComponentIfExists<CircleCollider2DComponent>(newEntity, entity);   
 		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
 		CopyComponentIfExists<SpriteAnimatorComponent>(newEntity, entity);
 		CopyComponentIfExists<TextComponent>(newEntity, entity);

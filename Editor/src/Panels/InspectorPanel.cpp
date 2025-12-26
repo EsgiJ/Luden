@@ -14,6 +14,7 @@
 #include <IconsFontAwesome7.h>
 #include <imgui.h>
 #include <imgui_internal.h>
+#include "Physics2D/CollisionChannelRegistry.h"
 
 namespace Luden
 {
@@ -222,6 +223,8 @@ namespace Luden
 				DisplayComponentInInspector<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component", entity, true, [&]()
 					{
 						auto& box = entity.Get<BoxCollider2DComponent>();
+						auto& registry = CollisionChannelRegistry::Instance();
+						const auto& allChannels = registry.GetAllChannels();
 
 						ImGuiUtils::PrefixLabel("Offset");
 						ImGuiUtils::DragFloat2Colored("##Offset", &box.Offset.x, 0.1f);
@@ -234,24 +237,322 @@ namespace Luden
 
 						ImGuiUtils::PrefixLabel("Friction");
 						ImGui::DragFloat("##Friction", &box.Friction, 0.1f, 0.0f, 10.0f);
+
+						ImGui::Separator();
+						ImGui::Text("Collision Filtering");
+						ImGui::Separator();
+
+						// Category Bits (I am...)
+						ImGuiUtils::PrefixLabel("Category (I am)");
+						if (ImGui::BeginCombo("##CategoryBits", "Select..."))
+						{
+							for (const auto& channel : allChannels)
+							{
+								bool isSelected = (box.CategoryBits & channel.Bit) != 0;
+
+								if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+								{
+									if (isSelected)
+										box.CategoryBits |= channel.Bit;  // Add bit
+									else
+										box.CategoryBits &= ~channel.Bit; // Remove bit
+								}
+							}
+							ImGui::EndCombo();
+						}
+
+						// Show selected categories
+						{
+							ImGui::Indent();
+							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+							if (box.CategoryBits == 0)
+							{
+								ImGui::TextWrapped("(No categories selected)");
+							}
+							else
+							{
+								std::string selectedText = "";
+								for (const auto& channel : allChannels)
+								{
+									if (box.CategoryBits & channel.Bit)
+									{
+										if (!selectedText.empty())
+											selectedText += ", ";
+										selectedText += channel.Name;
+									}
+								}
+								ImGui::TextWrapped("%s", selectedText.c_str());
+							}
+
+							ImGui::PopStyleColor();
+							ImGui::Unindent();
+						}
+
+						// Mask Bits 
+						ImGuiUtils::PrefixLabel("Mask (Collides with)");
+						if (ImGui::BeginCombo("##MaskBits", "Select..."))
+						{
+							for (const auto& channel : allChannels)
+							{
+								bool isSelected = (box.MaskBits & channel.Bit) != 0;
+
+								if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+								{
+									if (isSelected)
+										box.MaskBits |= channel.Bit;
+									else
+										box.MaskBits &= ~channel.Bit;
+								}
+							}
+							ImGui::EndCombo();
+						}
+
+						// Show selected masks
+						{
+							ImGui::Indent();
+							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+							if (box.MaskBits == 0)
+							{
+								ImGui::TextWrapped("(Collides with nothing)");
+							}
+							else
+							{
+								std::string selectedText = "";
+								for (const auto& channel : allChannels)
+								{
+									if (box.MaskBits & channel.Bit)
+									{
+										if (!selectedText.empty())
+											selectedText += ", ";
+										selectedText += channel.Name;
+									}
+								}
+								ImGui::TextWrapped("%s", selectedText.c_str());
+							}
+
+							ImGui::PopStyleColor();
+							ImGui::Unindent();
+						}
+
+						// Group Index
+						ImGuiUtils::PrefixLabel("Group Index");
+						int groupIndex = static_cast<int>(box.GroupIndex);
+						if (ImGui::DragInt("##GroupIndex", &groupIndex, 1, -32768, 32767))
+						{
+							box.GroupIndex = static_cast<uint16_t>(groupIndex);
+						}
+
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::SetTooltip(
+								"Group collision rules:\n"
+								" > 0: Always collide with same group\n"
+								" < 0: Never collide with same group\n"
+								" = 0: Use category/mask filtering"
+							);
+						}
+
+						// Quick Presets
+						if (ImGui::TreeNode("Quick Presets"))
+						{
+							if (ImGui::Button("Collide With All", ImVec2(-1, 0)))
+							{
+								box.MaskBits = 0xFFFF; // All bits set
+							}
+
+							if (ImGui::Button("Collide With None", ImVec2(-1, 0)))
+							{
+								box.MaskBits = 0;
+							}
+
+							if (ImGui::Button("Reset to Default", ImVec2(-1, 0)))
+							{
+								box.CategoryBits = registry.GetChannelBit("Default");
+								box.MaskBits = 0xFFFF;
+								box.GroupIndex = 0;
+							}
+
+							ImGui::TreePop();
+						}
+
+						// Debug Info
+						if (ImGui::TreeNode("Debug Info"))
+						{
+							ImGui::Text("Category Bits: 0x%04X (%d)", box.CategoryBits, box.CategoryBits);
+							ImGui::Text("Mask Bits: 0x%04X (%d)", box.MaskBits, box.MaskBits);
+							ImGui::Text("Group Index: %d", (int16_t)box.GroupIndex);
+							ImGui::TreePop();
+						}
 					});
 
-				DisplayComponentInInspector<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component", entity, true, [&]()
-					{
-						auto& circle = entity.Get<CircleCollider2DComponent>();
+					DisplayComponentInInspector<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component", entity, true, [&]()
+						{
+							auto& circle = entity.Get<CircleCollider2DComponent>();
+							auto& registry = CollisionChannelRegistry::Instance();
+							const auto& allChannels = registry.GetAllChannels();
 
-						ImGuiUtils::PrefixLabel("Offset");
-						ImGuiUtils::DragFloat2Colored("##Offset", &circle.Offset.x, 0.1f);
+							ImGuiUtils::PrefixLabel("Offset");
+							ImGuiUtils::DragFloat2Colored("##Offset", &circle.Offset.x, 0.1f);
 
-						ImGuiUtils::PrefixLabel("Radius");
-						ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
+							ImGuiUtils::PrefixLabel("Radius");
+							ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
 
-						ImGuiUtils::PrefixLabel("Density");
-						ImGui::DragFloat("##Density", &circle.Density, 0.1f, 0.0f, 10.0f);
+							ImGuiUtils::PrefixLabel("Density");
+							ImGui::DragFloat("##Density", &circle.Density, 0.1f, 0.0f, 10.0f);
 
-						ImGuiUtils::PrefixLabel("Friction");
-						ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
-					});
+							ImGuiUtils::PrefixLabel("Friction");
+							ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
+
+							ImGui::Separator();
+							ImGui::Text("Collision Filtering");
+							ImGui::Separator();
+
+							// Category Bits
+							ImGuiUtils::PrefixLabel("Category");
+							if (ImGui::BeginCombo("##CategoryBits", "Select..."))
+							{
+								for (const auto& channel : allChannels)
+								{
+									bool isSelected = (circle.CategoryBits & channel.Bit) != 0;
+
+									if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+									{
+										if (isSelected)
+											circle.CategoryBits |= channel.Bit;
+										else
+											circle.CategoryBits &= ~channel.Bit;
+									}
+								}
+								ImGui::EndCombo();
+							}
+
+							// Show selected
+							{
+								ImGui::Indent();
+								ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+								if (circle.CategoryBits == 0)
+								{
+									ImGui::TextWrapped("(No categories selected)");
+								}
+								else
+								{
+									std::string selectedText = "";
+									for (const auto& channel : allChannels)
+									{
+										if (circle.CategoryBits & channel.Bit)
+										{
+											if (!selectedText.empty())
+												selectedText += ", ";
+											selectedText += channel.Name;
+										}
+									}
+									ImGui::TextWrapped("%s", selectedText.c_str());
+								}
+
+								ImGui::PopStyleColor();
+								ImGui::Unindent();
+							}
+
+							// Mask Bits
+							ImGuiUtils::PrefixLabel("Mask");
+							if (ImGui::BeginCombo("##MaskBits", "Select..."))
+							{
+								for (const auto& channel : allChannels)
+								{
+									bool isSelected = (circle.MaskBits & channel.Bit) != 0;
+
+									if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+									{
+										if (isSelected)
+											circle.MaskBits |= channel.Bit;
+										else
+											circle.MaskBits &= ~channel.Bit;
+									}
+								}
+								ImGui::EndCombo();
+							}
+
+							// Show selected
+							{
+								ImGui::Indent();
+								ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+								if (circle.MaskBits == 0)
+								{
+									ImGui::TextWrapped("(Collides with nothing)");
+								}
+								else
+								{
+									std::string selectedText = "";
+									for (const auto& channel : allChannels)
+									{
+										if (circle.MaskBits & channel.Bit)
+										{
+											if (!selectedText.empty())
+												selectedText += ", ";
+											selectedText += channel.Name;
+										}
+									}
+									ImGui::TextWrapped("%s", selectedText.c_str());
+								}
+
+								ImGui::PopStyleColor();
+								ImGui::Unindent();
+							}
+
+							// Group Index
+							ImGuiUtils::PrefixLabel("Group Index");
+							int groupIndex = static_cast<int>(circle.GroupIndex);
+							if (ImGui::DragInt("##GroupIndex", &groupIndex, 1, -32768, 32767))
+							{
+								circle.GroupIndex = static_cast<uint16_t>(groupIndex);
+							}
+
+							if (ImGui::IsItemHovered())
+							{
+								ImGui::SetTooltip(
+									"Group collision rules:\n"
+									" > 0: Always collide with same group\n"
+									" < 0: Never collide with same group\n"
+									" = 0: Use category/mask filtering"
+								);
+							}
+
+							// Quick Presets
+							if (ImGui::TreeNode("Quick Presets"))
+							{
+								if (ImGui::Button("Collide With All", ImVec2(-1, 0)))
+								{
+									circle.MaskBits = 0xFFFF;
+								}
+
+								if (ImGui::Button("Collide With None", ImVec2(-1, 0)))
+								{
+									circle.MaskBits = 0;
+								}
+
+								if (ImGui::Button("Reset to Default", ImVec2(-1, 0)))
+								{
+									circle.CategoryBits = registry.GetChannelBit("Default");
+									circle.MaskBits = 0xFFFF;
+									circle.GroupIndex = 0;
+								}
+
+								ImGui::TreePop();
+							}
+
+							// Debug Info
+							if (ImGui::TreeNode("Debug Info"))
+							{
+								ImGui::Text("Category Bits: 0x%04X (%d)", circle.CategoryBits, circle.CategoryBits);
+								ImGui::Text("Mask Bits: 0x%04X (%d)", circle.MaskBits, circle.MaskBits);
+								ImGui::Text("Group Index: %d", (int16_t)circle.GroupIndex);
+								ImGui::TreePop();
+							}
+						});
 
 				DisplayComponentInInspector<NativeScriptComponent>(
 					ICON_FA_CODE " Native Script", entity, true, [&]()

@@ -114,6 +114,7 @@ copy /B /Y "..\GameModule\bin\Debug-windows-x86_64\GameModule.pdb" "bin\Debug-wi
     <ClInclude Include="include\Core\EditorState.h" />
     <ClInclude Include="include\EditorAPI.h" />
     <ClInclude Include="include\ImGui\ImGuiUtils.h" />
+    <ClInclude Include="include\Panels\CollisionChannelPanel.h" />
     <ClInclude Include="include\Panels\ConsolePanel.h" />
     <ClInclude Include="include\Panels\DebugSettingsPanel.h" />
     <ClInclude Include="include\Panels\EditorPanel.h" />
@@ -144,6 +145,7 @@ copy /B /Y "..\GameModule\bin\Debug-windows-x86_64\GameModule.pdb" "bin\Debug-wi
     <ClCompile Include="src\Core\EditorApplication.cpp" />
     <ClCompile Include="src\Core\EditorState.cpp" />
     <ClCompile Include="src\ImGui\ImGuiUtils.cpp" />
+    <ClCompile Include="src\Panels\CollisionChannelPanel.cpp" />
     <ClCompile Include="src\Panels\ConsolePanel.cpp" />
     <ClCompile Include="src\Panels\DebugSettingsPanel.cpp" />
     <ClCompile Include="src\Panels\EditorPanel.cpp" />

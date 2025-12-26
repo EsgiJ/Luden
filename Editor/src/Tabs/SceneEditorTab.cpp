@@ -116,6 +116,7 @@ namespace Luden
 		m_InspectorPanel.OnImGuiRender();
 		m_ResourceBrowserPanel.OnImGuiRender();
 		m_DebugSettingsPanel.OnImGuiRender();
+		m_CollisionChannelPanel.OnImGuiRender();
 
 		if (m_Appearing)
 		{ 
@@ -360,6 +361,7 @@ namespace Luden
 		m_InspectorPanel.DockTo(dockRight);
 		m_ResourceBrowserPanel.DockTo(dockDown);
 		m_DebugSettingsPanel.DockTo(dockRight);
+		m_CollisionChannelPanel.DockTo(dockLeft);
 
 		ImGui::DockBuilderFinish(dockSpaceMainID);
 		m_Appearing = true;
