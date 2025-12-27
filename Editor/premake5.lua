@@ -12,6 +12,8 @@ project "Editor"
     dependson { "Engine", "GameModule" }
     defines { "EDITOR_EXPORTS", "SFML_DYNAMIC" }
 
+    disablewarnings { "4251" }
+
     files {
         "**.h",
         "**.cpp",

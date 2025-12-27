@@ -121,7 +121,7 @@ namespace Luden
 			return animationComponent.currentFrame;
 		}
 
-		void SetAnimationSpeed(Entity entity, size_t speed)
+		void SetAnimationSpeed(Entity entity, float speed)
 		{
 			if (!entity.Has<SpriteAnimatorComponent>())
 				return;

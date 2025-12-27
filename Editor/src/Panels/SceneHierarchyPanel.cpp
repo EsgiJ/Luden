@@ -148,7 +148,7 @@ namespace Luden
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
 
-		ImGui::PushID(entity.UUID());
+		ImGui::PushID(static_cast<int>(entity.UUID()));
 
 
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth

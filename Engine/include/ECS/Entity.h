@@ -17,6 +17,8 @@ namespace Luden
 	class ENGINE_API Entity
 	{
 	public:
+		Entity() = default;
+
 		void Destroy();
 		EntityID UUID() const { return m_UUID; }
 		void SetUUID(EntityID uuid) { m_UUID = uuid; }
@@ -93,7 +95,6 @@ namespace Luden
 		}
 
 	private:
-		Entity() = default;
 		Entity(EntityID uuid, Scene* scene);
 
 		EntityID m_UUID = 0;

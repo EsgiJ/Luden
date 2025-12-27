@@ -2,10 +2,13 @@
 #include "ECS/Components/Components.h"
 #include "Debug/DebugManager.h"
 #include "Scene/Scene.h"
+#include "ScriptAPI/Physics2DAPI.h"
+#include "NativeScript/ScriptableEntity.h"
 
 #include <glm/trigonometric.hpp>
 #include <glm/common.hpp>
 #include <box2d/box2d.h>
+#include "Physics2D/CollisionContact.h"
 
 namespace Luden
 {
@@ -172,6 +175,192 @@ namespace Luden
 			if (e.Has<RigidBody2DComponent>())
 			{
 				e.Get<RigidBody2DComponent>().RuntimeBodyId = b2_nullBodyId;
+			}
+		}
+	}
+	void Physics2DManager::ProcessContactEvents()
+	{
+		b2ContactEvents events = b2World_GetContactEvents(m_PhysicsWorldId);
+		
+		// OnCollisionBegin logic
+		for (int i = 0; i < events.beginCount; i++)
+		{
+			const b2ContactBeginTouchEvent& beginEvent = events.beginEvents[i];
+
+			Entity entityA = m_Scene->FindEntityByShapeId(beginEvent.shapeIdA);
+			Entity entityB = m_Scene->FindEntityByShapeId(beginEvent.shapeIdB);
+
+			if (!entityA.IsValid() || !entityB.IsValid())
+				continue;
+
+			b2ContactData data = b2Contact_GetData(beginEvent.contactId);
+
+			CollisionContact contactForA;
+			contactForA.otherEntity = entityB;
+			contactForA.isTouching = true;
+
+			if (data.manifold.pointCount > 0)
+			{
+				contactForA.point = glm::vec2(
+					data.manifold.points[0].anchorA.x * m_PhysicsScale,
+					m_ViewportHeight - (data.manifold.points[0].anchorA.y * m_PhysicsScale)
+				);
+				contactForA.normal = glm::vec2(
+					data.manifold.normal.x,
+					-data.manifold.normal.y  // flip Y 
+				);
+				contactForA.normalImpulse = data.manifold.points[0].normalImpulse;
+				contactForA.tangentImpulse = data.manifold.points[0].tangentImpulse;
+			}
+			if(entityA.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entityA.Get<NativeScriptComponent>();
+				if (nsc.Instance)
+				{
+					nsc.Instance->OnCollisionBegin(contactForA);
+				}
+			}
+
+			CollisionContact contactForB;
+			contactForB.otherEntity = entityA;
+			contactForB.isTouching = true;
+
+			if (data.manifold.pointCount > 0)
+			{
+				contactForB.point = glm::vec2(
+					data.manifold.points[0].anchorB.x * m_PhysicsScale,
+					m_ViewportHeight - (data.manifold.points[0].anchorB.y * m_PhysicsScale)
+				);
+				contactForB.normal = glm::vec2(
+					-data.manifold.normal.x,  // Flip for opposite direction
+					data.manifold.normal.y
+				);
+				contactForB.normalImpulse = data.manifold.points[0].normalImpulse;
+				contactForB.tangentImpulse = data.manifold.points[0].tangentImpulse;
+			}
+			if (entityB.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entityB.Get<NativeScriptComponent>();
+				if (nsc.Instance)
+				{
+					nsc.Instance->OnCollisionBegin(contactForB);
+				}
+			}
+		}
+
+		// OnCollisionEnd logic
+		for (int i = 0; i < events.beginCount; i++)
+		{
+			const b2ContactBeginTouchEvent& beginEvent = events.beginEvents[i];
+
+			Entity entityA = m_Scene->FindEntityByShapeId(beginEvent.shapeIdA);
+			Entity entityB = m_Scene->FindEntityByShapeId(beginEvent.shapeIdB);
+
+			if (!entityA.IsValid() || !entityB.IsValid())
+				continue;
+
+			b2ContactData data = b2Contact_GetData(beginEvent.contactId);
+
+			CollisionContact contactForA;
+			contactForA.otherEntity = entityB;
+			contactForA.isTouching = true;
+
+			if (data.manifold.pointCount > 0)
+			{
+				contactForA.point = glm::vec2(
+					data.manifold.points[0].anchorA.x * m_PhysicsScale,
+					m_ViewportHeight - (data.manifold.points[0].anchorA.y * m_PhysicsScale)
+				);
+				contactForA.normal = glm::vec2(
+					data.manifold.normal.x,
+					-data.manifold.normal.y  // flip Y 
+				);
+				contactForA.normalImpulse = data.manifold.points[0].normalImpulse;
+				contactForA.tangentImpulse = data.manifold.points[0].tangentImpulse;
+			}
+			if (entityA.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entityA.Get<NativeScriptComponent>();
+				if (nsc.Instance)
+				{
+					nsc.Instance->OnCollisionBegin(contactForA);
+				}
+			}
+
+			CollisionContact contactForB;
+			contactForB.otherEntity = entityA;
+			contactForB.isTouching = true;
+
+			if (data.manifold.pointCount > 0)
+			{
+				contactForB.point = glm::vec2(
+					data.manifold.points[0].anchorB.x * m_PhysicsScale,
+					m_ViewportHeight - (data.manifold.points[0].anchorB.y * m_PhysicsScale)
+				);
+				contactForB.normal = glm::vec2(
+					-data.manifold.normal.x,  // Flip for opposite direction
+					data.manifold.normal.y
+				);
+				contactForB.normalImpulse = data.manifold.points[0].normalImpulse;
+				contactForB.tangentImpulse = data.manifold.points[0].tangentImpulse;
+			}
+			if (entityB.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entityB.Get<NativeScriptComponent>();
+				if (nsc.Instance)
+				{
+					nsc.Instance->OnCollisionBegin(contactForB);
+				}
+			}
+		}
+
+		// OnCollisionHit
+		for (int i = 0; i < events.hitCount; i++)
+		{
+			const b2ContactHitEvent& hitEvent = events.hitEvents[i];
+
+			Entity entityA = m_Scene->FindEntityByShapeId(hitEvent.shapeIdA);
+			Entity entityB = m_Scene->FindEntityByShapeId(hitEvent.shapeIdB);
+
+			if (!entityA.IsValid() || !entityB.IsValid())
+				continue;
+
+			CollisionContact contactForA;
+			contactForA.otherEntity = entityB;
+			contactForA.point = glm::vec2(
+				hitEvent.point.x * m_PhysicsScale,
+				m_ViewportHeight - (hitEvent.point.y * m_PhysicsScale)
+			);
+			contactForA.normal = glm::vec2(
+				hitEvent.normal.x,
+				-hitEvent.normal.y
+			);
+			contactForA.approachSpeed = hitEvent.approachSpeed;
+			contactForA.isTouching = true;
+
+			if (entityA.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entityA.Get<NativeScriptComponent>();
+				if (nsc.Instance)
+				{
+					nsc.Instance->OnCollisionHit(contactForA);
+				}
+			}
+
+			CollisionContact contactForB;
+			contactForB.otherEntity = entityA;
+			contactForB.point = contactForA.point;
+			contactForB.normal = glm::vec2(-hitEvent.normal.x, hitEvent.normal.y);
+			contactForB.approachSpeed = hitEvent.approachSpeed;
+			contactForB.isTouching = true;
+
+			if (entityB.Has<NativeScriptComponent>())
+			{
+				auto& nsc = entityB.Get<NativeScriptComponent>();
+				if (nsc.Instance)
+				{
+					nsc.Instance->OnCollisionHit(contactForB);
+				}
 			}
 		}
 	}

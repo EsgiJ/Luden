@@ -148,6 +148,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\NativeScript\NativeScriptRegistry.h" />
     <ClInclude Include="include\NativeScript\ScriptableEntity.h" />
     <ClInclude Include="include\Physics2D\CollisionChannelRegistry.h" />
+    <ClInclude Include="include\Physics2D\CollisionContact.h" />
     <ClInclude Include="include\Physics2D\Physics2DManager.h" />
     <ClInclude Include="include\Project\Project.h" />
     <ClInclude Include="include\Project\ProjectSerializer.h" />

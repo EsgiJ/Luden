@@ -82,8 +82,11 @@ namespace Luden::Utils {
 		{
 			time_t currentTime = time(NULL);
 			std::stringstream timeString;
-			tm* timeBuffer = localtime(&currentTime);
-			timeString << std::put_time(timeBuffer, includeDate ? "%Y:%m:%d:%T" : "%T");
+			std::tm timeBuffer{};
+			localtime_s(&timeBuffer, &currentTime);
+
+			timeString << std::put_time(&timeBuffer, includeDate ? "%Y:%m:%d:%H:%M:%S" : "%H:%M:%S");
+
 			std::string str = timeString.str();
 
 			if (useDashes)

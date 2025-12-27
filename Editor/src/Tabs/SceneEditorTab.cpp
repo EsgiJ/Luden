@@ -191,7 +191,7 @@ namespace Luden
 				);
 
 				sf::Vector2f bottomRight = m_RenderTexture->mapPixelToCoords(
-					sf::Vector2i(m_ViewportSize.x, m_ViewportSize.y),
+					sf::Vector2i(static_cast<int>(m_ViewportSize.x), static_cast<int>(m_ViewportSize.y)),
 					m_SceneState == SceneState::Edit ? m_EditorCamera.GetView() : m_RenderTexture->getView()
 				);
 

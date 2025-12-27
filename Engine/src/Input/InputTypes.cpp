@@ -11,9 +11,9 @@ namespace Luden
 		case EInputValueType::Axis1D:
 			return std::abs(axis1D);
 		case EInputValueType::Axis2D:
-			return axis2D.length();
+			return static_cast<float>(axis2D.length());
 		case EInputValueType::Axis3D:
-			return axis3D.length();
+			return static_cast<float>(axis3D.length());
 		}
 
 		return 0.0f;

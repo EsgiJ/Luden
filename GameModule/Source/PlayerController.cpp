@@ -82,6 +82,18 @@ namespace Luden
         // TODO: Cleanup
     }
 
+	void PlayerController::OnCollisionBegin(const CollisionContact& contact)
+	{
+	}
+
+	void PlayerController::OnCollisionEnd(const CollisionContact& contact)
+	{
+	}
+
+	void PlayerController::OnCollisionHit(const CollisionContact& contact)
+	{
+	}
+
 	void PlayerController::OnJump(const InputValue& value)
 	{
 		Physics2DAPI::AddImpulseToCenter(GetEntity(), glm::vec2(0.0f, JUMP_FORCE));

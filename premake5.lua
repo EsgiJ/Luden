@@ -5,6 +5,8 @@ workspace "LudenEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+disablewarnings { "4251" }
+
 filter "configurations:Debug"
     defines { "LUDEN_CONFIG_DEBUG" }
     symbols "On"

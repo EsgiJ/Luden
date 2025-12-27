@@ -461,6 +461,31 @@ namespace Luden {
 		return {};
 	}
 
+	Entity Scene::FindEntityByShapeId(b2ShapeId shapeId)
+	{
+		for (const auto& entity : m_EntityManager.GetEntities())
+		{
+			if (entity.Has<CircleCollider2DComponent>())
+			{
+				auto& collider = entity.Get<CircleCollider2DComponent>();
+				if (B2_ID_EQUALS(collider.RuntimeShapeId, shapeId))
+				{
+					return entity;
+				}
+			}
+			else if (entity.Has<BoxCollider2DComponent>())
+			{
+				auto& collider = entity.Get<BoxCollider2DComponent>();
+				if (B2_ID_EQUALS(collider.RuntimeShapeId, shapeId))
+				{
+					return entity;
+				}
+			}
+		}
+
+		return {};
+	}
+
 	// Viewport
 	void Scene::SetViewportSize(uint32_t width, uint32_t height) 
 	{

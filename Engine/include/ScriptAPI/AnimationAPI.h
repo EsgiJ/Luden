@@ -24,7 +24,7 @@ namespace Luden
 		ENGINE_API size_t GetCurrentAnimationIndex(Entity entity);
 		ENGINE_API size_t GetCurrentFrame(Entity entity);
 
-		ENGINE_API void SetAnimationSpeed(Entity entity, size_t speed);
+		ENGINE_API void SetAnimationSpeed(Entity entity, float speed);
 
 		ENGINE_API size_t GetAnimationCount(Entity entity);
 

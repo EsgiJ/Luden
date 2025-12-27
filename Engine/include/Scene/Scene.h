@@ -68,6 +68,7 @@ namespace Luden {
 		std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag);
 
 		Entity FindEntityByBodyId(b2BodyId bodyId);
+		Entity FindEntityByShapeId(b2ShapeId shapeId);
 
 		template<typename T>
 		void CopyComponentIfExists(Entity dest, Entity source)

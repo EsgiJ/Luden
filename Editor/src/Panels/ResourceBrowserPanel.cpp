@@ -132,8 +132,6 @@ namespace Luden
 						ImVec2 boxMin(pos.x, pos.y);
 						ImVec2 boxMax(pos.x + m_LayoutItemSize.x, pos.y + m_LayoutItemSize.y);
 
-						ImU32 iconBGColor;
-
 						ImTextureID finalTextureID = 0;
 						std::shared_ptr<Texture> browseEntryTexture;
 

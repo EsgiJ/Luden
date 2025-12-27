@@ -34,6 +34,9 @@ namespace Luden
 		void SetSubStepCount(int subStepCount) { m_SubStepCount = subStepCount; }
 
 	private:
+		void ProcessContactEvents();
+
+	private:
 		Scene* m_Scene;
 
 		uint32_t m_ViewportWidth = 0;

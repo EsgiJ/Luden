@@ -41,7 +41,7 @@ namespace Luden
 		if (!entity.IsValid())
 			return;
 
-		ImGui::PushID(entity.UUID());
+		ImGui::PushID(static_cast<int>(entity.UUID()));
 
 		//Tag
 		{
@@ -841,10 +841,10 @@ namespace Luden
 							}
 
 							ImGuiUtils::PrefixLabel("Speed");
-							int speed = (int)animComp.playbackSpeed;
-							if (ImGui::DragInt("##Speed", &speed, 1, 1, 100))
+							float speed = animComp.playbackSpeed;
+							if (ImGui::DragFloat("##Speed", &speed, 1, 1, 100))
 							{
-								animComp.playbackSpeed = (size_t)std::max(1, speed);
+								animComp.playbackSpeed = std::max(1.f, speed);
 							}
 
 							ImGuiUtils::PrefixLabel("Current Frame");
