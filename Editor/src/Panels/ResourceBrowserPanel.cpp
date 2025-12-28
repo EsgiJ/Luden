@@ -333,7 +333,7 @@ namespace Luden
 
 				if (ImGui::Button("Create"))
 				{
-					NativeScriptGenerator::CreateNewScript(className, "", generatedSource, generatedHeader);
+					NativeScriptGenerator::CreateNewScript(className, "ScriptableEntity", generatedSource, generatedHeader);
 					className[0] = '\0';
 					ImGui::CloseCurrentPopup();
 				}

@@ -98,7 +98,19 @@ namespace Luden
 		out << "    void " << className << "::OnDestroy()\n";
 		out << "    {\n";
 		out << "        // TODO: Cleanup\n";
-		out << "    }\n";
+		out << "    }\n\n";
+		out << "    void " << className << "::OnCollisionBegin(const CollisionContact& contact)\n";
+		out << "    {\n";
+		out << "        // TODO: On contact begin\n";
+		out << "    }\n\n";
+		out << "    void " << className << "::OnCollisionEnd(const CollisionContact& contact)\n";
+		out << "    {\n";
+		out << "        // TODO: On contact end\n";
+		out << "    }\n\n";
+		out << "    void " << className << "::OnCollisionHit(const CollisionContact& contact)\n";
+		out << "    {\n";
+		out << "        // TODO: On hit(high speed)\n";
+		out << "    }\n\n";
 		out << "}\n";
 
 		out.close();

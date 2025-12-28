@@ -300,7 +300,7 @@ namespace Luden
 
 							if (payload->IsDelivery()) 
 							{
-								if (pathExtension == ".lscn")
+								if (pathExtension == ".lscene")
 								{
 									if (m_EditorApplication) 
 									{
@@ -452,7 +452,7 @@ namespace Luden
 		if (!FileSystem::Exists(path))
 			return;
 
-		if (FileSystem::HasExtension(path) && FileSystem::GetExtension(path) != ".lscn")
+		if (FileSystem::HasExtension(path) && FileSystem::GetExtension(path) != ".lscene")
 			return;
 
 		if (m_SceneState != SceneState::Edit)

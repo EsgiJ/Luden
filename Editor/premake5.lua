@@ -9,7 +9,7 @@ project "Editor"
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir)
     
-    dependson { "Engine", "GameModule" }
+    dependson { "Engine"}
     defines { "EDITOR_EXPORTS", "SFML_DYNAMIC" }
 
     disablewarnings { "4251" }
@@ -65,10 +65,6 @@ project "Editor"
             -- Engine DLL
             "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.dll\" \"%{cfg.targetdir}\"",
             "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.pdb\" \"%{cfg.targetdir}\"",
-            
-            -- GameModule DLL (initial copy)
-            "{COPYFILE} \"../GameModule/bin/" .. outputdir .. "/GameModule.dll\" \"%{cfg.targetdir}\"",
-            "{COPYFILE} \"../GameModule/bin/" .. outputdir .. "/GameModule.pdb\" \"%{cfg.targetdir}\""
         }
 
     filter { "system:windows", "configurations:Release" }

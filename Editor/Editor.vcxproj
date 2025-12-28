@@ -81,9 +81,7 @@ copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-window-d-3.dll" "bin\Debug-windo
 copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-system-d-3.dll" "bin\Debug-windows-x86_64"
 copy /B /Y "..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll" "bin\Debug-windows-x86_64"
 copy /B /Y "..\Engine\bin\Debug-windows-x86_64\Engine.dll" "bin\Debug-windows-x86_64"
-copy /B /Y "..\Engine\bin\Debug-windows-x86_64\Engine.pdb" "bin\Debug-windows-x86_64"
-copy /B /Y "..\GameModule\bin\Debug-windows-x86_64\GameModule.dll" "bin\Debug-windows-x86_64"
-copy /B /Y "..\GameModule\bin\Debug-windows-x86_64\GameModule.pdb" "bin\Debug-windows-x86_64"</Command>
+copy /B /Y "..\Engine\bin\Debug-windows-x86_64\Engine.pdb" "bin\Debug-windows-x86_64"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

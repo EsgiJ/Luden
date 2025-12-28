@@ -30,5 +30,4 @@ IncludeDirs["nfd"] = "extern/nativefiledialog-extended/src/include"
 
 -- Include sub-projects
 include "Engine"
-include "GameModule"
 include "Editor"

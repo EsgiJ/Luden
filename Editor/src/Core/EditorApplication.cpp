@@ -20,6 +20,7 @@
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 #include "Tabs/SpriteEditorTab.h"
+#include "Project/ProjectGenerator.h"
 
 
 namespace Luden 
@@ -39,17 +40,6 @@ namespace Luden
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-		// Application Specification
-		ApplicationSpecification spec;
-		spec.Name = "Luden Editor";
-		spec.WindowWidth = 1600;
-		spec.WindowHeight = 900;
-		spec.EnableImGui = false;
-		std::filesystem::path projectPath = std::filesystem::absolute("..\\GameModule\\MyGame.lproject");
-		spec.m_ProjectPath = projectPath;
-
-		LoadProject(spec.m_ProjectPath);
-		
 		EditorResources::Init();
 
 		// Font config
@@ -65,18 +55,6 @@ namespace Luden
 			//TODO: ASSERT Unable to update the font texture
 		}
 		SetupImGuiStyle();
-
-		// Load Native Script Module
-		m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
-		std::filesystem::path modulePath = Config::GetGameModulePath();
-
-		if (m_NativeScriptModuleLoader->LoadModule(modulePath))
-		{
-			auto resourceManager = Project::GetResourceManager();
-			m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
-
-			m_LastModuleWriteTime = FileSystem::GetLastWriteTime(modulePath);
-		}
 	}
 
 	void EditorApplication::Run()
@@ -237,7 +215,6 @@ namespace Luden
 				if (wasPlaying)
 					sceneTab->OnSceneStop();
 
-				//Clear all script instances
 				for (auto& entity : activeScene->GetEntityManager().GetEntities())
 				{
 					if (entity.Has<NativeScriptComponent>())
@@ -297,33 +274,6 @@ namespace Luden
 		RequestOpenResource(relative);
 	}
 
-	void EditorApplication::CreateNewProject(const std::filesystem::path& path, NewProjectType type)
-	{
-		if (!FileSystem::Exists(path)) 
-		{
-			FileSystem::CreateDir(path);
-		}
-
-		std::filesystem::path projectTemplate = EditorResources::ProjectTemplate;
-		switch (type) 
-		{
-		case NewProjectType::EMPTY:	projectTemplate = EditorResources::ProjectTemplate;  break;
-		}
-
-		std::filesystem::copy(projectTemplate, path,
-			std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing);
-
-		LoadProject(path / ".lproject");
-	}
-
-	void EditorApplication::LoadProject(const std::filesystem::path& path)
-	{
-		std::shared_ptr<Project> activeProject = std::make_shared<Project>();
-		ProjectSerializer serializer(activeProject);
-		serializer.Deserialize(path);
-		Project::SetActive(activeProject);
-	}
-
 	void EditorApplication::ExitEditor()
 	{
 		Shutdown();
@@ -350,7 +300,7 @@ namespace Luden
 
 		std::shared_ptr<EditorTab> tab = nullptr;
 
-		if (ext == ".lscn") 
+		if (ext == ".lscene")
 		{
 			tab = std::static_pointer_cast<EditorTab>(std::make_shared<SceneEditorTab>(path));
 			tab->SetEditorContext(this);
@@ -445,6 +395,16 @@ namespace Luden
 
 			if (ImGui::BeginMenu(ICON_FA_FILE " File"))
 			{
+				if (ImGui::MenuItem(ICON_FA_FOLDER_PLUS " New Project"))
+				{
+					m_ShowNewProjectPopup = true;
+				}
+				if (ImGui::MenuItem(ICON_FA_FOLDER_OPEN " Load Project"))
+				{
+					m_ShowLoadProjectPopup = true;
+				}
+				ImGui::Separator();
+
 				if (ImGui::MenuItem(ICON_FA_FILE " New Scene"))
 				{
 					CreateNewScene();
@@ -503,6 +463,9 @@ namespace Luden
 		else {
 			ImGui::PopStyleVar();
 		}
+
+		ShowNewProjectPopup();
+		ShowLoadProjectPopup();
 	}
 
 	void EditorApplication::RenderContent()
@@ -533,11 +496,26 @@ namespace Luden
 
 		m_MainDockspaceInitialized = true;
 
-		std::string scenePath = "C:\\GameProjects\\Luden\\GameModule\\Resources\\Scenes\\Template.lscn";
-		if (FileSystem::Exists(scenePath))
-			RequestOpenResource(scenePath);
-		else
-			std::cerr << "Error";
+		if (Project::GetActiveProject())
+		{
+			std::filesystem::path startScene = Project::GetActiveProject()->GetConfig().StartScene;
+			if (!startScene.empty() && FileSystem::Exists(startScene))
+			{
+				RequestOpenResource(startScene);
+			}
+
+			// Load Native Script Module
+			m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
+			std::filesystem::path modulePath = Config::GetGameModulePath();
+
+			if (m_NativeScriptModuleLoader->LoadModule(modulePath))
+			{
+				auto resourceManager = Project::GetResourceManager();
+				m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
+
+				m_LastModuleWriteTime = FileSystem::GetLastWriteTime(modulePath);
+			}
+		}
 	}
 
 	void EditorApplication::EmptyProject()
@@ -559,14 +537,170 @@ namespace Luden
 		serializer.Serialize(activeProject->GetConfig().ProjectDirectory + "/" + activeProject->GetConfig().ProjectFileName);
 	}
 
-	void EditorApplication::ReloadProject()
+	void EditorApplication::ShowNewProjectPopup()
 	{
+		if (m_ShowNewProjectPopup)
+		{
+			ImGui::OpenPopup("New Project");
+			m_ShowNewProjectPopup = false;
+			m_PopupStatusMessage.clear();
+		}
 
+		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+		ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+		ImGui::SetNextWindowSize(ImVec2(500, 250), ImGuiCond_Appearing);
+
+		if (ImGui::BeginPopupModal("New Project", nullptr, ImGuiWindowFlags_NoResize))
+		{
+			ImGui::Text("Create a new Luden project");
+			ImGui::Separator();
+			ImGui::Spacing();
+
+			ImGui::Text("Project Name:");
+			ImGui::SetNextItemWidth(-1);
+			ImGui::InputText("##ProjectName", m_ProjectNameBuffer, sizeof(m_ProjectNameBuffer));
+
+			ImGui::Spacing();
+
+			ImGui::Text("Project Path:");
+			ImGui::SetNextItemWidth(-120);
+			ImGui::InputText("##ProjectPath", m_ProjectPathBuffer, sizeof(m_ProjectPathBuffer));
+
+			ImGui::SameLine();
+			if (ImGui::Button("Browse...", ImVec2(110, 0)))
+			{
+				std::filesystem::path selectedPath = FileSystem::OpenFolderDialog();
+				if (!selectedPath.empty())
+				{
+					strncpy_s(m_ProjectPathBuffer, selectedPath.string().c_str(), sizeof(m_ProjectPathBuffer));
+				}
+			}
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
+			if (!m_PopupStatusMessage.empty())
+			{
+				ImVec4 color = (m_PopupStatusMessage.find("success") != std::string::npos)
+					? ImVec4(0.0f, 1.0f, 0.0f, 1.0f)
+					: ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+				ImGui::TextColored(color, "%s", m_PopupStatusMessage.c_str());
+				ImGui::Spacing();
+			}
+
+			ImGui::Separator();
+
+			bool canCreate = strlen(m_ProjectNameBuffer) > 0 && strlen(m_ProjectPathBuffer) > 0;
+
+			ImGui::BeginDisabled(!canCreate);
+			if (ImGui::Button("Create", ImVec2(120, 0)))
+			{
+				std::string projectName(m_ProjectNameBuffer);
+				std::filesystem::path projectPath(m_ProjectPathBuffer);
+
+				CreateNewProject(projectName, projectPath);
+
+				ImGui::CloseCurrentPopup();
+
+				memset(m_ProjectNameBuffer, 0, sizeof(m_ProjectNameBuffer));
+				strcpy_s(m_ProjectNameBuffer, "MyGame");
+				memset(m_ProjectPathBuffer, 0, sizeof(m_ProjectPathBuffer));
+			}
+			ImGui::EndDisabled();
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0)))
+			{
+				ImGui::CloseCurrentPopup();
+				m_PopupStatusMessage.clear();
+			}
+
+			ImGui::EndPopup();
+		}
 	}
+
+	void EditorApplication::ShowLoadProjectPopup()
+	{
+		if (m_ShowLoadProjectPopup)
+		{
+			std::filesystem::path projectFile = FileSystem::OpenFileDialog({
+				{"Luden Project", "lproject"}
+				});
+
+			if (!projectFile.empty())
+			{
+				CloseAllTabs();
+				LoadProject(projectFile);
+			}
+
+			m_ShowLoadProjectPopup = false;
+		}
+	}
+
+	void EditorApplication::CreateNewProject(const std::string& projectName, const std::filesystem::path& path)
+	{
+		if (ProjectGenerator::CreateProject(projectName, path))
+		{
+			CloseAllTabs();
+
+			std::filesystem::path projectPath = path / projectName / (projectName + ".lproject");
+			LoadProject(projectPath);
+
+			m_PopupStatusMessage = "Project created successfully!";
+
+			LoadProject(projectPath);
+		}
+		else
+		{
+			m_PopupStatusMessage = "Failed to create project!";
+		}
+	}
+
+	void EditorApplication::LoadProject(const std::filesystem::path& path)
+	{
+		std::shared_ptr<Project> activeProject = std::make_shared<Project>();
+		ProjectSerializer serializer(activeProject);
+
+		if (!serializer.Deserialize(path))
+		{
+			std::cerr << "Failed to load project: " << path << std::endl;
+			return;
+		}
+
+		Project::SetActive(activeProject);
+
+		std::filesystem::path startScene = (activeProject->GetConfig().ProjectDirectory / activeProject->GetConfig().StartScene);
+		
+		if (!startScene.empty() && FileSystem::Exists(startScene))
+		{
+			RequestOpenResource(startScene);
+		}
+	}
+
 	void EditorApplication::CloseProject()
 	{
 		SaveProject();
 	}
+
+	void EditorApplication::CloseAllTabs()
+	{
+		for (const auto& tab : m_EditorTabs)
+		{
+			if (auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(tab))
+			{
+				if (sceneTab->GetSceneState() == SceneEditorTab::SceneState::Play)
+				{
+					sceneTab->OnSceneStop();
+				}
+			}
+		}
+
+		m_EditorTabs.clear();
+		m_FocusedTab = nullptr;
+	}
+
 	void EditorApplication::ReloadTab()
 	{
 		for (auto it = m_EditorTabs.begin(); it != m_EditorTabs.end(); ++it) 

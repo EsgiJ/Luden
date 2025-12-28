@@ -9,7 +9,6 @@ namespace Luden
 	inline static std::unordered_map<std::string, ResourceType> s_ResourceExtensionMap =
 	{
 		// Luden types
-		{".lscn", ResourceType::Scene},
 		{".lscene", ResourceType::Scene},
 		{".lanim", ResourceType::Animation},
 		{".lprefab", ResourceType::Prefab},

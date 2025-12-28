@@ -36,8 +36,6 @@ namespace Luden
 
 		void CreateNewScene();
 		void SaveActiveScene();
-		void CreateNewProject(const std::filesystem::path& path, NewProjectType type);
-		void LoadProject(const std::filesystem::path& path);
 		void ExitEditor();
 
 		void ProcessOpenResourceRequests();
@@ -48,11 +46,17 @@ namespace Luden
 		void RenderContent();
 		void InitializeMainDockspace();
 
+		void CreateNewProject(const std::string& projectName, const std::filesystem::path& path);
 		void EmptyProject();
 		void SaveProject();
-		void ReloadProject();
+		void LoadProject(const std::filesystem::path& path);
 		void CloseProject();
+
+		void ShowNewProjectPopup();
+		void ShowLoadProjectPopup();
+
 		void ReloadTab();
+		void CloseAllTabs();
 
 		bool OnKeyPressed(const sf::Event::KeyPressed& key);
 
@@ -77,5 +81,11 @@ namespace Luden
 
 		std::string m_ProjectPath;
 		std::filesystem::path m_PersistentStoragePath;
+
+		bool m_ShowNewProjectPopup = false;
+		bool m_ShowLoadProjectPopup = false;
+		char m_ProjectNameBuffer[256] = "MyGame";
+		char m_ProjectPathBuffer[512] = "";
+		std::string m_PopupStatusMessage;
 	};
 }

@@ -45,7 +45,7 @@ namespace Luden
 		//Physics2D
 		b2WorldId m_PhysicsWorldId = b2_nullWorldId;
 		float m_PhysicsScale = 100.0f; // 1 meter = 100 pixel
-		b2Vec2 m_Gravity = { 0.0f, -10.0f };
+		b2Vec2 m_Gravity = { 0.0f, -0.0f };
 		int m_SubStepCount = 4;
 	};
 }
