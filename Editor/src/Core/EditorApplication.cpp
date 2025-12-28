@@ -132,6 +132,11 @@ namespace Luden
 		{
 			m_FocusedTab->OnUpdate(timestep);
 		}
+
+		if (Project::GetActiveProject() && m_NativeScriptModuleLoader)
+		{
+			HotReloadNativeScripts();
+		}
 	}
 
 	void EditorApplication::OnEvent(const std::optional<sf::Event>& evt)
@@ -676,6 +681,17 @@ namespace Luden
 		if (!startScene.empty() && FileSystem::Exists(startScene))
 		{
 			RequestOpenResource(startScene);
+		}
+
+		m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
+		std::filesystem::path modulePath = Config::GetGameModulePath();
+
+		if (m_NativeScriptModuleLoader->LoadModule(modulePath))
+		{
+			auto resourceManager = Project::GetResourceManager();
+			m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
+
+			m_LastModuleWriteTime = FileSystem::GetLastWriteTime(modulePath);
 		}
 	}
 
