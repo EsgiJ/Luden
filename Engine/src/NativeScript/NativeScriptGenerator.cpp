@@ -60,6 +60,7 @@ namespace Luden
 
 		return metadata.Handle;
 	}
+
 	void NativeScriptGenerator::GenerateHeaderFile(const std::filesystem::path& path, const std::string& className, const std::string& baseClassName)
 	{
 		std::ofstream out(path);

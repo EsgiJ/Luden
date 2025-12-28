@@ -3,6 +3,8 @@
 #include "Scene/Scene.h"
 #include "Scene/SceneSerializer.h"
 #include "Physics2D/CollisionChannelRegistry.h"
+#include "NativeScript/NativeScriptModuleGenerator.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -36,6 +38,9 @@ namespace Luden
             return false;
 
         if (!CreateResourceRegistry(resourcePath))
+            return false;
+
+        if (NativeScriptModuleGenerator::CreateNewScriptModule(projectName, projectPath))
             return false;
 
         return true;
@@ -122,8 +127,8 @@ project ")" << name << R"("
     }
 
     files {
-        "Source/**.h",
-        "Source/**.cpp"
+        "**.h",
+        "**.cpp"
     }
 
     includedirs {

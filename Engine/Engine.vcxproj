@@ -145,6 +145,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\NativeScript\IScriptModule.h" />
     <ClInclude Include="include\NativeScript\NativeScript.h" />
     <ClInclude Include="include\NativeScript\NativeScriptGenerator.h" />
+    <ClInclude Include="include\NativeScript\NativeScriptModuleGenerator.h" />
     <ClInclude Include="include\NativeScript\NativeScriptModuleLoader.h" />
     <ClInclude Include="include\NativeScript\NativeScriptRegistry.h" />
     <ClInclude Include="include\NativeScript\ScriptableEntity.h" />
@@ -211,6 +212,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Input\InputManager.cpp" />
     <ClCompile Include="src\Input\InputTypes.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptGenerator.cpp" />
+    <ClCompile Include="src\NativeScript\NativeScriptModuleGenerator.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptModuleLoader.cpp" />
     <ClCompile Include="src\NativeScript\NativeScriptRegistry.cpp" />
     <ClCompile Include="src\Physics2D\CollisionChannelRegistry.cpp" />
