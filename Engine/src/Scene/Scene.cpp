@@ -87,7 +87,7 @@ namespace Luden {
 
 	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target, Camera2D& runtimeCamera)
 	{
-		target->clear(sf::Color(255, 192, 122));
+		target->clear(sf::Color(32, 32, 32));
 
 		target->setView(runtimeCamera.GetView());
 
@@ -114,7 +114,7 @@ namespace Luden {
 
 	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target, Camera2D& editorCamera)
 	{
-		target->clear(sf::Color(255, 192, 122));
+		target->clear(sf::Color(32, 32, 32));
 
 		target->setView(editorCamera.GetView());
 

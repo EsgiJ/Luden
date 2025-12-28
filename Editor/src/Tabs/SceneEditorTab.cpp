@@ -205,7 +205,7 @@ namespace Luden
 					ImGui::GetWindowDrawList()->AddLine(
 						ImVec2(p1.x, p1.y),
 						ImVec2(p2.x, p2.y),
-						IM_COL32(0, 0, 0, 100),
+						IM_COL32(255, 255, 255, 100),
 						1.0f
 					);
 				}
@@ -218,7 +218,7 @@ namespace Luden
 					ImGui::GetWindowDrawList()->AddLine(
 						ImVec2(p1.x, p1.y),
 						ImVec2(p2.x, p2.y),
-						IM_COL32(0, 0, 0, 100),
+						IM_COL32(255, 255, 255, 100),
 						1.0f
 					);
 				}
