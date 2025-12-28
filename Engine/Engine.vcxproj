@@ -141,6 +141,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Input\InputManager.h" />
     <ClInclude Include="include\Input\InputMapping.h" />
     <ClInclude Include="include\Input\InputTypes.h" />
+    <ClInclude Include="include\Luden.h" />
     <ClInclude Include="include\NativeScript\IScriptModule.h" />
     <ClInclude Include="include\NativeScript\NativeScript.h" />
     <ClInclude Include="include\NativeScript\NativeScriptGenerator.h" />

@@ -65,7 +65,7 @@ namespace Luden
 		std::ofstream out(path);
 
 		out << "#pragma once\n";
-		out << "#include \"NativeScript/ScriptableEntity.h\"\n\n";
+		out << "#include \"Luden.h\"\n\n";
 		out << "namespace Luden\n{\n";
 		out << "	class " << className << " : public " << baseClassName << "\n";
 		out << "    {\n";
@@ -73,6 +73,9 @@ namespace Luden
 		out << "        virtual void OnCreate() override;\n";
 		out << "        virtual void OnUpdate(TimeStep ts) override;\n";
 		out << "        virtual void OnDestroy() override;\n";
+		out << "        virtual void OnCollisionBegin(const CollisionContact& contact) override;\n";
+		out << "        virtual void OnCollisionEnd(const CollisionContact& contact) override;\n";
+		out << "        virtual void OnCollisionHit(const CollisionContact& contact) override;\n";
 		out << "    };\n";
 		out << "}\n";
 
