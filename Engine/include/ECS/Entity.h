@@ -23,6 +23,9 @@ namespace Luden
 		EntityID UUID() const { return m_UUID; }
 		void SetUUID(EntityID uuid) { m_UUID = uuid; }
 
+		Scene* GetScene() const;
+		void SetScene(Scene* scene);
+
 		void SetTag(const std::string& tag);
 		const std::string& Tag() const;
 

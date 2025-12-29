@@ -122,8 +122,7 @@ namespace Luden
 				int spriteCount = 0;
 				for (const auto& handle : resourceHandles)
 				{
-					auto resource = resourceManager->GetResource(handle);
-					auto sprite = std::static_pointer_cast<Sprite>(resource);
+					auto sprite = ResourceManager::GetResource<Sprite>(handle);
 
 					if (!sprite) continue;
 
@@ -759,8 +758,7 @@ namespace Luden
 		if (FileSystem::Exists(filepath))
 		{
 			ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(m_FilePath);
-			auto animation = Project::GetEditorResourceManager()->GetResource(handle);
-			m_Animation = std::static_pointer_cast<Animation>(animation);
+			m_Animation = ResourceManager::GetResource<Animation>(handle);
 		}
 	}
 

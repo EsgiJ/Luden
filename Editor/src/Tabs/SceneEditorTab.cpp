@@ -314,7 +314,7 @@ namespace Luden
 									{
 										auto newEntity = m_ActiveScene->CreateEntity(path.string());
 										ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
-										auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(handle));
+										auto sprite = ResourceManager::GetResource<Sprite>(handle);
 										auto& spriteRendererComponent = newEntity.Add<SpriteRendererComponent>();
 										spriteRendererComponent.spriteHandle = handle;
 										
@@ -597,7 +597,7 @@ namespace Luden
 
 		auto& transform = entity.Get<TransformComponent>();
 		auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
-		auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(spriteRendererComponent.spriteHandle));
+		auto sprite = ResourceManager::GetResource<Sprite>(spriteRendererComponent.spriteHandle);
 
 		if (!sprite) return;
 

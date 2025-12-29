@@ -113,9 +113,7 @@ namespace Luden {
 			std::cerr << "[RuntimeApplication] Invalid StartScene handle!\n";
 			return;
 		}
-
-		auto resource = m_ResourceManager->GetResource(handle);
-		auto scene = std::dynamic_pointer_cast<Scene>(resource);
+		auto scene = ResourceManager::GetResource<Scene>(handle);
 		if (scene)
 		{
 			ChangeScene(scene->GetName(), scene);

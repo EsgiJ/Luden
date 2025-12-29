@@ -2,6 +2,7 @@
 #include "NativeScript/ScriptableEntity.h"
 #include "NativeScript/NativeScript.h"
 #include "Project/Project.h"
+#include "Resource/ResourceManager.h"
 
 namespace Luden
 {
@@ -17,8 +18,7 @@ namespace Luden
 		if (!Project::GetResourceManager()->IsResourceHandleValid(handle))
 			return;
 
-		auto resource = Project::GetResourceManager()->GetResource(handle);
-		auto script = std::static_pointer_cast<NativeScript>(resource);
+		auto script = ResourceManager::GetResource<NativeScript>(handle);
 
 		if (!script)
 			return;
@@ -33,8 +33,7 @@ namespace Luden
 		if (Instance || ScriptHandle == 0)
 			return;
 
-		auto resource = Project::GetResourceManager()->GetResource(ScriptHandle);
-		auto script = std::static_pointer_cast<NativeScript>(resource);
+		auto script = ResourceManager::GetResource<NativeScript>(ScriptHandle); 
 		if (!script)
 			return;
 
@@ -58,8 +57,7 @@ namespace Luden
 			return;
 		}
 
-		auto resource = Project::GetResourceManager()->GetResource(ScriptHandle);
-		auto script = std::static_pointer_cast<NativeScript>(resource);
+		auto script = ResourceManager::GetResource<NativeScript>(ScriptHandle);
 
 		if (!script)
 		{

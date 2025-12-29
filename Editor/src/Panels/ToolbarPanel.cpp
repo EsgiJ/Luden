@@ -378,7 +378,7 @@ namespace Luden {
 
 			auto& transformComponent = entity.Get<TransformComponent>();
 			auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
-			auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(spriteRendererComponent.spriteHandle));
+			auto sprite = ResourceManager::GetResource<Sprite>(spriteRendererComponent.spriteHandle);
 
 			if (!sprite)
 				continue;

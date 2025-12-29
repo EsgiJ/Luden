@@ -24,7 +24,7 @@ namespace Luden
 
 			ResourceHandle currentHandle = animatorComponent.animationHandles[animatorComponent.currentAnimationIndex];
 
-			auto animationResource = std::static_pointer_cast<Animation>(Project::GetResourceManager()->GetResource(currentHandle));
+			auto animationResource = ResourceManager::GetResource<Animation>(currentHandle);
 
 			if (!animationResource || animationResource->GetFrameCount() == 0)
 				continue;

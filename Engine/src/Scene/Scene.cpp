@@ -145,10 +145,10 @@ namespace Luden {
 		if (spriteComp.spriteHandle == 0)
 			return;
 
-		auto sprite = std::static_pointer_cast<Sprite>(Project::GetResourceManager()->GetResource(spriteComp.spriteHandle));
+		auto sprite = ResourceManager::GetResource<Sprite>(spriteComp.spriteHandle);
 		if (!sprite) return;
 
-		auto texture = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(sprite->GetTextureHandle()));
+		auto texture = ResourceManager::GetResource<Texture>(sprite->GetTextureHandle());
 		if (!texture) return;
 
 		sf::Sprite sfSprite(texture->GetTexture());
@@ -180,11 +180,8 @@ namespace Luden {
 		if (animator.animationHandles.empty()) return;
 		if (animator.currentAnimationIndex >= animator.animationHandles.size()) return;
 
-		auto animation = std::static_pointer_cast<Animation>(
-			Project::GetResourceManager()->GetResource(
-				animator.animationHandles[animator.currentAnimationIndex]
-			)
-		);
+		auto animation = ResourceManager::GetResource<Animation>(animator.animationHandles[animator.currentAnimationIndex]); 
+
 		if (!animation || animation->GetFrameCount() == 0) return;
 
 		if (animator.currentFrame >= animation->GetFrameCount())
@@ -192,14 +189,10 @@ namespace Luden {
 
 		const auto& frame = animation->GetFrame(animator.currentFrame);
 
-		auto sprite = std::static_pointer_cast<Sprite>(
-			Project::GetResourceManager()->GetResource(frame.spriteHandle)
-		);
+		auto sprite = ResourceManager::GetResource<Sprite>(frame.spriteHandle); 
 		if (!sprite) return;
 
-		auto texture = std::static_pointer_cast<Texture>(
-			Project::GetResourceManager()->GetResource(sprite->GetTextureHandle())
-		);
+		auto texture = ResourceManager::GetResource<Texture>(sprite->GetTextureHandle());  
 		if (!texture) return;
 
 		sf::Sprite sfSprite(texture->GetTexture());

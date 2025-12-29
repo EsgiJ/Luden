@@ -3,6 +3,7 @@
 #include "NativeScript/NativeScript.h"
 #include "EngineAPI.h"
 #include "Resource/ResourceManagerBase.h"
+#include "Resource/ResourceManager.h"
 
 #include <iostream>
 
@@ -27,7 +28,7 @@ namespace Luden
 
 			for (auto handle : scriptHandles)
 			{
-				auto existingScript = std::static_pointer_cast<NativeScript>(rm->GetResource(handle));
+				auto existingScript = ResourceManager::GetResource<NativeScript>(handle);
 
 				if (existingScript && existingScript->GetClassName() == className)
 				{

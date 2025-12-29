@@ -566,8 +566,7 @@ namespace Luden
 						std::string currentScriptName = "None";
 						if (nsc.ScriptHandle != 0)
 						{
-							auto resource = resourceManager->GetResource(nsc.ScriptHandle);
-							auto script = std::static_pointer_cast<NativeScript>(resource);
+							auto script = ResourceManager::GetResource<NativeScript>(nsc.ScriptHandle);
 							if (script)
 								currentScriptName = script->GetClassName();
 						}
@@ -588,7 +587,7 @@ namespace Luden
 
 							for (auto handle : scriptHandles)
 							{
-								auto script = std::static_pointer_cast<NativeScript>(resourceManager->GetResource(handle));
+								auto script = ResourceManager::GetResource<NativeScript>(handle);
 
 								if (!script)
 									continue;
@@ -673,10 +672,7 @@ namespace Luden
 						// Script status
 						if (nsc.ScriptHandle != 0)
 						{
-							auto script = std::static_pointer_cast<NativeScript>(
-								resourceManager->GetResource(nsc.ScriptHandle)
-							);
-
+							auto script = ResourceManager::GetResource<NativeScript>(nsc.ScriptHandle);
 							ImGuiUtils::PrefixLabel("Status");
 
 							if (!script->GetInstantiateFunc())
@@ -719,10 +715,7 @@ namespace Luden
 							{
 								ImGui::PushID((int)i);
 
-								auto animRes = std::static_pointer_cast<Animation>(
-									Project::GetEditorResourceManager()->GetResource(animComp.animationHandles[i])
-								);
-
+								auto animRes = ResourceManager::GetResource<Animation>(animComp.animationHandles[i]);
 								std::string label = animRes ? animRes->GetName() : "Unknown";
 								bool isPlaying = (animComp.currentAnimationIndex == i);
 
@@ -804,9 +797,7 @@ namespace Luden
 
 								for (auto handle : animHandles)
 								{
-									auto anim = std::static_pointer_cast<Animation>(
-										Project::GetEditorResourceManager()->GetResource(handle)
-									);
+									auto anim = ResourceManager::GetResource<Animation>(handle);
 
 									if (!anim)
 										continue;
@@ -857,7 +848,7 @@ namespace Luden
 				DisplayComponentInInspector<TextComponent>(ICON_FA_FONT " Font Component", entity, true, [&]()
 					{
 						auto& fontComponent = entity.Get<TextComponent>();
-						auto font = std::static_pointer_cast<Font>(Project::GetEditorResourceManager()->GetResource(fontComponent.fontHandle));
+						auto font = ResourceManager::GetResource<Font>(fontComponent.fontHandle);
 						ImGuiUtils::PrefixLabel("Current");
 						if (ImGuiUtils::ResourceButton(fontComponent.fontHandle, ResourceType::Font))
 						{
@@ -868,7 +859,7 @@ namespace Luden
 				DisplayComponentInInspector<SpriteRendererComponent>(ICON_FA_IMAGE " Sprite Renderer Component", entity, true, [&]()
 					{
 						auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
-						auto sprite = std::static_pointer_cast<Sprite>(Project::GetEditorResourceManager()->GetResource(spriteRendererComponent.spriteHandle));
+						auto sprite = ResourceManager::GetResource<Sprite>(spriteRendererComponent.spriteHandle);
 						ImGuiUtils::PrefixLabel(ICON_FA_FILE_IMAGE " Current");
 						if (ImGuiUtils::ResourceButton(spriteRendererComponent.spriteHandle, ResourceType::Sprite))
 						{

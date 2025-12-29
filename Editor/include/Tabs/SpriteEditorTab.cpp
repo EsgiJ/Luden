@@ -108,8 +108,7 @@ namespace Luden
 		if (FileSystem::Exists(filepath))
 		{
 			ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(filepath);
-			auto sprite = Project::GetEditorResourceManager()->GetResource(handle);
-			m_Sprite = std::static_pointer_cast<Sprite>(sprite);
+			m_Sprite = ResourceManager::GetResource<Sprite>(handle);
 
 			
 			if (m_Sprite->GetTexture() != nullptr)
@@ -152,7 +151,7 @@ namespace Luden
 
 				for (const auto& handle : textureHandles)
 				{
-					auto texture = std::static_pointer_cast<Texture>(resourceManager->GetResource(handle));
+					auto texture = ResourceManager::GetResource<Texture>(handle);
 					if (!texture)
 						continue;
 

@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <utility>
+#include "Resource/ResourceManager.h"
 
 
 namespace Luden
@@ -39,7 +40,7 @@ namespace Luden
 
 	std::shared_ptr<Sprite> Animation::GetSprite(size_t index)
 	{
-		auto sprite = std::static_pointer_cast<Sprite>(Project::GetResourceManager()->GetResource(m_Frames[index].spriteHandle));
+		auto sprite = ResourceManager::GetResource<Sprite>(m_Frames[index].spriteHandle); 
 		return sprite;
 	}
 

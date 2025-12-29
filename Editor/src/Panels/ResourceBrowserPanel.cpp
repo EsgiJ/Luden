@@ -143,7 +143,7 @@ namespace Luden
 						{
 						case ResourceType::Scene: browseEntryTexture = EditorResources::SceneIcon; break;
 						case ResourceType::Prefab: browseEntryTexture = EditorResources::Anim2DIcon; break; // Placeholder için Anim2DIcon
-						case ResourceType::Texture: browseEntryTexture = std::dynamic_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(entry.Handle)); break;
+						case ResourceType::Texture: browseEntryTexture = ResourceManager::GetResource<Texture>(entry.Handle); break;
 						case ResourceType::Audio: browseEntryTexture = EditorResources::AudioIcon; break;
 						case ResourceType::Font: browseEntryTexture = EditorResources::FontIcon; break;
 						case ResourceType::Animation: browseEntryTexture = EditorResources::Anim2DIcon; break;

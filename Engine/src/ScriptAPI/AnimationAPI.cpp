@@ -2,6 +2,7 @@
 #include "ScriptAPI/AnimationAPI.h"
 #include "ECS/Components/Components.h"
 #include "ECS/Entity.h"
+#include "Resource/ResourceManager.h"
 
 
 namespace Luden
@@ -59,7 +60,7 @@ namespace Luden
 			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
 			ResourceHandle handle = animationComponent.animationHandles[animationComponent.currentAnimationIndex];
 
-			auto animationResource = std::static_pointer_cast<Animation>(Project::GetResourceManager()->GetResource(handle));
+			auto animationResource = ResourceManager::GetResource<Animation>(handle);
 			return animationResource.get();
 		}
 

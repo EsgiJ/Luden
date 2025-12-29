@@ -1,6 +1,7 @@
 #include "Graphics/Sprite.h"
 #include "Graphics/Texture.h"
 #include "Project/Project.h"
+#include "Resource/ResourceManager.h"
 
 namespace Luden
 {
@@ -8,7 +9,7 @@ namespace Luden
 	{
 		if (UsesFullTexture())
 		{
-			auto texture = std::static_pointer_cast<Texture>(Project::GetEditorResourceManager()->GetResource(m_TextureHandle));
+			auto texture = ResourceManager::GetResource<Texture>(m_TextureHandle);
 			return texture->GetTexture().getSize();
 		}
 		else
@@ -22,7 +23,7 @@ namespace Luden
 		if (m_TextureHandle == 0)
 			return nullptr;
 
-		auto texture = std::static_pointer_cast<Texture>(Project::GetResourceManager()->GetResource(m_TextureHandle));
+		auto texture = ResourceManager::GetResource<Texture>(m_TextureHandle);
 		return texture;
 	}
 }
