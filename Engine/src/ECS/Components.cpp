@@ -48,16 +48,28 @@ namespace Luden
 
 	void NativeScriptComponent::DestroyInstance()
 	{
-		if (!Instance || ScriptHandle == 0)
+		if (!Instance)
 			return;
+
+		if (ScriptHandle == 0)
+		{
+			delete Instance;
+			Instance = nullptr;
+			return;
+		}
 
 		auto resource = Project::GetResourceManager()->GetResource(ScriptHandle);
 		auto script = std::static_pointer_cast<NativeScript>(resource);
-		if (!script)
-			return;
 
+		if (!script)
+		{
+			delete Instance;
+			Instance = nullptr;
+			return;
+		}
 
 		Instance->OnDestroy();
 		script->GetDestroyFunc()(Instance);
+		Instance = nullptr; 
 	}
 }

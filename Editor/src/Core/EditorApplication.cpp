@@ -196,16 +196,13 @@ namespace Luden
 
 	void EditorApplication::HotReloadNativeScripts()
 	{
-		if (!m_NativeScriptModuleLoader->IsLoaded())
-			return;
-
 		std::filesystem::path modulePath = Config::GetGameModulePath();
 		auto currentWriteTime = FileSystem::GetLastWriteTime(modulePath);
 
 		if (currentWriteTime > m_LastModuleWriteTime)
 		{
-			std::cout << "DLL changed hot reloading..." << std::endl;
-			
+			std::cout << "DLL changed, hot reloading..." << std::endl;
+
 			if (!m_FocusedTab)
 				return;
 
@@ -217,27 +214,44 @@ namespace Luden
 					return;
 
 				bool wasPlaying = sceneTab->GetSceneState() == SceneEditorTab::SceneState::Play;
-				if (wasPlaying)
-					sceneTab->OnSceneStop();
 
-				for (auto& entity : activeScene->GetEntityManager().GetEntities())
+				if (wasPlaying)
 				{
-					if (entity.Has<NativeScriptComponent>())
+					sceneTab->OnSceneStop();
+				}
+				else
+				{
+					for (auto& entity : activeScene->GetEntityManager().GetEntities())
 					{
-						auto& nsc = entity.Get<NativeScriptComponent>();
-						nsc.DestroyInstance();
+						if (entity.Has<NativeScriptComponent>())
+						{
+							auto& nsc = entity.Get<NativeScriptComponent>();
+							if (nsc.Instance != nullptr)
+							{
+								nsc.DestroyInstance();
+							}
+						}
 					}
 				}
 
 				if (m_NativeScriptModuleLoader->ReloadModule())
 				{
-					m_NativeScriptModuleLoader->GetModule()->RegisterScripts(
-						Project::GetResourceManager().get()
-					);
+					if (!m_NativeScriptModuleLoader->GetModule())
+					{
+						std::cerr << "Hot reload failed: Module is null after reload!" << std::endl;
+						return;
+					}
 
+					auto resourceManager = Project::GetResourceManager();
+					if (!resourceManager)
+					{
+						std::cerr << "Hot reload failed: ResourceManager is null!" << std::endl;
+						return;
+					}
+
+					m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
 					m_LastModuleWriteTime = currentWriteTime;
-
-					std::cout << "Hot reload successful!" << std::endl;
+					std::cout << "Hot reload successful!" << std::endl;					
 
 					if (wasPlaying)
 					{
@@ -246,7 +260,7 @@ namespace Luden
 				}
 				else
 				{
-					std::cerr << "Hot reload failed!" << std::endl;
+					std::cerr << "Hot reload failed: Module reload returned false!" << std::endl;
 				}
 			}
 		}

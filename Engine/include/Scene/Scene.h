@@ -111,6 +111,9 @@ namespace Luden {
 
 		bool IsPlaying() { return m_IsPlaying; }
 
+	public:
+		static std::shared_ptr<Scene> CreateEmpty();
+
 	private:
 		EntityManager m_EntityManager;
 

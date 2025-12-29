@@ -29,6 +29,7 @@ namespace Luden
 		IScriptModule* m_Module = nullptr;
 		std::filesystem::path m_ModulePath;
 		std::filesystem::path m_TempDllPath;
+		std::filesystem::path m_TempPdbPath;
 		uint32_t m_LoadCount = 0;
 
 		typedef IScriptModule* (*CreateModuleFunc)();

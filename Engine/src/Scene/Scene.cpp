@@ -560,4 +560,9 @@ namespace Luden {
 		return m_PhysicsManager.GetPhysicsWorldId();
 	}
 
+	std::shared_ptr<Scene> Scene::CreateEmpty()
+	{
+		return std::make_shared<Scene>("Empty");
+	}
+
 }

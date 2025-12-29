@@ -168,6 +168,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClInclude Include="include\Resource\ResourceSerializer.h" />
     <ClInclude Include="include\Resource\ResourceTypes.h" />
     <ClInclude Include="include\Resource\RuntimeResourceManager.h" />
+    <ClInclude Include="include\Scene\Prefab.h" />
     <ClInclude Include="include\Scene\Scene.h" />
     <ClInclude Include="include\Scene\SceneSerializer.h" />
     <ClInclude Include="include\ScriptAPI\AnimationAPI.h" />
@@ -227,6 +228,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
     <ClCompile Include="src\Resource\ResourceRegistry.cpp" />
     <ClCompile Include="src\Resource\ResourceSerializer.cpp" />
     <ClCompile Include="src\Resource\RuntimeResourceManager.cpp" />
+    <ClCompile Include="src\Scene\Prefab.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\ScriptAPI\AnimationAPI.cpp" />

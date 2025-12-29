@@ -1,6 +1,8 @@
 #include "NativeScript/NativeScriptModuleLoader.h"
 #include "IO/FileSystem.h"
 #include <iostream>
+#include "Project/Project.h"
+#include <thread>
 
 namespace Luden
 {
@@ -23,13 +25,31 @@ namespace Luden
 
 	bool NativeScriptModuleLoader::LoadModuleInternal(const std::filesystem::path& path)
 	{
+		auto now = std::chrono::system_clock::now();
+		auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+
 		m_TempDllPath = std::filesystem::temp_directory_path() /
-			("GameModule_" + std::to_string(m_LoadCount++) + ".dll");
+			(Project::GetActiveProject()->GetConfig().Name + "_" + std::to_string(timestamp) + ".dll");
+
+		m_TempPdbPath = m_TempDllPath;
+		m_TempPdbPath.replace_extension(".pdb");
+
+		std::filesystem::path originalPdbPath = path;
+		originalPdbPath.replace_extension(".pdb");
 
 		try
 		{
 			std::filesystem::copy_file(path, m_TempDllPath,
 				std::filesystem::copy_options::overwrite_existing);
+
+			if (std::filesystem::exists(originalPdbPath))
+			{
+				std::filesystem::copy_file(
+					originalPdbPath,
+					m_TempPdbPath,
+					std::filesystem::copy_options::overwrite_existing
+				);
+			}
 		}
 		catch (const std::exception& e)
 		{
@@ -87,11 +107,13 @@ namespace Luden
 			m_ModuleHandle = nullptr;
 		}
 
+		std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
 		if (std::filesystem::exists(m_TempDllPath))
-		{
 			std::filesystem::remove(m_TempDllPath);
-		}
+
+		if (std::filesystem::exists(m_TempPdbPath))
+			std::filesystem::remove(m_TempPdbPath);
 	}
 
 	bool NativeScriptModuleLoader::ReloadModule()
