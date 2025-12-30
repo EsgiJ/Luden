@@ -2,6 +2,7 @@
 
 #include "Panels/EditorPanel.h"
 #include "Scene/Scene.h"
+#include <Core/EditorApplication.h>
 namespace Luden
 {
 	class SceneHierarchyPanel : public EditorPanel
@@ -10,7 +11,7 @@ namespace Luden
 		SceneHierarchyPanel() : EditorPanel("Scene Hierarchy") {}
 		~SceneHierarchyPanel() = default;
 
-		void SetContext(std::shared_ptr<Scene>& scene);
+		void SetContext(EditorApplication* editorApplication, std::shared_ptr<Scene>& scene);
 		bool IsSelectedEntityValid() const;
 
 		Entity GetSelectedEntity() const { return m_SelectedEntity; }
@@ -22,11 +23,14 @@ namespace Luden
 
 	private:
 		void DrawEntityInSceneTree(Entity entity);
-
+		void CreatePrefabFromEntity(Entity entity);
 	private:
+		EditorApplication* m_EditorApplication;
 		std::shared_ptr<Scene> m_Context; 
 		Entity m_SelectedEntity; 
-		
+		Entity m_EntityToConvertToPrefab;
+
+		bool m_ShowCreatePrefabPopup = false;
 		bool m_MouseReleased = false;
 	};
 }

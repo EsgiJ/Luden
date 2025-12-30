@@ -10,10 +10,10 @@
 
 namespace Luden
 {
-	void SceneHierarchyPanel::SetContext(std::shared_ptr<Scene>& scene)
+	void SceneHierarchyPanel::SetContext(EditorApplication* editorApplication, std::shared_ptr<Scene>& scene)
 	{
 		m_Context = scene;
-
+		m_EditorApplication = editorApplication;
 		if (m_Context)
 		{
 			const Luden::EntityVec& entities = m_Context->GetEntityManager().GetEntityVec();
@@ -137,6 +137,15 @@ namespace Luden
 		ImGui::EndTable();
 		ImGui::Dummy(ImVec2(0, 60));
 		ImGui::EndChild();
+
+		if (m_ShowCreatePrefabPopup && m_EntityToConvertToPrefab.IsValid())
+		{
+			ImGui::OpenPopup("Create Prefab");
+			m_ShowCreatePrefabPopup = false;
+		}
+
+		CreatePrefabFromEntity(m_EntityToConvertToPrefab);
+
 		m_MouseReleased = false;
 	}
 
@@ -210,6 +219,11 @@ namespace Luden
 			ImGui::Text("%s %s", ICON_FA_CUBE, entity.Tag().c_str());
 			ImGui::Separator();
 
+			if (ImGui::MenuItem(ICON_FA_COPY " Duplicate"))
+			{
+				Entity duplicate = m_Context->DuplicateEntity(entity);
+				SetSelectedEntity(duplicate);
+			}
 			if (ImGui::MenuItem(ICON_FA_PLUS " Create Child"))
 			{
 				Entity newChild = m_Context->CreateChildEntity(entity, "New Child Entity");
@@ -219,6 +233,60 @@ namespace Luden
 			{
 				m_Context->DestroyEntity(entity);
 				m_SelectedEntity = {};
+			}
+			if (ImGui::MenuItem(ICON_FA_LINK_SLASH " Unparent"))
+			{
+				if (entity.GetParent().IsValid())
+					m_Context->UnparentEntity(entity);
+			}
+			ImGui::Separator();
+
+			if (ImGui::MenuItem(ICON_FA_CUBE " Create Prefab from Entity"))
+			{
+				m_ShowCreatePrefabPopup = true; 
+				m_EntityToConvertToPrefab = entity;
+			}
+
+			if (entity.Has<PrefabComponent>())
+			{
+				ImGui::Separator();
+				ImGui::TextColored(ImVec4(0.5f, 0.7f, 1.0f, 1.0f), "Prefab Operations");
+
+				if (ImGui::MenuItem(ICON_FA_FOLDER_OPEN " Open Prefab"))
+				{
+					auto& prefabComp = entity.Get<PrefabComponent>();
+					if (m_EditorApplication)
+					{
+						auto path = Project::GetEditorResourceManager()->GetFileSystemPath(prefabComp.PrefabID);
+						path = Project::GetEditorResourceManager()->GetRelativePath(path);
+						m_EditorApplication->RequestOpenResource(path);
+					}
+				}
+
+				if (ImGui::MenuItem(ICON_FA_ROTATE " Revert to Prefab"))
+				{
+					auto& prefabComp = entity.Get<PrefabComponent>();
+					auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+
+					if (prefab)
+					{
+						Entity parent = entity.GetParent();
+						glm::vec3 pos = entity.Get<TransformComponent>().Translation;
+
+						m_Context->DestroyEntity(entity);
+
+						Entity newInstance = m_Context->Instantiate(prefab, &pos, nullptr, nullptr);
+						if (parent.IsValid())
+							newInstance.SetParent(parent);
+
+						SetSelectedEntity(newInstance);
+					}
+				}
+
+				if (ImGui::MenuItem(ICON_FA_LINK_SLASH " Break Prefab Link"))
+				{
+					entity.Remove<PrefabComponent>();
+				}
 			}
 			ImGui::EndPopup();
 		}
@@ -237,5 +305,69 @@ namespace Luden
 		}
 
 		ImGui::PopID();
+	}
+
+	void SceneHierarchyPanel::CreatePrefabFromEntity(Entity entity)
+	{
+		if (!entity.IsValid())
+			return;
+
+		static char prefabName[256] = "";
+
+		if (ImGui::BeginPopupModal("Create Prefab", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			if (!entity.IsValid())
+			{
+				ImGui::Text("Error: Invalid entity!");
+				if (ImGui::Button("Close", ImVec2(120, 0)))
+				{
+					prefabName[0] = '\0';
+					m_EntityToConvertToPrefab = {};
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
+				return;
+			}
+
+			ImGui::Text("Create prefab from: %s", entity.Tag().c_str());
+			ImGui::Separator();
+
+			ImGui::InputText("Prefab Name", prefabName, sizeof(prefabName));
+
+			if (ImGui::Button("Create", ImVec2(120, 0)))
+			{
+				if (prefabName[0] != '\0')
+				{
+					std::string filename = std::string(prefabName) + ".lprefab";
+					std::filesystem::path prefabPath = Project::GetActiveResourceDirectory() / filename;
+
+					ResourceHandle prefabHandle = Project::GetEditorResourceManager()->CreateResource(ResourceType::Prefab, prefabPath);
+					auto prefab = ResourceManager::GetResource<Prefab>(prefabHandle);
+					prefab->Create(entity, true);
+
+					if (m_EditorApplication)
+					{
+						m_EditorApplication->RequestOpenResource(prefabPath);
+					}
+
+					std::cout << "Prefab created: " << prefabPath << std::endl;
+
+					prefabName[0] = '\0';
+					m_EntityToConvertToPrefab = {};
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0)))
+			{
+				prefabName[0] = '\0';
+				m_EntityToConvertToPrefab = {};
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
 	}
 }

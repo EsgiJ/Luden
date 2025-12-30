@@ -166,7 +166,7 @@ namespace Luden
 			if (m_Prefab)
 			{
 				m_PrefabScene = m_Prefab->GetScene();
-				m_HierarchyPanel.SetContext(m_PrefabScene);
+				m_HierarchyPanel.SetContext(m_EditorApplication, m_PrefabScene);
 				m_InspectorPanel.SetContext(m_PrefabScene, &m_HierarchyPanel, nullptr);
 			}
 		}
@@ -175,7 +175,7 @@ namespace Luden
 			m_Prefab = std::make_shared<Prefab>();
 			m_PrefabScene = m_Prefab->GetScene();
 
-			m_HierarchyPanel.SetContext(m_PrefabScene);
+			m_HierarchyPanel.SetContext(m_EditorApplication, m_PrefabScene);
 			m_InspectorPanel.SetContext(m_PrefabScene, &m_HierarchyPanel, nullptr);
 		}
 	}

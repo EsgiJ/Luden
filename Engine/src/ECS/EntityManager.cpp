@@ -131,7 +131,6 @@ namespace Luden
 		m_EntitiesToAdd.clear();
 		m_EntityMap.clear();
 		m_TotalEntities = 0;
-		EntityMemoryPool::Instance().Clear();
 	}
 
 	Entity EntityManager::TryGetEntityWithUUID(const UUID& uuid) const

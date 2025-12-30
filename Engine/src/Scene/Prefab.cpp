@@ -9,6 +9,7 @@ namespace Luden {
 	Entity Prefab::CreatePrefabFromEntity(Entity entity)
 	{
 		Entity newEntity = m_Scene->CreateEntity();
+		m_Scene->GetEntityManager().Update(0.0f);
 
 		auto& prefabComponent = newEntity.Add<PrefabComponent>();
 		prefabComponent.PrefabID = Handle;
@@ -49,6 +50,7 @@ namespace Luden {
 	Prefab::Prefab()
 	{
 		m_Scene = Scene::CreateEmpty();
+		m_Scene->GetEntityManager().Update(0.0f);
 	}
 
 	Prefab::~Prefab()
