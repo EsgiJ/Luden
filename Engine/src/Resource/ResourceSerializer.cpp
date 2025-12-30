@@ -9,6 +9,7 @@
 #include "Resource/ResourceManager.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneSerializer.h"
+#include "Scene/Prefab.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -377,31 +378,132 @@ namespace Luden
 	//////////////////////////////////////////////////////////////////////////////////
 	// PrefabSerializer
 	//////////////////////////////////////////////////////////////////////////////////
-/*
+
 	void PrefabSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
+		auto prefab = std::static_pointer_cast<Prefab>(resource);
+
+		auto scene = prefab->GetScene(); 
+
+		if (!scene)
+			return;
+
+		SceneSerializer serializer(scene);
+
+		nlohmann::json j;
+		if (!serializer.SerializeToJSON(j))
+			return;
+
+		j["Name"] = prefab->GetName();
+		j["PrefabHandle"] = static_cast<uint64_t>(prefab->Handle);
+		j["RootEntityUUID"] = static_cast<uint64_t>(prefab->GetRootEntity().UUID()); // Getter eklemen gerekecek
+
+		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
+		if (out.is_open())
+		{
+			out << j.dump(4);
+		}
 	}
 
 	bool PrefabSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+
+		std::ifstream in(path);
+		if (!in.is_open())
+			return false;
+
+		nlohmann::json j;
+		in >> j;
+
+		auto prefab = std::make_shared<Prefab>();
+
+		auto scene = Scene::CreateEmpty();
+		SceneSerializer serializer(scene);
+
+		if (!serializer.DeserializeFromJSON(j))
+			return false;
+
+		if (j.contains("Name"))
+			prefab->SetName(j["Name"].get<std::string>());
+
+		prefab->SetScene(scene); 
+		prefab->Handle = j["PrefabHandle"].get<uint64_t>();
+
+		UUID rootEntityUUID = j["RootEntityUUID"].get<uint64_t>();
+		Entity rootEntity = scene->TryGetEntityWithUUID(rootEntityUUID);
+
+		if (rootEntity.IsValid())
+		{
+			prefab->SetRootEntity(rootEntity);
+		}
+
+		resource = prefab;
+		return true;
 	}
 
 	bool PrefabSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
 	{
+		outInfo.Offset = stream.GetStreamPosition();
+
+		auto prefab = ResourceManager::GetResource<Prefab>(handle);
+		if (!prefab)
+			return false;
+
+		auto scene = prefab->GetScene();
+		if (!scene)
+			return false;
+
+		SceneSerializer serializer(scene);
+
+		nlohmann::json j;
+		if (!serializer.SerializeToJSON(j))
+			return false;
+
+		j["Name"] = prefab->GetName();
+		j["PrefabHandle"] = static_cast<uint64_t>(prefab->Handle);
+		j["RootEntityUUID"] = static_cast<uint64_t>(prefab->GetRootEntity().UUID());
+
+		std::string jsonStr = j.dump();
+		stream.WriteString(jsonStr);
+
+		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
+		return true;
 	}
 
 	std::shared_ptr<Resource> PrefabSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
 	{
+		stream.SetStreamPosition(resourceInfo.PackedOffset);
+
+		std::string jsonStr;
+		stream.ReadString(jsonStr);
+
+		nlohmann::json j = nlohmann::json::parse(jsonStr);
+
+		auto prefab = std::make_shared<Prefab>();
+
+		auto scene = Scene::CreateEmpty();
+		SceneSerializer serializer(scene);
+
+		if (!serializer.DeserializeFromJSON(j))
+			return nullptr;
+
+		if (j.contains("Name"))
+			prefab->SetName(j["Name"].get<std::string>());
+		prefab->SetScene(scene);
+		prefab->Handle = j["PrefabHandle"].get<uint64_t>();
+
+		UUID rootEntityUUID = j["RootEntityUUID"].get<uint64_t>();
+		Entity rootEntity = scene->TryGetEntityWithUUID(rootEntityUUID);
+
+		if (rootEntity.IsValid())
+		{
+			prefab->SetRootEntity(rootEntity);
+		}
+
+		return prefab;
 	}
 
-	std::string PrefabSerializer::SerializeToYAML(std::shared_ptr<Prefab> prefab) const
-	{
-	}
-
-	bool PrefabSerializer::DeserializeFromYAML(const std::string& yamlString, std::shared_ptr<Prefab> prefab) const
-	{
-	}
-*/
 	//////////////////////////////////////////////////////////////////////////////////
 	// SceneResourceSerializer
 	//////////////////////////////////////////////////////////////////////////////////

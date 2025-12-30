@@ -14,7 +14,7 @@ namespace Luden
 		s_Serializers[ResourceType::Animation] = std::make_unique<AnimationResourceSerializer>();
 		s_Serializers[ResourceType::NativeScript] = std::make_unique<NativeScriptResourceSerializer>();
 		s_Serializers[ResourceType::Sprite] = std::make_unique<SpriteSerializer>();
-
+		s_Serializers[ResourceType::Prefab] = std::make_unique<PrefabSerializer>();
 	}
 
 	void ResourceImporter::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource)
@@ -96,6 +96,12 @@ namespace Luden
 			return resource;
 		}
 		case Luden::ResourceType::NativeScript: return std::make_shared<NativeScript>();
+		case Luden::ResourceType::Prefab:
+		{
+			auto resource = std::make_shared<Prefab>();
+			resource->SetName(name);
+			return resource;
+		}
 		default:								return nullptr;
 		}
 	}

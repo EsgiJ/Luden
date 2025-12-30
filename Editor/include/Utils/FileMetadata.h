@@ -28,24 +28,23 @@ namespace Luden
 
 		static const std::unordered_map<ResourceType, FileInfo> FileInfoMap =
 		{
-			{ResourceType::Texture,   {".png",    "[Texture2D]", EditorColors::image}},
-			{ResourceType::Audio,     {".wav",    "[Sound]",     EditorColors::sound}},
-			{ResourceType::Animation, {".anim",   "[Animation]", EditorColors::anim}},
-			{ResourceType::Font,      {".ttf",    "[Font]",      EditorColors::font}},
-			{ResourceType::Scene,     {".escn",   "[Scene]",     EditorColors::green}},
-			// {ResourceType::Prefab, {".prefab", "[Prefab]",    EditorColors::blue}},
-			// {ResourceType::Project,{".enik",   "[Project]",   EditorColors::yellow}},
+			{ResourceType::Texture,		{".png",	"[Texture2D]",	EditorColors::image}},
+			{ResourceType::Audio,		{".wav",    "[Sound]",		EditorColors::sound}},
+			{ResourceType::Animation,	{".lanim",	"[Animation]",	EditorColors::anim}},
+			{ResourceType::Font,		{".ttf",    "[Font]",		EditorColors::font}},
+			{ResourceType::Scene,		{".lscene",	"[Scene]",		EditorColors::green}},
+			{ResourceType::Prefab,		{".lprefab","[Prefab]",		EditorColors::blue}},
 		};
 
 		static const std::unordered_map<std::string, ImVec4> ExtensionColorMap =
 		{
-			{".png",    EditorColors::image},
-			{".wav",    EditorColors::sound},
-			{".anim",   EditorColors::anim},
-			{".ttf",    EditorColors::font},
-			{".prefab", EditorColors::prefab},
-			{".escn",   EditorColors::scene},
-			{".lproject", EditorColors::project}
+			{".png",		EditorColors::image},
+			{".wav",		EditorColors::sound},
+			{".lanim",		EditorColors::anim},
+			{".ttf",		EditorColors::font},
+			{".lprefab",	EditorColors::prefab},
+			{".lscene",		EditorColors::scene},
+			{".lproject",	EditorColors::project}
 		};
 
 		inline std::string GetFileExtension(ResourceType type)

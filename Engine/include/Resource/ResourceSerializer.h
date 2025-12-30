@@ -75,8 +75,8 @@ namespace Luden
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
-/*
-	class PrefabSerializer : public ResourceSerializer
+
+	class ENGINE_API PrefabSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
@@ -84,11 +84,8 @@ namespace Luden
 
 		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
-	private:
-		std::string SerializeToJSON(std::shared_ptr<Prefab> prefab) const;
-		bool DeserializeFromJSON(const std::string& jsonString, std::shared_ptr<Prefab> prefab) const;
 	};
-*/
+
 	class ENGINE_API SceneResourceSerializer : public ResourceSerializer
 	{
 	public:

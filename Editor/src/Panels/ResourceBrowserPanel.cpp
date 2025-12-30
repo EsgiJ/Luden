@@ -403,7 +403,7 @@ namespace Luden
 		if (ImGui::BeginPopupModal("CreateSpriteDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			std::filesystem::path newPath;
-
+			
 			static char spriteName[256] = "";
 			// UI
 			ImGui::InputText("Sprite Name", spriteName, sizeof(spriteName));
@@ -423,6 +423,49 @@ namespace Luden
 					}
 
 					spriteName[0] = '\0';
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel"))
+			{
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button(ICON_FA_CUBE " New Prefab"))
+		{
+			ImGui::OpenPopup("CreatePrefabDialog");
+		}
+
+		if (ImGui::BeginPopupModal("CreatePrefabDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			std::filesystem::path newPath;
+
+			static char prefabName[256] = "";
+			ImGui::InputText("Prefab Name", prefabName, sizeof(prefabName));
+
+			if (prefabName[0] != '\0')
+			{
+				if (ImGui::Button("Create"))
+				{
+					if (m_EditorApplication)
+					{
+						snprintf(prefabName, sizeof(prefabName), "%s.lprefab", prefabName);
+						ImGui::Text("Generated File: %s", prefabName);
+						newPath = m_CurrentDirectory / prefabName;
+
+						Project::GetEditorResourceManager()->CreateResource(ResourceType::Prefab, newPath);
+						m_EditorApplication->RequestOpenResource(newPath);
+					}
+
+					prefabName[0] = '\0';
 					ImGui::CloseCurrentPopup();
 				}
 			}

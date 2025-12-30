@@ -156,6 +156,15 @@ namespace Luden
 				};
 			}
 
+			if (e.Has<PrefabComponent>())
+			{
+				const auto& c = e.Get<PrefabComponent>();
+				jEntity["PrefabComponent"] = {
+					{"PrefabID", static_cast<uint64_t>(c.PrefabID)},
+					{"EntityID", static_cast<uint64_t>(c.EntityID)}
+				};
+			}
+
 			if (e.Has<NativeScriptComponent>())
 			{
 				const auto& c = e.Get<NativeScriptComponent>();
@@ -407,6 +416,15 @@ namespace Luden
 					glm::vec3(scale[0], scale[1], scale[2]),
 					jEntity["TransformComponent"]["angle"]
 				);
+			}
+
+			if (jEntity.contains("PrefabComponent"))
+			{
+				const auto& jPrefab = jEntity["PrefabComponent"];
+
+				auto& c = e.Add<PrefabComponent>();
+				c.PrefabID = jPrefab["PrefabID"].get<uint64_t>();
+				c.EntityID = jPrefab["EntityID"].get<uint64_t>();
 			}
 
 			if (jEntity.contains("NativeScriptComponent"))

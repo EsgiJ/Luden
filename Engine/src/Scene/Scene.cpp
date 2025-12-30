@@ -326,44 +326,196 @@ namespace Luden {
 		return childEntity;
 	}
 
-	Entity Scene::DuplicateEntity(Entity& entity) 
+	Entity Scene::DuplicateEntity(Entity& entity)
 	{
 		auto parentNewEntity = [&entity, scene = this](Entity newEntity)
-		{
-			if (auto parent = entity.GetParent(); parent.IsValid())
 			{
-				newEntity.SetParentUUID(parent.UUID());
-				parent.Children().push_back(newEntity.UUID());
+				if (auto parent = entity.GetParent(); parent.IsValid())
+				{
+					newEntity.SetParentUUID(parent.UUID());
+					parent.Children().push_back(newEntity.UUID());
+				}
+			};
+
+		if (entity.Has<PrefabComponent>())
+		{
+			auto& prefabComp = entity.Get<PrefabComponent>();
+			auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+
+			if (!prefab)
+			{
+				Entity newEntity = CreateEntity(entity.Tag() + "_copy");
+				CopyAllComponents(newEntity, entity, false);
+				parentNewEntity(newEntity);
+				return newEntity;
 			}
-				
-		};
 
-		Entity newEntity = CreateEntity((entity.Tag() + "_copy"));
-		
-		CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
-		CopyComponentIfExists<DamageComponent>(newEntity, entity);
-		CopyComponentIfExists<DraggableComponent>(newEntity, entity);
-		CopyComponentIfExists<FollowPLayerComponent>(newEntity, entity);
-		CopyComponentIfExists<GravityComponent>(newEntity, entity);
-		CopyComponentIfExists<HealthComponent>(newEntity, entity);
-		CopyComponentIfExists<InputComponent>(newEntity, entity);
-		CopyComponentIfExists<Camera2DComponent>(newEntity, entity);
-		CopyComponentIfExists<RigidBody2DComponent>(newEntity, entity);
-		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);      
-		CopyComponentIfExists<CircleCollider2DComponent>(newEntity, entity);   
-		CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
-		CopyComponentIfExists<SpriteAnimatorComponent>(newEntity, entity);
-		CopyComponentIfExists<TextComponent>(newEntity, entity);
-		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
-		CopyComponentIfExists<InvincibilityComponent>(newEntity, entity);
-		CopyComponentIfExists<LifespanComponent>(newEntity, entity);
-		CopyComponentIfExists<PatrolComponent>(newEntity, entity);
-		CopyComponentIfExists<StateComponent>(newEntity, entity);
-		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+			const auto& entityTransform = entity.Get<TransformComponent>();
+			glm::vec3 rotation(entityTransform.angle, 0.0f, 0.0f);
+			Entity prefabInstance = Instantiate(prefab, &entityTransform.Translation, &rotation, &entityTransform.Scale);
+			parentNewEntity(prefabInstance);
+			return prefabInstance;
+		}
 
-		parentNewEntity(entity);
+		Entity newEntity = CreateEntity(entity.Tag() + "_copy");
+
+		CopyAllComponents(newEntity, entity, false);
+
+		auto childIds = entity.Children();
+		for (auto childId : childIds)
+		{
+			Entity childEntity = GetEntityWithUUID(childId);
+			Entity childDuplicate = DuplicateEntity(childEntity);
+
+			UnparentEntity(childDuplicate);
+
+			childDuplicate.SetParentUUID(newEntity.UUID());
+			newEntity.Children().push_back(childDuplicate.UUID());
+		}
+
+		parentNewEntity(newEntity);
+		return newEntity;
+	}
+
+	Entity Scene::CreatePrefabEntity(Entity entity, Entity parent, const glm::vec3* translation,
+		const glm::vec3* rotation, const glm::vec3* scale)
+	{
+		if (entity.Has<PrefabComponent>())
+		{
+			auto& prefabComp = entity.Get<PrefabComponent>();
+			auto nestedPrefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+
+			if (nestedPrefab)
+			{
+				return Instantiate(nestedPrefab, translation, rotation, scale);
+			}
+			return {};
+		}
+
+		Entity newEntity = CreateEntity(entity.Tag());
+		if (parent.IsValid())
+			newEntity.SetParent(parent);
+
+		if (entity.Has<TransformComponent>())
+		{
+			auto& srcTransform = entity.Get<TransformComponent>();
+			auto& newTransform = newEntity.Add<TransformComponent>(srcTransform);
+
+			if (translation)
+				newTransform.Translation = *translation;
+			if (rotation)
+				newTransform.angle = rotation->x; 
+			if (scale)
+				newTransform.Scale = *scale;
+		}
+
+		CopyAllComponents(newEntity, entity, true);
+
+		for (auto childId : entity.Children())
+		{
+			Entity childEntity = entity.GetScene()->GetEntityWithUUID(childId);
+			CreatePrefabEntity(childEntity, newEntity, nullptr, nullptr, nullptr);
+		}
+
+		if (m_IsPlaying)
+		{
+			if (newEntity.Has<NativeScriptComponent>())
+			{
+				auto& nsc = newEntity.Get<NativeScriptComponent>();
+				nsc.CreateInstance(newEntity);
+			}
+		}
 
 		return newEntity;
+	}
+
+	Entity Scene::Instantiate(std::shared_ptr<Prefab> prefab, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale)
+	{
+		if (!prefab || !prefab->GetScene())
+			return {};
+
+		Entity result;
+
+		for (auto& entity : prefab->GetScene()->GetEntityManager().GetEntities())
+		{
+			if (!entity.Has<RelationshipComponent>())
+				continue;
+
+			if (!entity.GetParent().IsValid())
+			{
+				result = CreatePrefabEntity(entity, {}, translation, rotation, scale);
+
+				if (result.IsValid() && !result.Has<PrefabComponent>())
+				{
+					auto& prefabComp = result.Add<PrefabComponent>();
+					prefabComp.PrefabID = prefab->Handle;
+					prefabComp.EntityID = result.UUID();
+				}
+
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	Entity Scene::InstantiateChild(std::shared_ptr<Prefab> prefab, Entity parent, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale)
+	{
+		if (!prefab || !prefab->GetScene() || !parent.IsValid())
+			return {};
+
+		Entity result;
+
+		for (auto& entity : prefab->GetScene()->GetEntityManager().GetEntities())
+		{
+			if (!entity.Has<RelationshipComponent>())
+				continue;
+
+			if (!entity.GetParent().IsValid())
+			{
+				result = CreatePrefabEntity(entity, parent, translation, rotation, scale);
+
+				if (result.IsValid() && !result.Has<PrefabComponent>())
+				{
+					auto& prefabComp = result.Add<PrefabComponent>();
+					prefabComp.PrefabID = prefab->Handle;
+					prefabComp.EntityID = result.UUID();
+				}
+
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	void Scene::CopyAllComponents(Entity dest, Entity source, bool skipTransformAndRelationship)
+	{
+		if (!skipTransformAndRelationship)
+		{
+			CopyComponentIfExists<TransformComponent>(dest, source);
+			CopyComponentIfExists<RelationshipComponent>(dest, source);
+		}
+
+		CopyComponentIfExists<PrefabComponent>(dest, source);
+		CopyComponentIfExists<DamageComponent>(dest, source);
+		CopyComponentIfExists<DraggableComponent>(dest, source);
+		CopyComponentIfExists<FollowPLayerComponent>(dest, source);
+		CopyComponentIfExists<GravityComponent>(dest, source);
+		CopyComponentIfExists<HealthComponent>(dest, source);
+		CopyComponentIfExists<InputComponent>(dest, source);
+		CopyComponentIfExists<Camera2DComponent>(dest, source);
+		CopyComponentIfExists<RigidBody2DComponent>(dest, source);
+		CopyComponentIfExists<BoxCollider2DComponent>(dest, source);
+		CopyComponentIfExists<CircleCollider2DComponent>(dest, source);
+		CopyComponentIfExists<NativeScriptComponent>(dest, source);
+		CopyComponentIfExists<SpriteAnimatorComponent>(dest, source);
+		CopyComponentIfExists<TextComponent>(dest, source);
+		CopyComponentIfExists<SpriteRendererComponent>(dest, source);
+		CopyComponentIfExists<InvincibilityComponent>(dest, source);
+		CopyComponentIfExists<LifespanComponent>(dest, source);
+		CopyComponentIfExists<PatrolComponent>(dest, source);
+		CopyComponentIfExists<StateComponent>(dest, source);
 	}
 
 	void Scene::DestroyEntity(const Entity& entity) 
@@ -518,34 +670,29 @@ namespace Luden {
 		};
 	}
 
-	std::unordered_set<ResourceHandle> Scene::GetResourceList() 
+	std::unordered_set<ResourceHandle> Scene::GetResourceList()
 	{
-		std::unordered_set<ResourceHandle> resourceList;
+		std::unordered_set<ResourceHandle> resources;
 
-		//Animation
-		for (const auto& animation : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Animation))
+		for (auto entity : GetEntityManager().GetEntities())
 		{
-			resourceList.insert(animation);
+			if (entity.Has<SpriteRendererComponent>())
+				resources.insert(entity.Get<SpriteRendererComponent>().spriteHandle);
+
+			if (entity.Has<TextComponent>())
+				resources.insert(entity.Get<TextComponent>().fontHandle);
+
+			if (entity.Has<SpriteAnimatorComponent>())
+			{
+				for (auto handle : entity.Get<SpriteAnimatorComponent>().animationHandles)
+					resources.insert(handle);
+			}
+
+			if (entity.Has<NativeScriptComponent>())
+				resources.insert(entity.Get<NativeScriptComponent>().ScriptHandle);
 		}
 
-		//Font 
-		for (const auto& font : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Font))
-		{
-			resourceList.insert(font);
-		}
-
-		//Audio
-		for (const auto& audio : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Audio))
-		{
-			resourceList.insert(audio);
-		}
-
-		//Texture
-		for (const auto& texture : Project::GetResourceManager()->GetAllResourcesWithType(ResourceType::Texture))
-		{
-			resourceList.insert(texture);
-		}
-		return resourceList;
+		return resources;
 	}
 
 	b2WorldId Scene::GetPhysicsWorldId()

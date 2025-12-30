@@ -10,8 +10,9 @@ namespace Luden {
 	{
 		Entity newEntity = m_Scene->CreateEntity();
 
-		// Add PrefabComponent
-		//newEntity.AddComponent<PrefabComponent>(Handle, newEntity.UUID());
+		auto& prefabComponent = newEntity.Add<PrefabComponent>();
+		prefabComponent.PrefabID = Handle;
+		prefabComponent.EntityID = newEntity.UUID();
 
 		entity.GetScene()->CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
 		entity.GetScene()->CopyComponentIfExists<DamageComponent>(newEntity, entity);
@@ -61,10 +62,10 @@ namespace Luden {
 
 		if (serialize)
 		{
-			//ResourceImporter::Serialize(this);
-
+			ResourceImporter::Serialize(shared_from_this());
 		}
 	}
+
 	std::unordered_set<ResourceHandle> Prefab::GetResourceList(bool recursive)
 	{
 		std::unordered_set<ResourceHandle> prefabResourceList = m_Scene->GetResourceList();

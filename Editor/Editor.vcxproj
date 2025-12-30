@@ -126,6 +126,7 @@ copy /B /Y "..\Engine\bin\Debug-windows-x86_64\Engine.pdb" "bin\Debug-windows-x8
     <ClInclude Include="include\Panels\ToolbarPanel.h" />
     <ClInclude Include="include\Tabs\Animation2DEditorTab.h" />
     <ClInclude Include="include\Tabs\EditorTab.h" />
+    <ClInclude Include="include\Tabs\PrefabEditorTab.h" />
     <ClInclude Include="include\Tabs\SceneEditorTab.h" />
     <ClInclude Include="include\Tabs\SpriteEditorTab.h" />
     <ClInclude Include="include\Utils\EditorColors.h" />
@@ -157,6 +158,7 @@ copy /B /Y "..\Engine\bin\Debug-windows-x86_64\Engine.pdb" "bin\Debug-windows-x8
     <ClCompile Include="src\Panels\ToolbarPanel.cpp" />
     <ClCompile Include="src\Tabs\Animation2DEditorTab.cpp" />
     <ClCompile Include="src\Tabs\EditorTab.cpp" />
+    <ClCompile Include="src\Tabs\PrefabEditorTab.cpp" />
     <ClCompile Include="src\Tabs\SceneEditorTab.cpp" />
   </ItemGroup>
   <ItemGroup>

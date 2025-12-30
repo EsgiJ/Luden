@@ -152,6 +152,12 @@ namespace Luden
 	class ScriptableEntity;
 	class Entity;
 
+	struct ENGINE_API PrefabComponent : public IComponent
+	{
+		UUID PrefabID = 0;
+		UUID EntityID = 0;
+	};
+
 	struct ENGINE_API NativeScriptComponent : public IComponent
 	{
 		ScriptableEntity* Instance = nullptr;

@@ -86,6 +86,7 @@ namespace Luden
 				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component");
 				DisplayComponentInPopup<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component");
 				DisplayComponentInPopup<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component");
+				DisplayComponentInPopup<PrefabComponent>(ICON_FA_CUBE " Prefab Component");
 				DisplayComponentInPopup<NativeScriptComponent>(ICON_FA_CODE " Native Script Component");
 				DisplayComponentInPopup<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component");
 				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Font Component");
@@ -387,176 +388,318 @@ namespace Luden
 						}
 					});
 
-					DisplayComponentInInspector<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component", entity, true, [&]()
+				DisplayComponentInInspector<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component", entity, true, [&]()
+					{
+						auto& circle = entity.Get<CircleCollider2DComponent>();
+						auto& registry = CollisionChannelRegistry::Instance();
+						const auto& allChannels = registry.GetAllChannels();
+
+						ImGuiUtils::PrefixLabel("Offset");
+						ImGuiUtils::DragFloat2Colored("##Offset", &circle.Offset.x, 0.1f);
+
+						ImGuiUtils::PrefixLabel("Radius");
+						ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
+
+						ImGuiUtils::PrefixLabel("Density");
+						ImGui::DragFloat("##Density", &circle.Density, 0.1f, 0.0f, 10.0f);
+
+						ImGuiUtils::PrefixLabel("Friction");
+						ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
+
+						ImGui::Separator();
+						ImGui::Text("Collision Filtering");
+						ImGui::Separator();
+
+						// Category Bits
+						ImGuiUtils::PrefixLabel("Category");
+						if (ImGui::BeginCombo("##CategoryBits", "Select..."))
 						{
-							auto& circle = entity.Get<CircleCollider2DComponent>();
-							auto& registry = CollisionChannelRegistry::Instance();
-							const auto& allChannels = registry.GetAllChannels();
-
-							ImGuiUtils::PrefixLabel("Offset");
-							ImGuiUtils::DragFloat2Colored("##Offset", &circle.Offset.x, 0.1f);
-
-							ImGuiUtils::PrefixLabel("Radius");
-							ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
-
-							ImGuiUtils::PrefixLabel("Density");
-							ImGui::DragFloat("##Density", &circle.Density, 0.1f, 0.0f, 10.0f);
-
-							ImGuiUtils::PrefixLabel("Friction");
-							ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
-
-							ImGui::Separator();
-							ImGui::Text("Collision Filtering");
-							ImGui::Separator();
-
-							// Category Bits
-							ImGuiUtils::PrefixLabel("Category");
-							if (ImGui::BeginCombo("##CategoryBits", "Select..."))
+							for (const auto& channel : allChannels)
 							{
+								bool isSelected = (circle.CategoryBits & channel.Bit) != 0;
+
+								if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+								{
+									if (isSelected)
+										circle.CategoryBits |= channel.Bit;
+									else
+										circle.CategoryBits &= ~channel.Bit;
+								}
+							}
+							ImGui::EndCombo();
+						}
+
+						// Show selected
+						{
+							ImGui::Indent();
+							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+							if (circle.CategoryBits == 0)
+							{
+								ImGui::TextWrapped("(No categories selected)");
+							}
+							else
+							{
+								std::string selectedText = "";
 								for (const auto& channel : allChannels)
 								{
-									bool isSelected = (circle.CategoryBits & channel.Bit) != 0;
-
-									if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+									if (circle.CategoryBits & channel.Bit)
 									{
-										if (isSelected)
-											circle.CategoryBits |= channel.Bit;
-										else
-											circle.CategoryBits &= ~channel.Bit;
+										if (!selectedText.empty())
+											selectedText += ", ";
+										selectedText += channel.Name;
 									}
 								}
-								ImGui::EndCombo();
+								ImGui::TextWrapped("%s", selectedText.c_str());
 							}
 
-							// Show selected
+							ImGui::PopStyleColor();
+							ImGui::Unindent();
+						}
+
+						// Mask Bits
+						ImGuiUtils::PrefixLabel("Mask");
+						if (ImGui::BeginCombo("##MaskBits", "Select..."))
+						{
+							for (const auto& channel : allChannels)
 							{
-								ImGui::Indent();
-								ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+								bool isSelected = (circle.MaskBits & channel.Bit) != 0;
 
-								if (circle.CategoryBits == 0)
+								if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
 								{
-									ImGui::TextWrapped("(No categories selected)");
+									if (isSelected)
+										circle.MaskBits |= channel.Bit;
+									else
+										circle.MaskBits &= ~channel.Bit;
 								}
-								else
-								{
-									std::string selectedText = "";
-									for (const auto& channel : allChannels)
-									{
-										if (circle.CategoryBits & channel.Bit)
-										{
-											if (!selectedText.empty())
-												selectedText += ", ";
-											selectedText += channel.Name;
-										}
-									}
-									ImGui::TextWrapped("%s", selectedText.c_str());
-								}
-
-								ImGui::PopStyleColor();
-								ImGui::Unindent();
 							}
+							ImGui::EndCombo();
+						}
 
-							// Mask Bits
-							ImGuiUtils::PrefixLabel("Mask");
-							if (ImGui::BeginCombo("##MaskBits", "Select..."))
+						// Show selected
+						{
+							ImGui::Indent();
+							ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+
+							if (circle.MaskBits == 0)
 							{
+								ImGui::TextWrapped("(Collides with nothing)");
+							}
+							else
+							{
+								std::string selectedText = "";
 								for (const auto& channel : allChannels)
 								{
-									bool isSelected = (circle.MaskBits & channel.Bit) != 0;
-
-									if (ImGui::Checkbox(channel.Name.c_str(), &isSelected))
+									if (circle.MaskBits & channel.Bit)
 									{
-										if (isSelected)
-											circle.MaskBits |= channel.Bit;
-										else
-											circle.MaskBits &= ~channel.Bit;
+										if (!selectedText.empty())
+											selectedText += ", ";
+										selectedText += channel.Name;
 									}
 								}
-								ImGui::EndCombo();
+								ImGui::TextWrapped("%s", selectedText.c_str());
 							}
 
-							// Show selected
-							{
-								ImGui::Indent();
-								ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+							ImGui::PopStyleColor();
+							ImGui::Unindent();
+						}
 
-								if (circle.MaskBits == 0)
+						// Group Index
+						ImGuiUtils::PrefixLabel("Group Index");
+						int groupIndex = static_cast<int>(circle.GroupIndex);
+						if (ImGui::DragInt("##GroupIndex", &groupIndex, 1, -32768, 32767))
+						{
+							circle.GroupIndex = static_cast<uint16_t>(groupIndex);
+						}
+
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::SetTooltip(
+								"Group collision rules:\n"
+								" > 0: Always collide with same group\n"
+								" < 0: Never collide with same group\n"
+								" = 0: Use category/mask filtering"
+							);
+						}
+
+						// Quick Presets
+						if (ImGui::TreeNode("Quick Presets"))
+						{
+							if (ImGui::Button("Collide With All", ImVec2(-1, 0)))
+							{
+								circle.MaskBits = 0xFFFF;
+							}
+
+							if (ImGui::Button("Collide With None", ImVec2(-1, 0)))
+							{
+								circle.MaskBits = 0;
+							}
+
+							if (ImGui::Button("Reset to Default", ImVec2(-1, 0)))
+							{
+								circle.CategoryBits = registry.GetChannelBit("Default");
+								circle.MaskBits = 0xFFFF;
+								circle.GroupIndex = 0;
+							}
+
+							ImGui::TreePop();
+						}
+
+						// Debug Info
+						if (ImGui::TreeNode("Debug Info"))
+						{
+							ImGui::Text("Category Bits: 0x%04X (%d)", circle.CategoryBits, circle.CategoryBits);
+							ImGui::Text("Mask Bits: 0x%04X (%d)", circle.MaskBits, circle.MaskBits);
+							ImGui::Text("Group Index: %d", (int16_t)circle.GroupIndex);
+							ImGui::TreePop();
+						}
+				});
+
+				DisplayComponentInInspector<PrefabComponent>(ICON_FA_CUBE " Prefab Component", entity, true, [&]()
+					{
+						auto& prefabComp = entity.Get<PrefabComponent>();
+						auto resourceManager = Project::GetResourceManager();
+
+						ImGuiUtils::PrefixLabel("Prefab");
+
+						// Current prefab name
+						std::string currentPrefabName = "None";
+						if (prefabComp.PrefabID != 0)
+						{
+							auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+							if (prefab)
+							{
+								const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(prefabComp.PrefabID);
+								currentPrefabName = metadata.FilePath.filename().string();
+							}
+						}
+
+						if (ImGui::BeginCombo("##PrefabSelector", currentPrefabName.c_str()))
+						{
+							// None option
+							if (ImGui::Selectable("None", prefabComp.PrefabID == 0))
+							{
+								prefabComp.PrefabID = 0;
+							}
+
+							// Get all Prefab resources
+							auto prefabHandles = resourceManager->GetAllResourcesWithType(ResourceType::Prefab);
+
+							for (auto handle : prefabHandles)
+							{
+								auto prefab = ResourceManager::GetResource<Prefab>(handle);
+								if (!prefab)
+									continue;
+
+								const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
+								std::string displayName = metadata.FilePath.filename().string();
+
+								bool isSelected = (prefabComp.PrefabID == handle);
+
+								if (ImGui::Selectable(displayName.c_str(), isSelected))
 								{
-									ImGui::TextWrapped("(Collides with nothing)");
+									prefabComp.PrefabID = handle;
 								}
-								else
+							}
+
+							ImGui::EndCombo();
+						}
+
+						ImGui::SameLine();
+
+						// Open prefab editor button
+						if (prefabComp.PrefabID != 0)
+						{
+							if (ImGui::Button(ICON_FA_FOLDER_OPEN))
+							{
+								if (m_EditorApplication)
 								{
-									std::string selectedText = "";
-									for (const auto& channel : allChannels)
+									auto path = Project::GetEditorResourceManager()->GetFileSystemPath(prefabComp.PrefabID);
+									path = Project::GetEditorResourceManager()->GetRelativePath(path);
+									m_EditorApplication->RequestOpenResource(path);
+								}
+							}
+							if (ImGui::IsItemHovered())
+							{
+								ImGui::SetTooltip("Open Prefab Editor");
+							}
+						}
+
+						ImGui::Separator();
+
+						// Info
+						ImGuiUtils::PrefixLabel("Entity ID");
+						ImGui::Text("%llu", prefabComp.EntityID);
+
+						ImGuiUtils::PrefixLabel("Prefab Handle");
+						ImGui::Text("%llu", prefabComp.PrefabID);
+
+						ImGui::Separator();
+
+						// Actions
+						if (ImGui::Button(ICON_FA_LINK_SLASH " Break Prefab Link", ImVec2(-1, 0)))
+						{
+							entity.Remove<PrefabComponent>();
+						}
+
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::SetTooltip("Remove prefab connection and make this a regular entity");
+						}
+
+						if (prefabComp.PrefabID != 0)
+						{
+							if (ImGui::Button(ICON_FA_ROTATE " Revert to Prefab", ImVec2(-1, 0)))
+							{
+								// TODO: Implement revert 
+								ImGui::OpenPopup("RevertConfirmation");
+							}
+
+							if (ImGui::BeginPopupModal("RevertConfirmation", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+							{
+								ImGui::Text("This will revert all changes to match the prefab.");
+								ImGui::Text("Are you sure?");
+								ImGui::Separator();
+
+								if (ImGui::Button("Yes, Revert", ImVec2(120, 0)))
+								{
+									auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+									if (prefab)
 									{
-										if (circle.MaskBits & channel.Bit)
+										auto scene = entity.GetScene();
+										Entity parent = entity.GetParent();
+										glm::vec3 pos = entity.Get<TransformComponent>().Translation;
+
+										scene->DestroyEntity(entity);
+
+										Entity newInstance = scene->Instantiate(prefab, &pos, nullptr, nullptr);
+										if (parent.IsValid())
 										{
-											if (!selectedText.empty())
-												selectedText += ", ";
-											selectedText += channel.Name;
+											newInstance.SetParent(parent);
 										}
 									}
-									ImGui::TextWrapped("%s", selectedText.c_str());
+									ImGui::CloseCurrentPopup();
 								}
 
-								ImGui::PopStyleColor();
-								ImGui::Unindent();
-							}
+								ImGui::SameLine();
 
-							// Group Index
-							ImGuiUtils::PrefixLabel("Group Index");
-							int groupIndex = static_cast<int>(circle.GroupIndex);
-							if (ImGui::DragInt("##GroupIndex", &groupIndex, 1, -32768, 32767))
-							{
-								circle.GroupIndex = static_cast<uint16_t>(groupIndex);
+								if (ImGui::Button("Cancel", ImVec2(120, 0)))
+								{
+									ImGui::CloseCurrentPopup();
+								}
+
+								ImGui::EndPopup();
 							}
 
 							if (ImGui::IsItemHovered())
 							{
-								ImGui::SetTooltip(
-									"Group collision rules:\n"
-									" > 0: Always collide with same group\n"
-									" < 0: Never collide with same group\n"
-									" = 0: Use category/mask filtering"
-								);
+								ImGui::SetTooltip("Discard changes and reload from prefab");
 							}
+						}
+				});
 
-							// Quick Presets
-							if (ImGui::TreeNode("Quick Presets"))
-							{
-								if (ImGui::Button("Collide With All", ImVec2(-1, 0)))
-								{
-									circle.MaskBits = 0xFFFF;
-								}
-
-								if (ImGui::Button("Collide With None", ImVec2(-1, 0)))
-								{
-									circle.MaskBits = 0;
-								}
-
-								if (ImGui::Button("Reset to Default", ImVec2(-1, 0)))
-								{
-									circle.CategoryBits = registry.GetChannelBit("Default");
-									circle.MaskBits = 0xFFFF;
-									circle.GroupIndex = 0;
-								}
-
-								ImGui::TreePop();
-							}
-
-							// Debug Info
-							if (ImGui::TreeNode("Debug Info"))
-							{
-								ImGui::Text("Category Bits: 0x%04X (%d)", circle.CategoryBits, circle.CategoryBits);
-								ImGui::Text("Mask Bits: 0x%04X (%d)", circle.MaskBits, circle.MaskBits);
-								ImGui::Text("Group Index: %d", (int16_t)circle.GroupIndex);
-								ImGui::TreePop();
-							}
-						});
-
-				DisplayComponentInInspector<NativeScriptComponent>(
-					ICON_FA_CODE " Native Script", entity, true, [&]()
-					{
+				DisplayComponentInInspector<NativeScriptComponent>( ICON_FA_CODE " Native Script", entity, true, [&]()
+				{
 						auto& nsc = entity.Get<NativeScriptComponent>();
 						auto resourceManager = Project::GetResourceManager();
 
@@ -702,148 +845,148 @@ namespace Luden
 								ImGui::TreePop();
 							}
 						}
-					});
+				});
 
-					DisplayComponentInInspector<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
+				DisplayComponentInInspector<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component", entity, true, [&]()
+				{
+						auto& animComp = entity.Get<SpriteAnimatorComponent>();
+
+						ImGui::Text("Animations:");
+						ImGui::Separator();
+
+						for (size_t i = 0; i < animComp.animationHandles.size(); i++)
 						{
-							auto& animComp = entity.Get<SpriteAnimatorComponent>();
+							ImGui::PushID((int)i);
 
-							ImGui::Text("Animations:");
-							ImGui::Separator();
+							auto animRes = ResourceManager::GetResource<Animation>(animComp.animationHandles[i]);
+							std::string label = animRes ? animRes->GetName() : "Unknown";
+							bool isPlaying = (animComp.currentAnimationIndex == i);
 
-							for (size_t i = 0; i < animComp.animationHandles.size(); i++)
+							if (isPlaying)
+								ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.6f, 0.2f, 1.0f));
+
+							if (ImGui::Button((label + "##" + std::to_string(i)).c_str(), ImVec2(150, 0)))
 							{
-								ImGui::PushID((int)i);
-
-								auto animRes = ResourceManager::GetResource<Animation>(animComp.animationHandles[i]);
-								std::string label = animRes ? animRes->GetName() : "Unknown";
-								bool isPlaying = (animComp.currentAnimationIndex == i);
-
-								if (isPlaying)
-									ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.6f, 0.2f, 1.0f));
-
-								if (ImGui::Button((label + "##" + std::to_string(i)).c_str(), ImVec2(150, 0)))
+								if (m_EditorApplication)
 								{
-									if (m_EditorApplication)
-									{
-										auto path = Project::GetEditorResourceManager()->GetFileSystemPath(animComp.animationHandles[i]);
-										path = Project::GetEditorResourceManager()->GetRelativePath(path);
-										m_EditorApplication->RequestOpenResource(path);
-									}
+									auto path = Project::GetEditorResourceManager()->GetFileSystemPath(animComp.animationHandles[i]);
+									path = Project::GetEditorResourceManager()->GetRelativePath(path);
+									m_EditorApplication->RequestOpenResource(path);
 								}
+							}
 
-								if (isPlaying)
-									ImGui::PopStyleColor();
+							if (isPlaying)
+								ImGui::PopStyleColor();
 
-								ImGui::SameLine();
+							ImGui::SameLine();
 
-								if (ImGui::Button((std::string(ICON_FA_PLAY) + "##Play" + std::to_string(i)).c_str()))
-								{
-									animComp.currentAnimationIndex = i;
-									animComp.currentFrame = 0;
-									animComp.frameTimer = 0;
-								}
+							if (ImGui::Button((std::string(ICON_FA_PLAY) + "##Play" + std::to_string(i)).c_str()))
+							{
+								animComp.currentAnimationIndex = i;
+								animComp.currentFrame = 0;
+								animComp.frameTimer = 0;
+							}
 
-								ImGui::SameLine();
+							ImGui::SameLine();
 
-								if (ImGui::Button((std::string(ICON_FA_TRASH) + "##Del" + std::to_string(i)).c_str()))
-								{
-									animComp.animationHandles.erase(animComp.animationHandles.begin() + i);
-									if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
-										animComp.currentAnimationIndex = 0;
-									ImGui::PopID();
-									break;
-								}
-
-								if (animRes)
-								{
-									ImGui::SameLine();
-									ImGui::TextDisabled("(%d frames)", (int)animRes->GetFrameCount());
-								}
-
+							if (ImGui::Button((std::string(ICON_FA_TRASH) + "##Del" + std::to_string(i)).c_str()))
+							{
+								animComp.animationHandles.erase(animComp.animationHandles.begin() + i);
+								if (animComp.currentAnimationIndex >= animComp.animationHandles.size())
+									animComp.currentAnimationIndex = 0;
 								ImGui::PopID();
+								break;
 							}
 
+							if (animRes)
+							{
+								ImGui::SameLine();
+								ImGui::TextDisabled("(%d frames)", (int)animRes->GetFrameCount());
+							}
+
+							ImGui::PopID();
+						}
+
+						ImGui::Separator();
+
+						if (ImGui::Button(ICON_FA_PLUS " Add Animation", ImVec2(-1, 0)))
+						{
+							ImGui::OpenPopup("SelectAnimationPopup");
+						}
+
+						if (ImGui::BeginPopup("SelectAnimationPopup"))
+						{
+							ImGui::Text("Select Animation:");
 							ImGui::Separator();
 
-							if (ImGui::Button(ICON_FA_PLUS " Add Animation", ImVec2(-1, 0)))
+							if (ImGui::BeginDragDropTarget())
 							{
-								ImGui::OpenPopup("SelectAnimationPopup");
-							}
-
-							if (ImGui::BeginPopup("SelectAnimationPopup"))
-							{
-								ImGui::Text("Select Animation:");
-								ImGui::Separator();
-
-								if (ImGui::BeginDragDropTarget())
+								if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
 								{
-									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
+									std::filesystem::path path = std::filesystem::path(static_cast<const char*>(payload->Data));
+
+									if (FileSystem::GetExtension(path) == ".lanim")
 									{
-										std::filesystem::path path = std::filesystem::path(static_cast<const char*>(payload->Data));
-
-										if (FileSystem::GetExtension(path) == ".lanim")
-										{
-											ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
-											animComp.animationHandles.push_back(handle);
-											ImGui::CloseCurrentPopup();
-										}
-									}
-									ImGui::EndDragDropTarget();
-									ImGui::EndPopup();
-								}
-
-								auto animHandles = Project::GetEditorResourceManager()->GetAllResourcesWithType(ResourceType::Animation);
-
-								for (auto handle : animHandles)
-								{
-									auto anim = ResourceManager::GetResource<Animation>(handle);
-
-									if (!anim)
-										continue;
-
-									std::string animName = anim->GetName() + "##";
-									if (ImGui::Selectable(animName.c_str()))
-									{
+										ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(path);
 										animComp.animationHandles.push_back(handle);
 										ImGui::CloseCurrentPopup();
 									}
 								}
-
+								ImGui::EndDragDropTarget();
 								ImGui::EndPopup();
 							}
 
-							ImGui::Separator();
+							auto animHandles = Project::GetEditorResourceManager()->GetAllResourcesWithType(ResourceType::Animation);
 
-							ImGuiUtils::PrefixLabel("Current Animation");
-							if (animComp.animationHandles.empty())
+							for (auto handle : animHandles)
 							{
-								ImGui::TextDisabled("No animations");
-							}
-							else
-							{
-								int currentIdx = (int)animComp.currentAnimationIndex;
-								if (ImGui::DragInt("##CurrentAnim", &currentIdx, 1, 0, (int)animComp.animationHandles.size() - 1))
+								auto anim = ResourceManager::GetResource<Animation>(handle);
+
+								if (!anim)
+									continue;
+
+								std::string animName = anim->GetName() + "##";
+								if (ImGui::Selectable(animName.c_str()))
 								{
-									animComp.currentAnimationIndex = (size_t)currentIdx;
-									animComp.currentFrame = 0;
-									animComp.frameTimer = 0;
+									animComp.animationHandles.push_back(handle);
+									ImGui::CloseCurrentPopup();
 								}
 							}
 
-							ImGuiUtils::PrefixLabel("Speed");
-							float speed = animComp.playbackSpeed;
-							if (ImGui::DragFloat("##Speed", &speed, 1, 1, 100))
-							{
-								animComp.playbackSpeed = std::max(1.f, speed);
-							}
+							ImGui::EndPopup();
+						}
 
-							ImGuiUtils::PrefixLabel("Current Frame");
-							ImGui::BeginDisabled();
-							int frame = (int)animComp.currentFrame;
-							ImGui::DragInt("##Frame", &frame);
-							ImGui::EndDisabled();
-						});
+						ImGui::Separator();
+
+						ImGuiUtils::PrefixLabel("Current Animation");
+						if (animComp.animationHandles.empty())
+						{
+							ImGui::TextDisabled("No animations");
+						}
+						else
+						{
+							int currentIdx = (int)animComp.currentAnimationIndex;
+							if (ImGui::DragInt("##CurrentAnim", &currentIdx, 1, 0, (int)animComp.animationHandles.size() - 1))
+							{
+								animComp.currentAnimationIndex = (size_t)currentIdx;
+								animComp.currentFrame = 0;
+								animComp.frameTimer = 0;
+							}
+						}
+
+						ImGuiUtils::PrefixLabel("Speed");
+						float speed = animComp.playbackSpeed;
+						if (ImGui::DragFloat("##Speed", &speed, 1, 1, 100))
+						{
+							animComp.playbackSpeed = std::max(1.f, speed);
+						}
+
+						ImGuiUtils::PrefixLabel("Current Frame");
+						ImGui::BeginDisabled();
+						int frame = (int)animComp.currentFrame;
+						ImGui::DragInt("##Frame", &frame);
+						ImGui::EndDisabled();
+				});
 
 				DisplayComponentInInspector<TextComponent>(ICON_FA_FONT " Font Component", entity, true, [&]()
 					{

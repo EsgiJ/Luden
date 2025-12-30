@@ -21,9 +21,12 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 
 #include <box2d/box2d.h>
+#include "Prefab.h"
 
 namespace Luden {
 ;
+	class Prefab;
+
 	class ENGINE_API Scene : public Resource {
 	public:
 		Scene(const std::string& name = "Untitled");
@@ -79,6 +82,12 @@ namespace Luden {
 				dest.Add<T>(component);
 			}
 		}
+
+		//Prefab
+		Entity CreatePrefabEntity(Entity entity, Entity parent, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale);
+		Entity Instantiate(std::shared_ptr<Prefab> prefab, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale);
+		Entity InstantiateChild(std::shared_ptr<Prefab> prefab, Entity parent, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale);
+		void CopyAllComponents(Entity dest, Entity source, bool skipTransformAndRelationship);
 
 		EntityManager& GetEntityManager() { return m_EntityManager; }
 		const EntityManager& GetEntityManager() const { return m_EntityManager; }

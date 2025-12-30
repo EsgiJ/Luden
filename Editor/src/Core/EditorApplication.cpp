@@ -11,6 +11,9 @@
 #include "NativeScript/NativeScriptModuleLoader.h"
 #include "Core/Config.h"
 #include <Tabs/Animation2DEditorTab.h>
+#include "Tabs/SpriteEditorTab.h"
+#include "Tabs/PrefabEditorTab.h"
+#include "Project/ProjectGenerator.h"
 
 #include <filesystem>
 #include <iostream>
@@ -19,9 +22,6 @@
 #include <imgui.h>
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
-#include "Tabs/SpriteEditorTab.h"
-#include "Project/ProjectGenerator.h"
-
 
 namespace Luden 
 {
@@ -331,6 +331,10 @@ namespace Luden
 		else if (ext == ".lsprite")
 		{
 			tab = std::static_pointer_cast<EditorTab>(std::make_shared<SpriteEditorTab>(path));
+		}
+		else if (ext == ".lprefab")
+		{
+			tab = std::static_pointer_cast<EditorTab>(std::make_shared<PrefabEditorTab>(path));
 		}
 
 		if (tab) 
