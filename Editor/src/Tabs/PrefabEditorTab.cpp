@@ -24,7 +24,7 @@ namespace Luden
 		m_EditorCamera.SetZoomEnabled(true);
 		m_EditorCamera.SetMinZoom(0.2f);
 		m_EditorCamera.SetMaxZoom(5.0f);
-		m_EditorCamera.SetPosition({ m_ViewportSize.x * 0.5f, m_ViewportSize.y * 0.5f });
+		m_EditorCamera.SetPosition({ 0, 0 });
 		m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
 	}
 
