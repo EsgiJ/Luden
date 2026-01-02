@@ -31,6 +31,5 @@ namespace Luden
 		Entity m_EntityToConvertToPrefab;
 
 		bool m_ShowCreatePrefabPopup = false;
-		bool m_MouseReleased = false;
-	};
+		bool m_MouseReleased = false;	};
 }

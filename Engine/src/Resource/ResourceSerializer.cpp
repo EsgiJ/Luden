@@ -396,7 +396,7 @@ namespace Luden
 
 		j["Name"] = prefab->GetName();
 		j["PrefabHandle"] = static_cast<uint64_t>(prefab->Handle);
-		j["RootEntityUUID"] = static_cast<uint64_t>(prefab->GetRootEntity().UUID()); // Getter eklemen gerekecek
+		j["RootEntityUUID"] = static_cast<uint64_t>(prefab->GetRootEntity().UUID());
 
 		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
 		if (out.is_open())
@@ -438,6 +438,7 @@ namespace Luden
 			prefab->SetRootEntity(rootEntity);
 		}
 
+		prefab->GetScene()->GetEntityManager().Update(0.0f);
 		resource = prefab;
 		return true;
 	}
@@ -500,6 +501,7 @@ namespace Luden
 		{
 			prefab->SetRootEntity(rootEntity);
 		}
+		prefab->GetScene()->GetEntityManager().Update(0.0f);
 
 		return prefab;
 	}

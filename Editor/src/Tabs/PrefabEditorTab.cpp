@@ -103,6 +103,19 @@ namespace Luden
 		}
 
 		ImGui::SameLine();
+
+		if (ImGui::Button(ICON_FA_PLUS " Add Entity"))
+		{
+			ImGui::OpenPopup("AddEntityToPrefab");
+		}
+
+		if (ImGui::BeginPopup("AddEntityToPrefab"))
+		{
+			RenderAddEntityMenu();
+			ImGui::EndPopup();
+		}
+
+		ImGui::SameLine();
 		ImGui::TextDisabled("|");
 		ImGui::SameLine();
 
@@ -185,5 +198,53 @@ namespace Luden
 		sf::Vector2f sfWorldPos(worldPos.x, worldPos.y);
 		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos, m_EditorCamera.GetView());
 		return { m_ViewportBounds[0].x + pixelPos.x, m_ViewportBounds[0].y + pixelPos.y };
+	}
+
+	void PrefabEditorTab::RenderAddEntityMenu()
+	{
+		if (ImGui::MenuItem("Empty Entity"))
+		{
+			auto newEntity = m_PrefabScene->CreateEntity("New Entity");
+			m_HierarchyPanel.SetSelectedEntity(newEntity);
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::BeginMenu(ICON_FA_CUBE " Add Prefab as Entity"))
+		{
+			auto resourceManager = Project::GetResourceManager();
+			auto prefabHandles = resourceManager->GetAllResourcesWithType(ResourceType::Prefab);
+
+			if (prefabHandles.empty())
+			{
+				ImGui::TextDisabled("No other prefabs available");
+			}
+			else
+			{
+				for (auto handle : prefabHandles)
+				{
+					if (handle == m_Prefab->Handle)
+						continue;
+
+					auto prefab = ResourceManager::GetResource<Prefab>(handle);
+					if (!prefab)
+						continue;
+
+					const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
+					std::string displayName = metadata.FilePath.filename().string();
+
+					if (ImGui::MenuItem(displayName.c_str()))
+					{
+						glm::vec3 pos(0, 0, 0);
+						Entity instance = m_PrefabScene->Instantiate(prefab, &pos, &pos, &pos);
+						m_HierarchyPanel.SetSelectedEntity(instance);
+
+						m_IsDirty = true;
+					}
+				}
+			}
+
+			ImGui::EndMenu();
+		}
 	}
 }

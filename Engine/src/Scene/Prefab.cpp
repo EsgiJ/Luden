@@ -66,6 +66,7 @@ namespace Luden {
 		{
 			ResourceImporter::Serialize(shared_from_this());
 		}
+		m_Scene->GetEntityManager().Update(0.0f);
 	}
 
 	std::unordered_set<ResourceHandle> Prefab::GetResourceList(bool recursive)

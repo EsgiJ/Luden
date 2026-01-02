@@ -29,6 +29,7 @@ namespace Luden
 	private:
 		void RenderViewport();
 		void RenderToolbar();
+		void RenderAddEntityMenu();
 		glm::vec2 WorldToScreen(const glm::vec3& worldPos);
 
 	private:

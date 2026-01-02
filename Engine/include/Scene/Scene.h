@@ -103,6 +103,7 @@ namespace Luden {
 		float Height() const;
 
 		// Utils
+		sf::Transform GetWorldTransform(Entity entity);
 		void DrawLine(const glm::vec2& p1, const glm::vec2& p2);
 		std::unordered_set<ResourceHandle> GetResourceList();
 

@@ -556,146 +556,155 @@ namespace Luden
 				});
 
 				DisplayComponentInInspector<PrefabComponent>(ICON_FA_CUBE " Prefab Component", entity, true, [&]()
+				{
+					auto& prefabComp = entity.Get<PrefabComponent>();
+					auto resourceManager = Project::GetResourceManager();
+
+					ImGuiUtils::PrefixLabel("Prefab");
+
+					std::string currentPrefabName = "None";
+					if (prefabComp.PrefabID != 0)
 					{
-						auto& prefabComp = entity.Get<PrefabComponent>();
-						auto resourceManager = Project::GetResourceManager();
-
-						ImGuiUtils::PrefixLabel("Prefab");
-
-						// Current prefab name
-						std::string currentPrefabName = "None";
-						if (prefabComp.PrefabID != 0)
+						auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+						if (prefab)
 						{
-							auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
-							if (prefab)
+							const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(prefabComp.PrefabID);
+							currentPrefabName = metadata.FilePath.filename().string();
+						}
+					}
+
+					if (ImGui::BeginCombo("##PrefabSelector", currentPrefabName.c_str()))
+					{
+						if (ImGui::Selectable("None", prefabComp.PrefabID == 0))
+						{
+							prefabComp.PrefabID = 0;
+						}
+
+						auto prefabHandles = resourceManager->GetAllResourcesWithType(ResourceType::Prefab);
+
+						for (auto handle : prefabHandles)
+						{
+							auto prefab = ResourceManager::GetResource<Prefab>(handle);
+							if (!prefab)
+								continue;
+
+							const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
+							std::string displayName = metadata.FilePath.filename().string();
+
+							bool isSelected = (prefabComp.PrefabID == handle);
+
+							if (ImGui::Selectable(displayName.c_str(), isSelected))
 							{
-								const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(prefabComp.PrefabID);
-								currentPrefabName = metadata.FilePath.filename().string();
+								prefabComp.PrefabID = handle;
 							}
 						}
 
-						if (ImGui::BeginCombo("##PrefabSelector", currentPrefabName.c_str()))
+						ImGui::EndCombo();
+					}
+
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
 						{
-							// None option
-							if (ImGui::Selectable("None", prefabComp.PrefabID == 0))
+							std::filesystem::path draggedPath = std::filesystem::path(static_cast<const char*>(payload->Data));
+
+							if (FileSystem::GetExtension(draggedPath) == ".lprefab")
 							{
-								prefabComp.PrefabID = 0;
-							}
-
-							// Get all Prefab resources
-							auto prefabHandles = resourceManager->GetAllResourcesWithType(ResourceType::Prefab);
-
-							for (auto handle : prefabHandles)
-							{
-								auto prefab = ResourceManager::GetResource<Prefab>(handle);
-								if (!prefab)
-									continue;
-
-								const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
-								std::string displayName = metadata.FilePath.filename().string();
-
-								bool isSelected = (prefabComp.PrefabID == handle);
-
-								if (ImGui::Selectable(displayName.c_str(), isSelected))
-								{
-									prefabComp.PrefabID = handle;
-								}
-							}
-
-							ImGui::EndCombo();
-						}
-
-						ImGui::SameLine();
-
-						// Open prefab editor button
-						if (prefabComp.PrefabID != 0)
-						{
-							if (ImGui::Button(ICON_FA_FOLDER_OPEN))
-							{
-								if (m_EditorApplication)
-								{
-									auto path = Project::GetEditorResourceManager()->GetFileSystemPath(prefabComp.PrefabID);
-									path = Project::GetEditorResourceManager()->GetRelativePath(path);
-									m_EditorApplication->RequestOpenResource(path);
-								}
-							}
-							if (ImGui::IsItemHovered())
-							{
-								ImGui::SetTooltip("Open Prefab Editor");
+								ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(draggedPath);
+								prefabComp.PrefabID = handle;
 							}
 						}
+						ImGui::EndDragDropTarget();
+					}
 
-						ImGui::Separator();
+					ImGui::SameLine();
 
-						// Info
-						ImGuiUtils::PrefixLabel("Entity ID");
-						ImGui::Text("%llu", prefabComp.EntityID);
-
-						ImGuiUtils::PrefixLabel("Prefab Handle");
-						ImGui::Text("%llu", prefabComp.PrefabID);
-
-						ImGui::Separator();
-
-						// Actions
-						if (ImGui::Button(ICON_FA_LINK_SLASH " Break Prefab Link", ImVec2(-1, 0)))
+					if (prefabComp.PrefabID != 0)
+					{
+						if (ImGui::Button(ICON_FA_FOLDER_OPEN))
 						{
-							entity.Remove<PrefabComponent>();
+							if (m_EditorApplication)
+							{
+								auto path = Project::GetEditorResourceManager()->GetFileSystemPath(prefabComp.PrefabID);
+								path = Project::GetEditorResourceManager()->GetRelativePath(path);
+								m_EditorApplication->RequestOpenResource(path);
+							}
 						}
-
 						if (ImGui::IsItemHovered())
 						{
-							ImGui::SetTooltip("Remove prefab connection and make this a regular entity");
+							ImGui::SetTooltip("Open Prefab Editor");
 						}
+					}
 
-						if (prefabComp.PrefabID != 0)
+					ImGui::Separator();
+
+					ImGuiUtils::PrefixLabel("Entity ID");
+					ImGui::Text("%llu", prefabComp.EntityID);
+
+					ImGuiUtils::PrefixLabel("Prefab Handle");
+					ImGui::Text("%llu", prefabComp.PrefabID);
+
+					ImGui::Separator();
+
+					if (ImGui::Button(ICON_FA_LINK_SLASH " Break Prefab Link", ImVec2(-1, 0)))
+					{
+						entity.Remove<PrefabComponent>();
+					}
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::SetTooltip("Remove prefab connection and make this a regular entity");
+					}
+
+					if (prefabComp.PrefabID != 0)
+					{
+						if (ImGui::Button(ICON_FA_ROTATE " Revert to Prefab", ImVec2(-1, 0)))
 						{
-							if (ImGui::Button(ICON_FA_ROTATE " Revert to Prefab", ImVec2(-1, 0)))
-							{
-								// TODO: Implement revert 
-								ImGui::OpenPopup("RevertConfirmation");
-							}
-
-							if (ImGui::BeginPopupModal("RevertConfirmation", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-							{
-								ImGui::Text("This will revert all changes to match the prefab.");
-								ImGui::Text("Are you sure?");
-								ImGui::Separator();
-
-								if (ImGui::Button("Yes, Revert", ImVec2(120, 0)))
-								{
-									auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
-									if (prefab)
-									{
-										auto scene = entity.GetScene();
-										Entity parent = entity.GetParent();
-										glm::vec3 pos = entity.Get<TransformComponent>().Translation;
-
-										scene->DestroyEntity(entity);
-
-										Entity newInstance = scene->Instantiate(prefab, &pos, nullptr, nullptr);
-										if (parent.IsValid())
-										{
-											newInstance.SetParent(parent);
-										}
-									}
-									ImGui::CloseCurrentPopup();
-								}
-
-								ImGui::SameLine();
-
-								if (ImGui::Button("Cancel", ImVec2(120, 0)))
-								{
-									ImGui::CloseCurrentPopup();
-								}
-
-								ImGui::EndPopup();
-							}
-
-							if (ImGui::IsItemHovered())
-							{
-								ImGui::SetTooltip("Discard changes and reload from prefab");
-							}
+							ImGui::OpenPopup("RevertConfirmation");
 						}
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::SetTooltip("Discard all changes and reload from prefab");
+						}
+
+						if (ImGui::BeginPopupModal("RevertConfirmation", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+						{
+							ImGui::TextColored(ImVec4(1.0f, 0.6f, 0.0f, 1.0f), ICON_FA_TRIANGLE_EXCLAMATION " Warning");
+							ImGui::Text("This will revert all changes to match the prefab.");
+							ImGui::Text("Are you sure?");
+							ImGui::Separator();
+
+							if (ImGui::Button("Yes, Revert", ImVec2(120, 0)))
+							{
+								auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+								if (prefab)
+								{
+									auto scene = entity.GetScene();
+									Entity parent = entity.GetParent();
+									glm::vec3 pos = entity.Get<TransformComponent>().Translation;
+									glm::vec3 rot(entity.Get<TransformComponent>().angle, 0.0f, 0.0f);
+									glm::vec3 scale = entity.Get<TransformComponent>().Scale;
+
+									scene->DestroyEntity(entity);
+
+									Entity newInstance = scene->Instantiate(prefab, &pos, &rot, &scale);
+									if (parent.IsValid())
+										newInstance.SetParent(parent);
+
+									m_SceneHierarchyPanel->SetSelectedEntity(newInstance);
+								}
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::SameLine();
+
+							if (ImGui::Button("Cancel", ImVec2(120, 0)))
+							{
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::EndPopup();
+						}
+					}
 				});
 
 				DisplayComponentInInspector<NativeScriptComponent>( ICON_FA_CODE " Native Script", entity, true, [&]()
@@ -1006,7 +1015,26 @@ namespace Luden
 						ImGuiUtils::PrefixLabel(ICON_FA_FILE_IMAGE " Current");
 						if (ImGuiUtils::ResourceButton(spriteRendererComponent.spriteHandle, ResourceType::Sprite))
 						{
-							//TODO: Font Editor Panel
+							//TODO: 
+						}
+
+						ImGuiUtils::PrefixLabel(ICON_FA_PALETTE " Tint");
+
+						ImVec4 color = {
+							spriteRendererComponent.tint.r / 255.0f,
+							spriteRendererComponent.tint.g / 255.0f,
+							spriteRendererComponent.tint.b / 255.0f,
+							spriteRendererComponent.tint.a / 255.0f
+						};
+
+						if (ImGui::ColorEdit4("##SpriteTint", &color.x))
+						{
+							spriteRendererComponent.tint = sf::Color(
+								static_cast<uint8_t>(color.x * 255.0f),
+								static_cast<uint8_t>(color.y * 255.0f),
+								static_cast<uint8_t>(color.z * 255.0f),
+								static_cast<uint8_t>(color.w * 255.0f)
+							);
 						}
 					});
 

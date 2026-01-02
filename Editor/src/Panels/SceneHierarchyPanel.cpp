@@ -86,14 +86,9 @@ namespace Luden
 		{
 			ImGui::SameLine();
 
-			if (ImGui::Button(ICON_FA_PLUS " Add Entity"))
+			if(ImGui::Button(ICON_FA_PLUS " Add Entity"))
 			{
 				ImGui::OpenPopup("AddEntity");
-			}
-
-			if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))
-			{
-				ImGui::SetTooltip("Add Entity");
 			}
 
 			if (ImGui::BeginPopup("AddEntity"))
@@ -103,7 +98,78 @@ namespace Luden
 					auto newEntity = m_Context->CreateEntity("Empty Entity");
 					m_SelectedEntity = newEntity;
 				}
+
+				ImGui::Separator();
+
+				if (ImGui::BeginMenu(ICON_FA_CUBE " Instantiate Prefab"))
+				{
+					auto resourceManager = Project::GetResourceManager();
+					auto prefabHandles = resourceManager->GetAllResourcesWithType(ResourceType::Prefab);
+
+					if (prefabHandles.empty())
+					{
+						ImGui::TextDisabled("No prefabs available");
+					}
+					else
+					{
+						for (auto handle : prefabHandles)
+						{
+							auto prefab = ResourceManager::GetResource<Prefab>(handle);
+							if (!prefab)
+								continue;
+
+							const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
+							std::string displayName = metadata.FilePath.filename().string();
+
+							if (ImGui::MenuItem(displayName.c_str()))
+							{
+								glm::vec3 pos(0, 0, 0);
+								Entity instance = m_Context->Instantiate(prefab, &pos, &pos, &pos);
+								m_SelectedEntity = instance;
+							}
+						}
+					}
+
+					ImGui::EndMenu();
+				}
+
 				ImGui::EndPopup();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
+				{
+					std::filesystem::path draggedPath = std::filesystem::path(static_cast<const char*>(payload->Data));
+
+					if (FileSystem::GetExtension(draggedPath) == ".lprefab")
+					{
+						ResourceHandle handle = Project::GetEditorResourceManager()->GetResourceHandleFromFilePath(draggedPath);
+						auto prefab = ResourceManager::GetResource<Prefab>(handle);
+
+						if (prefab)
+						{
+							glm::vec3 pos(0, 0, 0);
+							Entity instance = m_Context->Instantiate(prefab, &pos, &pos, &pos);
+							m_SelectedEntity = instance;
+						}
+					}
+				}
+
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_ENTITY"))
+				{
+					auto payload_id = static_cast<const UUID*>(payload->Data);
+					if (payload_id != nullptr)
+					{
+						Entity payload_entity = m_Context->TryGetEntityWithUUID(*payload_id);
+						if (payload_entity.IsValid())
+						{
+							m_Context->UnparentEntity(payload_entity);
+						}
+					}
+				}
+
+				ImGui::EndDragDropTarget();
 			}
 		}
 
@@ -229,6 +295,37 @@ namespace Luden
 				Entity newChild = m_Context->CreateChildEntity(entity, "New Child Entity");
 				m_SelectedEntity = newChild;
 			}
+			if (ImGui::BeginMenu(ICON_FA_CUBE " Add Child Prefab"))
+			{
+				auto resourceManager = Project::GetResourceManager();
+				auto prefabHandles = resourceManager->GetAllResourcesWithType(ResourceType::Prefab);
+
+				if (prefabHandles.empty())
+				{
+					ImGui::TextDisabled("No prefabs available");
+				}
+				else
+				{
+					for (auto handle : prefabHandles)
+					{
+						auto prefab = ResourceManager::GetResource<Prefab>(handle);
+						if (!prefab)
+							continue;
+
+						const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
+						std::string displayName = metadata.FilePath.filename().string();
+
+						if (ImGui::MenuItem(displayName.c_str()))
+						{
+							glm::vec3 pos(0, 0, 0);
+							Entity instance = m_Context->InstantiateChild(prefab, entity, &pos, &pos, &pos);
+							m_SelectedEntity = instance;
+						}
+					}
+				}
+
+				ImGui::EndMenu();
+			}
 			if (ImGui::MenuItem(ICON_FA_TRASH " Delete"))
 			{
 				m_Context->DestroyEntity(entity);
@@ -287,6 +384,7 @@ namespace Luden
 				{
 					entity.Remove<PrefabComponent>();
 				}
+
 			}
 			ImGui::EndPopup();
 		}
@@ -334,12 +432,32 @@ namespace Luden
 
 			ImGui::InputText("Prefab Name", prefabName, sizeof(prefabName));
 
+			ImGui::Spacing();
+
+			static char m_PrefabPathBuffer[512] = "";
+
+			ImGui::Text("Prefab Path:");
+			ImGui::SetNextItemWidth(-120);
+			ImGui::InputText("##ProjectPath", m_PrefabPathBuffer, sizeof(m_PrefabPathBuffer));
+
+			ImGui::SameLine();
+			if (ImGui::Button("Browse...", ImVec2(110, 0)))
+			{
+				std::filesystem::path selectedPath = FileSystem::OpenFolderDialog();
+				if (!selectedPath.empty())
+				{
+					strncpy_s(m_PrefabPathBuffer, selectedPath.string().c_str(), sizeof(m_PrefabPathBuffer));
+				}
+			}
+
+			ImGui::Spacing();
+			ImGui::Spacing();
+
 			if (ImGui::Button("Create", ImVec2(120, 0)))
 			{
-				if (prefabName[0] != '\0')
+				if (prefabName[0] != '\0')	
 				{
-					std::string filename = std::string(prefabName) + ".lprefab";
-					std::filesystem::path prefabPath = Project::GetActiveResourceDirectory() / filename;
+					std::filesystem::path prefabPath = std::string(m_PrefabPathBuffer) + "\\" + std::string(prefabName) + ".lprefab";
 
 					ResourceHandle prefabHandle = Project::GetEditorResourceManager()->CreateResource(ResourceType::Prefab, prefabPath);
 					auto prefab = ResourceManager::GetResource<Prefab>(prefabHandle);

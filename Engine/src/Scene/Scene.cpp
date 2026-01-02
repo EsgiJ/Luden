@@ -15,6 +15,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 #include "Physics2D/CollisionChannelRegistry.h"
+#include "SFML/System/Angle.hpp"
 
 namespace Luden {
 
@@ -164,19 +165,18 @@ namespace Luden {
 			bounds.size.y * sprite->GetPivot().y }
 		);
 
-		sfSprite.setPosition({ transform.Translation.x, transform.Translation.y });
-		sfSprite.setScale({ transform.Scale.x, transform.Scale.y });
-		sfSprite.setRotation(sf::degrees(transform.angle));
 		sfSprite.setColor(spriteComp.tint);
 
-		target->draw(sfSprite);
+		sf::RenderStates states;
+		states.transform = GetWorldTransform(e); 
+
+		target->draw(sfSprite, states);
 	}
 
 	void Scene::RenderAnimatedEntity(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target)
 	{
 		auto& animator = e.Get<SpriteAnimatorComponent>();
 
-		// Validations
 		if (animator.animationHandles.empty()) return;
 		if (animator.currentAnimationIndex >= animator.animationHandles.size()) return;
 
@@ -208,12 +208,12 @@ namespace Luden {
 			bounds.size.y * sprite->GetPivot().y + frame.offset.y}
 		);
 
-		sfSprite.setPosition({ transform.Translation.x, transform.Translation.y });
-		sfSprite.setScale({ transform.Scale.x, transform.Scale.y });
-		sfSprite.setRotation(sf::degrees(transform.angle));
 		sfSprite.setColor(animator.tint);
 
-		target->draw(sfSprite);
+		sf::RenderStates states;
+		states.transform = GetWorldTransform(e);
+
+		target->draw(sfSprite, states);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -377,29 +377,19 @@ namespace Luden {
 		return newEntity;
 	}
 
-	Entity Scene::CreatePrefabEntity(Entity entity, Entity parent, const glm::vec3* translation,
-		const glm::vec3* rotation, const glm::vec3* scale)
+	Entity Scene::CreatePrefabEntity(Entity entity, Entity parent, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale)
 	{
-		if (entity.Has<PrefabComponent>())
-		{
-			auto& prefabComp = entity.Get<PrefabComponent>();
-			auto nestedPrefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
-
-			if (nestedPrefab)
-			{
-				return Instantiate(nestedPrefab, translation, rotation, scale);
-			}
+		if (!entity.Has<PrefabComponent>())
 			return {};
-		}
 
 		Entity newEntity = CreateEntity(entity.Tag());
 		if (parent.IsValid())
-			newEntity.SetParent(parent);
+			ParentEntity(newEntity, parent);
 
 		if (entity.Has<TransformComponent>())
 		{
 			auto& srcTransform = entity.Get<TransformComponent>();
-			auto& newTransform = newEntity.Add<TransformComponent>(srcTransform);
+			auto& newTransform = srcTransform;
 
 			if (translation)
 				newTransform.Translation = *translation;
@@ -550,7 +540,6 @@ namespace Luden {
 		}
 		entity.SetParentUUID(parent.UUID());
 		parent.Children().push_back(entity.UUID());
-
 	}
 
 	void Scene::UnparentEntity(Entity& entity)
@@ -659,6 +648,39 @@ namespace Luden {
 	float Scene::Height() const
 	{
 		return (float)m_ViewportHeight;
+	}
+
+	sf::Transform Scene::GetWorldTransform(Entity entity)
+	{
+		sf::Transform transform; 
+
+		std::vector<Entity> hierarchy;
+		Entity current = entity;
+		while (current.IsValid())
+		{
+			hierarchy.push_back(current);
+			current = current.GetParent();
+		}
+
+		for (auto it = hierarchy.rbegin(); it != hierarchy.rend(); ++it)
+		{
+			if (!it->Has<TransformComponent>()) continue;
+
+			auto& tc = it->Get<TransformComponent>();
+
+			sf::Transform localTransform;
+
+			localTransform.translate({ tc.Translation.x, tc.Translation.y });
+
+			sf::Angle angle = sf::degrees(tc.angle);
+			localTransform.rotate(angle);
+
+			localTransform.scale({ tc.Scale.x, tc.Scale.y });
+
+			transform = transform * localTransform;
+		}
+
+		return transform;
 	}
 
 	// Utils
