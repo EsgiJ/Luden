@@ -1,0 +1,15 @@
+{
+    "Handle": 9840798825938959016,
+    "Name": "WhiteBlock",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 11833009445123668017,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

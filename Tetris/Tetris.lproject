@@ -1,0 +1,8 @@
+{
+    "Name": "Tetris",
+    "ProjectDirectory": "C:\\GameProjects\\Luden\\Tetris",
+    "ProjectFileName": "Tetris.lproject",
+    "ResourceDirectory": "Resources",
+    "ResourceRegistry": "Resources/ResourceRegistry.lr",
+    "StartScene": "Resources/Scenes/DefaultScene.lscene"
+}

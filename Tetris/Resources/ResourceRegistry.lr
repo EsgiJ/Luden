@@ -1,0 +1,34 @@
+{
+  "Resources": [
+    {
+      "FilePath": "Scenes/DefaultScene.lscene",
+      "Handle": 669968855889874874,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Scenes/MainScene.lscene",
+      "Handle": 5964104532555771547,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Images/block_1_white_outline.png",
+      "Handle": 7867127861885422605,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/WhiteBlock.lsprite",
+      "Handle": 9840798825938959016,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/block_1_white.png",
+      "Handle": 11833009445123668017,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/PF_Block.lprefab",
+      "Handle": 12164900414779734416,
+      "Type": "Prefab"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+    "Entities": [
+        {
+            "PrefabComponent": {
+                "EntityID": 10270987494297228007,
+                "PrefabID": 12164900414779734416
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "textureHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Root",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10270987494297228007
+        }
+    ],
+    "Name": "PF_Block",
+    "PrefabHandle": 12164900414779734416,
+    "RootEntityUUID": 0,
+    "UUID": 981423799707758891
+}

@@ -91,11 +91,11 @@ namespace Luden
 		operator const Camera2D& () const { return Camera; }
 	};
 
-	struct ENGINE_API RigidBody2DComponent : public IComponent
+	struct ENGINE_API RigidBody2DComponent : public IComponent 
 	{
 		enum class Type { None = -1, Static, Dynamic, Kinematic };
 
-		Type BodyType;
+		Type BodyType = Type::Dynamic;
 		bool FixedRotation = false;
 		float Mass = 1.0f;
 		float LinearDrag = 0.01f;

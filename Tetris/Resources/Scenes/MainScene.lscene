@@ -1,0 +1,27 @@
+{
+    "Entities": [
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Tetromino_I",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7696709283542200330
+        }
+    ],
+    "Name": "MainScene",
+    "UUID": 13718283687916131013
+}
