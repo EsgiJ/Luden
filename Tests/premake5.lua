@@ -1,11 +1,14 @@
 project "EngineTests"
+    location "."
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++20"
     staticruntime "off"
     
-    targetdir ("../bin/" .. outputdir)
-    objdir ("../bin-int/" .. outputdir)
+    targetdir ("bin/" .. outputdir)
+    objdir ("bin-int/" .. outputdir)
+    
+    defines { "SFML_DYNAMIC" }
     
     files {
         "**.cpp",
@@ -30,6 +33,7 @@ project "EngineTests"
     filter { "system:windows", "configurations:Debug" }
         runtime "Debug"
         symbols "On"
+        
         libdirs { 
             "../extern/SFML/build/lib/Debug",
             "../Engine/bin/" .. outputdir 
@@ -52,6 +56,7 @@ project "EngineTests"
     filter { "system:windows", "configurations:Release" }
         runtime "Release"
         optimize "On"
+        
         libdirs { 
             "../extern/SFML/build/lib/Release",
             "../Engine/bin/" .. outputdir
@@ -69,3 +74,5 @@ project "EngineTests"
             "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
             "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
         }
+
+    filter {}

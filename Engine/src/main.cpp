@@ -1,12 +1,10 @@
 #include "Core/RuntimeApplication.h"
-
+#include "NativeScript/NativeScriptModuleLoader.h"
+#include "Core/Config.h"
 #include <iostream>
+#include <filesystem>
 
-#include <SFML/Graphics.hpp>
-
-namespace Luden
+int main(int argc, char** argv)
 {
-	int main() {
-		return 0;
-	}
+	return 0;
 }

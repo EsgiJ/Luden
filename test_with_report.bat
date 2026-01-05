@@ -4,16 +4,15 @@ setlocal
 set CONFIG=Debug
 set PLATFORM=windows-x86_64
 set TEST_EXE=bin\%CONFIG%-%PLATFORM%\EngineTests.exe
-set REPORT_FILE=TestReport_%date:~-4,4%%date:~-10,2%%date:~-7,2%_%time:~0,2%%time:~3,2%%time:~6,2%.txt
+set REPORT_DIR=TestReports
+set TIMESTAMP=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+set TIMESTAMP=%TIMESTAMP: =0%
+set REPORT_FILE=%REPORT_DIR%\TestReport_%TIMESTAMP%.txt
 
-REM Remove colons from time
-set REPORT_FILE=%REPORT_FILE::=%
-REM Remove spaces
-set REPORT_FILE=%REPORT_FILE: =0%
-
-echo ========================================
-echo   TEST WITH REPORT
-echo ========================================
+echo.
+echo ==========================================
+echo   TEST WITH REPORT GENERATION
+echo ==========================================
 echo.
 
 if not exist "%TEST_EXE%" (
@@ -22,17 +21,23 @@ if not exist "%TEST_EXE%" (
     exit /b 1
 )
 
-echo Running tests and generating report...
-echo Output file: %REPORT_FILE%
+REM Create report directory if it doesn't exist
+if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
+
+echo Running all tests...
+echo Report will be saved to: %REPORT_FILE%
 echo.
 
-REM Run tests and save output
-"%TEST_EXE%" --all > %REPORT_FILE% 2>&1
+REM Run tests and capture output
+"%TEST_EXE%" --all > "%REPORT_FILE%" 2>&1
 
-REM Also display on screen
-type %REPORT_FILE%
+REM Also display output to console
+type "%REPORT_FILE%"
 
 echo.
-echo Report saved to: %REPORT_FILE%
+echo ==========================================
+echo   Report saved to:
+echo   %REPORT_FILE%
+echo ==========================================
 echo.
 pause

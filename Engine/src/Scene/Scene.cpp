@@ -30,8 +30,6 @@ namespace Luden {
 	}
 
 	void Scene::OnUpdateRuntime(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture) {
-
-
 		SetViewportSize(renderTexture->getSize().x, renderTexture->getSize().y);
 
 		Entity cameraEntity = GetMainCameraEntity();
@@ -225,6 +223,7 @@ namespace Luden {
 		GEngine.SetActiveScene(this);
 
 		std::filesystem::path channelsPath = Project::GetActiveResourceDirectory() / "CollisionChannels.dat";
+
 		if (std::filesystem::exists(channelsPath))
 		{
 			CollisionChannelRegistry::Instance().Deserialize(channelsPath);

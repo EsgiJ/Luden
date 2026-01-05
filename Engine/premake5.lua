@@ -9,7 +9,6 @@ project "Engine"
     objdir ("bin-int/" .. outputdir)
     
     defines { "ENGINE_EXPORTS", "SFML_DYNAMIC" }
-
     disablewarnings { "4251" }
     
     files {
@@ -41,6 +40,7 @@ project "Engine"
     filter { "system:windows", "configurations:Debug" }
         runtime "Debug"
         symbols "On"
+        
         libdirs { 
             "../extern/SFML/build/lib/Debug",
             "../extern/Box2D/build/src/Debug"
@@ -60,6 +60,7 @@ project "Engine"
     filter { "system:windows", "configurations:Release" }
         runtime "Release"
         optimize "On"
+        
         libdirs { 
             "../extern/SFML/build/lib/Release",
             "../extern/Box2D/build/src/Release"
@@ -67,5 +68,13 @@ project "Engine"
         links { 
             "sfml-graphics", "sfml-window", 
             "sfml-system", "sfml-audio", 
-            "opengl32", "box2d" 
+            "opengl32", "box2d"
         }
+        postbuildcommands {
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-graphics-3.dll %{cfg.targetdir}/sfml-graphics-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-window-3.dll %{cfg.targetdir}/sfml-window-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-system-3.dll %{cfg.targetdir}/sfml-system-3.dll",
+            "{COPYFILE} ../extern/SFML/build/bin/Release/sfml-audio-3.dll %{cfg.targetdir}/sfml-audio-3.dll"
+        }
+
+    filter {}

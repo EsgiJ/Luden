@@ -34,7 +34,6 @@ if exist "extern\imgui" (
     git clone -b v1.91.9-docking https://github.com/ocornut/imgui.git "extern\imgui"
 )
 
-
 REM --- ImGui-SFML ---
 if exist "extern\ImGui-SFML" (
     echo extern\ImGui-SFML already exists, pulling latest...
@@ -73,32 +72,37 @@ if exist "extern\nfd" (
 
 REM --- GLM ---
 if exist "extern\glm" (
-	echo extern\glm already exists, pulling latest...
-	git -C "extern\glm" pull
+    echo extern\glm already exists, pulling latest...
+    git -C "extern\glm" pull
 ) else (
-	echo Cloning glm...
-	git clone https://github.com/g-truc/glm.git "extern\glm"
+    echo Cloning glm...
+    git clone https://github.com/g-truc/glm.git "extern\glm"
 )
 
 REM --- Box2D ---
 if exist "extern\Box2D" (
-	echo extern\Box2D already exists, pulling latest...
-	git -C "extern\Box2D" pull
+    echo extern\Box2D already exists, pulling latest...
+    git -C "extern\Box2D" pull
 ) else (
-	echo Cloning Box2D...
-	git clone https://github.com/erincatto/box2d.git "extern\Box2D"
+    echo Cloning Box2D...
+    git clone https://github.com/erincatto/box2d.git "extern\Box2D"
 )
 
 echo.
-echo === Building SFML ===
+echo === Building SFML (Debug: Dynamic, Release: Static) ===
 if not exist "%SFML_BUILD_DIR%" mkdir "%SFML_BUILD_DIR%"
+
 pushd "%SFML_BUILD_DIR%"
 
-for %%C in (%CONFIGS%) do (
-    echo Building %%C configuration...
-    cmake .. -G "Visual Studio 17 2022" -A %PLATFORM% -DCMAKE_BUILD_TYPE=%%C -DBUILD_SHARED_LIBS=ON
-    cmake --build . --config %%C
-)
+REM Debug - Dynamic Build
+echo Building Debug configuration (Dynamic)...
+cmake .. -G "Visual Studio 17 2022" -A %PLATFORM% -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON
+cmake --build . --config Debug
+
+REM Release - Static Build
+echo Building Release configuration (Static)...
+cmake .. -G "Visual Studio 17 2022" -A %PLATFORM% -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
+cmake --build . --config Release
 
 popd
 
@@ -106,7 +110,9 @@ echo.
 echo === Building Box2D (Static Library) ===
 set BOX2D_DIR=extern\Box2D
 set BOX2D_BUILD_DIR=%BOX2D_DIR%\build
+
 if not exist "%BOX2D_BUILD_DIR%" mkdir "%BOX2D_BUILD_DIR%"
+
 pushd "%BOX2D_BUILD_DIR%"
 
 for %%C in (%CONFIGS%) do (
@@ -129,4 +135,6 @@ if %ERRORLEVEL% neq 0 (
 
 echo.
 echo Setup complete!
+echo Debug: SFML Dynamic (.dll)
+echo Release: SFML Static (.lib)
 pause

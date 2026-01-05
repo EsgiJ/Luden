@@ -1,31 +1,31 @@
 #pragma once
-
 #include "EngineAPI.h"
-#include "Resource/ResourceManagerBase.h"
+#include <cstdint>
 
 namespace Luden
 {
-	class IScriptModule
+	class ResourceManagerBase;
+	class RuntimeApplication;
+	struct ApplicationSpecification;
+
+	class ENGINE_API IScriptModule
 	{
 	public:
-		IScriptModule() = default;
 		virtual ~IScriptModule() = default;
 
 		virtual void OnLoad() = 0;
-
 		virtual void OnUnload() = 0;
-
 		virtual void RegisterScripts(ResourceManagerBase* resourceManager) = 0;
-
 		virtual uint32_t GetVersion() const = 0;
+		virtual RuntimeApplication* CreateRuntimeApplication(const ApplicationSpecification& spec) { return nullptr; }
 	};
+}
 
-#ifdef GAME_MODULE_EXPORTS
-	#define GAME_MODULE_API __declspec(dllexport)
+#ifdef _WIN32
+#define GAME_MODULE_API __declspec(dllexport)
 #else
-	#define  GAME_MODULE_API __declspec(dllimport)
+#define GAME_MODULE_API __attribute__((visibility("default")))
 #endif
 
-	extern "C" GAME_MODULE_API IScriptModule* CreateScriptModule();
-	extern "C" GAME_MODULE_API void DestroyScriptModule(IScriptModule* module);
-}
+extern "C" GAME_MODULE_API Luden::IScriptModule* CreateScriptModule();
+extern "C" GAME_MODULE_API void DestroyScriptModule(Luden::IScriptModule* module);

@@ -519,8 +519,20 @@ namespace Luden
 
 	bool SceneResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
-		resource = std::shared_ptr<Scene>();
-		resource->Handle = metadata.Handle;
+		auto scene = std::make_shared<Scene>();
+
+		std::filesystem::path fullPath = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+
+		SceneSerializer serializer(scene);
+		if (!serializer.Deserialize(fullPath.string()))
+		{
+			std::cerr << "[SceneResourceSerializer] Failed to deserialize scene from: " << fullPath << "\n";
+			return false;
+		}
+
+		scene->Handle = metadata.Handle;
+
+		resource = scene;
 		return true;
 	}
 

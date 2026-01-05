@@ -22,6 +22,7 @@ namespace Luden
 		jProject["ResourceDirectory"] = config.ResourceDirectory;
 		jProject["ResourceRegistry"] = config.ResourceRegistryPath;
 		jProject["StartScene"] = config.StartScene.string();
+		jProject["StartSceneHandle"] = static_cast<uint64_t>(config.StartSceneHandle);
 
 		std::ofstream out(path);
 		if (!out.is_open())
@@ -59,6 +60,9 @@ namespace Luden
 
 		if (jProject.contains("StartScene"))
 			config.StartScene = jProject["StartScene"].get<std::string>();
+
+		if (jProject.contains("StartSceneHandle"))
+			config.StartSceneHandle = jProject["StartSceneHandle"].get<std::uint64_t>();
 
 		return true;
 	}

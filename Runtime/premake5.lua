@@ -1,6 +1,6 @@
-project "Editor"
+project "Runtime"
     location "."
-    kind "ConsoleApp"
+    kind "ConsoleApp" 
     language "C++"
     cppdialect "C++20"
     staticruntime "off"
@@ -8,29 +8,21 @@ project "Editor"
     targetdir ("bin/" .. outputdir)
     objdir ("bin-int/" .. outputdir)
     
-    dependson { "Engine"}
-    defines { "EDITOR_EXPORTS", "SFML_DYNAMIC" }
+    dependson { "Engine" }
+    defines { "SFML_DYNAMIC" }
     disablewarnings { "4251" }
 
     files {
-        "**.h",
-        "**.cpp",
-        "../extern/imgui/*.cpp",
-        "../extern/ImGui-SFML/*.cpp",
-        "../extern/ImGui-SFML/*.h"
+        "src/**.h",
+        "src/**.cpp"
     }
 
     includedirs {
-        "include",
         "../Engine/include",
         "../%{IncludeDirs.Box2D}",
-        "../%{IncludeDirs.imgui}",
-        "../%{IncludeDirs.ImGuiSFML}",
         "../%{IncludeDirs.glm}",
         "../%{IncludeDirs.SFML}",
-        "../%{IncludeDirs.json}",
-        "../%{IncludeDirs.IconFontCpp}",
-        "../Tools"
+        "../%{IncludeDirs.json}"
     }
 
     links { "Engine" }
@@ -57,7 +49,7 @@ project "Editor"
             "{COPYFILE} \"../extern/SFML/build/bin/Debug/sfml-system-d-3.dll\" \"%{cfg.targetdir}\"",
             "{COPYFILE} \"../extern/SFML/build/bin/Debug/sfml-audio-d-3.dll\" \"%{cfg.targetdir}\"",
             "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.dll\" \"%{cfg.targetdir}\"",
-            "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.pdb\" \"%{cfg.targetdir}\"",
+            "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.pdb\" \"%{cfg.targetdir}\""
         }
 
     filter { "system:windows", "configurations:Release" }
@@ -81,7 +73,7 @@ project "Editor"
             "{COPYFILE} \"../extern/SFML/build/bin/Release/sfml-window-3.dll\" \"%{cfg.targetdir}\"",
             "{COPYFILE} \"../extern/SFML/build/bin/Release/sfml-system-3.dll\" \"%{cfg.targetdir}\"",
             "{COPYFILE} \"../extern/SFML/build/bin/Release/sfml-audio-3.dll\" \"%{cfg.targetdir}\"",
-            "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.dll\" \"%{cfg.targetdir}\"",
+            "{COPYFILE} \"../Engine/bin/" .. outputdir .. "/Engine.dll\" \"%{cfg.targetdir}\""
         }
 
     filter {}

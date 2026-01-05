@@ -99,7 +99,6 @@ namespace Luden
         if (!out.is_open())
             return false;
 
-        // Get engine path (go up from Editor to Luden root)
         std::filesystem::path enginePath = std::filesystem::current_path().parent_path();
         std::string enginePathStr = enginePath.string();
         std::replace(enginePathStr.begin(), enginePathStr.end(), '\\', '/');
@@ -134,6 +133,8 @@ project ")" << name << R"("
     files {
         "Source/**.h",
         "Source/**.cpp"
+        "**.h",
+        "**.cpp"
     }
 
     -- Engine and external library includes

@@ -8,34 +8,33 @@ namespace Luden
 	class Config
 	{
 	public:
-
 		static constexpr const char* GetBuildConfig()
 		{
-		#ifdef LUDEN_CONFIG_DEBUG
+#ifdef LUDEN_CONFIG_DEBUG
 			return "Debug";
-		#elif LUDEN_CONFIG_RELEASE
+#elif LUDEN_CONFIG_RELEASE
 			return "Release";
-		#endif
+#endif
 		}
 
 		static constexpr const char* GetSystem()
 		{
-		#ifdef _WIN32
+#ifdef _WIN32
 			return "windows";
-		#elif __linux__
+#elif __linux__
 			return "linux";
-		#elif __APPLE__
+#elif __APPLE__
 			return "macosx";
-		#endif
+#endif
 		}
 
 		static constexpr const char* GetArchitecture()
 		{
-		#ifdef _WIN64
-					return "x86_64";
-		#else
-					return "x86";
-		#endif
+#ifdef _WIN64
+			return "x86_64";
+#else
+			return "x86";
+#endif
 		}
 
 		static std::string GetOutputDir()
@@ -47,11 +46,36 @@ namespace Luden
 
 		static std::filesystem::path GetGameModulePath()
 		{
-			return Project::GetProjectDirectory() /
-				std::filesystem::path("bin") /
-				GetOutputDir() /
-				std::filesystem::path(Project::GetActiveProject()->GetConfig().Name + ".dll");
+			auto project = Project::GetActiveProject();
+			if (!project)
+				return "";
+
+			std::filesystem::path projectDir = project->GetConfig().ProjectDirectory;
+			std::string projectName = project->GetConfig().Name;
+			std::string outputDir = GetOutputDir();
+
+			return projectDir / "bin" / outputDir / (projectName + GetModuleExtension());
 		}
 
+		static constexpr const char* GetModuleExtension()
+		{
+#ifdef _WIN32
+			return ".dll";
+#elif __linux__
+			return ".so";
+#elif __APPLE__
+			return ".dylib";
+#endif
+		}
+
+		static constexpr const char* GetProjectExtension()
+		{
+			return ".lproject";
+		}
+
+		static constexpr const char* GetSceneExtension()
+		{
+			return ".lscene";
+		}
 	};
 }

@@ -13,7 +13,9 @@ namespace Luden
 
 	private:
 		static bool GenerateHeaderFile(const std::string& projectName, const std::filesystem::path& includePath);
-
 		static bool GenerateSourceFile(const std::string& projectName, const std::filesystem::path& sourcePath);
+
+		static bool GenerateRuntimeAppHeader(const std::string& projectName, const std::filesystem::path& includePath);
+		static bool GenerateRuntimeAppSource(const std::string& projectName, const std::filesystem::path& sourcePath);
 	};
 }

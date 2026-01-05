@@ -2,7 +2,9 @@
     "Entities": [
         {
             "RelationshipComponent": {
-                "Children": null,
+                "Children": [
+                    13397523881038256084
+                ],
                 "ParentHandle": 0
             },
             "Tag": "Tetromino_I",
@@ -20,8 +22,68 @@
                 "angle": 0.0
             },
             "UUID": 7696709283542200330
+        },
+        {
+            "PrefabComponent": {
+                "EntityID": 10270987494297228007,
+                "PrefabID": 12164900414779734416
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7696709283542200330
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "textureHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Root",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13397523881038256084
+        },
+        {
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7423831606529326966
         }
     ],
     "Name": "MainScene",
-    "UUID": 13718283687916131013
+    "UUID": 5964104532555771547
 }

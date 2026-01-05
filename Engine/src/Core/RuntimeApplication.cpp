@@ -2,125 +2,259 @@
 #include "Project/Project.h"
 #include "Project/ProjectSerializer.h"
 #include "Scene/Scene.h"
+#include "Scene/SceneSerializer.h"
 #include "Resource/ResourceManager.h"
-
+#include "NativeScript/NativeScriptModuleLoader.h"
+#include "Core/Config.h"
+#include "IO/FileSystem.h"
 #include <iostream>
+#include "SFML/Graphics/Sprite.hpp"
 
 namespace Luden {
 
 	RuntimeApplication::RuntimeApplication(const ApplicationSpecification& spec)
-		: m_Specification(std::move(spec))
+		: m_Specification(spec)
 	{
+	}
 
-		sf::VideoMode vm({ m_Specification.WindowWidth, m_Specification.WindowHeight });
+	RuntimeApplication::~RuntimeApplication()
+	{
+		Shutdown();
+	}
+
+	void RuntimeApplication::Init()
+	{
+		sf::VideoMode vm(sf::Vector2u(m_Specification.WindowWidth, m_Specification.WindowHeight));
 		m_Window = std::make_unique<sf::RenderWindow>(vm, m_Specification.Name);
-	}
 
-	RuntimeApplication::~RuntimeApplication() 
-	{
-		OnShutdown();
-	}
+		m_Window->create(
+			sf::VideoMode{ {m_Specification.WindowWidth, m_Specification.WindowHeight} },
+			m_Specification.Name
+		);
 
-	void RuntimeApplication ::OnInit() 
-	{
-		std::cout << "[RuntimeApplication] Initializing...\n";
+		if (m_Specification.VSync)
+			m_Window->setVerticalSyncEnabled(true);
+		else
+			m_Window->setFramerateLimit(0);
 
-		OpenProject();
+		m_RenderTexture = std::make_shared<sf::RenderTexture>();
+		if (!m_RenderTexture->resize({ m_Specification.WindowWidth, m_Specification.WindowHeight }))
+		{
+			std::cerr << "[RuntimeApplication] ERROR: Failed to create RenderTexture!\n";
+			return;
+		}
+
+		if (m_Specification.VSync)
+			m_Window->setVerticalSyncEnabled(true);
+
 		auto project = Project::GetActiveProject();
-		Project::SetActiveRuntime(project, m_ResourcePack);
+		if (!project)
+		{
+			std::cerr << "[RuntimeApplication] No active project!\n";
+			return;
+		}
 
-		m_ResourceManager = Project::GetRuntimeResourceManager();
-		if (!m_ResourceManager) 
+		m_ResourceManager = Project::GetEditorResourceManager();
+		if (!m_ResourceManager)
 		{
 			std::cerr << "[RuntimeApplication] ResourceManager not initialized!\n";
 			return;
 		}
-		
+
+		m_ResourceManager->LoadResourceRegistry();
+		m_ResourceManager->ReloadResources();
+
+		m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
+		std::filesystem::path modulePath = Config::GetGameModulePath();
+
+		if (m_NativeScriptModuleLoader->LoadModule(modulePath))
+		{
+			m_NativeScriptModuleLoader->GetModule()->RegisterScripts(m_ResourceManager.get());
+		}
+		else
+		{
+			std::cerr << "[RuntimeApplication] Failed to load native script module!\n";
+		}
+
 		LoadScene(project->GetConfig().StartSceneHandle);
 	}
 
-	void RuntimeApplication::OnShutdown() 
+	void RuntimeApplication::Run()
 	{
-		if (m_CurrentScene) 
+		m_Clock.restart();
+
+		while (m_Window && m_Window->isOpen() && m_Running)
 		{
-			//m_CurrentScene->OnRuntimeStop();
+			while (const std::optional event = m_Window->pollEvent())
+			{
+				if (event->is<sf::Event::Closed>())
+				{
+					m_Window->close();
+				}
+
+				if (m_CurrentScene)
+				{
+					m_CurrentScene->OnEvent(event);
+				}
+			}
+
+			sf::Time dt = m_Clock.restart();
+			TimeStep timestep(dt.asSeconds());
+			OnUpdate(timestep);
+
+			m_Window->clear(sf::Color(30, 30, 30));
+
+			if (m_CurrentScene)
+			{
+				if (!m_RenderTexture)
+				{
+					m_RenderTexture = std::make_shared<sf::RenderTexture>();
+					if (!m_RenderTexture->resize({ m_Specification.WindowWidth, m_Specification.WindowHeight }))
+					{
+						std::cerr << "[RuntimeApplication] Failed to create render texture!\n";
+						continue;
+					}
+				}
+
+				sf::Vector2u windowSize = m_Window->getSize();
+				if (windowSize.x != m_RenderTexture->getSize().x ||
+					windowSize.y != m_RenderTexture->getSize().y)
+				{
+					if (!m_RenderTexture->resize(windowSize))
+					{
+						std::cerr << "[RuntimeApplication] Failed to resize render texture!\n";
+						continue;
+					}
+
+					m_CurrentScene->SetViewportSize(windowSize.x, windowSize.y);
+				}
+
+				m_RenderTexture->clear();
+
+				m_CurrentScene->OnUpdateRuntime(timestep, m_RenderTexture);
+
+				m_RenderTexture->display();
+
+				sf::Sprite sprite(m_RenderTexture->getTexture());
+				m_Window->draw(sprite);
+			}
+
+			m_Window->display();
+		}
+
+		Shutdown();
+	}
+
+	void RuntimeApplication::Shutdown()
+	{
+		if (m_CurrentScene)
+		{
+			m_CurrentScene->OnRuntimeStop();
 			m_CurrentScene.reset();
 		}
+
+		m_RenderTexture.reset();
+		m_NativeScriptModuleLoader.reset();
 		m_ResourceManager.reset();
 
 		if (m_Window && m_Window->isOpen())
 			m_Window->close();
 	}
 
-	void RuntimeApplication::OnUpdate(TimeStep ts) 
+	void RuntimeApplication::OnUpdate(TimeStep ts)
 	{
-
-		if (!m_CurrentScene) return;
-
-		//m_CurrentScene->OnUpdateRuntime(ts);
-
-		if (m_Window) 
-		{
-			m_Window->clear();
-			//m_CurrentScene->OnRenderRuntime(*m_Window);
-			m_Window->display();
-		}
-	}
-
-	void RuntimeApplication::RenderTo(sf::RenderTarget& target) 
-	{
-		if (m_CurrentScene) {
-			//m_CurrentScene->OnRenderRuntime(target);
-		}
+		// Can be overridden by project app
 	}
 
 	void RuntimeApplication::OpenProject()
 	{
 		std::shared_ptr<Project> project = std::make_shared<Project>();
 		ProjectSerializer serializer(project);
-		serializer.DeserializeRuntime(std::filesystem::path(m_Specification.m_ProjectPath) / project->GetConfig().ResourceDirectory / "Project.ldat");
 
-		// Load asset pack
-		m_ResourcePack = ResourcePack::Load(std::filesystem::path(m_Specification.m_ProjectPath) / "ResourcePack.lrp");
-		Project::SetActiveRuntime(project, m_ResourcePack);
+		std::filesystem::path projectPath = m_Specification.ProjectPath;
 
-		LoadScene(project->GetConfig().StartSceneHandle);
+		if (!FileSystem::Exists(projectPath))
+		{
+			std::cerr << "[RuntimeApplication] Project file not found: " << projectPath << "\n";
+			return;
+		}
+
+		if (!serializer.Deserialize(projectPath))
+		{
+			std::cerr << "[RuntimeApplication] Failed to deserialize project!\n";
+			return;
+		}
+
+		Project::SetActive(project);
 	}
 
-	void RuntimeApplication::ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent) 
+	void RuntimeApplication::ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent)
 	{
 		if (endCurrent && m_CurrentScene)
 		{
-			//m_CurrentScene->OnRuntimeStop();
+			m_CurrentScene->OnRuntimeStop();
 		}
 
 		m_CurrentScene = scene;
 		m_CurrentSceneName = name;
 
-		if (m_CurrentScene) 
+		if (m_CurrentScene)
 		{
-			//m_CurrentScene->OnRuntimeStart();
+
+			if (m_Window)
+			{
+				sf::Vector2u windowSize = m_Window->getSize();
+				m_CurrentScene->SetViewportSize(windowSize.x, windowSize.y);
+			}
+			else
+			{
+				std::cout << "[RuntimeApplication::ChangeScene] WARNING: Window is null!\n";
+			}
+
+			m_CurrentScene->OnRuntimeStart();
+		}
+		else
+		{
+			std::cout << "[RuntimeApplication::ChangeScene] ERROR: Scene is null after assignment!\n";
 		}
 	}
 
-	void RuntimeApplication::LoadScene(ResourceHandle handle) {
-		if (!m_ResourceManager) {
-			std::cerr << "[RuntimeApplication] ResourceManager not initialized!\n";
+	void RuntimeApplication::LoadScene(ResourceHandle handle)
+	{
+		if (!m_ResourceManager)
+		{
+			std::cerr << "[RuntimeApplication::LoadScene] ERROR: ResourceManager not initialized!\n";
 			return;
 		}
 
-		if (!Project::GetResourceManager()->IsResourceHandleValid(handle)) {
-			std::cerr << "[RuntimeApplication] Invalid StartScene handle!\n";
+		if (!m_ResourceManager->IsResourceHandleValid(handle))
+		{
+			std::cerr << "[RuntimeApplication::LoadScene] ERROR: Invalid StartScene handle: " << handle << "\n";
+
+			auto allScenes = m_ResourceManager->GetAllResourcesWithType(ResourceType::Scene);
+			std::cout << "[RuntimeApplication::LoadScene] Available scenes in registry: " << allScenes.size() << "\n";
+			for (auto sceneHandle : allScenes)
+			{
+				auto metadata = m_ResourceManager->GetMetadata(sceneHandle);
+				std::cout << "  - Handle: " << sceneHandle << ", Path: " << metadata.FilePath << "\n";
+			}
 			return;
 		}
+
 		auto scene = ResourceManager::GetResource<Scene>(handle);
+
 		if (scene)
 		{
 			ChangeScene(scene->GetName(), scene);
 		}
-		else 
+		else
 		{
-			std::cerr << "[RuntimeApplication] StartScene resource is not a Scene!\n";
+			std::cerr << "[RuntimeApplication::LoadScene] ERROR: Failed to get Scene resource!\n";
+			std::cerr << "[RuntimeApplication::LoadScene] Handle: " << handle << "\n";
+
+			auto metadata = m_ResourceManager->GetMetadata(handle);
+			std::cout << "[RuntimeApplication::LoadScene] Metadata - FilePath: " << metadata.FilePath
+				<< ", Type: " << (int)metadata.Type << "\n";
 		}
 	}
 }

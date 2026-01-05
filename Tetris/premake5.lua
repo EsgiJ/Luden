@@ -27,7 +27,9 @@ project "Tetris"
 
     files {
         "Source/**.h",
-        "Source/**.cpp"
+        "Source/**.cpp",
+        "**.h",
+        "**.cpp"
     }
 
     -- Engine and external library includes
@@ -42,6 +44,11 @@ project "Tetris"
 
     links { 
         "Engine"
+    }
+
+    postbuildcommands {
+        "{COPYFILE} \"" .. ENGINE_PATH .. "/Engine/bin/Debug-windows-x86_64/Engine.dll\" \"%{cfg.targetdir}\"",
+        "{COPYFILE} \"" .. ENGINE_PATH .. "/Engine/bin/Debug-windows-x86_64/Engine.pdb\" \"%{cfg.targetdir}\""
     }
 
     filter "configurations:Debug"

@@ -1,6 +1,7 @@
 #pragma once
 #include "NativeScript/IScriptModule.h"
 #include <Windows.h>
+#include <filesystem>
 
 namespace Luden
 {

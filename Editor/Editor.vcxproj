@@ -104,7 +104,17 @@ copy /B /Y "..\Engine\bin\Debug-windows-x86_64\Engine.pdb" "bin\Debug-windows-x8
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\Engine\bin\Release-windows-x86_64;..\extern\SFML\build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>IF NOT EXIST "bin\Release-windows-x86_64" (mkdir "bin\Release-windows-x86_64")
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-graphics-3.dll" "bin\Release-windows-x86_64"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-window-3.dll" "bin\Release-windows-x86_64"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-system-3.dll" "bin\Release-windows-x86_64"
+copy /B /Y "..\extern\SFML\build\bin\Release\sfml-audio-3.dll" "bin\Release-windows-x86_64"
+copy /B /Y "..\Engine\bin\Release-windows-x86_64\Engine.dll" "bin\Release-windows-x86_64"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />

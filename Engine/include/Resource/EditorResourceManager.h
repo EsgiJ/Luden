@@ -55,8 +55,9 @@ namespace Luden
 		std::filesystem::path GetRelativePath(const std::filesystem::path& filepath);
 
 		bool FileExists(ResourceMetadata& metadata) const;
-	private:
 		void LoadResourceRegistry();
+
+	private:
 		void ProcessDirectory(const std::filesystem::path& directoryPath);
 		void WriteRegistryToFile();
 

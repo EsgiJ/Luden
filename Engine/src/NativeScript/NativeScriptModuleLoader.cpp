@@ -28,8 +28,9 @@ namespace Luden
 		auto now = std::chrono::system_clock::now();
 		auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 
-		m_TempDllPath = std::filesystem::temp_directory_path() /
-			(Project::GetActiveProject()->GetConfig().Name + "_" + std::to_string(timestamp) + ".dll");
+		std::string moduleName = path.stem().string();
+
+		m_TempDllPath = std::filesystem::temp_directory_path() / (moduleName + "_" + std::to_string(timestamp) + ".dll");
 
 		m_TempPdbPath = m_TempDllPath;
 		m_TempPdbPath.replace_extension(".pdb");

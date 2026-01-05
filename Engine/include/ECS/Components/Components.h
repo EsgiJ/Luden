@@ -121,9 +121,9 @@ namespace Luden
 
 		b2ShapeId RuntimeShapeId = b2_nullShapeId;
 
-		uint16_t CategoryBits;
-		uint16_t MaskBits;
-		uint16_t GroupIndex;
+		uint16_t CategoryBits = 0x0001;
+		uint16_t MaskBits = 0xFFFF;
+		uint16_t GroupIndex = 0;
 
 		BoxCollider2DComponent() = default;
 		BoxCollider2DComponent(const BoxCollider2DComponent& other) = default;
@@ -145,8 +145,6 @@ namespace Luden
 
 		CircleCollider2DComponent() = default;
 		CircleCollider2DComponent(const CircleCollider2DComponent& other) = default;
-
-
 	};
 
 	class ScriptableEntity;
