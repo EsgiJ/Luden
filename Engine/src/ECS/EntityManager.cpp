@@ -17,6 +17,12 @@ namespace Luden
 
 		m_EntitiesToAdd.clear();
 
+		for (const auto& uuid : m_EntitiesToDestroy)
+		{
+			DestroyEntityImmediate(uuid);
+		}
+		m_EntitiesToDestroy.clear();
+
 		RemoveDeadEntities(m_Entities);
 
 	}
@@ -56,6 +62,45 @@ namespace Luden
 		}
 	}
 
+	Entity EntityManager::AddEntityImmediate(const std::string& tag, Scene* scene)
+	{
+		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, scene);
+
+		m_Entities.push_back(entity);
+		m_EntityMap[tag].push_back(entity);
+
+		return entity;
+	}
+
+	Entity EntityManager::AddEntityImmediate(const std::string& tag, const UUID& id, Scene* scene)
+	{
+		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, id, scene);
+
+		m_Entities.push_back(entity);
+		m_EntityMap[tag].push_back(entity);
+
+		return entity;
+	}
+
+	void EntityManager::DestroyEntityImmediate(const EntityID& uuid)
+	{
+		if (!EntityMemoryPool::Instance().Exists(uuid))
+			return;
+
+		std::erase_if(m_Entities, [uuid](const Entity& entity) {
+			return entity.UUID() == uuid;
+			});
+
+		for (auto& pair : m_EntityMap)
+		{
+			std::erase_if(pair.second, [uuid](const Entity& entity) {
+				return entity.UUID() == uuid;
+				});
+		}
+
+		EntityMemoryPool::Instance().DestroyEntity(uuid);
+	}
+
 	Entity EntityManager::AddEntity(const std::string& tag, Scene* scene)
 	{
 		Entity entity = EntityMemoryPool::Instance().AddEntity(tag, scene);
@@ -74,7 +119,11 @@ namespace Luden
 
 	void EntityManager::DestroyEntity(const EntityID& uuid)
 	{
-		EntityMemoryPool::Instance().SetActive(uuid, false);
+    if (EntityMemoryPool::Instance().Exists(uuid))
+    {
+        EntityMemoryPool::Instance().SetActive(uuid, false);
+        m_EntitiesToDestroy.push_back(uuid);
+    }
 	}
 
 	Entity& EntityManager::GetEntity(const EntityID& uuid) 

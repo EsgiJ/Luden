@@ -21,9 +21,12 @@ namespace Luden
 
 		void Update(TimeStep ts);
 
+		Entity AddEntityImmediate(const std::string& tag, Scene* scene);
+		Entity AddEntityImmediate(const std::string& tag, const UUID& id, Scene* scene);
+		void DestroyEntityImmediate(const EntityID& uuid);
+
 		Entity AddEntity(const std::string& tag, Scene* scene);
 		Entity AddEntity(const std::string& tag, const UUID& id, Scene* scene);
-
 		void DestroyEntity(const EntityID& uuid);
 
 		Entity& GetEntity(const EntityID& uuid);
@@ -45,6 +48,7 @@ namespace Luden
 	private:
 		EntityVec m_Entities;
 		EntityVec m_EntitiesToAdd;
+		std::vector<EntityID> m_EntitiesToDestroy; 
 		EntityMap m_EntityMap;
 		size_t m_TotalEntities = 0;
 

@@ -432,9 +432,7 @@ namespace Luden
 
 		UUID rootEntityUUID = j["RootEntityUUID"].get<uint64_t>();
 
-		prefab->GetScene()->GetEntityManager().Update(0.0f);
 		prefab->SetRootEntity(scene->GetEntityWithUUID(rootEntityUUID));
-		prefab->GetScene()->GetEntityManager().Update(0.0f);
 		resource = prefab;
 		return true;
 	}
@@ -497,7 +495,6 @@ namespace Luden
 		{
 			prefab->SetRootEntity(rootEntity);
 		}
-		prefab->GetScene()->GetEntityManager().Update(0.0f);
 
 		return prefab;
 	}

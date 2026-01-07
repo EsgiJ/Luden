@@ -8,6 +8,7 @@
 
 #include <imgui.h>
 #include <imgui-SFML.h>
+#include "glm/geometric.hpp"
 
 namespace Luden
 {
@@ -32,8 +33,6 @@ namespace Luden
 		m_EditorCamera.SetMaxZoom(5.0f);
 		m_EditorCamera.SetPosition(initialPos);
 		m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
-
-		m_ActiveScene->GetEntityManager().Update(0.0f);
 	}
 
 	SceneEditorTab::~SceneEditorTab() 
@@ -226,55 +225,75 @@ namespace Luden
 				}
 			}
 
-			// Draw Collision
+			// Draw grid
 			{
 				if (m_ToolbarPanel.m_ShowMovementCollision || m_ToolbarPanel.m_ShowVisionCollision)
 				{
 					if (m_ActiveScene != nullptr)
 					{
 						auto& entities = m_ActiveScene->GetEntityManager().GetEntities();
-
 						for (auto& entity : entities)
 						{
 							if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
 							{
-								auto& transformComponent = entity.Get<TransformComponent>();
+								sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
 								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
 
-								float halfWidth = (boxComponent.Size.x * transformComponent.Scale.x) / 2.0f;
-								float halfHeight = (boxComponent.Size.y * transformComponent.Scale.y) / 2.0f;
+								float halfWidth = boxComponent.Size.x / 2.0f;
+								float halfHeight = boxComponent.Size.y / 2.0f;
 
-								glm::vec3 entityCenter = transformComponent.Translation;
+								sf::Vector2f corners[4] = {
+									{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y - halfHeight}, 
+									{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y - halfHeight}, 
+									{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y + halfHeight}, 
+									{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y + halfHeight}  
+								};
 
-								glm::vec3 colliderCenter = entityCenter + glm::vec3(
-									boxComponent.Offset.x * transformComponent.Scale.x,
-									boxComponent.Offset.y * transformComponent.Scale.y,
-									0.0f
-								);
-
-								glm::vec3 topLeftWorld = colliderCenter - glm::vec3(halfWidth, halfHeight, 0.0f);
-								glm::vec3 bottomRightWorld = colliderCenter + glm::vec3(halfWidth, halfHeight, 0.0f);
-
-								glm::vec2 topLeftScreen = WorldToScreen(topLeftWorld);
-								glm::vec2 bottomRightScreen = WorldToScreen(bottomRightWorld);
+								ImVec2 screenCorners[4];
+								for (int i = 0; i < 4; i++)
+								{
+									sf::Vector2f worldPos = worldTransform.transformPoint(corners[i]);
+									glm::vec2 screenPos = WorldToScreen(glm::vec3(worldPos.x, worldPos.y, 0.0f));
+									screenCorners[i] = ImVec2(screenPos.x, screenPos.y);
+								}
 
 								if (m_ToolbarPanel.m_ShowMovementCollision)
 								{
-									ImGui::GetWindowDrawList()->AddRect(
-										ImVec2(topLeftScreen.x, topLeftScreen.y),
-										ImVec2(bottomRightScreen.x, bottomRightScreen.y),
+									ImGui::GetWindowDrawList()->AddQuad(
+										screenCorners[0],
+										screenCorners[1],
+										screenCorners[2],
+										screenCorners[3],
 										IM_COL32(240, 240, 10, 240),
-										0.0f, ImDrawFlags_RoundCornersAll, 3.0f
+										3.0f
 									);
 								}
+							}
 
-								if (m_ToolbarPanel.m_ShowVisionCollision)
+							if (entity.Has<CircleCollider2DComponent>() && entity.Has<TransformComponent>())
+							{
+								sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
+								auto& circleComponent = entity.Get<CircleCollider2DComponent>();
+
+								sf::Vector2f localCenter(circleComponent.Offset.x, circleComponent.Offset.y);
+								sf::Vector2f worldCenter = worldTransform.transformPoint(localCenter);
+
+								sf::Vector2f scaleTest = worldTransform.transformPoint({ 1.0f, 0.0f }) - worldTransform.transformPoint({ 0.0f, 0.0f });
+								float worldScale = std::sqrt(scaleTest.x * scaleTest.x + scaleTest.y * scaleTest.y);
+								float worldRadius = circleComponent.Radius * worldScale;
+
+								glm::vec2 screenCenter = WorldToScreen(glm::vec3(worldCenter.x, worldCenter.y, 0.0f));
+								glm::vec2 screenEdge = WorldToScreen(glm::vec3(worldCenter.x + worldRadius, worldCenter.y, 0.0f));
+								float screenRadius = glm::distance(screenCenter, screenEdge);
+
+								if (m_ToolbarPanel.m_ShowMovementCollision)
 								{
-									ImGui::GetWindowDrawList()->AddRect(
-										ImVec2(topLeftScreen.x, topLeftScreen.y),
-										ImVec2(bottomRightScreen.x, bottomRightScreen.y),
-										IM_COL32(100, 100, 10, 240),
-										0.0f, ImDrawFlags_RoundCornersAll, 3.0f
+									ImGui::GetWindowDrawList()->AddCircle(
+										ImVec2(screenCenter.x, screenCenter.y),
+										screenRadius,
+										IM_COL32(240, 240, 10, 240),
+										32,
+										3.0f
 									);
 								}
 							}
@@ -469,7 +488,6 @@ namespace Luden
 			m_EditorScene = newScene;
 			m_ActiveScene = newScene;
 			m_ActiveScenePath = path;
-			m_ActiveScene->GetEntityManager().Update(0.0f);
 			SetPanelsContext();
 		}
 	}
@@ -597,35 +615,45 @@ namespace Luden
 		if (!entity.IsValid() || !entity.Has<TransformComponent>() || !entity.Has<SpriteRendererComponent>())
 			return;
 
-		auto& transform = entity.Get<TransformComponent>();
 		auto& spriteRendererComponent = entity.Get<SpriteRendererComponent>();
 		auto sprite = ResourceManager::GetResource<Sprite>(spriteRendererComponent.spriteHandle);
-
 		if (!sprite) return;
 
+		sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
+
 		sf::Vector2u texSize = sprite->GetSize();
+		glm::vec2 pivot = sprite->GetPivot();
 
-		float halfWidth = (texSize.x * transform.Scale.x) / 2.0f;
-		float halfHeight = (texSize.y * transform.Scale.y) / 2.0f;
+		float halfWidth = texSize.x / 2.0f;
+		float halfHeight = texSize.y / 2.0f;
 
-		glm::vec3 center = transform.Translation;
-
-		glm::vec3 worldCorners[] = {
-			center + glm::vec3(-halfWidth, -halfHeight, 0), 
-			center + glm::vec3(halfWidth, -halfHeight, 0),  
-			center + glm::vec3(halfWidth, halfHeight, 0),   
-			center + glm::vec3(-halfWidth, halfHeight, 0)   
+		sf::Vector2f localCorners[4] = {
+			{-halfWidth, -halfHeight}, 
+			{ halfWidth, -halfHeight}, 
+			{ halfWidth,  halfHeight}, 
+			{-halfWidth,  halfHeight}  
 		};
 
-		ImVec2 screenCorners[4];
-		for (int i = 0; i < 4; ++i)
+		float pivotOffsetX = texSize.x * pivot.x;
+		float pivotOffsetY = texSize.y * pivot.y;
+
+		for (int i = 0; i < 4; i++)
 		{
-			glm::vec2 tempPos = WorldToScreen(worldCorners[i]);
-			screenCorners[i] = ImVec2(tempPos.x, tempPos.y);
+			localCorners[i].x -= pivotOffsetX - halfWidth;
+			localCorners[i].y -= pivotOffsetY - halfHeight;
+		}
+
+		ImVec2 screenCorners[4];
+		for (int i = 0; i < 4; i++)
+		{
+			sf::Vector2f worldPos = worldTransform.transformPoint(localCorners[i]);
+			glm::vec2 screenPos = WorldToScreen(glm::vec3(worldPos.x, worldPos.y, 0.0f));
+			screenCorners[i] = ImVec2(screenPos.x, screenPos.y);
 		}
 
 		ImU32 color = IM_COL32(255, 255, 0, 255);
 		float thickness = 2.0f;
+
 		drawList->AddLine(screenCorners[0], screenCorners[1], color, thickness);
 		drawList->AddLine(screenCorners[1], screenCorners[2], color, thickness);
 		drawList->AddLine(screenCorners[2], screenCorners[3], color, thickness);
@@ -637,59 +665,130 @@ namespace Luden
 		if (!entity.IsValid() || !entity.Has<TransformComponent>())
 			return;
 
-		auto& transform = entity.Get<TransformComponent>();
+		sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
 
-		glm::vec3 centerWorldPos = transform.Translation;
+		sf::Vector2f worldCenter = worldTransform.transformPoint({ 0.0f, 0.0f });
+		glm::vec2 screenCenter = WorldToScreen(glm::vec3(worldCenter.x, worldCenter.y, 0.0f));
+		ImVec2 center = ImVec2(screenCenter.x, screenCenter.y);
 
-		glm::vec2 tempPos = WorldToScreen(centerWorldPos);
-		ImVec2 center = ImVec2(tempPos.x, tempPos.y);
+		sf::Vector2f worldRight = worldTransform.transformPoint({ 1.0f, 0.0f });
+		sf::Vector2f worldOrigin = worldTransform.transformPoint({ 0.0f, 0.0f });
+		float worldAngle = std::atan2(
+			worldOrigin.y - worldRight.y,  
+			worldRight.x - worldOrigin.x
+		);
 
 		const float axisLength = 50.0f;
 		const float thickness = 3.0f;
 
-		ImVec2 xAxisEnd = ImVec2(center.x + axisLength, center.y);
-		ImVec2 yAxisEnd = ImVec2(center.x, center.y - axisLength); 
+		float cosAngle = std::cos(worldAngle);
+		float sinAngle = std::sin(worldAngle);
 
-		ImU32 colorX = IM_COL32(255, 0, 0, 255);  
-		ImU32 colorY = IM_COL32(0, 255, 0, 255);  
-		ImU32 colorRot = IM_COL32(0, 150, 255, 255); 
+		ImVec2 xAxisEnd = ImVec2(
+			center.x + axisLength * cosAngle,
+			center.y - axisLength * sinAngle 
+		);
+
+		ImVec2 yAxisEnd = ImVec2(
+			center.x - axisLength * sinAngle,
+			center.y - axisLength * cosAngle
+		);
+
+		ImU32 colorX = IM_COL32(255, 0, 0, 255);
+		ImU32 colorY = IM_COL32(0, 255, 0, 255);
+		ImU32 colorRot = IM_COL32(0, 150, 255, 255);
 
 		switch (tool)
 		{
 		case ToolbarPanel::Tool::MOVE:
 		{
 			drawList->AddLine(center, xAxisEnd, colorX, thickness);
-			drawList->AddTriangleFilled(xAxisEnd, ImVec2(xAxisEnd.x - 10, xAxisEnd.y - 5), ImVec2(xAxisEnd.x - 10, xAxisEnd.y + 5), colorX);
+
+			ImVec2 xArrowDir = ImVec2(cosAngle, -sinAngle);
+			ImVec2 xArrowPerp = ImVec2(-sinAngle, -cosAngle);
+
+			drawList->AddTriangleFilled(
+				xAxisEnd,
+				ImVec2(xAxisEnd.x - 10 * xArrowDir.x - 5 * xArrowPerp.x,
+					xAxisEnd.y - 10 * xArrowDir.y - 5 * xArrowPerp.y),
+				ImVec2(xAxisEnd.x - 10 * xArrowDir.x + 5 * xArrowPerp.x,
+					xAxisEnd.y - 10 * xArrowDir.y + 5 * xArrowPerp.y),
+				colorX
+			);
 
 			drawList->AddLine(center, yAxisEnd, colorY, thickness);
-			drawList->AddTriangleFilled(yAxisEnd, ImVec2(yAxisEnd.x - 5, yAxisEnd.y + 10), ImVec2(yAxisEnd.x + 5, yAxisEnd.y + 10), colorY);
 
-			drawList->AddRectFilled(ImVec2(center.x - 8, center.y - 8), ImVec2(center.x + 8, center.y + 8), IM_COL32(255, 255, 255, 100));
+			ImVec2 yArrowDir = ImVec2(-sinAngle, -cosAngle);
+			ImVec2 yArrowPerp = ImVec2(-cosAngle, sinAngle);
+
+			drawList->AddTriangleFilled(
+				yAxisEnd,
+				ImVec2(yAxisEnd.x - 10 * yArrowDir.x - 5 * yArrowPerp.x,
+					yAxisEnd.y - 10 * yArrowDir.y - 5 * yArrowPerp.y),
+				ImVec2(yAxisEnd.x - 10 * yArrowDir.x + 5 * yArrowPerp.x,
+					yAxisEnd.y - 10 * yArrowDir.y + 5 * yArrowPerp.y),
+				colorY
+			);
+
+			drawList->AddRectFilled(
+				ImVec2(center.x - 8, center.y - 8),
+				ImVec2(center.x + 8, center.y + 8),
+				IM_COL32(255, 255, 255, 100)
+			);
 			break;
 		}
+
 		case ToolbarPanel::Tool::SCALE:
 		{
 			drawList->AddLine(center, xAxisEnd, colorX, thickness);
-			drawList->AddRectFilled(ImVec2(xAxisEnd.x - 5, xAxisEnd.y - 5), ImVec2(xAxisEnd.x + 5, xAxisEnd.y + 5), colorX);
+
+			ImVec2 xDir = ImVec2(cosAngle, -sinAngle);
+			ImVec2 xPerp = ImVec2(-sinAngle, -cosAngle);
+
+			drawList->AddQuadFilled(
+				ImVec2(xAxisEnd.x - 5 * xDir.x - 5 * xPerp.x, xAxisEnd.y - 5 * xDir.y - 5 * xPerp.y),
+				ImVec2(xAxisEnd.x + 5 * xDir.x - 5 * xPerp.x, xAxisEnd.y + 5 * xDir.y - 5 * xPerp.y),
+				ImVec2(xAxisEnd.x + 5 * xDir.x + 5 * xPerp.x, xAxisEnd.y + 5 * xDir.y + 5 * xPerp.y),
+				ImVec2(xAxisEnd.x - 5 * xDir.x + 5 * xPerp.x, xAxisEnd.y - 5 * xDir.y + 5 * xPerp.y),
+				colorX
+			);
 
 			drawList->AddLine(center, yAxisEnd, colorY, thickness);
-			drawList->AddRectFilled(ImVec2(yAxisEnd.x - 5, yAxisEnd.y - 5), ImVec2(yAxisEnd.x + 5, yAxisEnd.y + 5), colorY);
+
+			ImVec2 yDir = ImVec2(-sinAngle, -cosAngle);
+			ImVec2 yPerp = ImVec2(-cosAngle, sinAngle);
+
+			drawList->AddQuadFilled(
+				ImVec2(yAxisEnd.x - 5 * yDir.x - 5 * yPerp.x, yAxisEnd.y - 5 * yDir.y - 5 * yPerp.y),
+				ImVec2(yAxisEnd.x + 5 * yDir.x - 5 * yPerp.x, yAxisEnd.y + 5 * yDir.y - 5 * yPerp.y),
+				ImVec2(yAxisEnd.x + 5 * yDir.x + 5 * yPerp.x, yAxisEnd.y + 5 * yDir.y + 5 * yPerp.y),
+				ImVec2(yAxisEnd.x - 5 * yDir.x + 5 * yPerp.x, yAxisEnd.y - 5 * yDir.y + 5 * yPerp.y),
+				colorY
+			);
 			break;
 		}
+
 		case ToolbarPanel::Tool::ROTATE:
 		{
 			float radius = axisLength * 1.5f;
 
 			drawList->AddCircle(center, radius, colorRot, 64, thickness);
 
-			float rad = transform.angle * 3.1415926535f / 180.0f; 
+			ImVec2 rotLineEnd = ImVec2(
+				center.x + radius * cosAngle,
+				center.y - radius * sinAngle
+			);
+			drawList->AddLine(center, rotLineEnd, IM_COL32(255, 255, 255, 255), 2.0f);
 
-			ImVec2 rotLineEnd = ImVec2(center.x + radius * std::cos(rad), center.y - radius * std::sin(rad));
-			drawList->AddLine(center, rotLineEnd, IM_COL32(255, 255, 255, 255), 1.0f);
-
-			drawList->AddLine(center, ImVec2(center.x + radius, center.y), IM_COL32(255, 255, 255, 50), 1.0f);
+			drawList->AddLine(
+				center,
+				ImVec2(center.x + radius, center.y),
+				IM_COL32(255, 255, 255, 50),
+				1.0f
+			);
 			break;
 		}
+
 		default:
 			break;
 		}

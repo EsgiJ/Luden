@@ -278,7 +278,6 @@ namespace Luden
 				if (auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(tab))
 				{
 					// Reload
-					sceneTab->SaveScene();
 					sceneTab->LoadScene(sceneTab->GetActiveScenePath());
 				}
 			}
@@ -307,7 +306,6 @@ namespace Luden
 		if (!prefabRootEntity.IsValid())
 			return 0;
 
-		tempScene->GetEntityManager().Update(0.0f);
 		std::vector<Entity> instancesToUpdate;
 		for (auto& entity : tempScene->GetEntityManager().GetEntities())
 		{
@@ -329,7 +327,6 @@ namespace Luden
 			UpdateEntityFromPrefab(tempScene, instance, prefabRootEntity);
 		}
 
-		tempScene->GetEntityManager().Update(0.0f);
 		serializer.Serialize(scenePath.string());
 
 		return (int)instancesToUpdate.size();

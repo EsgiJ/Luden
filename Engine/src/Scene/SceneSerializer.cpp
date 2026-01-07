@@ -205,11 +205,6 @@ namespace Luden
 				jEntity["TextComponent"]["fontHandle"] = static_cast<uint64_t>(e.Get<TextComponent>().fontHandle);
 			}
 
-			if (e.Has<SpriteRendererComponent>())
-			{
-				jEntity["SpriteRendererComponent"]["textureHandle"] = static_cast<uint64_t>(e.Get<SpriteRendererComponent>().spriteHandle);
-			}
-
 			if (e.Has<InvincibilityComponent>())
 			{
 				jEntity["InvincibilityComponent"]["iframes"] = e.Get<InvincibilityComponent>().iframes;
@@ -269,7 +264,7 @@ namespace Luden
 
 		for (const auto& jEntity : inJson["Entities"])
 		{
-			Entity e = m_Scene->CreateEntity(jEntity["Tag"].get<std::string>(), jEntity["UUID"].get<uint64_t>());
+			Entity e = m_Scene->CreateEntityImmediate(jEntity["Tag"].get<std::string>(), jEntity["UUID"].get<uint64_t>());
 
 			if (jEntity.contains("RelationshipComponent"))
 			{
@@ -490,11 +485,6 @@ namespace Luden
 			if (jEntity.contains("TextComponent"))
 			{
 				e.Add<TextComponent>(jEntity["TextComponent"]["fontHandle"].get<uint64_t>());
-			}
-
-			if (jEntity.contains("SpriteRendererComponent"))
-			{
-				e.Add<SpriteRendererComponent>(jEntity["SpriteRendererComponent"]["textureHandle"].get<uint64_t>());
 			}
 		}
 

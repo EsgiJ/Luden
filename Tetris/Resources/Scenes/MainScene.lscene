@@ -1,6 +1,126 @@
 {
     "Entities": [
-        
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    15253912098995969077
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Empty Entity",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -768.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12059909674091003084
+        },
+        {
+            "PrefabComponent": {
+                "EntityID": 15253912098995969077,
+                "PrefabID": 929850912194158825
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12059909674091003084
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    0,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Block",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15253912098995969077
+        },
+        {
+            "PrefabComponent": {
+                "EntityID": 8602002638617620826,
+                "PrefabID": 929850912194158825
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    0,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Block",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8602002638617620826
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    248,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "YellowBlock",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -320.0,
+                    -576.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3573876856896070936
+        }
     ],
     "Name": "MainScene",
     "UUID": 5964104532555771547

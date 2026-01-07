@@ -218,8 +218,6 @@ namespace Luden {
 	{
 		m_IsPlaying = true;
 
-		m_EntityManager.Update(0.0f);
-
 		GEngine.SetActiveScene(this);
 
 		std::filesystem::path channelsPath = Project::GetActiveResourceDirectory() / "CollisionChannels.dat";
@@ -329,6 +327,78 @@ namespace Luden {
 		}
 
 		return childEntity;
+	}
+
+	Entity Scene::CreateEntityImmediate(const std::string& tag)
+	{
+		return CreateChildEntityImmediate({}, tag);
+	}
+
+	Entity Scene::CreateEntityImmediate(const std::string& tag, UUID entityID)
+	{
+		return CreateChildEntityImmediate({}, tag, entityID);
+	}
+
+	Entity Scene::CreateChildEntityImmediate(Entity parent, const std::string& name)
+	{
+		auto childEntity = m_EntityManager.AddEntityImmediate(name, this);
+		childEntity.Add<TransformComponent>();
+		childEntity.Add<RelationshipComponent>();
+
+		if (parent.IsValid())
+		{
+			if (!parent.Has<RelationshipComponent>())
+				parent.Add<RelationshipComponent>();
+
+			childEntity.SetParent(parent);
+		}
+
+		return childEntity;
+	}
+
+	Entity Scene::CreateChildEntityImmediate(Entity parent, const std::string& name, UUID entityID)
+	{
+		auto childEntity = m_EntityManager.AddEntityImmediate(name, entityID, this);
+		childEntity.Add<TransformComponent>();
+		childEntity.Add<RelationshipComponent>();
+
+		if (parent.IsValid())
+		{
+			if (!parent.Has<RelationshipComponent>())
+				parent.Add<RelationshipComponent>();
+
+			childEntity.SetParent(parent);
+		}
+
+		return childEntity;
+	}
+
+	void Scene::DestroyEntityImmediate(const Entity& entity)
+	{
+		if (!entity.IsValid())
+			return;
+
+		if (entity.Has<RelationshipComponent>())
+		{
+			auto childrenCopy = entity.Children();
+			for (auto childId : childrenCopy)
+			{
+				Entity child = TryGetEntityWithUUID(childId);
+				if (child.IsValid())
+					DestroyEntityImmediate(child);
+			}
+		}
+
+		UnparentEntity(const_cast<Entity&>(entity));
+
+		m_EntityManager.DestroyEntityImmediate(entity.UUID());
+	}
+
+	void Scene::DestroyEntityImmediate(const EntityID& entityID)
+	{
+		Entity entity = TryGetEntityWithUUID(entityID);
+		if (entity.IsValid())
+			DestroyEntityImmediate(entity);
 	}
 
 	Entity Scene::DuplicateEntity(Entity& entity)

@@ -9,8 +9,7 @@ namespace Luden {
 
     Entity Prefab::CreatePrefabFromEntity(Entity entity)
     {
-        Entity newEntity = m_Scene->CreateEntity(entity.Tag());
-        m_Scene->GetEntityManager().Update(0.0f);
+		Entity newEntity = m_Scene->CreateEntityImmediate(entity.Tag());
 
         auto sourceScene = entity.GetScene();
 
@@ -53,7 +52,6 @@ namespace Luden {
 	Prefab::Prefab()
 	{
 		m_Scene = Scene::CreateEmpty();
-		m_Scene->GetEntityManager().Update(0.0f);
 	}
 
 	Prefab::~Prefab()
@@ -69,7 +67,6 @@ namespace Luden {
 		{
 			ResourceImporter::Serialize(shared_from_this());
 		}
-		m_Scene->GetEntityManager().Update(0.0f);
 	}
 
 	std::unordered_set<ResourceHandle> Prefab::GetResourceList(bool recursive)

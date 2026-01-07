@@ -7,20 +7,19 @@
             },
             "SpriteRendererComponent": {
                 "spriteHandle": 9840798825938959016,
-                "textureHandle": 9840798825938959016,
                 "tint": [
                     255,
-                    255,
-                    255,
+                    0,
+                    0,
                     255
                 ]
             },
             "Tag": "Block",
             "TransformComponent": {
                 "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ],
                 "Translation": [
                     0.0,

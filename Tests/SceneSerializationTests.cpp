@@ -26,17 +26,15 @@ void RunSceneSerializationTests()
 
 			auto scene = std::make_shared<Scene>("TestScene");
 
-			auto entity1 = scene->CreateEntity("Entity1");
+			auto entity1 = scene->CreateEntityImmediate("Entity1");
 			auto& transform1 = entity1.Get<TransformComponent>();
 			transform1.Translation = glm::vec3(1, 2, 3);
 			transform1.angle = 45.0f;
 			transform1.Scale = glm::vec3(2, 2, 1);
 
-			auto entity2 = scene->CreateEntity("Entity2");
+			auto entity2 = scene->CreateEntityImmediate("Entity2");
 			auto& sprite = entity2.Add<SpriteRendererComponent>();
 			sprite.tint = sf::Color::Red;
-
-			scene->GetEntityManager().Update(0.0f);
 
 			std::cout << "    Serializing scene...\n";
 			SceneSerializer serializer(scene);
@@ -50,8 +48,6 @@ void RunSceneSerializationTests()
 			auto loadedScene = std::make_shared<Scene>("LoadedScene");
 			SceneSerializer deserializer(loadedScene);
 			deserializer.Deserialize(filepath);
-
-			loadedScene->GetEntityManager().Update(0.0f);
 
 			auto& entities = loadedScene->GetEntityManager().GetEntityVec();
 			std::cout << "    Loaded " << entities.size() << " entities\n";
@@ -68,7 +64,7 @@ void RunSceneSerializationTests()
 
 			auto scene = std::make_shared<Scene>("IntegrityTest");
 
-			auto entity = scene->CreateEntity("TestEntity");
+			auto entity = scene->CreateEntityImmediate("TestEntity");
 			auto& transform = entity.Get<TransformComponent>();
 			transform.Translation = glm::vec3(1.5f, 2.5f, 3.5f);
 			transform.angle = 45.0f;
@@ -76,8 +72,6 @@ void RunSceneSerializationTests()
 
 			auto& sprite = entity.Add<SpriteRendererComponent>();
 			sprite.tint = sf::Color(128, 64, 255, 200);
-
-			scene->GetEntityManager().Update(0.0f);
 
 			std::string filepath = "Tests/integrity_test.lscene";
 
@@ -89,8 +83,6 @@ void RunSceneSerializationTests()
 			auto loadedScene = std::make_shared<Scene>("LoadedIntegrity");
 			SceneSerializer deserializer(loadedScene);
 			deserializer.Deserialize(filepath);
-
-			loadedScene->GetEntityManager().Update(0.0f);
 
 			auto& entities = loadedScene->GetEntityManager().GetEntities();
 			AssertTrue(!entities.empty(), "Entities should be loaded");
@@ -124,11 +116,11 @@ void RunSceneSerializationTests()
 			auto scene = std::make_shared<Scene>("ComplexScene");
 
 			// Camera entity
-			auto camera = scene->CreateEntity("MainCamera");
+			auto camera = scene->CreateEntityImmediate("MainCamera");
 			auto& cam = camera.Add<Camera2DComponent>();
 			cam.Primary = true;
 
-			auto player = scene->CreateEntity("Player");
+			auto player = scene->CreateEntityImmediate("Player");
 			player.Get<TransformComponent>().Translation = glm::vec3(100, 200, 0);
 			player.Add<SpriteRendererComponent>().tint = sf::Color::Blue;
 			auto& playerRb = player.Add<RigidBody2DComponent>();
@@ -138,13 +130,11 @@ void RunSceneSerializationTests()
 			playerCol.Size = glm::vec2(32, 32);
 			playerCol.Density = 1.0f;
 
-			auto ground = scene->CreateEntity("Ground");
+			auto ground = scene->CreateEntityImmediate("Ground");
 			ground.Get<TransformComponent>().Translation = glm::vec3(0, 400, 0);
 			ground.Add<SpriteRendererComponent>().tint = sf::Color::Green;
 			ground.Add<RigidBody2DComponent>().BodyType = RigidBody2DComponent::Type::Static;
 			ground.Add<BoxCollider2DComponent>().Size = glm::vec2(800, 50);
-
-			scene->GetEntityManager().Update(0.0f);
 
 			std::cout << "    Created " << scene->GetEntityManager().GetEntityVec().size() << " entities\n";
 
@@ -158,8 +148,6 @@ void RunSceneSerializationTests()
 			auto loadedScene = std::make_shared<Scene>("LoadedComplex");
 			SceneSerializer deserializer(loadedScene);
 			deserializer.Deserialize(filepath);
-
-			loadedScene->GetEntityManager().Update(0.0f);
 
 			auto& entities = loadedScene->GetEntityManager().GetEntityVec();
 			std::cout << "    Loaded " << entities.size() << " entities\n";

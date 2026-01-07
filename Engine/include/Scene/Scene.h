@@ -51,15 +51,23 @@ namespace Luden {
 		void OnEvent(const std::optional<sf::Event>& evt);
 
 		// Entity management
+		Entity CreateEntityImmediate(const std::string& tag);
+		Entity CreateEntityImmediate(const std::string& tag, UUID entityID);
+		Entity CreateChildEntityImmediate(Entity parent, const std::string& name);
+		Entity CreateChildEntityImmediate(Entity parent, const std::string& name, UUID entityID);
+
+		void DestroyEntityImmediate(const Entity& entity);
+		void DestroyEntityImmediate(const EntityID& entityID);
+
 		Entity CreateEntity(const std::string& tag = "");
 		Entity CreateChildEntity(Entity parent, const std::string& name = "");
 		Entity CreateEntity(const std::string& tag, UUID entityID);
 		Entity CreateChildEntity(Entity parent, const std::string& name, UUID entityID);
 
-		Entity DuplicateEntity(Entity& entity);
-
 		void DestroyEntity(const Entity& entity);
 		void DestroyEntity(const EntityID& entityID);
+
+		Entity DuplicateEntity(Entity& entity);
 
 		void ParentEntity(Entity& entity, Entity& parent);
 		void UnparentEntity(Entity& entity);
