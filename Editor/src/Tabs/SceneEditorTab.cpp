@@ -32,6 +32,8 @@ namespace Luden
 		m_EditorCamera.SetMaxZoom(5.0f);
 		m_EditorCamera.SetPosition(initialPos);
 		m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
+
+		m_ActiveScene->GetEntityManager().Update(0.0f);
 	}
 
 	SceneEditorTab::~SceneEditorTab() 
@@ -467,7 +469,7 @@ namespace Luden
 			m_EditorScene = newScene;
 			m_ActiveScene = newScene;
 			m_ActiveScenePath = path;
-			
+			m_ActiveScene->GetEntityManager().Update(0.0f);
 			SetPanelsContext();
 		}
 	}

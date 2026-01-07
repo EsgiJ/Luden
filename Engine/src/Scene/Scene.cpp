@@ -316,11 +316,17 @@ namespace Luden {
 	{
 		auto childEntity = m_EntityManager.AddEntity(name, entityID, this);
 		childEntity.Add<TransformComponent>();
-
 		childEntity.Add<RelationshipComponent>();
 
 		if (parent.IsValid())
+		{
+			if (!parent.Has<RelationshipComponent>())
+			{
+				parent.Add<RelationshipComponent>();
+			}
+
 			childEntity.SetParent(parent);
+		}
 
 		return childEntity;
 	}
@@ -378,9 +384,6 @@ namespace Luden {
 
 	Entity Scene::CreatePrefabEntity(Entity entity, Entity parent, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale)
 	{
-		if (!entity.Has<PrefabComponent>())
-			return {};
-
 		Entity newEntity = CreateEntity(entity.Tag());
 		if (parent.IsValid())
 			ParentEntity(newEntity, parent);
@@ -486,7 +489,6 @@ namespace Luden {
 			CopyComponentIfExists<RelationshipComponent>(dest, source);
 		}
 
-		CopyComponentIfExists<PrefabComponent>(dest, source);
 		CopyComponentIfExists<DamageComponent>(dest, source);
 		CopyComponentIfExists<DraggableComponent>(dest, source);
 		CopyComponentIfExists<FollowPLayerComponent>(dest, source);
@@ -509,6 +511,25 @@ namespace Luden {
 
 	void Scene::DestroyEntity(const Entity& entity) 
 	{
+		if (!entity.IsValid())
+			return;
+
+		if (entity.Has<RelationshipComponent>())
+		{
+			auto childrenCopy = entity.Children(); 
+
+			for (auto childId : childrenCopy)
+			{
+				Entity child = TryGetEntityWithUUID(childId);
+				if (child.IsValid())
+				{
+					DestroyEntity(child); 
+				}
+			}
+		}
+
+		UnparentEntity(const_cast<Entity&>(entity));
+
 		m_EntityManager.DestroyEntity(entity.UUID());
 	}
 
@@ -543,12 +564,24 @@ namespace Luden {
 
 	void Scene::UnparentEntity(Entity& entity)
 	{
-		Entity parent = TryGetEntityWithUUID(entity.GetParentUUID());
-		if (!parent.IsValid())
+		if (!entity.Has<RelationshipComponent>())
 			return;
 
-		auto& parentChildren = parent.Children();
-		parentChildren.erase(std::remove(parentChildren.begin(), parentChildren.end(), entity.UUID()), parentChildren.end());
+		Entity parent = TryGetEntityWithUUID(entity.GetParentUUID());
+		if (!parent.IsValid())
+		{
+			entity.SetParentUUID(0);
+			return;
+		}
+
+		if (parent.Has<RelationshipComponent>())
+		{
+			auto& parentChildren = parent.Children();
+			parentChildren.erase(
+				std::remove(parentChildren.begin(), parentChildren.end(), entity.UUID()),
+				parentChildren.end()
+			);
+		}
 
 		entity.SetParentUUID(0);
 	}

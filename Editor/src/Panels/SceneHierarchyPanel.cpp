@@ -464,12 +464,14 @@ namespace Luden
 					auto prefab = ResourceManager::GetResource<Prefab>(prefabHandle);
 					prefab->Create(entity, true);
 
+					auto& prefabComponent = entity.Add<PrefabComponent>();
+					prefabComponent.EntityID = entity.UUID();
+					prefabComponent.PrefabID = prefab->Handle;
+
 					if (m_EditorApplication)
 					{
 						m_EditorApplication->RequestOpenResource(prefabPath);
 					}
-
-					std::cout << "Prefab created: " << prefabPath << std::endl;
 
 					prefabName[0] = '\0';
 					m_EntityToConvertToPrefab = {};

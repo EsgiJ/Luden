@@ -1,10 +1,6 @@
 {
     "Entities": [
         {
-            "PrefabComponent": {
-                "EntityID": 1569706948646709949,
-                "PrefabID": 13190603939172771513
-            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
@@ -22,9 +18,9 @@
             "Tag": "Block",
             "TransformComponent": {
                 "Scale": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
+                    1.0,
+                    1.0,
+                    1.0
                 ],
                 "Translation": [
                     0.0,
@@ -33,11 +29,11 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 8346511991046720896
+            "UUID": 8238316854729315779
         }
     ],
     "Name": "Block",
-    "PrefabHandle": 13190603939172771513,
-    "RootEntityUUID": 1569706948646709949,
-    "UUID": 1138579144514118989
+    "PrefabHandle": 929850912194158825,
+    "RootEntityUUID": 8238316854729315779,
+    "UUID": 11527171607044793182
 }

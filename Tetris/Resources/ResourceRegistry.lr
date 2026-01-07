@@ -6,6 +6,11 @@
       "Type": "Scene"
     },
     {
+      "FilePath": "Prefabs/Block.lprefab",
+      "Handle": 929850912194158825,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Scenes/MainScene.lscene",
       "Handle": 5964104532555771547,
       "Type": "Scene"
@@ -24,11 +29,6 @@
       "FilePath": "Images/block_1_white.png",
       "Handle": 11833009445123668017,
       "Type": "Texture"
-    },
-    {
-      "FilePath": "Prefabs/Block.lprefab",
-      "Handle": 13190603939172771513,
-      "Type": "Prefab"
     }
   ]
 }

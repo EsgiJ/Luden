@@ -307,6 +307,7 @@ namespace Luden
 		if (!prefabRootEntity.IsValid())
 			return 0;
 
+		tempScene->GetEntityManager().Update(0.0f);
 		std::vector<Entity> instancesToUpdate;
 		for (auto& entity : tempScene->GetEntityManager().GetEntities())
 		{
@@ -338,8 +339,6 @@ namespace Luden
 		Entity instance,
 		Entity prefabRootEntity)
 	{
-		glm::vec3 savedPosition = instance.Get<TransformComponent>().Translation;
-
 		PrefabComponent savedPrefabComp = instance.Get<PrefabComponent>();
 
 		Entity savedParent = instance.GetParent();
@@ -349,7 +348,7 @@ namespace Luden
 		TransformComponent prefabTransform = prefabRootEntity.Get<TransformComponent>();
 		TransformComponent& instanceTransform = instance.Get<TransformComponent>();
 
-		instanceTransform.Translation = savedPosition;
+		instanceTransform.Translation = prefabTransform.Translation;
 		instanceTransform.Scale = prefabTransform.Scale;        
 		instanceTransform.angle = prefabTransform.angle;        
 
@@ -378,14 +377,12 @@ namespace Luden
 
 			if (childInstance.IsValid() && prefabChild.IsValid())
 			{
-				glm::vec3 childPosition = childInstance.Get<TransformComponent>().Translation;
-
 				scene->CopyAllComponents(childInstance, prefabChild, true);
 
 				TransformComponent prefabChildTransform = prefabChild.Get<TransformComponent>();
 				TransformComponent& instanceChildTransform = childInstance.Get<TransformComponent>();
 
-				instanceChildTransform.Translation = childPosition;
+				instanceChildTransform.Translation = prefabChildTransform.Translation;
 				instanceChildTransform.Scale = prefabChildTransform.Scale;
 				instanceChildTransform.angle = prefabChildTransform.angle;
 

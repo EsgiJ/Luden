@@ -14,10 +14,6 @@ namespace Luden {
 
         auto sourceScene = entity.GetScene();
 
-		auto& prefabComponent = newEntity.Add<PrefabComponent>();
-		prefabComponent.PrefabID = Handle;
-		prefabComponent.EntityID = newEntity.UUID();
-
         sourceScene->CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<DamageComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<DraggableComponent>(newEntity, entity);

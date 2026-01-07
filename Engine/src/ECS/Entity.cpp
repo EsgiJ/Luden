@@ -57,6 +57,7 @@ namespace Luden
 			currentParent.RemoveChild(*this);
 
 		SetParentUUID(parent.UUID());
+		parent.Children().push_back(m_UUID);
 	}
 
 	Entity Entity::GetParent()
