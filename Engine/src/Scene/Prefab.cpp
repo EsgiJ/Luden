@@ -3,49 +3,56 @@
 #include "Scene/Scene.h"
 #include "Resource/ResourceImporter.h"
 #include "Resource/ResourceManager.h"
+#include <iostream>
 
 namespace Luden {
 
-	Entity Prefab::CreatePrefabFromEntity(Entity entity)
-	{
-		Entity newEntity = m_Scene->CreateEntity();
-		m_Scene->GetEntityManager().Update(0.0f);
+    Entity Prefab::CreatePrefabFromEntity(Entity entity)
+    {
+        Entity newEntity = m_Scene->CreateEntity(entity.Tag());
+        m_Scene->GetEntityManager().Update(0.0f);
+
+        auto sourceScene = entity.GetScene();
 
 		auto& prefabComponent = newEntity.Add<PrefabComponent>();
 		prefabComponent.PrefabID = Handle;
 		prefabComponent.EntityID = newEntity.UUID();
 
-		entity.GetScene()->CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<DamageComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<DraggableComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<FollowPLayerComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<GravityComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<HealthComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<InputComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<Camera2DComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<RigidBody2DComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<CircleCollider2DComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<SpriteAnimatorComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<TextComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<InvincibilityComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<LifespanComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<PatrolComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<StateComponent>(newEntity, entity);
-		entity.GetScene()->CopyComponentIfExists<TransformComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<DamageComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<DraggableComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<FollowPLayerComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<GravityComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<HealthComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<InputComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<Camera2DComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<RigidBody2DComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<CircleCollider2DComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<NativeScriptComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<SpriteAnimatorComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<TextComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<InvincibilityComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<LifespanComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<PatrolComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<StateComponent>(newEntity, entity);
+        sourceScene->CopyComponentIfExists<TransformComponent>(newEntity, entity);
 
-		for (auto childId : entity.Children())
-		{
-			Entity childDuplicate = CreatePrefabFromEntity(entity.GetScene()->GetEntityWithUUID(childId));
+        for (auto childId : entity.Children())
+        {
+            Entity childEntity = sourceScene->GetEntityWithUUID(childId);
+            Entity childDuplicate = CreatePrefabFromEntity(childEntity);
 
-			childDuplicate.SetParentUUID(newEntity.UUID());
-			newEntity.Children().push_back(childDuplicate.UUID());
-		}
+            if (childDuplicate.IsValid())
+            {
+                childDuplicate.SetParentUUID(newEntity.UUID());
+                newEntity.Children().push_back(childDuplicate.UUID());
+            }
+        }
 
-		return newEntity;
-	}
+        return newEntity;
+    }
 
 	Prefab::Prefab()
 	{

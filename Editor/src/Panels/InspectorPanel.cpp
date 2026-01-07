@@ -15,6 +15,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 #include "Physics2D/CollisionChannelRegistry.h"
+#include "Resource/ResourceImporter.h"
 
 namespace Luden
 {
@@ -646,6 +647,50 @@ namespace Luden
 
 					ImGui::Separator();
 
+					if (prefabComp.PrefabID != 0)
+					{
+						if (ImGui::Button(ICON_FA_UPLOAD " Apply to Prefab", ImVec2(-1, 0)))
+						{
+							ImGui::OpenPopup("ApplyToPrefabConfirmation");
+						}
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::SetTooltip("Apply changes from this entity back to the prefab");
+						}
+
+						if (ImGui::BeginPopupModal("ApplyToPrefabConfirmation", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+						{
+							ImGui::TextColored(ImVec4(0.0f, 0.8f, 1.0f, 1.0f), ICON_FA_INFO " Apply to Prefab");
+							ImGui::Text("This will update the prefab with changes from this entity.");
+							ImGui::Text("All other prefab instances in ALL scenes will be affected.");
+							ImGui::Spacing();
+							ImGui::TextColored(ImVec4(1.0f, 0.6f, 0.0f, 1.0f), ICON_FA_TRIANGLE_EXCLAMATION " Warning");
+							ImGui::Text("This operation cannot be undone!");
+							ImGui::Separator();
+
+							if (ImGui::Button("Yes, Apply", ImVec2(120, 0)))
+							{
+								auto prefab = ResourceManager::GetResource<Prefab>(prefabComp.PrefabID);
+								if (prefab)
+								{
+									ApplyEntityToPrefab(entity, prefab);
+
+									std::cout << "[InspectorPanel] Changes applied to prefab successfully!" << std::endl;
+								}
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::SameLine();
+
+							if (ImGui::Button("Cancel", ImVec2(120, 0)))
+							{
+								ImGui::CloseCurrentPopup();
+							}
+
+							ImGui::EndPopup();
+						}
+					}
+
 					if (ImGui::Button(ICON_FA_LINK_SLASH " Break Prefab Link", ImVec2(-1, 0)))
 					{
 						entity.Remove<PrefabComponent>();
@@ -1230,5 +1275,45 @@ namespace Luden
 		}
 
 		return pressed;
+	}
+
+	void InspectorPanel::ApplyEntityToPrefab(Entity entity, std::shared_ptr<Prefab> prefab)
+	{
+		if (!prefab || !prefab->GetScene())
+			return;
+
+		Entity prefabRootEntity = prefab->GetRootEntity();
+		if (!prefabRootEntity.IsValid())
+			return;
+
+		auto prefabScene = prefab->GetScene();
+		prefabScene->CopyAllComponents(prefabRootEntity, entity, true);
+
+		ApplyChildrenToPrefab(entity, prefabRootEntity);
+
+		ResourceImporter::Serialize(prefab);
+
+		std::cout << "Entity applied to prefab successfully!" << std::endl;
+	}
+
+	void InspectorPanel::ApplyChildrenToPrefab(Entity sourceEntity, Entity prefabEntity)
+	{
+		auto sourceChildren = sourceEntity.Children();
+		auto prefabChildren = prefabEntity.Children();
+
+		size_t minSize = std::min(sourceChildren.size(), prefabChildren.size());
+
+		for (size_t i = 0; i < minSize; i++)
+		{
+			Entity sourceChild = sourceEntity.GetScene()->TryGetEntityWithUUID(sourceChildren[i]);
+			Entity prefabChild = prefabEntity.GetScene()->TryGetEntityWithUUID(prefabChildren[i]);
+
+			if (sourceChild.IsValid() && prefabChild.IsValid())
+			{
+				prefabChild.GetScene()->CopyAllComponents(prefabChild, sourceChild, true);
+
+				ApplyChildrenToPrefab(sourceChild, prefabChild);
+			}
+		}
 	}
 }

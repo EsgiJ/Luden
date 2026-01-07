@@ -31,6 +31,9 @@ namespace Luden
 		void DisplayComponentInPopup(const std::string& name);
 
 		bool EntityButton(UUID& id);
+	
+		void ApplyEntityToPrefab(Entity entity, std::shared_ptr<Prefab> prefab);
+		void ApplyChildrenToPrefab(Entity sourceEntity, Entity prefabEntity);
 
 	private:
 		std::shared_ptr<Scene> m_Context;

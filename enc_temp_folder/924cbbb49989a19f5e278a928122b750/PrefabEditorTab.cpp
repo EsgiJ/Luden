@@ -166,13 +166,50 @@ namespace Luden
 			return;
 		}
 
+		// ============= DEBUG LOG =============
 		Entity rootEntity = m_Prefab->GetRootEntity();
 		if (!rootEntity.IsValid())
-			return;
+		{
+			std::cerr << "[PrefabEditor] ERROR: Root entity is INVALID!" << std::endl;
+			std::cerr << "[PrefabEditor] Prefab Handle: " << m_Prefab->Handle << std::endl;
+			std::cerr << "[PrefabEditor] Prefab Name: " << m_Prefab->GetName() << std::endl;
 
-		ResourceImporter::Serialize(m_Prefab);
-		UpdateAllScenesWithPrefab(m_Prefab->Handle);
-		m_IsDirty = false;
+			auto scene = m_Prefab->GetScene();
+			if (!scene)
+			{
+				std::cerr << "[PrefabEditor] Prefab scene is NULL!" << std::endl;
+			}
+			else
+			{
+				int entityCount = scene->GetEntityManager().GetEntities().size();
+				std::cerr << "[PrefabEditor] Prefab scene has " << entityCount << " entities" << std::endl;
+
+				if (entityCount > 0)
+				{
+					std::cerr << "[PrefabEditor] Entities in prefab scene:" << std::endl;
+					for (auto& e : scene->GetEntityManager().GetEntities())
+					{
+						std::cerr << "  - " << e.Tag() << " (UUID: " << e.UUID() << ")" << std::endl;
+					}
+				}
+			}
+			return;
+		}
+		std::cout << "[PrefabEditor] Root entity is VALID: " << rootEntity.Tag()
+			<< " (UUID: " << rootEntity.UUID() << ")" << std::endl;
+		// ============= DEBUG LOG BÝTÝÞ =============
+
+		try
+		{
+			ResourceImporter::Serialize(m_Prefab);
+			UpdateAllScenesWithPrefab(m_Prefab->Handle);
+			m_IsDirty = false;
+			std::cout << "Prefab saved: " << m_FilePath << std::endl;
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "[PrefabEditor] Failed to save prefab: " << e.what() << std::endl;
+		}
 	}
 
 	void PrefabEditorTab::LoadPrefab(const std::filesystem::path& filepath)
@@ -261,6 +298,8 @@ namespace Luden
 		auto resourceManager = Project::GetEditorResourceManager();
 		auto sceneHandles = resourceManager->GetAllResourcesWithType(ResourceType::Scene);
 
+		std::cout << "[PrefabEditor] Updating " << sceneHandles.size() << " scene(s)..." << std::endl;
+
 		int totalUpdated = 0;
 
 		for (auto sceneHandle : sceneHandles)
@@ -268,6 +307,8 @@ namespace Luden
 			int updated = UpdateSceneWithPrefab(sceneHandle, prefabHandle);
 			totalUpdated += updated;
 		}
+
+		std::cout << "[PrefabEditor] Updated " << totalUpdated << " instance(s) total" << std::endl;
 
 		if (m_EditorApplication)
 		{
@@ -279,7 +320,6 @@ namespace Luden
 				{
 					// Reload
 					sceneTab->SaveScene();
-					sceneTab->LoadScene(sceneTab->GetActiveScenePath());
 				}
 			}
 		}
@@ -296,8 +336,10 @@ namespace Luden
 		std::filesystem::path scenePath = resourceManager->GetFileSystemPath(metadata);
 
 		if (!serializer.Deserialize(scenePath.string()))
+		{
+			std::cerr << "[PrefabEditor] Failed to load scene: " << scenePath << std::endl;
 			return 0;
-		
+		}
 
 		auto prefab = ResourceManager::GetResource<Prefab>(prefabHandle);
 		if (!prefab || !prefab->GetScene())

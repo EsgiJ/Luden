@@ -32,6 +32,11 @@ namespace Luden
 		void RenderAddEntityMenu();
 		glm::vec2 WorldToScreen(const glm::vec3& worldPos);
 
+		void UpdateAllScenesWithPrefab(ResourceHandle prefabHandle);
+		int UpdateSceneWithPrefab(ResourceHandle sceneHandle, ResourceHandle prefabHandle);
+		void UpdateEntityFromPrefab(std::shared_ptr<Scene> scene, Entity instance, Entity prefabRootEntity);
+		void UpdateChildrenFromPrefab(std::shared_ptr<Scene> scene, Entity parentInstance, Entity prefabParent);
+
 	private:
 		std::shared_ptr<Prefab> m_Prefab;
 		std::shared_ptr<Scene> m_PrefabScene;

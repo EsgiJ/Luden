@@ -41,9 +41,11 @@ namespace Luden
 		void OnScenePause(bool isPaused = false);
 
 		virtual void SaveScene();
-		std::shared_ptr<Scene> GetActiveScene() { return m_ActiveScene; }
+		virtual void LoadScene(const std::filesystem::path& path);
 
+		std::shared_ptr<Scene> GetActiveScene() { return m_ActiveScene; }
 		SceneState GetSceneState() { return m_SceneState; }
+		std::filesystem::path& GetActiveScenePath() { return m_ActiveScenePath; }
 	private:
 		virtual void RenderContent() override final;
 		virtual void InitializeDockspace() override final;
@@ -55,9 +57,6 @@ namespace Luden
 	private:
 		void SetEntityPositionToMouse(Entity entity);
 		void SetPanelsContext();
-
-		virtual void LoadScene(const std::filesystem::path& path);
-
 		void ShowToolbarPlayPause();
 
 		glm::vec2 WorldToScreen(const glm::vec3& worldPos);

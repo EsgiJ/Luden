@@ -61,6 +61,8 @@ namespace Luden
 		bool OnKeyPressed(const sf::Event::KeyPressed& key);
 
 		void RenderMenuBar();
+
+		std::vector<std::shared_ptr<EditorTab>>& GetEditorTabs() { return m_EditorTabs; }
 	private:
 		std::vector<std::shared_ptr<EditorTab>> m_EditorTabs;
 		std::shared_ptr<EditorTab> m_FocusedTab;

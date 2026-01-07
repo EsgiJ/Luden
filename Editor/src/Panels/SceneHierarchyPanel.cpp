@@ -14,6 +14,7 @@ namespace Luden
 	{
 		m_Context = scene;
 		m_EditorApplication = editorApplication;
+		m_SelectedEntity = {};
 		if (m_Context)
 		{
 			const Luden::EntityVec& entities = m_Context->GetEntityManager().GetEntityVec();

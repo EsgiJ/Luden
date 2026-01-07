@@ -26,8 +26,8 @@
       "Type": "Texture"
     },
     {
-      "FilePath": "Prefabs/PF_Block.lprefab",
-      "Handle": 12164900414779734416,
+      "FilePath": "Prefabs/Block.lprefab",
+      "Handle": 13190603939172771513,
       "Type": "Prefab"
     }
   ]

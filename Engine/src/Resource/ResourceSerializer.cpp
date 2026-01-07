@@ -427,16 +427,10 @@ namespace Luden
 		if (j.contains("Name"))
 			prefab->SetName(j["Name"].get<std::string>());
 
-		prefab->SetScene(scene); 
+		prefab->SetScene(scene);
 		prefab->Handle = j["PrefabHandle"].get<uint64_t>();
 
 		UUID rootEntityUUID = j["RootEntityUUID"].get<uint64_t>();
-		Entity rootEntity = scene->TryGetEntityWithUUID(rootEntityUUID);
-
-		if (rootEntity.IsValid())
-		{
-			prefab->SetRootEntity(rootEntity);
-		}
 
 		prefab->GetScene()->GetEntityManager().Update(0.0f);
 		resource = prefab;
