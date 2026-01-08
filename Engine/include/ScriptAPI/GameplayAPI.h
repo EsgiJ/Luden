@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EngineAPI.h"
+#include "Luden.h"
 
 #include <vector>
 #include <string>
@@ -14,6 +15,9 @@ namespace Luden
 	class Entity;
 	namespace GameplayAPI
 	{
+		ENGINE_API Entity SpawnPrefab(PrefabRef prefab, const glm::vec3& location);
+		ENGINE_API Entity SpawnPrefabAsChild(PrefabRef prefab, Entity parent, const glm::vec3& localPosition);
+
 		 ENGINE_API void LoadScene(const std::string& sceneName);
 		 ENGINE_API Scene* GetCurrentScene();
 		 ENGINE_API void ReloadCurrentScene();
@@ -33,6 +37,10 @@ namespace Luden
 		 ENGINE_API void LookAt(Entity source, Entity target);
 		 
 		 ENGINE_API void QuitGame();
+
+		 ENGINE_API float RandomFloat(float min = 0.0f, float max = 1.0f);
+		 ENGINE_API int RandomInt(int min, int max);
+		 ENGINE_API bool RandomBool(float probability = 0.5f);
 	}
 }
 

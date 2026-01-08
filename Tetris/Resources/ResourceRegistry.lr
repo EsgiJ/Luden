@@ -11,14 +11,19 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Prefabs/Tetromino_O.lprefab",
+      "Handle": 1443894032580534568,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Prefabs/Tetromino_S.lprefab",
+      "Handle": 2005598862416730136,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Scenes/MainScene.lscene",
       "Handle": 5964104532555771547,
       "Type": "Scene"
-    },
-    {
-      "FilePath": "Tetromino_I.lprefab",
-      "Handle": 7072444236537261698,
-      "Type": "Prefab"
     },
     {
       "FilePath": "Images/block_1_white_outline.png",
@@ -26,14 +31,39 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Prefabs/Tetromino_L.lprefab",
+      "Handle": 9565779202874628950,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Sprites/WhiteBlock.lsprite",
       "Handle": 9840798825938959016,
       "Type": "Sprite"
     },
     {
+      "FilePath": "Animations/emre.lanim",
+      "Handle": 11191712103576786106,
+      "Type": "Animation"
+    },
+    {
       "FilePath": "Images/block_1_white.png",
       "Handle": 11833009445123668017,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/Tetromino_I.lprefab",
+      "Handle": 13419344255114073632,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Prefabs/Tetromino_Z.lprefab",
+      "Handle": 15367055350372816119,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Prefabs/Tetromino_T.lprefab",
+      "Handle": 15481078713707884173,
+      "Type": "Prefab"
     }
   ]
 }

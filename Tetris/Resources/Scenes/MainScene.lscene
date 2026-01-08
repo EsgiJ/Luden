@@ -5,16 +5,7 @@
                 "Children": null,
                 "ParentHandle": 0
             },
-            "SpriteRendererComponent": {
-                "spriteHandle": 9840798825938959016,
-                "tint": [
-                    255,
-                    248,
-                    0,
-                    255
-                ]
-            },
-            "Tag": "YellowBlock",
+            "Tag": "GameManager",
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -22,13 +13,143 @@
                     1.0
                 ],
                 "Translation": [
-                    256.0,
-                    -576.0,
+                    0.0,
+                    0.0,
                     0.0
                 ],
                 "angle": 0.0
             },
-            "UUID": 3573876856896070936
+            "UUID": 2338522917403424420
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "MainCamera",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16626938752081916723
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "PlacedBlocks",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7920268583325020404
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    5553072499399572161,
+                    3962145183886740394,
+                    18341342476422286061
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "UI",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13208867680359683208
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 13208867680359683208
+            },
+            "Tag": "ScoreText",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5553072499399572161
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 13208867680359683208
+            },
+            "Tag": "LevelText",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3962145183886740394
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 13208867680359683208
+            },
+            "Tag": "GameOverPanel",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18341342476422286061
         }
     ],
     "Name": "MainScene",

@@ -3,7 +3,11 @@
 #include "Core/TimeStep.h"
 #include "ECS/Entity.h"
 #include "EngineAPI.h"
+#include "Luden.h"
+#include "Resource/ResourceManager.h"  
+#include "Project/Project.h"  
 #include "Physics2D/CollisionContact.h"
+#include "Utilities/StringUtils.h"
 
 	namespace Luden
 	{
@@ -33,6 +37,24 @@
 				return m_Entity.Add<T>();
 			}
 			
+			template<typename T>
+			std::shared_ptr<T> GetResource(const std::string& name)
+			{
+				auto handles = ResourceManager::template GetAllResourcesWithType<T>();
+
+				for (auto handle : handles)
+				{
+					const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
+					std::string filename = RemoveExtension(metadata.FilePath.filename().string());
+
+					if (EqualsIgnoreCase(filename, name))
+					{
+						return ResourceManager::template GetResource<T>(handle);
+					}
+				}
+				return nullptr;
+			}
+
 			Entity GetEntity() { return m_Entity; }
 		protected:
 			//Life cycle

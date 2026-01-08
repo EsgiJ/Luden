@@ -11,11 +11,70 @@
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
 #include <glm/trigonometric.hpp>
+#include <iostream>
+#include <random>
 
 namespace Luden
 {
 	namespace GameplayAPI
 	{
+		static std::mt19937& GetRandomGenerator()
+		{
+			static std::mt19937 generator;
+			static bool initialized = false;
+
+			if (!initialized)
+			{
+				std::random_device rd;
+				generator.seed(rd());
+				initialized = true;
+			}
+
+			return generator;
+		}
+
+		Entity SpawnPrefab(PrefabRef prefab, const glm::vec3& location)
+		{
+			if (!prefab)
+			{
+				std::cerr << "[GameplayAPI] Invalid prefab reference!" << std::endl;
+				return {};
+			}
+
+			Scene* scene = GEngine.GetActiveScene();
+			if (!scene)
+			{
+				std::cerr << "[GameplayAPI] No active scene!" << std::endl;
+				return {};
+			}
+
+			return scene->Instantiate(prefab, &location, nullptr, nullptr);
+		}
+
+		Entity SpawnPrefabAsChild(PrefabRef prefab, Entity parent, const glm::vec3& localPosition)
+		{
+			if (!prefab)
+			{
+				std::cerr << "[GameplayAPI] Invalid prefab reference!" << std::endl;
+				return {};
+			}
+
+			if (!parent.IsValid())
+			{
+				std::cerr << "[GameplayAPI] Invalid parent entity!" << std::endl;
+				return {};
+			}
+
+			Scene* scene = GEngine.GetActiveScene();
+			if (!scene)
+			{
+				std::cerr << "[GameplayAPI] No active scene!" << std::endl;
+				return {};
+			}
+
+			return scene->InstantiateChild(prefab, parent, &localPosition, nullptr, nullptr);
+		}
+
 		void LoadScene(const std::string& sceneName)
 		{
 			//TODO:
@@ -123,6 +182,23 @@ namespace Luden
 			float angleDegree = glm::degrees(angleRad);
 
 			sourceTransform.angle = angleDegree;
+		}
+
+		float RandomFloat(float min, float max)
+		{
+			std::uniform_real_distribution<float> dist(min, max);
+			return dist(GetRandomGenerator());
+		}
+
+		int RandomInt(int min, int max)
+		{
+			std::uniform_int_distribution<int> dist(min, max);
+			return dist(GetRandomGenerator());
+		}
+
+		bool RandomBool(float probability)
+		{
+			return RandomFloat() < probability;
 		}
 	}
 }

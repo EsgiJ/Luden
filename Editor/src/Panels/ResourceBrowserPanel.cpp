@@ -142,7 +142,7 @@ namespace Luden
 						switch (entry.Type)
 						{
 						case ResourceType::Scene: browseEntryTexture = EditorResources::SceneIcon; break;
-						case ResourceType::Prefab: browseEntryTexture = EditorResources::Anim2DIcon; break; // Placeholder için Anim2DIcon
+						case ResourceType::Prefab: browseEntryTexture = EditorResources::Anim2DIcon; break; 
 						case ResourceType::Texture: browseEntryTexture = ResourceManager::GetResource<Texture>(entry.Handle); break;
 						case ResourceType::Audio: browseEntryTexture = EditorResources::AudioIcon; break;
 						case ResourceType::Font: browseEntryTexture = EditorResources::FontIcon; break;
@@ -461,7 +461,11 @@ namespace Luden
 						ImGui::Text("Generated File: %s", prefabName);
 						newPath = m_CurrentDirectory / prefabName;
 
-						Project::GetEditorResourceManager()->CreateResource(ResourceType::Prefab, newPath);
+						ResourceHandle prefabHandle = Project::GetEditorResourceManager()->CreateResource(ResourceType::Prefab, newPath);
+						auto prefab = ResourceManager::GetResource<Prefab>(prefabHandle);
+						Entity rootEntity = prefab->GetScene()->CreateEntityImmediate("Root");
+						prefab->SetRootEntity(rootEntity);
+
 						m_EditorApplication->RequestOpenResource(newPath);
 					}
 

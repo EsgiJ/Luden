@@ -13,6 +13,7 @@ namespace Luden {
 
         auto sourceScene = entity.GetScene();
 
+		sourceScene->CopyComponentIfExists<PrefabComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<RelationshipComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<DamageComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<DraggableComponent>(newEntity, entity);

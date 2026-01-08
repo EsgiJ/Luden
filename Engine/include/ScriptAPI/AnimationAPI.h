@@ -1,33 +1,27 @@
 #pragma once
-
 #include "EngineAPI.h"
-#include "Resource/Resource.h"
+#include "Luden.h"
 
 namespace Luden
 {
-	class Animation;
 	class Entity;
 
 	namespace AnimationAPI
 	{
-		ENGINE_API size_t AddAnimation(Entity entity, Animation* animation);
+		ENGINE_API size_t AddAnimation(Entity entity, AnimationRef animation);
+		ENGINE_API void PlayAnimation(Entity entity, AnimationRef animation);
 
-		ENGINE_API void PlayAnimation(Entity entity, Animation* animation);
 		ENGINE_API void PlayAnimationByHandle(Entity entity, ResourceHandle animHandle);
 
-		ENGINE_API Animation* GetCurrentAnimation(Entity entity);
+		ENGINE_API AnimationRef GetCurrentAnimation(Entity entity);
 		ENGINE_API ResourceHandle GetCurrentAnimationHandle(Entity entity);
-
-		size_t GetAnimationIndex(Entity entity, Animation* animation);
-		size_t GetAnimationIndexByHandle(Entity entity, ResourceHandle handle);
-
 		ENGINE_API size_t GetCurrentAnimationIndex(Entity entity);
 		ENGINE_API size_t GetCurrentFrame(Entity entity);
+		ENGINE_API size_t GetAnimationCount(Entity entity);
 
 		ENGINE_API void SetAnimationSpeed(Entity entity, float speed);
 
-		ENGINE_API size_t GetAnimationCount(Entity entity);
-
-
+		size_t GetAnimationIndex(Entity entity, AnimationRef animation);
+		size_t GetAnimationIndexByHandle(Entity entity, ResourceHandle handle);
 	}
 }

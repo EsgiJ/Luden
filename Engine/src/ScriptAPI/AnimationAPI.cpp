@@ -4,14 +4,15 @@
 #include "ECS/Entity.h"
 #include "Resource/ResourceManager.h"
 
+#include <iostream>
 
 namespace Luden
 {
 	namespace AnimationAPI
 	{
-		size_t AddAnimation(Entity entity, Animation* animation)
+		size_t AddAnimation(Entity entity, AnimationRef animation)
 		{
-			if (!entity.Has<SpriteAnimatorComponent>() || animation == nullptr)
+			if (!entity.Has<SpriteAnimatorComponent>() || !animation)
 				return 0;
 
 			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
@@ -20,8 +21,14 @@ namespace Luden
 			return animationComponent.animationHandles.size() - 1;
 		}
 
-		void PlayAnimation(Entity entity, Animation* animation)
+		void PlayAnimation(Entity entity, AnimationRef animation)
 		{
+			if (!animation)
+			{
+				std::cerr << "[AnimationAPI] Invalid animation reference!" << std::endl;
+				return;
+			}
+
 			size_t index = GetAnimationIndex(entity, animation);
 			if (index == size_t(-1))
 				return;
@@ -52,30 +59,43 @@ namespace Luden
 			anim.frameTimer = 0;
 		}
 
-		Animation* GetCurrentAnimation(Entity entity)
+		AnimationRef GetCurrentAnimation(Entity entity)
 		{
 			if (!entity.Has<SpriteAnimatorComponent>())
 				return nullptr;
 
 			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
+
+			if (animationComponent.animationHandles.empty())
+				return nullptr;
+
+			if (animationComponent.currentAnimationIndex >= animationComponent.animationHandles.size())
+				return nullptr;
+
 			ResourceHandle handle = animationComponent.animationHandles[animationComponent.currentAnimationIndex];
 
-			auto animationResource = ResourceManager::GetResource<Animation>(handle);
-			return animationResource.get();
+			return ResourceManager::GetResource<Animation>(handle);
 		}
 
 		ResourceHandle GetCurrentAnimationHandle(Entity entity)
 		{
 			if (!entity.Has<SpriteAnimatorComponent>())
-				return ResourceHandle();
+				return 0;
 
 			auto& animationComponent = entity.Get<SpriteAnimatorComponent>();
+
+			if (animationComponent.animationHandles.empty())
+				return 0;
+
+			if (animationComponent.currentAnimationIndex >= animationComponent.animationHandles.size())
+				return 0;
+
 			return animationComponent.animationHandles[animationComponent.currentAnimationIndex];
 		}
 
-		size_t GetAnimationIndex(Entity entity, Animation* animation)
+		size_t GetAnimationIndex(Entity entity, AnimationRef animation)
 		{
-			if (!entity.Has<SpriteAnimatorComponent>() || animation == nullptr)
+			if (!entity.Has<SpriteAnimatorComponent>() || !animation)
 				return static_cast<size_t>(-1);
 
 			auto& anim = entity.Get<SpriteAnimatorComponent>();
@@ -98,8 +118,10 @@ namespace Luden
 			auto& anim = entity.Get<SpriteAnimatorComponent>();
 
 			for (size_t i = 0; i < anim.animationHandles.size(); i++)
+			{
 				if (anim.animationHandles[i] == handle)
 					return i;
+			}
 
 			return size_t(-1);
 		}
