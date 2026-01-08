@@ -456,7 +456,7 @@ namespace Luden
 
 			if (ImGui::Button("Create", ImVec2(120, 0)))
 			{
-				if (prefabName[0] != '\0')	
+				if (prefabName[0] != '\0')
 				{
 					std::filesystem::path prefabPath = std::string(m_PrefabPathBuffer) + "\\" + std::string(prefabName) + ".lprefab";
 

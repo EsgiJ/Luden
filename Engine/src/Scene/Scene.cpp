@@ -455,23 +455,29 @@ namespace Luden {
 	Entity Scene::CreatePrefabEntity(Entity entity, Entity parent, const glm::vec3* translation, const glm::vec3* rotation, const glm::vec3* scale)
 	{
 		Entity newEntity = CreateEntity(entity.Tag());
+
+		CopyAllComponents(newEntity, entity, false);
+
 		if (parent.IsValid())
 			ParentEntity(newEntity, parent);
 
+		if (newEntity.Has<RelationshipComponent>())
+		{
+			auto& relComp = newEntity.Get<RelationshipComponent>();
+			relComp.Children.clear(); 
+		}
+
 		if (entity.Has<TransformComponent>())
 		{
-			auto& srcTransform = entity.Get<TransformComponent>();
-			auto& newTransform = srcTransform;
+			auto& newTransform = entity.Get<TransformComponent>();
 
 			if (translation)
 				newTransform.Translation = *translation;
 			if (rotation)
-				newTransform.angle = rotation->x; 
+				newTransform.angle = rotation->x;
 			if (scale)
 				newTransform.Scale = *scale;
 		}
-
-		CopyAllComponents(newEntity, entity, true);
 
 		for (auto childId : entity.Children())
 		{
@@ -610,7 +616,7 @@ namespace Luden {
 
 	void Scene::ParentEntity(Entity& entity, Entity& parent)
 	{
-		if (entity.IsDescendantOf(entity))
+		if (parent.IsDescendantOf(entity))
 		{
 			UnparentEntity(parent);
 

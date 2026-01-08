@@ -34,6 +34,13 @@ namespace Luden {
         sourceScene->CopyComponentIfExists<StateComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<TransformComponent>(newEntity, entity);
 
+		if (newEntity.Has<RelationshipComponent>())
+		{
+			auto& relComp = newEntity.Get<RelationshipComponent>();
+			relComp.Children.clear();  
+			relComp.ParentHandle = 0;  
+		}
+
         for (auto childId : entity.Children())
         {
             Entity childEntity = sourceScene->GetEntityWithUUID(childId);

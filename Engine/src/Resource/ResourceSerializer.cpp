@@ -432,8 +432,12 @@ namespace Luden
 
 		UUID rootEntityUUID = j["RootEntityUUID"].get<uint64_t>();
 
-		prefab->SetRootEntity(scene->GetEntityWithUUID(rootEntityUUID));
+		if (rootEntityUUID != 0 )
+			prefab->SetRootEntity(scene->GetEntityWithUUID(rootEntityUUID));
+
 		resource = prefab;
+
+		in.close();
 		return true;
 	}
 

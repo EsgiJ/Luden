@@ -1,0 +1,154 @@
+{
+    "Entities": [
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    11662770995822438281,
+                    10158950626777090213,
+                    12895091614975773524,
+                    13460284231888581970
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Tetromino_I",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3548644258684405683
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 3548644258684405683
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11662770995822438281
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 3548644258684405683
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -512.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10158950626777090213
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 3548644258684405683
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    512.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12895091614975773524
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 3548644258684405683
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9840798825938959016,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -1024.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13460284231888581970
+        }
+    ],
+    "Name": "Tetromino_I",
+    "PrefabHandle": 7072444236537261698,
+    "RootEntityUUID": 3548644258684405683,
+    "UUID": 5524990134061894056
+}

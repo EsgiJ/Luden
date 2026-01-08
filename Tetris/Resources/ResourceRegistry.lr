@@ -16,6 +16,11 @@
       "Type": "Scene"
     },
     {
+      "FilePath": "Tetromino_I.lprefab",
+      "Handle": 7072444236537261698,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Images/block_1_white_outline.png",
       "Handle": 7867127861885422605,
       "Type": "Texture"
