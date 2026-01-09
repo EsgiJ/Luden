@@ -168,10 +168,10 @@ namespace Luden
 
 						ImGuiUtils::PrefixLabel("Camera Type");
 						const char* types[] = { "None", "FollowXY", "Box" };
-						int currentType = static_cast<int>(camera.GetCameraType()) + 1;
+						int currentType = static_cast<int>(camera.GetType()) + 1;
 
 						if (ImGui::Combo("##CameraType", &currentType, types, IM_ARRAYSIZE(types)))
-							camera.SetCameraType(static_cast<Camera2D::Type>(currentType - 1));
+							camera.SetType(static_cast<Camera2D::Type>(currentType - 1));
 
 						ImGuiUtils::PrefixLabel("Primary");
 						ImGui::Checkbox("##Primary", &cameraComponent.Primary);

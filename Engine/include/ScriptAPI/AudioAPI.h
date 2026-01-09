@@ -6,8 +6,8 @@ namespace Luden
 {
 	namespace SoundAPI
 	{
-		ENGINE_API void PlaySound(SoundRef sound, float volume = 1.0f);
-		ENGINE_API void PlayMusic(SoundRef music, float volume = 0.5f, bool loop = true);
+		ENGINE_API void PlaySound(std::shared_ptr<Sound> sound, float volume = 1.0f);
+		ENGINE_API void PlayMusic(std::shared_ptr<Music> music, float volume = 0.5f, bool loop = true);
 
 		ENGINE_API void StopMusic();
 		ENGINE_API void PauseMusic();

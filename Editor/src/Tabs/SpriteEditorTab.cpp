@@ -23,6 +23,8 @@ namespace Luden
 		m_Sprite = std::make_shared<Sprite>();
 		m_PreviewTexture = std::make_shared<sf::RenderTexture>();
 
+		m_ResourceBrowserPanel.SetContext(m_EditorApplication);
+
 		SetWindowName(filepath.filename().string());
 		LoadSprite(filepath);
 	}
@@ -68,6 +70,8 @@ namespace Luden
 		}
 		ImGui::End();
 		ImGui::PopStyleVar();
+
+		m_ResourceBrowserPanel.OnImGuiRender();
 	}
 
 	void SpriteEditorTab::InitializeDockspace()
@@ -77,12 +81,14 @@ namespace Luden
 		ImGuiID dockTop = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Up, 0.08f, nullptr, &dockMain);
 		ImGuiID dockLeft = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Left, 0.25f, nullptr, &dockMain);
 		ImGuiID dockRight = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Right, 0.25f, nullptr, &dockMain);
+		ImGuiID dockBottom = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Down, 0.25f, nullptr, &dockMain);
 
 		ImGui::DockBuilderDockWindow(m_ToolbarPanelName.c_str(), dockTop);
 		ImGui::DockBuilderDockWindow(m_TexturePanelName.c_str(), dockLeft);
 		ImGui::DockBuilderDockWindow(m_PreviewPanelName.c_str(), dockMain);
 		ImGui::DockBuilderDockWindow(m_RectEditorPanelName.c_str(), dockRight);
 		ImGui::DockBuilderDockWindow(m_PivotEditorPanelName.c_str(), dockRight);
+		m_ResourceBrowserPanel.DockTo(dockBottom);
 
 		ImGui::DockBuilderFinish(dockMain);
 	}
@@ -137,6 +143,32 @@ namespace Luden
 		if (ImGui::Button("Select Texture", ImVec2(-1, 0)))
 		{
 			ImGui::OpenPopup("TextureSelectPopup");
+		}
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_FILE_PATH"))
+			{
+				const char* droppedPath = static_cast<const char*>(payload->Data);
+				std::filesystem::path filepath(droppedPath);
+
+				auto resourceManager = Project::GetEditorResourceManager();
+				ResourceType type = resourceManager->GetResourceTypeFromPath(filepath);
+
+				if (type == ResourceType::Texture)
+				{
+					ResourceHandle handle = resourceManager->GetResourceHandleFromFilePath(filepath);
+					auto texture = ResourceManager::GetResource<Texture>(handle);
+
+					if (texture)
+					{
+						m_Sprite->SetTextureHandle(handle);
+						m_CurrentTexture = texture;
+						m_IsDirty = true;
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
 		}
 
 		if (ImGui::BeginPopup("TextureSelectPopup"))
@@ -198,6 +230,7 @@ namespace Luden
 		else
 		{
 			ImGui::TextDisabled("No texture selected");
+			ImGui::TextDisabled("(Drag & drop a texture here)");
 		}
 	}
 

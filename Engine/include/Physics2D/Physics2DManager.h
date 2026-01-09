@@ -8,6 +8,7 @@
 namespace Luden
 {
 	class Scene;
+	class Entity;
 
 	class ENGINE_API Physics2DManager
 	{
@@ -20,6 +21,11 @@ namespace Luden
 		void Init(Scene* scene, uint32_t viewportWidth, uint32_t viewportHeight);
 		void Update(TimeStep ts);
 		void Shutdown();
+
+		void RegisterEntity(Entity entity);
+		void UnregisterEntity(Entity entity);
+
+		void UpdateEntityPhysics(Entity entity);
 
 		b2WorldId GetPhysicsWorldId() { return m_PhysicsWorldId; }
 		void SetPhysicsWorldId(b2WorldId physicsWorldId) { m_PhysicsWorldId = physicsWorldId; }

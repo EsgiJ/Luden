@@ -1,0 +1,444 @@
+{
+  "Resources": [
+    {
+      "FilePath": "Textures/Balls/ball_blue_shaded.png",
+      "Handle": 296578811163605500,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_yellow.png",
+      "Handle": 396593944671316449,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_green_outline.png",
+      "Handle": 536682540200550811,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_pink.png",
+      "Handle": 759156579797053138,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_green_shaded.png",
+      "Handle": 765653764562638798,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_purple_outline.png",
+      "Handle": 1095186685252266058,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_orange_shaded.png",
+      "Handle": 1492174034704951946,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Scenes/MainScene.lscene",
+      "Handle": 1694692776833502177,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Textures/Backgrounds/desert.png",
+      "Handle": 1834010792377598347,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_orange_flat.png",
+      "Handle": 1843420272784875277,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_purple_shaded.png",
+      "Handle": 1902971081549608760,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_yellow_outline.png",
+      "Handle": 1999888113670951542,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_purple.png",
+      "Handle": 2025019514913032082,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_pink_shaded_outline.png",
+      "Handle": 2120351382205472391,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_black_flat.png",
+      "Handle": 2158553261635042499,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_white_shaded_outline.png",
+      "Handle": 2306294283008417460,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/BrickSprite.lsprite",
+      "Handle": 2382805758088303350,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_red_flat_outline.png",
+      "Handle": 2718576573377933077,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Backgrounds/clouds_dark_top.png",
+      "Handle": 2933165804095024311,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_black_outline.png",
+      "Handle": 2940337966097535246,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Scripts/GameManager.lns",
+      "Handle": 3833574759852855921,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_yellow_flat.png",
+      "Handle": 4193723719296246190,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_green_flat_outline.png",
+      "Handle": 4579051726697651140,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_orange.png",
+      "Handle": 4658496253058952797,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_blue.png",
+      "Handle": 4820125556309962474,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/Paddle.lprefab",
+      "Handle": 5140093269786420268,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_green.png",
+      "Handle": 5249404153764217933,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_orange_shaded_outline.png",
+      "Handle": 5677296145513493450,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Background.lsprite",
+      "Handle": 5773556764141944209,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_yellow_shaded_outline.png",
+      "Handle": 6210027065103053970,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_pink.png",
+      "Handle": 6264513520754141488,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_purple_shaded_outline.png",
+      "Handle": 6464064145752322577,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_red_shaded_outline.png",
+      "Handle": 6550507503258353561,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_black.png",
+      "Handle": 6598273701166721967,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_yellow.png",
+      "Handle": 7609106183594063427,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_purple_flat.png",
+      "Handle": 8098442441837960425,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_yellow_outline.png",
+      "Handle": 8379095654526639835,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_red_outline.png",
+      "Handle": 8452520590518545643,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/PaddleSprite.lsprite",
+      "Handle": 8965895384510157572,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scripts/Brick.lns",
+      "Handle": 9231483923107343730,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_blue_flat_outline.png",
+      "Handle": 9550011255685003405,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_green_shaded_outline.png",
+      "Handle": 9563863441197424887,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_red_outline.png",
+      "Handle": 9575136751280169327,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_white.png",
+      "Handle": 9929608093519235434,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/Brick.lprefab",
+      "Handle": 10127841542246275631,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_black_outline.png",
+      "Handle": 10185823364682484434,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_black_flat_outline.png",
+      "Handle": 10299297669916852714,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_orange.png",
+      "Handle": 10378725924163085711,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_blue.png",
+      "Handle": 10532950454826847424,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_yellow_flat_outline.png",
+      "Handle": 10685807666921893957,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_purple.png",
+      "Handle": 10948548363198781020,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_green_flat.png",
+      "Handle": 11405542970752512190,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_white_shaded.png",
+      "Handle": 11509625928424558024,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_pink_shaded.png",
+      "Handle": 11720111480914610225,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_pink_flat.png",
+      "Handle": 11774599977421413873,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_red.png",
+      "Handle": 12258330220721665408,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/Ball.lprefab",
+      "Handle": 12359447672048693555,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_red.png",
+      "Handle": 12579539483593009555,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_orange_outline.png",
+      "Handle": 12751180461787658446,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_white_flat_outline.png",
+      "Handle": 12945808066150791203,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_pink_outline.png",
+      "Handle": 13102492531957045097,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Scripts/BallController.lns",
+      "Handle": 13216284712861025670,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_blue_outline.png",
+      "Handle": 13293534264862829937,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Scripts/PaddleController.lns",
+      "Handle": 13300963585274523251,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_green_outline.png",
+      "Handle": 14231129940427683641,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_white_flat.png",
+      "Handle": 14513862665467904955,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_purple_outline.png",
+      "Handle": 14539436371308345388,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_white.png",
+      "Handle": 14776397467113816547,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_orange_outline.png",
+      "Handle": 14852421771496308804,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_blue_outline.png",
+      "Handle": 14853389732218195928,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/BallSprite.lsprite",
+      "Handle": 15130644266605088236,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_red_flat.png",
+      "Handle": 15168159239072537845,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_orange_flat_outline.png",
+      "Handle": 15223746982269212613,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_yellow_shaded.png",
+      "Handle": 15491086678006909835,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_pink_flat_outline.png",
+      "Handle": 15561265046954247784,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_blue_shaded_outline.png",
+      "Handle": 15718111659415686513,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_black.png",
+      "Handle": 15721713276817778113,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_green.png",
+      "Handle": 16486787111531686763,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_1_white_outline.png",
+      "Handle": 16514290588112551701,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_purple_flat_outline.png",
+      "Handle": 16555710167847550692,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_white_outline.png",
+      "Handle": 16806032657327064106,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_blue_flat.png",
+      "Handle": 17072524410876255752,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_black_shaded.png",
+      "Handle": 17129935393634765399,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Blocks/block_2_pink_outline.png",
+      "Handle": 17232258368942779365,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_red_shaded.png",
+      "Handle": 17646034527080223018,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Textures/Balls/ball_black_shaded_outline.png",
+      "Handle": 17713808985283365441,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Scenes/DefaultScene.lscene",
+      "Handle": 17735032803745354330,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Prefabs/Wall.lprefab",
+      "Handle": 18442117516600222009,
+      "Type": "Prefab"
+    }
+  ]
+}

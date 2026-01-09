@@ -72,7 +72,7 @@ void RunPerformanceTests(RuntimeApplication* app)
 
 			auto cameraEntity = scene->CreateEntity("MainCamera");
 			auto& camera = cameraEntity.Add<Camera2DComponent>();
-			camera.Camera.SetCameraType(Luden::Camera2D::Type::FollowXY);
+			camera.Camera.SetType(Luden::Camera2D::Type::FollowXY);
 			camera.Primary = true;
 
 			for (int i = 0; i < entityCount; i++)

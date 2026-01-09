@@ -1,0 +1,96 @@
+#include "PaddleController.h"
+
+#include "Input/InputContext.h"
+#include "Input/InputManager.h"
+#include "ScriptAPI/GameplayAPI.h"
+#include "ScriptAPI/Physics2DAPI.h"
+#include "ScriptAPI/MathAPI.h"
+
+namespace Luden
+{
+    void PaddleController::OnCreate()
+    {
+		auto context = std::make_shared<InputContext>("Gameplay", 100);
+		context->SetEnabled(true);
+
+		InputAction moveLeftAction("MoveLeft");
+		InputAction moveRightAction("MoveRight");
+
+		context->AddMapping({
+			moveLeftAction,
+			sf::Keyboard::Key::Left,
+			ModifierConfig(),
+			TriggerConfig(ETriggerType::Down)
+			});
+
+		context->AddMapping({
+			moveLeftAction,
+			sf::Keyboard::Key::A,
+			ModifierConfig(),
+			TriggerConfig(ETriggerType::Down)
+			});
+
+		context->AddMapping({
+			moveRightAction,
+			sf::Keyboard::Key::Right,
+			ModifierConfig(),
+			TriggerConfig(ETriggerType::Down)
+			});
+
+		context->AddMapping({
+			moveRightAction,
+			sf::Keyboard::Key::D,
+			ModifierConfig(),
+			TriggerConfig(ETriggerType::Down)
+			});
+
+		InputManager::Instance().PushContext(context);
+
+		auto& input = GetComponent<InputComponent>();
+		input.priority = 100;
+		input.consumeInput = true;
+
+		input.BindAction(moveLeftAction, ETriggerEvent::Triggered, this, &PaddleController::OnMoveLeft);
+		input.BindAction(moveRightAction, ETriggerEvent::Triggered, this, &PaddleController::OnMoveRight);
+    }
+
+    void PaddleController::OnUpdate(TimeStep ts)
+    {
+		Vec3 pos = GameplayAPI::GetPosition(GetEntity());
+		pos.x = MathAPI::Clamp(pos.x, m_MinX, m_MaxX);
+		GameplayAPI::SetPosition(GetEntity(), pos);
+    }
+
+    void PaddleController::OnDestroy()
+    {
+        // TODO: Cleanup
+    }
+
+    void PaddleController::OnCollisionBegin(const CollisionContact& contact)
+    {
+        // TODO: On contact begin
+    }
+
+    void PaddleController::OnCollisionEnd(const CollisionContact& contact)
+    {
+        // TODO: On contact end
+    }
+
+    void PaddleController::OnCollisionHit(const CollisionContact& contact)
+    {
+        // TODO: On hit(high speed)
+    }
+
+	void PaddleController::OnMoveLeft(const InputValue& value)
+	{
+		Vec2 velocity(-m_Speed * 100.0f, 0.0f);  
+		Physics2DAPI::SetLinearVelocity(GetEntity(), velocity);
+	}
+
+	void PaddleController::OnMoveRight(const InputValue& value)
+	{
+		Vec2 velocity(m_Speed * 100.0f, 0.0f);  
+		Physics2DAPI::SetLinearVelocity(GetEntity(), velocity);
+	}
+
+}

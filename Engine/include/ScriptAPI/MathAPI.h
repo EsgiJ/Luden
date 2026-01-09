@@ -14,5 +14,11 @@ namespace Luden
 		ENGINE_API float RandomFloat(float min = 0.0f, float max = 1.0f);
 		ENGINE_API int RandomInt(int min, int max);
 		ENGINE_API bool RandomBool(float probability = 0.5f);
+
+		ENGINE_API float Length(const Vec2& vec);
+		ENGINE_API float Length(const Vec3& vec);
+
+		ENGINE_API Vec2 Normalize(const Vec2& vec);
+		ENGINE_API Vec3 Normalize(const Vec3& vec);
 	}
 }

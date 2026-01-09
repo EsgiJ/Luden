@@ -1,0 +1,15 @@
+{
+    "Handle": 2382805758088303350,
+    "Name": "BrickSprite",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 16806032657327064106,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

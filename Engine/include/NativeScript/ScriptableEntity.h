@@ -45,9 +45,9 @@
 				for (auto handle : handles)
 				{
 					const auto& metadata = Project::GetEditorResourceManager()->GetMetadata(handle);
-					std::string filename = RemoveExtension(metadata.FilePath.filename().string());
+					std::string filename = Utils::RemoveExtension(metadata.FilePath.filename().string());
 
-					if (EqualsIgnoreCase(filename, name))
+					if (Utils::String::EqualsIgnoreCase(filename, name))
 					{
 						return ResourceManager::template GetResource<T>(handle);
 					}

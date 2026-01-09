@@ -1,12 +1,13 @@
 #pragma once
 
+#include "EngineAPI.h"
 #include <filesystem>
 
 namespace Luden::Utils {
 
 	namespace String
 	{
-		bool EqualsIgnoreCase(const std::string_view a, const std::string_view b);
+		ENGINE_API bool EqualsIgnoreCase(const std::string_view a, const std::string_view b);
 		std::string& ToLower(std::string& string);
 		std::string ToLowerCopy(std::string_view string);
 		void Erase(std::string& str, const char* chars);
@@ -20,7 +21,7 @@ namespace Luden::Utils {
 
 	std::string_view GetFilename(const std::string_view filepath);
 	std::string GetExtension(const std::string& filename);
-	std::string RemoveExtension(const std::string& filename);
+	ENGINE_API std::string RemoveExtension(const std::string& filename);
 
 	// Keeps delimiters except for spaces, used for shaders
 	std::vector<std::string> SplitStringAndKeepDelims(std::string str);

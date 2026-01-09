@@ -1,0 +1,64 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 2,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65288,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    0.5,
+                    0.5
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": -5145780488435028365
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 2,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 8965895384510157572,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    0.15000000596046448,
+                    0.15000000596046448,
+                    0.15000000596046448
+                ],
+                "Translation": [
+                    0.0,
+                    450.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7844845363094743214
+        }
+    ],
+    "Name": "Paddle",
+    "PrefabHandle": 5140093269786420268,
+    "RootEntityUUID": 7844845363094743214,
+    "UUID": 17901158721174927717
+}

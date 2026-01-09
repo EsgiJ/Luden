@@ -1,5 +1,7 @@
 #include "ScriptAPI/MathAPI.h"
 
+#include <glm/glm.hpp>
+
 #include <iostream>
 #include <random>
 
@@ -61,6 +63,26 @@ namespace Luden
 		bool RandomBool(float probability)
 		{
 			return RandomFloat() < probability;
+		}
+
+		float Length(const Vec2& vec)
+		{
+			return glm::length(vec);	
+		}
+
+		float Length(const Vec3& vec)
+		{
+			return glm::length(vec);
+		}
+
+		Vec2 Normalize(const Vec2& vec)
+		{
+			return glm::normalize(vec);
+		}
+
+		Vec3 Normalize(const Vec3& vec)
+		{
+			return glm::normalize(vec);
 		}
 	}
 }

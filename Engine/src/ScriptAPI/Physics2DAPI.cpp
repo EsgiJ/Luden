@@ -22,6 +22,10 @@ namespace Luden
 				return;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
+
 			b2Body_SetLinearVelocity(rb.RuntimeBodyId, b2Vec2(velocity.x, velocity.y));
 		}
 
@@ -31,6 +35,10 @@ namespace Luden
 				return { 0.0f, 0.0f };
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return {0.0f, 0.0f};
+
 			b2Vec2 velocity = b2Body_GetLinearVelocity(rb.RuntimeBodyId);
 			return { velocity.x, velocity.y };
 		}
@@ -41,6 +49,10 @@ namespace Luden
 				return;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
+
 			b2Body_SetAngularVelocity(rb.RuntimeBodyId, velocity);
 		}
 
@@ -50,6 +62,10 @@ namespace Luden
 				return 0.0f;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return 0.0f;
+
 			float angularVelocity= b2Body_GetAngularVelocity(rb.RuntimeBodyId);
 			return angularVelocity;
 		}
@@ -60,6 +76,10 @@ namespace Luden
 				return;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
+
 			b2Body_ApplyLinearImpulseToCenter(rb.RuntimeBodyId, b2Vec2(impulse.x, impulse.y), true);
 		}
 
@@ -69,6 +89,10 @@ namespace Luden
 				return;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
+
 			b2Body_ApplyForceToCenter(rb.RuntimeBodyId, b2Vec2(force.x, force.y), true);
 		}
 
@@ -88,6 +112,9 @@ namespace Luden
 				
 			auto& rb = entity.Get<RigidBody2DComponent>();
 
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
+
 			const int capacity = 8;
 			b2ShapeId shapeIds[capacity];
 			int count = b2Body_GetShapes(rb.RuntimeBodyId, shapeIds, capacity);
@@ -97,7 +124,8 @@ namespace Luden
 
 			for (int i = 0; i < count; i++)
 			{
-				b2Shape_SetFriction(shapeIds[i], friction);
+				if (b2Shape_IsValid(shapeIds[i]))
+					b2Shape_SetFriction(shapeIds[i], friction);
 			}
 		}
 
@@ -107,6 +135,9 @@ namespace Luden
 				return;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
 
 			b2Rot rotation = b2MakeRot(glm::radians(angle));
 			b2Body_SetTransform(rb.RuntimeBodyId, b2Vec2(position.x, position.y), rotation);
@@ -118,6 +149,10 @@ namespace Luden
 				return;
 
 			auto& rb = entity.Get<RigidBody2DComponent>();
+
+			if (!b2Body_IsValid(rb.RuntimeBodyId))
+				return;
+
 			b2Body_SetGravityScale(rb.RuntimeBodyId, scale);
 		}
 

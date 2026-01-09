@@ -151,7 +151,6 @@ copy /B /Y "..\Engine\bin\Release-windows-x86_64\Engine.dll" "bin\Release-window
     <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="include\Tabs\SpriteEditorTab.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Core\EditorApplication.cpp" />
     <ClCompile Include="src\Core\EditorState.cpp" />
@@ -170,6 +169,7 @@ copy /B /Y "..\Engine\bin\Release-windows-x86_64\Engine.dll" "bin\Release-window
     <ClCompile Include="src\Tabs\EditorTab.cpp" />
     <ClCompile Include="src\Tabs\PrefabEditorTab.cpp" />
     <ClCompile Include="src\Tabs\SceneEditorTab.cpp" />
+    <ClCompile Include="src\Tabs\SpriteEditorTab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">

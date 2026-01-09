@@ -57,8 +57,8 @@ namespace Luden
 			Anim2DIcon = LoadTexture("Icons\\anim2d_icon.png", "Anim2DIcon");
 			SceneIcon = LoadTexture("Icons\\scene_icon.png", "SceneIcon");
 			SoundIcon = LoadTexture("Icons\\sound_icon.png", "SoundIcon");
-			SoundIcon = LoadTexture("Icons\\sound_icon.png", "MusicIcon");
-			SoundIcon = LoadTexture("Icons\\sound_icon.png", "MusicIcon");
+			MusicIcon = LoadTexture("Icons\\music_icon.png", "MusicIcon");
+			PrefabIcon = LoadTexture("Icons\\prefab_icon.png", "PrefabIcon");
 			FontIcon = LoadTexture("Icons\\font_icon.png", "FontIcon");
 			NativeScriptIcon = LoadTexture("Icons\\nativescript_icon.png", "NativeScript");
 

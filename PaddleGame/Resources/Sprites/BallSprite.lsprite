@@ -1,0 +1,15 @@
+{
+    "Handle": 15130644266605088236,
+    "Name": "BallSprite",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 17713808985283365441,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

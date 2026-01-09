@@ -110,7 +110,7 @@ namespace Luden
 			{
 				const auto& c = e.Get<Camera2DComponent>();
 				jEntity["Camera2DComponent"] = {
-					{ "Type", Camera2D::CameraTypeToString(c.Camera.GetCameraType()) },
+					{ "Type", Camera2D::CameraTypeToString(c.Camera.GetType()) },
 					{ "Primary", c.Primary }
 				};
 			}
@@ -336,7 +336,7 @@ namespace Luden
 				auto& camera2DComponent = e.Get<Camera2DComponent>();
 
 				Camera2D::Type type = Camera2D::CameraTypeFromString(jEntity["Camera2DComponent"]["Type"]);
-				camera2DComponent.Camera.SetCameraType(type);
+				camera2DComponent.Camera.SetType(type);
 				camera2DComponent.Primary = jEntity["Camera2DComponent"]["Primary"];
 			}
 

@@ -118,6 +118,8 @@ namespace Luden {
 		std::unordered_set<ResourceHandle> GetResourceList();
 
 		b2WorldId GetPhysicsWorldId();
+		Physics2DManager& GetPhysicsManager() { return m_PhysicsManager; }
+		const Physics2DManager& GetPhysicsManager() const { return m_PhysicsManager; }
 
 		UUID GetUUID() const { return Handle; }
 

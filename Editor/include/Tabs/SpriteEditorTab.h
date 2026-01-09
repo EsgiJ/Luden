@@ -3,6 +3,8 @@
 #include "Tabs/EditorTab.h"
 #include "Graphics/Sprite.h"
 #include "Graphics/Texture.h"
+#include "Panels/ResourceBrowserPanel.h"
+
 #include <SFML/Graphics/RenderTexture.hpp>
 
 namespace Luden
@@ -40,6 +42,7 @@ namespace Luden
 		std::string m_RectEditorPanelName;
 		std::string m_PivotEditorPanelName;
 		std::string m_PreviewPanelName;
+		ResourceBrowserPanel m_ResourceBrowserPanel;
 
 		int m_GridColumns = 4;
 		int m_GridRows = 4;

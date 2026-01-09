@@ -57,7 +57,9 @@ namespace Luden
             projectPath / "Resources" / "Scenes",
             projectPath / "Resources" / "Scripts",
             projectPath / "Resources" / "Sounds",
+			projectPath / "Resources" / "Musics",
             projectPath / "Resources" / "Sprites",
+			projectPath / "Resources" / "Prefabs",
             projectPath / "Source",
             projectPath / "Source" / "Scripts"
         };
@@ -132,7 +134,7 @@ project ")" << name << R"("
 
     files {
         "Source/**.h",
-        "Source/**.cpp"
+        "Source/**.cpp",
         "**.h",
         "**.cpp"
     }

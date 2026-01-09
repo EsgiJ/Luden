@@ -2,6 +2,7 @@
 #include "ECS/Components/Components.h"
 #include "Debug/DebugManager.h"
 #include "Scene/Scene.h"
+#include "ECS/Entity.h"
 #include "ScriptAPI/Physics2DAPI.h"
 #include "NativeScript/ScriptableEntity.h"
 
@@ -178,6 +179,140 @@ namespace Luden
 			}
 		}
 	}
+
+	void Physics2DManager::RegisterEntity(Entity entity)
+	{
+		if (!b2World_IsValid(m_PhysicsWorldId))
+			return;
+
+		if (!entity.Has<RigidBody2DComponent>() || !entity.Has<TransformComponent>())
+			return;
+
+		auto& rb2d = entity.Get<RigidBody2DComponent>();
+		auto& transformComponent = entity.Get<TransformComponent>();
+
+		if (b2Body_IsValid(rb2d.RuntimeBodyId))
+		{
+			b2DestroyBody(rb2d.RuntimeBodyId);
+			rb2d.RuntimeBodyId = b2_nullBodyId;
+		}
+
+		b2BodyDef bodyDef = b2DefaultBodyDef();
+
+		if (rb2d.BodyType == RigidBody2DComponent::Type::Static)
+			bodyDef.type = b2_staticBody;
+		else if (rb2d.BodyType == RigidBody2DComponent::Type::Kinematic)
+			bodyDef.type = b2_kinematicBody;
+		else if (rb2d.BodyType == RigidBody2DComponent::Type::Dynamic)
+			bodyDef.type = b2_dynamicBody;
+
+		bodyDef.position = b2Vec2(
+			transformComponent.Translation.x / m_PhysicsScale,
+			(m_ViewportHeight - transformComponent.Translation.y) / m_PhysicsScale
+		);
+		bodyDef.rotation = b2MakeRot(glm::radians(transformComponent.angle));
+
+		if (rb2d.FixedRotation)
+		{
+			bodyDef.motionLocks.angularZ = true;
+		}
+
+		bodyDef.linearDamping = rb2d.LinearDrag;
+		bodyDef.angularDamping = rb2d.AngularDrag;
+		bodyDef.gravityScale = rb2d.GravityScale;
+
+		bodyDef.userData = (void*)(uintptr_t)entity.UUID();
+		rb2d.RuntimeBodyId = b2CreateBody(m_PhysicsWorldId, &bodyDef);
+
+		if (entity.Has<BoxCollider2DComponent>())
+		{
+			auto& bc2d = entity.Get<BoxCollider2DComponent>();
+			b2BodyId bodyId = rb2d.RuntimeBodyId;
+
+			b2Vec2 centerOffset = {
+				bc2d.Offset.x / m_PhysicsScale,
+				bc2d.Offset.y / m_PhysicsScale
+			};
+
+			b2Rot localRotation = b2MakeRot(0.0f);
+
+			b2Polygon boxShape = b2MakeOffsetBox(
+				(bc2d.Size.x * transformComponent.Scale.x) / (2.0f * m_PhysicsScale),
+				(bc2d.Size.y * transformComponent.Scale.y) / (2.0f * m_PhysicsScale),
+				centerOffset,
+				localRotation
+			);
+
+			b2ShapeDef shapeDef = b2DefaultShapeDef();
+			shapeDef.density = bc2d.Density;
+			shapeDef.material.friction = bc2d.Friction;
+
+			shapeDef.filter.categoryBits = bc2d.CategoryBits;
+			shapeDef.filter.maskBits = bc2d.MaskBits;
+			shapeDef.filter.groupIndex = bc2d.GroupIndex;
+
+			bc2d.RuntimeShapeId = b2CreatePolygonShape(bodyId, &shapeDef, &boxShape);
+		}
+
+		if (entity.Has<CircleCollider2DComponent>())
+		{
+			auto& cc2d = entity.Get<CircleCollider2DComponent>();
+			b2BodyId bodyId = rb2d.RuntimeBodyId;
+
+			float scale = glm::max(transformComponent.Scale.x, transformComponent.Scale.y);
+
+			b2Circle circle =
+			{
+				{ cc2d.Offset.x / m_PhysicsScale, cc2d.Offset.y / m_PhysicsScale },
+				(cc2d.Radius * scale) / m_PhysicsScale
+			};
+
+			b2ShapeDef shapeDef = b2DefaultShapeDef();
+
+			shapeDef.density = cc2d.Density;
+			shapeDef.material.friction = cc2d.Friction;
+
+			shapeDef.filter.categoryBits = cc2d.CategoryBits;
+			shapeDef.filter.maskBits = cc2d.MaskBits;
+			shapeDef.filter.groupIndex = cc2d.GroupIndex;
+
+			cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
+		}
+	}
+
+	void Physics2DManager::UnregisterEntity(Entity entity)
+	{
+		if (!b2World_IsValid(m_PhysicsWorldId))
+			return;
+
+		if (!entity.Has<RigidBody2DComponent>())
+			return;
+
+		auto& rb2d = entity.Get<RigidBody2DComponent>();
+
+		if (b2Body_IsValid(rb2d.RuntimeBodyId))
+		{
+			b2DestroyBody(rb2d.RuntimeBodyId);
+			rb2d.RuntimeBodyId = b2_nullBodyId;
+		}
+
+		if (entity.Has<BoxCollider2DComponent>())
+		{
+			entity.Get<BoxCollider2DComponent>().RuntimeShapeId = b2_nullShapeId;
+		}
+
+		if (entity.Has<CircleCollider2DComponent>())
+		{
+			entity.Get<CircleCollider2DComponent>().RuntimeShapeId = b2_nullShapeId;
+		}
+	}
+
+	void Physics2DManager::UpdateEntityPhysics(Entity entity)
+	{
+		UnregisterEntity(entity);
+		RegisterEntity(entity);
+	}
+
 	void Physics2DManager::ProcessContactEvents()
 	{
 		b2ContactEvents events = b2World_GetContactEvents(m_PhysicsWorldId);

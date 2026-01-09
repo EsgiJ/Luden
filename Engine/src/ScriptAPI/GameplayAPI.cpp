@@ -69,6 +69,11 @@ namespace Luden
 			Entity entity = scene->CreateEntity(tag);
 			entity.Get<TransformComponent>().Translation = location;
 
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				scene->GetPhysicsManager().RegisterEntity(entity);
+			}
+
 			return entity;
 		}
 
@@ -231,6 +236,12 @@ namespace Luden
 
 		void DestroyEntity(Entity entity)
 		{
+			Scene* scene = GetCurrentScene();
+			if (scene && entity.Has<RigidBody2DComponent>())
+			{
+				scene->GetPhysicsManager().UnregisterEntity(entity);
+			}
+
 			entity.Destroy();
 		}
 

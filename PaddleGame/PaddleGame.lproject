@@ -1,0 +1,8 @@
+{
+    "Name": "PaddleGame",
+    "ProjectDirectory": "C:\\GameProjects\\Luden\\PaddleGame",
+    "ProjectFileName": "PaddleGame.lproject",
+    "ResourceDirectory": "Resources",
+    "ResourceRegistry": "Resources/ResourceRegistry.lr",
+    "StartScene": "Resources/Scenes/DefaultScene.lscene"
+}
