@@ -22,8 +22,8 @@ namespace Luden
 		{".jpeg", ResourceType::Texture},
 
 		//Audio
-		{".wav", ResourceType::Audio},
-		{".ogg", ResourceType::Audio},
+		{".wav", ResourceType::Sound},
+		{".ogg", ResourceType::Sound},
 
 		//Fonts
 		{".ttf", ResourceType::Font},

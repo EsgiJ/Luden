@@ -66,7 +66,17 @@ namespace Luden
 		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
 	};
 
-	class ENGINE_API AudioFileSourceSerializer : public ResourceSerializer
+	class ENGINE_API SoundResourceSerializer : public ResourceSerializer
+	{
+	public:
+		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;
+		virtual bool TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const override;
+
+		virtual bool SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const;
+		virtual std::shared_ptr<Resource> DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const;
+	};
+
+	class ENGINE_API MusicResourceSerializer : public ResourceSerializer
 	{
 	public:
 		virtual void Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const override;

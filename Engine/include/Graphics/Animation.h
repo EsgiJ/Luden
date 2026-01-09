@@ -40,16 +40,12 @@ namespace Luden
 		bool IsLooping() const { return m_Loop; }
 		void SetLooping(bool loop) { m_Loop = loop; }
 
-		const std::string& GetName() const { return m_Name; }
-		void SetName(const std::string& name) { m_Name = name; }
-
 		static ResourceType GetStaticType() { return ResourceType::Animation; }
 		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 
 	private:
 		std::vector<AnimationFrame> m_Frames;
 		bool m_Loop = true;
-		std::string m_Name;
 
 		friend class AnimationSerializer;
 	};

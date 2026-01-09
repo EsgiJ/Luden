@@ -119,8 +119,6 @@ namespace Luden {
 
 		b2WorldId GetPhysicsWorldId();
 
-		const std::string& GetName() const { return m_Name; }
-		void SetName(const std::string& name) { m_Name = name; }
 		UUID GetUUID() const { return Handle; }
 
 		void SetPaused(bool paused) { m_Paused = paused; }
@@ -136,8 +134,6 @@ namespace Luden {
 
 	private:
 		EntityManager m_EntityManager;
-
-		std::string m_Name;
 
 		bool m_IsPlaying = false;
 		bool m_ShouldSimulate = false;

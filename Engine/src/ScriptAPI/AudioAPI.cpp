@@ -1,4 +1,6 @@
 #include "ScriptAPI/AudioAPI.h"
+#include "Audio/AudioManager.h"
+
 #include <iostream>
 
 namespace Luden
@@ -13,10 +15,10 @@ namespace Luden
 				return;
 			}
 
-			//AudioManager::Instance().PlaySound(sound, volume);
+			AudioManager::Instance().PlaySound(sound, volume);
 		}
 
-		void PlayMusic(SoundRef music, float volume, bool loop)
+		void PlayMusic(std::shared_ptr<Music> music, float volume, bool loop)
 		{
 			if (!music)
 			{
@@ -24,37 +26,37 @@ namespace Luden
 				return;
 			}
 
-			//AudioManager::Instance().PlayMusic(music, volume, loop);
+			AudioManager::Instance().PlayMusic(music, volume, loop);
 		}
 
 		void StopMusic()
 		{
-			//AudioManager::Instance().StopMusic();
+			AudioManager::Instance().StopMusic();
 		}
 
 		void PauseMusic()
 		{
-			//AudioManager::Instance().PauseMusic();
+			AudioManager::Instance().PauseMusic();
 		}
 
 		void ResumeMusic()
 		{
-			//AudioManager::Instance().ResumeMusic();
+			AudioManager::Instance().ResumeMusic();
 		}
 
 		void SetMusicVolume(float volume)
 		{
-			//AudioManager::Instance().SetMusicVolume(volume);
+			AudioManager::Instance().SetMusicVolume(volume);
 		}
 
 		void SetSoundVolume(float volume)
 		{
-			//AudioManager::Instance().SetSoundVolume(volume);
+			AudioManager::Instance().SetSoundVolume(volume);
 		}
 
 		void MuteAll(bool mute)
 		{
-			//AudioManager::Instance().MuteAll(mute);
+			AudioManager::Instance().MuteAll(mute);
 		}
 	}
 }

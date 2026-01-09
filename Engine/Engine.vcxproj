@@ -117,6 +117,8 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
+    <ClInclude Include="include\Audio\AudioManager.h" />
+    <ClInclude Include="include\Audio\Music.h" />
     <ClInclude Include="include\Audio\Sound.h" />
     <ClInclude Include="include\Core\Buffer.h" />
     <ClInclude Include="include\Core\Config.h" />
@@ -196,8 +198,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_win.cpp" />
-    <ClCompile Include="include\Audio\Sound.cpp" />
-    <ClCompile Include="src\Audio\SoundBuffer.cpp" />
+    <ClCompile Include="src\Audio\AudioManager.cpp" />
+    <ClCompile Include="src\Audio\Music.cpp" />
+    <ClCompile Include="src\Audio\Sound.cpp" />
     <ClCompile Include="src\Core\Platform.cpp" />
     <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />

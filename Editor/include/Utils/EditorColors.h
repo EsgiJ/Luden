@@ -39,6 +39,7 @@ namespace Luden {
 		constexpr ImVec4 image = cyan;
 		constexpr ImVec4 script = orange;
 		constexpr ImVec4 sound = teal;
+		constexpr ImVec4 music = teal;
 		constexpr ImVec4 anim = purple;
 		constexpr ImVec4 font = pale_pink;
 		constexpr ImVec4 rigidbody = magenta;

@@ -27,15 +27,13 @@ namespace Luden {
 		std::shared_ptr<Scene> GetScene() const { return m_Scene; }
 		void SetScene(std::shared_ptr<Scene> scene) { m_Scene = scene; }
 
-		std::string GetName() const { return m_Name; }
-		void SetName(const std::string& name) { m_Name = name; }
 	private:
 		Entity CreatePrefabFromEntity(Entity entity);
 
 	private:
 		std::shared_ptr<Scene> m_Scene;
 		Entity m_Entity;
-		std::string m_Name;
+
 		friend class Scene;
 	};
 

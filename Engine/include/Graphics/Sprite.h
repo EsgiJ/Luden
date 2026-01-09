@@ -31,9 +31,6 @@ namespace Luden
 		const glm::vec2& GetPivot() const { return m_Pivot; }
 		void SetPivot(const glm::vec2& pivot) { m_Pivot = pivot; }
 
-		const std::string& GetName() { return m_Name; }
-		void SetName(const std::string& name) { m_Name = name; }
-
 		static ResourceType GetStaticType() { return ResourceType::Sprite; }
 		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 
@@ -41,7 +38,6 @@ namespace Luden
 		ResourceHandle m_TextureHandle = 0;
 		sf::IntRect m_TextureRect = { {0, 0}, {0, 0} };  
 		glm::vec2 m_Pivot = { 0.5f, 0.5f };              
-		std::string m_Name;
 
 		friend class SpriteSerializer;
 	};

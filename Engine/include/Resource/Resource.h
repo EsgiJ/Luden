@@ -13,7 +13,15 @@ namespace Luden
 		ResourceHandle Handle;
 		uint16_t Flags = (uint16_t)ResourceFlag::None;
 
+		Resource() = default;
+		explicit Resource(const std::string& name)
+			: m_Name(name) {
+		}
+
 		virtual ~Resource() {}
+
+		const std::string& GetName() { return m_Name; }
+		void SetName(const std::string& name) { m_Name = name; }
 
 		static ResourceType GetStaticResourceType() { return ResourceType::None; }
 		virtual ResourceType GetResourceType() const { return ResourceType::None; }
@@ -44,5 +52,7 @@ namespace Luden
 			else
 				Flags &= ~(uint16_t)flag;
 		}
+	private:
+		std::string m_Name;
 	};
 }

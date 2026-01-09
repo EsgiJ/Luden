@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Audio/SoundBuffer.h"
+#include "Audio/Sound.h"
+#include "Audio/Music.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
@@ -29,7 +30,8 @@ namespace Luden
 		static const std::unordered_map<ResourceType, FileInfo> FileInfoMap =
 		{
 			{ResourceType::Texture,		{".png",	"[Texture2D]",	EditorColors::image}},
-			{ResourceType::Audio,		{".wav",    "[Sound]",		EditorColors::sound}},
+			{ResourceType::Sound,		{".wav",    "[Sound]",		EditorColors::sound}},
+			{ResourceType::Music,		{".wav",    "[Sound]",		EditorColors::music}},
 			{ResourceType::Animation,	{".lanim",	"[Animation]",	EditorColors::anim}},
 			{ResourceType::Font,		{".ttf",    "[Font]",		EditorColors::font}},
 			{ResourceType::Scene,		{".lscene",	"[Scene]",		EditorColors::green}},
@@ -40,6 +42,7 @@ namespace Luden
 		{
 			{".png",		EditorColors::image},
 			{".wav",		EditorColors::sound},
+			{".wav",		EditorColors::music},
 			{".lanim",		EditorColors::anim},
 			{".ttf",		EditorColors::font},
 			{".lprefab",	EditorColors::prefab},

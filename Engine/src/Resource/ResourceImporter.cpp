@@ -1,6 +1,7 @@
 #include "Resource/ResourceImporter.h"
 #include "Resource/ResourceManager.h"
-#include "Audio/SoundBuffer.h"
+#include "Audio/Sound.h"
+#include "Audio/Music.h"
 
 namespace Luden
 {
@@ -8,7 +9,8 @@ namespace Luden
 	{
 		s_Serializers.clear();
 		s_Serializers[ResourceType::Texture] = std::make_unique<TextureSerializer>();
-		s_Serializers[ResourceType::Audio] = std::make_unique<AudioFileSourceSerializer>();
+		s_Serializers[ResourceType::Sound] = std::make_unique<SoundResourceSerializer>();
+		s_Serializers[ResourceType::Music] = std::make_unique<MusicResourceSerializer>();
 		s_Serializers[ResourceType::Scene] = std::make_unique<SceneResourceSerializer>();
 		s_Serializers[ResourceType::Font] = std::make_unique<FontSerializer>();
 		s_Serializers[ResourceType::Animation] = std::make_unique<AnimationResourceSerializer>();
@@ -76,34 +78,24 @@ namespace Luden
 
 	std::shared_ptr<Resource> ResourceImporter::CreateResource(ResourceType type, const std::string& name)
 	{
+		std::shared_ptr<Resource> resource;
+
 		switch (type)
 		{
-		case Luden::ResourceType::None:			return nullptr;
-		case Luden::ResourceType::Scene:		return std::make_shared<Scene>();
-		case Luden::ResourceType::Texture:		return std::make_shared<Texture>();
-		case Luden::ResourceType::Sprite:	
-		{
-			auto resource = std::make_shared<Sprite>();
-			resource->SetName(name);
-			return resource;
+		case ResourceType::Scene:        resource = std::make_shared<Scene>(); break;
+		case ResourceType::Texture:      resource = std::make_shared<Texture>(); break;
+		case ResourceType::Sprite:       resource = std::make_shared<Sprite>(); break;
+		case ResourceType::Sound:        resource = std::make_shared<Sound>(); break;
+		case ResourceType::Music:        resource = std::make_shared<Music>(); break;
+		case ResourceType::Font:         resource = std::make_shared<Font>(); break;
+		case ResourceType::Animation:    resource = std::make_shared<Animation>(); break;
+		case ResourceType::NativeScript: resource = std::make_shared<NativeScript>(); break;
+		case ResourceType::Prefab:       resource = std::make_shared<Prefab>(); break;
+		default:                         return nullptr;
 		}
-		case Luden::ResourceType::Audio:		return std::make_shared<SoundBuffer>();
-		case Luden::ResourceType::Font:			return std::make_shared<Font>();
-		case Luden::ResourceType::Animation:	
-		{
-			auto resource = std::make_shared<Animation>();
-			resource->SetName(name);
-			return resource;
-		}
-		case Luden::ResourceType::NativeScript: return std::make_shared<NativeScript>();
-		case Luden::ResourceType::Prefab:
-		{
-			auto resource = std::make_shared<Prefab>();
-			resource->SetName(name);
-			return resource;
-		}
-		default:								return nullptr;
-		}
+
+		resource->SetName(name);
+		return resource;
 	}
 
 	std::unordered_map<ResourceType, std::unique_ptr<ResourceSerializer>> ResourceImporter::s_Serializers;

@@ -5,7 +5,8 @@
 #include "Resource/ResourceImporter.h"
 #include "Scene/Scene.h"
 #include "Scene/SceneSerializer.h"
-#include "Audio/SoundBuffer.h"
+#include "Audio/Sound.h"
+#include "Audio/Music.h"
 
 namespace Luden {
 
@@ -196,7 +197,7 @@ namespace Luden {
 		float progressIncrement = 0.5f / (float)sceneCount;
 
 		// Audio "files"
-		std::unordered_set<ResourceHandle> audioFiles = ResourceManager::GetAllResourcesWithType<SoundBuffer>();
+		std::unordered_set<ResourceHandle> audioFiles = ResourceManager::GetAllResourcesWithType<Sound>();
 		fullResourceList.insert(audioFiles.begin(), audioFiles.end());
 
 		for (const auto sceneHandle : sceneHandles)

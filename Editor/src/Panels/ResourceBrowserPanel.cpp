@@ -142,9 +142,9 @@ namespace Luden
 						switch (entry.Type)
 						{
 						case ResourceType::Scene: browseEntryTexture = EditorResources::SceneIcon; break;
-						case ResourceType::Prefab: browseEntryTexture = EditorResources::Anim2DIcon; break; 
+						case ResourceType::Prefab: browseEntryTexture = EditorResources::PrefabIcon; break;
 						case ResourceType::Texture: browseEntryTexture = ResourceManager::GetResource<Texture>(entry.Handle); break;
-						case ResourceType::Audio: browseEntryTexture = EditorResources::AudioIcon; break;
+						case ResourceType::Music: browseEntryTexture = EditorResources::MusicIcon; break;  
 						case ResourceType::Font: browseEntryTexture = EditorResources::FontIcon; break;
 						case ResourceType::Animation: browseEntryTexture = EditorResources::Anim2DIcon; break;
 						case ResourceType::NativeScript: browseEntryTexture = EditorResources::NativeScriptIcon; break;
@@ -515,9 +515,14 @@ namespace Luden
 				m_SelectedFilter = ResourceType::Texture;
 			}
 
-			if (ImGui::Selectable("Audio", m_SelectedFilter == ResourceType::Audio))
+			if (ImGui::Selectable("Audio", m_SelectedFilter == ResourceType::Sound))
 			{
-				m_SelectedFilter = ResourceType::Audio;
+				m_SelectedFilter = ResourceType::Sound;
+			}
+
+			if (ImGui::Selectable("Music", m_SelectedFilter == ResourceType::Music))
+			{
+				m_SelectedFilter = ResourceType::Music;
 			}
 
 			if (ImGui::Selectable("Font", m_SelectedFilter == ResourceType::Font))

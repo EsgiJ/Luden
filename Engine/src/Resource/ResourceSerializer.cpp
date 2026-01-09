@@ -1,6 +1,6 @@
 ﻿#include "Resource/ResourceSerializer.h"
 
-#include "Audio/SoundBuffer.h"
+#include "Audio/Sound.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Font.h"
 #include "Graphics/Texture.h"
@@ -14,6 +14,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include "Audio/Music.h"
 
 namespace Luden
 {
@@ -324,28 +325,29 @@ namespace Luden
 	}
 
 //////////////////////////////////////////////////////////////////////////////////
-// AudioFileSourceSerializer
+// SoundResourceSerializer
 //////////////////////////////////////////////////////////////////////////////////
 
-	void AudioFileSourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
+	void SoundResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
 	{
 
 	}
 
-	bool AudioFileSourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
+	bool SoundResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
-		auto soundBufferResource = std::static_pointer_cast<SoundBuffer>(resource);
-		sf::SoundBuffer sfSoundBuffer;
-		if (!sfSoundBuffer.loadFromFile(metadata.FilePath))
+		auto sound = std::make_shared<Sound>();
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		sound->SetFilePath(path);
+		if (!sound->LoadFromFile())
 			return false;
 
-		soundBufferResource->SetBuffer(sfSoundBuffer);
-		soundBufferResource->SetFilePath(metadata.FilePath);
+		resource = sound;
 		return true;
 	}
 
-	bool AudioFileSourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
+	bool SoundResourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
 	{
+		/*
 		outInfo.Offset = stream.GetStreamPosition();
 
 		std::shared_ptr<SoundBuffer> sounfBuffer = ResourceManager::GetResource<SoundBuffer>(handle);
@@ -363,12 +365,14 @@ namespace Luden
 		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
 
 		return true;
+		*/
+		return true;
 	}
 
-	std::shared_ptr<Resource> AudioFileSourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	std::shared_ptr<Resource> SoundResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
 	{
 		stream.SetStreamPosition(resourceInfo.PackedOffset);
-		std::shared_ptr<SoundBuffer> audioFile = std::shared_ptr<SoundBuffer>();
+		std::shared_ptr<Sound> audioFile = std::shared_ptr<Sound>();
 
 		std::string pathString= audioFile->GetFilePath().string();
 		stream.ReadString(pathString);
@@ -376,6 +380,59 @@ namespace Luden
 		return audioFile;
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////
+	// MusicResourceSerializer
+	//////////////////////////////////////////////////////////////////////////////////
+	void MusicResourceSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
+	{
+	}
+
+	bool MusicResourceSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
+	{
+		auto music = std::make_shared<Music>();
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		music->SetFilePath(path);
+		if (!music->LoadFromFile())
+			return false;
+
+		resource = music;
+		return true;
+	}
+
+	bool MusicResourceSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
+	{
+		/*
+		outInfo.Offset = stream.GetStreamPosition();
+
+		std::shared_ptr<SoundBuffer> sounfBuffer = ResourceManager::GetResource<SoundBuffer>(handle);
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(handle);
+		auto relativePath = std::filesystem::relative(path, Project::GetActiveResourceDirectory());
+
+		std::string filePath;
+		if (relativePath.empty())
+			filePath = path.string();
+		else
+			filePath = relativePath.string();
+
+		stream.WriteString(filePath);
+
+		outInfo.Size = stream.GetStreamPosition() - outInfo.Offset;
+
+		return true;
+		*/
+		return true;
+	}
+
+	std::shared_ptr<Resource> MusicResourceSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	{
+		stream.SetStreamPosition(resourceInfo.PackedOffset);
+		std::shared_ptr<Music> audioFile = std::shared_ptr<Music>();
+
+		std::string pathString= audioFile->GetFilePath().string();
+		stream.ReadString(pathString);
+
+		return audioFile;
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// PrefabSerializer

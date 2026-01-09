@@ -5,8 +5,10 @@
 #include "Graphics/Animation.h"
 #include "Graphics/Sprite.h"
 #include "Graphics/Font.h"
-#include "Audio/SoundBuffer.h"
+#include "Audio/Sound.h"
+#include "Audio/Music.h"
 #include "Resource/Resource.h"
+
 #include <glm/fwd.hpp>
 
 namespace Luden
@@ -14,7 +16,8 @@ namespace Luden
 	// Resources
 	using PrefabRef = std::shared_ptr<Prefab>;
 	using AnimationRef = std::shared_ptr<Animation>;
-	using SoundRef = std::shared_ptr<SoundBuffer>;
+	using SoundRef = std::shared_ptr<Sound>;
+	using MusicRef = std::shared_ptr<Music>;
 	using SpriteRef = std::shared_ptr<Sprite>;
 
 	// Pointer 
