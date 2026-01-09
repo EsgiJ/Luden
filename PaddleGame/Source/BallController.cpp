@@ -6,6 +6,7 @@
 #include "ScriptAPI/AudioAPI.h"
 #include "ScriptAPI/DebugAPI.h"
 #include "ScriptAPI/MathAPI.h"
+#include <iostream>
 
 namespace Luden
 {
@@ -32,6 +33,8 @@ namespace Luden
 			{
 				Launch();
 			}
+
+			return;
 		}
 
 		Vec3 pos = GameplayAPI::GetPosition(GetEntity());
@@ -78,34 +81,56 @@ namespace Luden
 	{
 		Entity other = contact.otherEntity;
 
+		Vec2 velocity = Physics2DAPI::GetLinearVelocity(GetEntity());
+		Vec2 normal = contact.normal;
+
 		if (other.Tag() == "Player")
 		{
 			Vec3 ballPos = GameplayAPI::GetPosition(GetEntity());
 			Vec3 paddlePos = GameplayAPI::GetPosition(other);
 
 			float offset = ballPos.x - paddlePos.x;
-			float maxOffset = 400.0f;
-			float normalizedOffset = MathAPI::Clamp(offset / maxOffset, -1.0f, 1.0f);
+			float paddleHalfWidth = 100.0f;
+			float normalizedOffset = MathAPI::Clamp(offset / paddleHalfWidth, -1.0f, 1.0f);
 
-			Vec2 vel = Physics2DAPI::GetLinearVelocity(GetEntity());
-			vel.x += normalizedOffset * 5.0f;  
-			vel.y = -std::abs(vel.y);  
+			float angle = normalizedOffset * 60.0f; 
+			float angleRad = angle * 3.14159265f / 180.0f;
 
-			Physics2DAPI::SetLinearVelocity(GetEntity(), MathAPI::Normalize(vel) * m_Speed);
+			Vec2 newVelocity(
+				std::sin(angleRad) * m_Speed,
+				-std::abs(std::cos(angleRad)) * m_Speed  
+			);
+
+			Physics2DAPI::SetLinearVelocity(GetEntity(), newVelocity);
 
 			if (m_PaddleHitSound)
+			{
+				std::cout << "PaddleHit Sound started" << std::endl;
 				SoundAPI::PlaySound(m_PaddleHitSound, 0.5f);
-		}
-		else if (other.Tag() == "Brick")
-		{
-			if (m_BrickHitSound)
-				SoundAPI::PlaySound(m_BrickHitSound, 0.6f);
+			}
 
+			std::cout << "[Ball] Hit paddle | Offset: " << normalizedOffset
+				<< " | Angle: " << angle
+				<< " | Normal: (" << normal.x << ", " << normal.y << ")" << std::endl;
 		}
-		else if (other.Tag() == "Wall")
+		else if (other.Tag() == "Brick" || other.Tag() == "Wall")
 		{
-			if (m_WallHitSound)
+			float dotProduct = velocity.x * normal.x + velocity.y * normal.y;
+			Vec2 reflection(
+				velocity.x - 2.0f * dotProduct * normal.x,
+				velocity.y - 2.0f * dotProduct * normal.y
+			);
+
+			reflection = MathAPI::Normalize(reflection) * m_Speed;
+			Physics2DAPI::SetLinearVelocity(GetEntity(), reflection);
+
+			if (other.Tag() == "Brick" && m_BrickHitSound)
+				SoundAPI::PlaySound(m_BrickHitSound, 0.6f);
+			else if (other.Tag() == "Wall" && m_WallHitSound)
 				SoundAPI::PlaySound(m_WallHitSound, 0.3f);
+
+			std::cout << "[Ball] Reflected from " << other.Tag()
+				<< " | Normal: (" << normal.x << ", " << normal.y << ")" << std::endl;
 		}
 	}
 
@@ -128,7 +153,7 @@ namespace Luden
 
 		Vec2 velocity(
 			std::sin(angleRad) * m_Speed,
-			-std::cos(angleRad) * m_Speed
+			-std::abs(std::cos(angleRad)) * m_Speed  
 		);
 
 		Physics2DAPI::SetLinearVelocity(GetEntity(), velocity);

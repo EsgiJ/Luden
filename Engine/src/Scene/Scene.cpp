@@ -17,6 +17,7 @@
 #include "Physics2D/CollisionChannelRegistry.h"
 #include "SFML/System/Angle.hpp"
 #include "SFML/Graphics/Text.hpp"
+#include "Audio/AudioManager.h"
 
 namespace Luden {
 
@@ -68,6 +69,7 @@ namespace Luden {
 		InputManager::Instance().Update(ts, m_EntityManager);
 		DebugManager::Instance().Update(ts);
 		AnimationManager::Instance().Update(ts);
+		AudioManager::Instance().Update();
 		m_EntityManager.Update(ts);
 	}
 
@@ -675,7 +677,7 @@ namespace Luden {
 
 		if (m_IsPlaying && entity.Has<RigidBody2DComponent>())
 		{
-			m_PhysicsManager.UnregisterEntity(entity);
+			//m_PhysicsManager.UnregisterEntity(entity);
 		}
 
 		if (entity.Has<RelationshipComponent>())
@@ -771,6 +773,15 @@ namespace Luden {
 
 	std::vector<Entity>& Scene::FindAllEntitiesWithTag(const std::string& tag)
 	{
+		auto& map = m_EntityManager.GetEntityMap();
+		auto it = map.find(tag);
+
+		if (it == map.end())
+		{
+			std::vector<Entity> emptyVec;
+			return emptyVec;
+		}
+
 		return m_EntityManager.GetEntityMap().at(tag);
 	}
 

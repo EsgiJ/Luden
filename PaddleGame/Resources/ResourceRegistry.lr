@@ -31,6 +31,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Musics/barkground.wav",
+      "Handle": 1112378230679933033,
+      "Type": "Sound"
+    },
+    {
       "FilePath": "Textures/Balls/ball_orange_shaded.png",
       "Handle": 1492174034704951946,
       "Type": "Texture"
@@ -136,6 +141,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Prefabs/VerticalWall.lprefab",
+      "Handle": 5340924274666555391,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Textures/Balls/ball_orange_shaded_outline.png",
       "Handle": 5677296145513493450,
       "Type": "Texture"
@@ -156,6 +166,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Prefabs/HorizontalWall.lprefab",
+      "Handle": 6451033119634832532,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Textures/Balls/ball_purple_shaded_outline.png",
       "Handle": 6464064145752322577,
       "Type": "Texture"
@@ -171,6 +186,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/brick_hit.wav",
+      "Handle": 6782991688071958620,
+      "Type": "Sound"
+    },
+    {
       "FilePath": "Textures/Blocks/block_2_yellow.png",
       "Handle": 7609106183594063427,
       "Type": "Texture"
@@ -181,9 +201,19 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/wall_hit.wav",
+      "Handle": 8283055526685069162,
+      "Type": "Sound"
+    },
+    {
       "FilePath": "Textures/Blocks/block_2_yellow_outline.png",
       "Handle": 8379095654526639835,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sounds/level_up.wav",
+      "Handle": 8387563458562072121,
+      "Type": "Sound"
     },
     {
       "FilePath": "Textures/Blocks/block_2_red_outline.png",
@@ -256,6 +286,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/game_over.wav",
+      "Handle": 11001980969107701400,
+      "Type": "Sound"
+    },
+    {
       "FilePath": "Textures/Balls/ball_green_flat.png",
       "Handle": 11405542970752512190,
       "Type": "Texture"
@@ -291,6 +326,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sounds/brick_break.wav",
+      "Handle": 12598242109528862662,
+      "Type": "Sound"
+    },
+    {
       "FilePath": "Textures/Blocks/block_1_orange_outline.png",
       "Handle": 12751180461787658446,
       "Type": "Texture"
@@ -321,6 +361,11 @@
       "Type": "NativeScript"
     },
     {
+      "FilePath": "Prefabs/VerticalWallRight.lprefab",
+      "Handle": 13887867441089257986,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Textures/Blocks/block_2_green_outline.png",
       "Handle": 14231129940427683641,
       "Type": "Texture"
@@ -339,6 +384,11 @@
       "FilePath": "Fonts/Minecraft.ttf",
       "Handle": 14674320367197422100,
       "Type": "Font"
+    },
+    {
+      "FilePath": "Sounds/paddle_hit.wav",
+      "Handle": 14683476311063947442,
+      "Type": "Sound"
     },
     {
       "FilePath": "Textures/Blocks/block_2_white.png",
@@ -439,11 +489,6 @@
       "FilePath": "Scenes/DefaultScene.lscene",
       "Handle": 17735032803745354330,
       "Type": "Scene"
-    },
-    {
-      "FilePath": "Prefabs/Wall.lprefab",
-      "Handle": 18442117516600222009,
-      "Type": "Prefab"
     }
   ]
 }

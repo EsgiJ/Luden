@@ -4,14 +4,14 @@
             "CircleCollider2DComponent": {
                 "CategoryBits": 8,
                 "Density": 1.0,
-                "Friction": 1.0,
+                "Friction": 0.0,
                 "GroupIndex": 0,
                 "MaskBits": 65442,
                 "Offset": [
                     0.0,
                     0.0
                 ],
-                "Radius": 1.0
+                "Radius": 256.0
             },
             "NativeScriptComponent": {
                 "ScriptHandle": -5230459360848525946
@@ -21,7 +21,7 @@
                 "ParentHandle": 0
             },
             "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
+                "AngularDrag": 0.0,
                 "BodyType": 1,
                 "FixedRotation": true,
                 "GravityScale": 0.0,
@@ -40,9 +40,9 @@
             "Tag": "Ball",
             "TransformComponent": {
                 "Scale": [
-                    0.07999999821186066,
-                    0.07999999821186066,
-                    0.07999999821186066
+                    0.15000000596046448,
+                    0.15000000596046448,
+                    0.15000000596046448
                 ],
                 "Translation": [
                     0.0,

@@ -1,0 +1,52 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 10,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    1920.0,
+                    20.0
+                ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "Tag": "Wall",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -550.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 2450078959682583329
+        }
+    ],
+    "Name": "HorizontalWall",
+    "PrefabHandle": 6451033119634832532,
+    "RootEntityUUID": 2450078959682583329,
+    "UUID": 16894098273083837582
+}

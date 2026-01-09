@@ -3,6 +3,7 @@
 #include "GameManager.h"
 #include "ScriptAPI/AudioAPI.h"
 #include "ScriptAPI/GameplayAPI.h"
+#include <iostream>
 
 namespace Luden
 {
@@ -15,7 +16,7 @@ namespace Luden
 
     void Brick::OnUpdate(TimeStep ts)
     {
-        // TODO: Update logic
+		UpdateColor();
     }
 
     void Brick::OnDestroy()

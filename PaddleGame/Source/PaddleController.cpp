@@ -58,7 +58,8 @@ namespace Luden
     void PaddleController::OnUpdate(TimeStep ts)
     {
 		Vec3 pos = GameplayAPI::GetPosition(GetEntity());
-		pos.x = MathAPI::Clamp(pos.x, m_MinX, m_MaxX);
+
+		pos.y = 0;
 		GameplayAPI::SetPosition(GetEntity(), pos);
     }
 

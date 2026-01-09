@@ -63,6 +63,9 @@ namespace Luden
 		ENGINE_API bool IsGrounded(Entity entity);
 		ENGINE_API bool IsInRange(Entity source, Entity target, float range);
 		ENGINE_API bool IsInRange(const Vec3& source, const Vec3& target, float range);
+
+		ENGINE_API Vec2 GetEntitySize(Entity entity);
+		ENGINE_API Vec2 GetEntitySizeUnscaled(Entity entity);
 	}
 }
 

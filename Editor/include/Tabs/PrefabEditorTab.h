@@ -5,6 +5,7 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Panels/InspectorPanel.h"
 #include "Panels/ResourceBrowserPanel.h"
+#include "Panels/ToolbarPanel.h"
 #include "Render/Camera2D.h"
 
 #include <SFML/Graphics.hpp>
@@ -45,6 +46,7 @@ namespace Luden
 		SceneHierarchyPanel m_HierarchyPanel;
 		InspectorPanel m_InspectorPanel;
 		ResourceBrowserPanel m_ResourceBrowserPanel;
+		ToolbarPanel m_ToolbarPanel;
 		// Viewport
 		std::shared_ptr<sf::RenderTexture> m_RenderTexture;
 		Camera2D m_EditorCamera;

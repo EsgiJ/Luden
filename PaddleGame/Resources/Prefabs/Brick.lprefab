@@ -3,8 +3,8 @@
         {
             "BoxCollider2DComponent": {
                 "CategoryBits": 32,
-                "Density": 1.0,
-                "Friction": 1.0,
+                "Density": 0.0,
+                "Friction": 0.0,
                 "GroupIndex": 0,
                 "MaskBits": 8,
                 "Offset": [
@@ -12,24 +12,27 @@
                     0.0
                 ],
                 "Size": [
-                    0.5,
-                    0.5
+                    1024.0,
+                    512.0
                 ]
             },
             "HealthComponent": {
                 "current": 3,
                 "max": 3
             },
+            "NativeScriptComponent": {
+                "ScriptHandle": -9215260150602207886
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
             },
             "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
+                "AngularDrag": 0.0,
                 "BodyType": 0,
                 "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
                 "Mass": 1.0
             },
             "SpriteRendererComponent": {
@@ -44,13 +47,13 @@
             "Tag": "Brick",
             "TransformComponent": {
                 "Scale": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
+                    0.17000000178813934,
+                    0.17000000178813934,
+                    0.17000000178813934
                 ],
                 "Translation": [
-                    770.0,
-                    200.0,
+                    873.3599243164063,
+                    -292.9599914550781,
                     0.0
                 ],
                 "angle": 0.0

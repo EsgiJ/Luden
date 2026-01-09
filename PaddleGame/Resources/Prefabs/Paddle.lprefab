@@ -4,18 +4,19 @@
             "BoxCollider2DComponent": {
                 "CategoryBits": 2,
                 "Density": 1.0,
-                "Friction": 1.0,
+                "Friction": 0.0,
                 "GroupIndex": 0,
-                "MaskBits": 65288,
+                "MaskBits": 65320,
                 "Offset": [
                     0.0,
                     0.0
                 ],
                 "Size": [
-                    0.5,
-                    0.5
+                    1024.0,
+                    512.0
                 ]
             },
+            "InputComponent": null,
             "NativeScriptComponent": {
                 "ScriptHandle": -5145780488435028365
             },
@@ -24,11 +25,11 @@
                 "ParentHandle": 0
             },
             "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
+                "AngularDrag": 0.0,
                 "BodyType": 2,
                 "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
                 "Mass": 1.0
             },
             "SpriteRendererComponent": {
@@ -43,7 +44,7 @@
             "Tag": "Player",
             "TransformComponent": {
                 "Scale": [
-                    0.15000000596046448,
+                    0.30000001192092896,
                     0.15000000596046448,
                     0.15000000596046448
                 ],

@@ -253,6 +253,9 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClCompile Include="src\Serialization\ResourcePackSerializer.cpp" />
     <ClCompile Include="src\Utilities\StringUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sound.cpp">
+      <ObjectFileName>$(IntDir)\sound1.obj</ObjectFileName>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

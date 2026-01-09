@@ -317,7 +317,7 @@ namespace Luden {
 
 		//Show Collisions
 		{
-			if (m_ShowMovementCollision || m_ShowVisionCollision)
+			if (m_ShowCollision)
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.4f, 0.8f, 1.0f));
 			else
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 0.65f));
@@ -336,11 +336,7 @@ namespace Luden {
 
 			if (ImGui::BeginCombo("##EnableCollision", "something"))
 			{
-				if (ImGui::Checkbox(ICON_FA_SQUARE" BlockMovement", &m_ShowMovementCollision))
-				{
-				}
-
-				if (ImGui::Checkbox(ICON_FA_EYE_LOW_VISION " BlockVision", &m_ShowVisionCollision))
+				if (ImGui::Checkbox(ICON_FA_SQUARE" ShowCollision", &m_ShowCollision))
 				{
 				}
 				ImGui::EndCombo();

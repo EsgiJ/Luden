@@ -17,7 +17,7 @@ namespace Luden
 		void Reset();
 
 	private:
-		float m_Speed = 1.0f;
+		float m_Speed = 3.0f;
 		bool m_IsLaunched = false;
 		Entity m_Paddle;
 

@@ -9,6 +9,7 @@
 #include <imgui-SFML.h>
 #include "Scene/SceneSerializer.h"
 #include "Tabs/SceneEditorTab.h"
+#include <glm/geometric.hpp>
 
 namespace Luden
 {
@@ -21,6 +22,9 @@ namespace Luden
 		SetWindowName(filepath.filename().string());
 
 		LoadPrefab(filepath);
+
+		m_ToolbarPanel.SetContext(m_PrefabScene, &m_HierarchyPanel, &m_EditorCamera);
+		m_ToolbarPanel.InitValues(m_RenderTexture, m_ViewportHovered);
 
 		m_EditorCamera.SetDragEnabled(true);
 		m_EditorCamera.SetZoomEnabled(true);
@@ -85,6 +89,77 @@ namespace Luden
 
 				ImGui::Image(*m_RenderTexture);
 			}
+
+			// Draw Collision
+			if (m_ToolbarPanel.m_ShowCollision)
+			{
+				if (m_PrefabScene != nullptr)
+				{
+					auto& entities = m_PrefabScene->GetEntityManager().GetEntities();
+					for (auto& entity : entities)
+					{
+						if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
+						{
+							sf::Transform worldTransform = m_PrefabScene->GetWorldTransform(entity);
+							auto& boxComponent = entity.Get<BoxCollider2DComponent>();
+
+							float halfWidth = boxComponent.Size.x / 2.0f;
+							float halfHeight = boxComponent.Size.y / 2.0f;
+
+							sf::Vector2f corners[4] = {
+								{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y - halfHeight},
+								{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y - halfHeight},
+								{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y + halfHeight},
+								{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y + halfHeight}
+							};
+
+							ImVec2 screenCorners[4];
+							for (int i = 0; i < 4; i++)
+							{
+								sf::Vector2f worldPos = worldTransform.transformPoint(corners[i]);
+								glm::vec2 screenPos = WorldToScreen(glm::vec3(worldPos.x, worldPos.y, 0.0f));
+								screenCorners[i] = ImVec2(screenPos.x, screenPos.y);
+							}
+
+							ImGui::GetWindowDrawList()->AddQuad(
+								screenCorners[0],
+								screenCorners[1],
+								screenCorners[2],
+								screenCorners[3],
+								IM_COL32(240, 240, 10, 240),
+								3.0f
+							);
+
+						}
+
+						if (entity.Has<CircleCollider2DComponent>() && entity.Has<TransformComponent>())
+						{
+							sf::Transform worldTransform = m_PrefabScene->GetWorldTransform(entity);
+							auto& circleComponent = entity.Get<CircleCollider2DComponent>();
+
+							sf::Vector2f localCenter(circleComponent.Offset.x, circleComponent.Offset.y);
+							sf::Vector2f worldCenter = worldTransform.transformPoint(localCenter);
+
+							auto& transform = entity.Get<TransformComponent>();
+							float worldScale = (transform.Scale.x + transform.Scale.y) / 2.0f;
+							float worldRadius = circleComponent.Radius * worldScale;
+
+							glm::vec2 screenCenter = WorldToScreen(glm::vec3(worldCenter.x, worldCenter.y, 0.0f));
+
+							glm::vec2 screenEdge = WorldToScreen(glm::vec3(worldCenter.x + worldRadius, worldCenter.y, 0.0f));
+							float screenRadius = glm::distance(screenCenter, screenEdge);
+
+							ImGui::GetWindowDrawList()->AddCircle(
+								ImVec2(screenCenter.x, screenCenter.y),
+								screenRadius,
+								IM_COL32(240, 240, 10, 240),
+								32,
+								3.0f
+							);
+						}
+					}
+				}
+			}
 		}
 		ImGui::End();
 		ImGui::PopStyleVar();
@@ -128,7 +203,19 @@ namespace Luden
 	{
 		if (m_ViewportHovered)
 		{
+			if (!m_Prefab)
+			{
+				Entity rootEntity = m_Prefab->GetRootEntity();
+				if (rootEntity.IsValid())
+				{
+					glm::vec3 rootPosition = rootEntity.Get<TransformComponent>().Translation;
+					m_EditorCamera.SetPosition(rootPosition);
+				}
+			}
+
+
 			m_EditorCamera.Update();
+			m_ToolbarPanel.OnUpdate();
 		}
 	}
 
@@ -137,6 +224,7 @@ namespace Luden
 		if (m_ViewportHovered)
 		{
 			m_EditorCamera.OnEvent(evt);
+			m_ToolbarPanel.OnEvent(evt);
 		}
 	}
 

@@ -50,124 +50,6 @@
             "UUID": 863093168825633250
         },
         {
-            "BoxCollider2DComponent": {
-                "CategoryBits": 2,
-                "Density": 1.0,
-                "Friction": 1.0,
-                "GroupIndex": 0,
-                "MaskBits": 65288,
-                "Offset": [
-                    0.0,
-                    0.0
-                ],
-                "Size": [
-                    0.5,
-                    0.5
-                ]
-            },
-            "InputComponent": null,
-            "NativeScriptComponent": {
-                "ScriptHandle": -5145780488435028365
-            },
-            "PrefabComponent": {
-                "EntityID": 6324055217023288491,
-                "PrefabID": 5140093269786420268
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 0
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 2,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteRendererComponent": {
-                "spriteHandle": 8965895384510157572,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "Player",
-            "TransformComponent": {
-                "Scale": [
-                    0.15000000596046448,
-                    0.15000000596046448,
-                    0.15000000596046448
-                ],
-                "Translation": [
-                    0.0,
-                    450.0,
-                    0.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 6324055217023288491
-        },
-        {
-            "CircleCollider2DComponent": {
-                "CategoryBits": 8,
-                "Density": 1.0,
-                "Friction": 1.0,
-                "GroupIndex": 0,
-                "MaskBits": 65442,
-                "Offset": [
-                    0.0,
-                    0.0
-                ],
-                "Radius": 1.0
-            },
-            "NativeScriptComponent": {
-                "ScriptHandle": -5230459360848525946
-            },
-            "PrefabComponent": {
-                "EntityID": 9326641080898492358,
-                "PrefabID": 12359447672048693555
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 0
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 1,
-                "FixedRotation": true,
-                "GravityScale": 0.0,
-                "LinearDrag": 0.0,
-                "Mass": 1.0
-            },
-            "SpriteRendererComponent": {
-                "spriteHandle": 15130644266605088236,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "Ball",
-            "TransformComponent": {
-                "Scale": [
-                    0.07999999821186066,
-                    0.07999999821186066,
-                    0.07999999821186066
-                ],
-                "Translation": [
-                    0.0,
-                    150.0,
-                    0.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 9326641080898492358
-        },
-        {
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
@@ -298,6 +180,298 @@
                 "angle": 0.0
             },
             "UUID": 2075322504104669337
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 5773556764141944209,
+                "tint": [
+                    0,
+                    0,
+                    32,
+                    255
+                ]
+            },
+            "Tag": "Background",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8223107804533727867
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 2,
+                "Density": 1.0,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 65320,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    1024.0,
+                    512.0
+                ]
+            },
+            "InputComponent": null,
+            "NativeScriptComponent": {
+                "ScriptHandle": -5145780488435028365
+            },
+            "PrefabComponent": {
+                "EntityID": 12516255187583109444,
+                "PrefabID": 5140093269786420268
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 2,
+                "FixedRotation": true,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 8965895384510157572,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.15000000596046448,
+                    0.15000000596046448
+                ],
+                "Translation": [
+                    0.0,
+                    450.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12516255187583109444
+        },
+        {
+            "CircleCollider2DComponent": {
+                "CategoryBits": 8,
+                "Density": 0.10000000149011612,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 65442,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Radius": 256.0
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": -5230459360848525946
+            },
+            "PrefabComponent": {
+                "EntityID": 7408955390957174597,
+                "PrefabID": 12359447672048693555
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 1,
+                "FixedRotation": true,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 15130644266605088236,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Ball",
+            "TransformComponent": {
+                "Scale": [
+                    0.15000000596046448,
+                    0.15000000596046448,
+                    0.15000000596046448
+                ],
+                "Translation": [
+                    0.0,
+                    150.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7408955390957174597
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 10,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    20.0,
+                    1080.0
+                ]
+            },
+            "PrefabComponent": {
+                "EntityID": 13455740357113626385,
+                "PrefabID": 5340924274666555391
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "Tag": "Wall",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -960.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13455740357113626385
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 10,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    1920.0,
+                    20.0
+                ]
+            },
+            "PrefabComponent": {
+                "EntityID": 4150195528056871418,
+                "PrefabID": 6451033119634832532
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "Tag": "Wall",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -550.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4150195528056871418
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 10,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    20.0,
+                    1080.0
+                ]
+            },
+            "PrefabComponent": {
+                "EntityID": 309246594754826891,
+                "PrefabID": 13887867441089257986
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "Tag": "Root",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    960.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 309246594754826891
         }
     ],
     "Name": "MainScene",

@@ -384,6 +384,72 @@ namespace Luden
 			transform.Scale.y *= scale.y;
 			transform.Scale.z *= scale.z;
 		}
+
+		Vec2 GetEntitySize(Entity entity)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return Vec2(0.0f, 0.0f);
+
+			Vec2 size = GetEntitySizeUnscaled(entity);
+			Vec3 scale = entity.Get<TransformComponent>().Scale;
+
+			return Vec2(size.x * scale.x, size.y * scale.y);
+		}
+
+		Vec2 GetEntitySizeUnscaled(Entity entity)
+		{
+			if (!entity.IsValid())
+				return Vec2(0.0f, 0.0f);
+
+			if (entity.Has<SpriteAnimatorComponent>())
+			{
+				auto& animator = entity.Get<SpriteAnimatorComponent>();
+
+				if (animator.animationHandles.empty())
+					return Vec2(0.0f, 0.0f);
+
+				if (animator.currentAnimationIndex >= animator.animationHandles.size())
+					return Vec2(0.0f, 0.0f);
+
+				auto animation = ResourceManager::GetResource<Animation>(
+					animator.animationHandles[animator.currentAnimationIndex]
+				);
+
+				if (!animation || animation->GetFrameCount() == 0)
+					return Vec2(0.0f, 0.0f);
+
+				uint32_t frameIndex = animator.currentFrame;
+				if (frameIndex >= animation->GetFrameCount())
+					frameIndex = 0;
+
+				const auto& frame = animation->GetFrame(frameIndex);
+				auto sprite = ResourceManager::GetResource<Sprite>(frame.spriteHandle);
+
+				if (!sprite)
+					return Vec2(0.0f, 0.0f);
+
+				sf::Vector2u texSize = sprite->GetSize();
+				return Vec2((float)texSize.x, (float)texSize.y);
+			}
+
+			if (entity.Has<SpriteRendererComponent>())
+			{
+				auto& spriteComp = entity.Get<SpriteRendererComponent>();
+
+				if (spriteComp.spriteHandle == 0)
+					return Vec2(0.0f, 0.0f);
+
+				auto sprite = ResourceManager::GetResource<Sprite>(spriteComp.spriteHandle);
+
+				if (!sprite)
+					return Vec2(0.0f, 0.0f);
+
+				sf::Vector2u texSize = sprite->GetSize();
+				return Vec2((float)texSize.x, (float)texSize.y);
+			}
+
+			return Vec2(0.0f, 0.0f);
+		}
 	}
 }
 

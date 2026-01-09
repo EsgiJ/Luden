@@ -1,0 +1,52 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 0.0,
+                "GroupIndex": 0,
+                "MaskBits": 10,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Size": [
+                    20.0,
+                    1080.0
+                ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 0,
+                "FixedRotation": false,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "Tag": "Root",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    960.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5324384419543377872
+        }
+    ],
+    "Name": "VerticalWallRight",
+    "PrefabHandle": 13887867441089257986,
+    "RootEntityUUID": 5324384419543377872,
+    "UUID": 2748732899936055338
+}

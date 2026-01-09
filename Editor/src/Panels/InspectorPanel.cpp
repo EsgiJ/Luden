@@ -399,7 +399,7 @@ namespace Luden
 						ImGuiUtils::DragFloat2Colored("##Offset", &circle.Offset.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Radius");
-						ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 100.0f);
+						ImGui::DragFloat("##Radius", &circle.Radius, 0.1f, 0.0f, 10000.0f);
 
 						ImGuiUtils::PrefixLabel("Density");
 						ImGui::DragFloat("##Density", &circle.Density, 0.1f, 0.0f, 10.0f);

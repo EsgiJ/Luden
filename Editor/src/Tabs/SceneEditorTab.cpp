@@ -324,6 +324,77 @@ namespace Luden
 				}
 			}
 
+			// Draw Collision
+			if (m_ToolbarPanel.m_ShowCollision)
+			{
+				if (m_ActiveScene != nullptr)
+				{
+					auto& entities = m_ActiveScene->GetEntityManager().GetEntities();
+					for (auto& entity : entities)
+					{
+						if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
+						{
+							sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
+							auto& boxComponent = entity.Get<BoxCollider2DComponent>();
+
+							float halfWidth = boxComponent.Size.x / 2.0f;
+							float halfHeight = boxComponent.Size.y / 2.0f;
+
+							sf::Vector2f corners[4] = {
+								{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y - halfHeight},  
+								{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y - halfHeight},  
+								{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y + halfHeight},  
+								{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y + halfHeight}   
+							};
+
+							ImVec2 screenCorners[4];
+							for (int i = 0; i < 4; i++)
+							{
+								sf::Vector2f worldPos = worldTransform.transformPoint(corners[i]);
+								glm::vec2 screenPos = WorldToScreen(glm::vec3(worldPos.x, worldPos.y, 0.0f));
+								screenCorners[i] = ImVec2(screenPos.x, screenPos.y);
+							}
+
+							ImGui::GetWindowDrawList()->AddQuad(
+								screenCorners[0],
+								screenCorners[1],
+								screenCorners[2],
+								screenCorners[3],
+								IM_COL32(240, 240, 10, 240),
+								3.0f
+							);
+				
+						}
+
+						if (entity.Has<CircleCollider2DComponent>() && entity.Has<TransformComponent>())
+						{
+							sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
+							auto& circleComponent = entity.Get<CircleCollider2DComponent>();
+
+							sf::Vector2f localCenter(circleComponent.Offset.x, circleComponent.Offset.y);
+							sf::Vector2f worldCenter = worldTransform.transformPoint(localCenter);
+
+							auto& transform = entity.Get<TransformComponent>();
+							float worldScale = (transform.Scale.x + transform.Scale.y) / 2.0f;
+							float worldRadius = circleComponent.Radius * worldScale;
+
+							glm::vec2 screenCenter = WorldToScreen(glm::vec3(worldCenter.x, worldCenter.y, 0.0f));
+
+							glm::vec2 screenEdge = WorldToScreen(glm::vec3(worldCenter.x + worldRadius, worldCenter.y, 0.0f));
+							float screenRadius = glm::distance(screenCenter, screenEdge);
+
+							ImGui::GetWindowDrawList()->AddCircle(
+								ImVec2(screenCenter.x, screenCenter.y),
+								screenRadius,
+								IM_COL32(240, 240, 10, 240),
+								32,
+								3.0f
+							);
+						}
+					}
+				}
+			}
+
 			// Drag drop target
 			{
 				if (ImGui::BeginDragDropTarget()) 
@@ -384,6 +455,7 @@ namespace Luden
 
 			ImGui::End();
 		}
+
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(pushedStyleColorCount);
 		m_Appearing = false;

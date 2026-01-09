@@ -55,6 +55,7 @@ namespace Luden
 
 	private:
 		friend class SceneEditorTab;
+		friend class PrefabEditorTab;
 
 		std::shared_ptr<Scene> m_Context;
 		SceneHierarchyPanel* m_SceneHierarchyPanel = nullptr;
@@ -89,8 +90,7 @@ namespace Luden
 		bool m_ToolUsing = false;
 
 		bool m_ShowGrid = true;
-		bool m_ShowMovementCollision = true;
-		bool m_ShowVisionCollision = true;
+		bool m_ShowCollision = true;
 			
 		bool m_IsSnapEnabled = true;
 		bool m_IsSnapScaleEnabled = true;

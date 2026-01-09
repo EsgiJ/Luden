@@ -32,8 +32,8 @@ namespace Luden
 		bool m_GameOver = false;
 
 		// Brick spawning
-		int m_BrickRows = 6;
-		int m_BrickColumns = 8;
+		int m_BrickRows = 2;
+		int m_BrickColumns = 10;
 		float m_BrickSpacing = 20.0f;
 
 		// Prefabs

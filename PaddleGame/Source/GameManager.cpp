@@ -23,7 +23,10 @@ namespace Luden
 
 		// Start music
 		if (m_BackgroundMusic)
+		{
 			SoundAPI::PlayMusic(m_BackgroundMusic, 0.3f, true);
+			std::cout << "Music started" << std::endl;
+		}
 
 		// Spawn initial bricks
 		SpawnBricks();
@@ -117,8 +120,13 @@ namespace Luden
 	{
 		if (!m_BrickPrefab)
 			return;
-		float brickWidth = 102.4f;   
-		float brickHeight = 51.2f;  
+
+		Entity rootEntity = m_BrickPrefab->GetRootEntity();
+
+		Vec2 size = GameplayAPI::GetEntitySize(rootEntity);
+
+		float brickWidth = size.x;
+		float brickHeight = size.y;
 
 		float totalWidth = (m_BrickColumns * brickWidth) + ((m_BrickColumns - 1) * m_BrickSpacing);
 		float startX = -totalWidth / 2.0f + brickWidth / 2.0f;
