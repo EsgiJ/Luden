@@ -30,8 +30,8 @@ namespace Luden
 		Entity* GetAttachedEntity() { return m_AttachedEntity; }
 		void SetAttachedEntity(Entity* entity) { m_AttachedEntity = entity; }
 
-		Type GetCameraType() const { return m_Type; }
-		void SetCameraType(Type type) { m_Type = type; }
+		Type GetType() const { return m_Type; }
+		void SetType(Type type) { m_Type = type; }
 
 		glm::vec2& GetPosition() { return m_Position; }
 		void SetPosition(const glm::vec2& pos) { m_Position = pos; }

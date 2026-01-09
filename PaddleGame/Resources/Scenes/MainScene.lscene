@@ -65,6 +65,7 @@
                     0.5
                 ]
             },
+            "InputComponent": null,
             "NativeScriptComponent": {
                 "ScriptHandle": -5145780488435028365
             },
@@ -126,7 +127,7 @@
                 "ScriptHandle": -5230459360848525946
             },
             "PrefabComponent": {
-                "EntityID": 1427453837354316121,
+                "EntityID": 9326641080898492358,
                 "PrefabID": 12359447672048693555
             },
             "RelationshipComponent": {
@@ -164,7 +165,139 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 1427453837354316121
+            "UUID": 9326641080898492358
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "ScoreText",
+            "TextComponent": {
+                "characterSize": 36,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 14674320367197422100,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 1,
+                "text": "Score: 0",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -800.0,
+                    -480.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11731597841136491995
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "LivesText",
+            "TextComponent": {
+                "characterSize": 36,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 14674320367197422100,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 1,
+                "text": "Lives: 3",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -480.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10862620165243279011
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "LevelTextity",
+            "TextComponent": {
+                "characterSize": 36,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 14674320367197422100,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 1,
+                "text": "Level: 1",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    800.0,
+                    -480.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 2075322504104669337
         }
     ],
     "Name": "MainScene",

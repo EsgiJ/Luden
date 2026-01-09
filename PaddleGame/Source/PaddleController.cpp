@@ -5,6 +5,7 @@
 #include "ScriptAPI/GameplayAPI.h"
 #include "ScriptAPI/Physics2DAPI.h"
 #include "ScriptAPI/MathAPI.h"
+#include <iostream>
 
 namespace Luden
 {
@@ -20,28 +21,28 @@ namespace Luden
 			moveLeftAction,
 			sf::Keyboard::Key::Left,
 			ModifierConfig(),
-			TriggerConfig(ETriggerType::Down)
+			TriggerConfig(ETriggerType::Pressed)
 			});
 
 		context->AddMapping({
 			moveLeftAction,
 			sf::Keyboard::Key::A,
 			ModifierConfig(),
-			TriggerConfig(ETriggerType::Down)
+			TriggerConfig(ETriggerType::Pressed)
 			});
 
 		context->AddMapping({
 			moveRightAction,
 			sf::Keyboard::Key::Right,
 			ModifierConfig(),
-			TriggerConfig(ETriggerType::Down)
+			TriggerConfig(ETriggerType::Pressed)
 			});
 
 		context->AddMapping({
 			moveRightAction,
 			sf::Keyboard::Key::D,
 			ModifierConfig(),
-			TriggerConfig(ETriggerType::Down)
+			TriggerConfig(ETriggerType::Pressed)
 			});
 
 		InputManager::Instance().PushContext(context);
@@ -50,8 +51,8 @@ namespace Luden
 		input.priority = 100;
 		input.consumeInput = true;
 
-		input.BindAction(moveLeftAction, ETriggerEvent::Triggered, this, &PaddleController::OnMoveLeft);
-		input.BindAction(moveRightAction, ETriggerEvent::Triggered, this, &PaddleController::OnMoveRight);
+		input.BindAction(moveLeftAction, ETriggerEvent::Started, this, &PaddleController::OnMoveLeft);
+		input.BindAction(moveRightAction, ETriggerEvent::Started, this, &PaddleController::OnMoveRight);
     }
 
     void PaddleController::OnUpdate(TimeStep ts)
@@ -83,13 +84,17 @@ namespace Luden
 
 	void PaddleController::OnMoveLeft(const InputValue& value)
 	{
-		Vec2 velocity(-m_Speed * 100.0f, 0.0f);  
+		std::cout << "OnMoveLeft" << std::endl;
+
+		Vec2 velocity(-m_Speed, 0.0f);  
 		Physics2DAPI::SetLinearVelocity(GetEntity(), velocity);
 	}
 
 	void PaddleController::OnMoveRight(const InputValue& value)
 	{
-		Vec2 velocity(m_Speed * 100.0f, 0.0f);  
+		std::cout << "OnMoveRight" << std::endl;
+
+		Vec2 velocity(m_Speed, 0.0f);  
 		Physics2DAPI::SetLinearVelocity(GetEntity(), velocity);
 	}
 

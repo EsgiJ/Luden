@@ -77,6 +77,8 @@ namespace Luden
 		ImVec2 m_ViewportSize{ 0.0f, 0.0f };
 		ImVec2 m_ViewportBounds[2];
 
+		static constexpr uint32_t PLAY_WIDTH = 1920;
+		static constexpr uint32_t PLAY_HEIGHT = 1080;
 
 		ImVec2 m_ViewportPosition{ 0.0f, 0.0f };
 

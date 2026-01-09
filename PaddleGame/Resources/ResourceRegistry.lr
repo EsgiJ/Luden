@@ -336,6 +336,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Fonts/Minecraft.ttf",
+      "Handle": 14674320367197422100,
+      "Type": "Font"
+    },
+    {
       "FilePath": "Textures/Blocks/block_2_white.png",
       "Handle": 14776397467113816547,
       "Type": "Texture"

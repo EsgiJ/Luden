@@ -16,7 +16,7 @@ namespace Luden
 		void OnMoveLeft(const InputValue& value);
 		void OnMoveRight(const InputValue& value);
 
-		float m_Speed = 15.0f;
+		float m_Speed = 10.0f;
 		float m_MinX = -850.0f;  
 		float m_MaxX = 850.0f;
     };

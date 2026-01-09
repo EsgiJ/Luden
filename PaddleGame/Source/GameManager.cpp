@@ -117,8 +117,8 @@ namespace Luden
 	{
 		if (!m_BrickPrefab)
 			return;
-		float brickWidth = 200.0f;   
-		float brickHeight = 100.0f;  
+		float brickWidth = 102.4f;   
+		float brickHeight = 51.2f;  
 
 		float totalWidth = (m_BrickColumns * brickWidth) + ((m_BrickColumns - 1) * m_BrickSpacing);
 		float startX = -totalWidth / 2.0f + brickWidth / 2.0f;

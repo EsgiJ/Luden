@@ -42,28 +42,30 @@ namespace Luden
 	void SceneEditorTab::OnScenePlay()
 	{
 		OnScenePause(false);
-
 		SaveScene();
 
-		if (m_ActiveScenePath.empty()) 
+		if (m_ActiveScenePath.empty())
 			return;
 
 		UUID currentSelectedEntity = m_SceneHierarchyPanel.GetSelectedEntityUUID();
 
 		m_SceneState = SceneState::Play;
-		/* Copy Current Editor Scene */ 
-		{
-			std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
-			SceneSerializer serializer = SceneSerializer(newScene);
-			if (serializer.Deserialize(m_ActiveScenePath.string())) {
-				m_ActiveScene = newScene;
-				SetPanelsContext();
 
-				m_ActiveScene->SetViewportSize(m_RenderTexture->getSize().x, m_RenderTexture->getSize().y);
-				m_ActiveScene->OnRuntimeStart();
-			}
+		if (!m_RenderTexture->resize({ PLAY_WIDTH, PLAY_HEIGHT }))
+		{
+			std::cerr << "[SceneEditorTab] Failed to resize render texture for play mode!" << std::endl;
 		}
 
+		std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
+		SceneSerializer serializer = SceneSerializer(newScene);
+		if (serializer.Deserialize(m_ActiveScenePath.string()))
+		{
+			m_ActiveScene = newScene;
+			SetPanelsContext();
+
+			m_ActiveScene->SetViewportSize(PLAY_WIDTH, PLAY_HEIGHT);
+			m_ActiveScene->OnRuntimeStart();
+		}
 
 		m_SceneHierarchyPanel.SetSelectedEntityWithUUID(currentSelectedEntity);
 		ImGui::SetWindowFocus(m_ViewportPanelName.c_str());
@@ -89,6 +91,8 @@ namespace Luden
 		SetPanelsContext();
 
 		m_SceneHierarchyPanel.SetSelectedEntityWithUUID(currentSelectedEntity);
+
+		LoadScene(m_ActiveScenePath);
 	}
 
 	void SceneEditorTab::OnScenePause(bool isPaused) {
@@ -126,14 +130,13 @@ namespace Luden
 
 		bool isViewportOpen = false;
 
-		/*Viewport*/ 
+		/*Viewport*/
 		{
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, EditorVars::PanelTabPadding);
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			constexpr ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar;
 			ImGui::SetNextWindowSize(ImVec2(300.0f, 300.0f), ImGuiCond_FirstUseEver);
 			isViewportOpen = ImGui::Begin(m_ViewportPanelName.c_str(), nullptr, window_flags);
-
 
 			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
@@ -151,23 +154,117 @@ namespace Luden
 			ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = ImVec2(viewportSize.x, viewportSize.y);
 
-			if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f)
+			if (m_SceneState == SceneState::Edit)
 			{
-				m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
-			}
-
-			if ((int)m_ViewportSize.x != (int)m_RenderTexture->getSize().x ||
-				(int)m_ViewportSize.y != (int)m_RenderTexture->getSize().y) 
-			{
-				if (m_RenderTexture->resize({ (uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y }))
+				if (m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f)
 				{
-					//TODO: ASSERT unable to resize the render texture
+					m_EditorCamera.SetViewportSize({ m_ViewportSize.x, m_ViewportSize.y });
+				}
+
+				if ((int)m_ViewportSize.x != (int)m_RenderTexture->getSize().x ||
+					(int)m_ViewportSize.y != (int)m_RenderTexture->getSize().y)
+				{
+					if (m_RenderTexture->resize({ (uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y }))
+					{
+						// Unable to resize
+					}
 				}
 			}
 
 			if (isViewportOpen)
 			{
-				ImGui::Image(*m_RenderTexture);       
+				if (m_SceneState == SceneState::Play)
+				{
+					float targetAspect = (float)PLAY_WIDTH / (float)PLAY_HEIGHT;
+					float availableAspect = viewportSize.x / viewportSize.y;
+
+					ImVec2 displaySize;
+					if (availableAspect > targetAspect)
+					{
+						displaySize.y = viewportSize.y;
+						displaySize.x = displaySize.y * targetAspect;
+					}
+					else
+					{
+						displaySize.x = viewportSize.x;
+						displaySize.y = displaySize.x / targetAspect;
+					}
+
+					ImVec2 offset = ImVec2(
+						(viewportSize.x - displaySize.x) * 0.5f,
+						(viewportSize.y - displaySize.y) * 0.5f
+					);
+
+					ImVec2 cursorPos = ImGui::GetCursorPos();
+					ImGui::SetCursorPos(ImVec2(cursorPos.x + offset.x, cursorPos.y + offset.y));
+
+					ImVec2 imageMin = ImGui::GetCursorScreenPos();
+
+					ImGui::Image(*m_RenderTexture, { displaySize.x, displaySize.y });
+
+					m_ViewportBounds[0] = { imageMin.x, imageMin.y };
+					m_ViewportBounds[1] = { imageMin.x + displaySize.x, imageMin.y + displaySize.y };
+				}
+				else
+				{
+					ImGui::Image(*m_RenderTexture);
+				}
+
+				// Draw Canvas Border 
+				{
+					float halfWidth = PLAY_WIDTH / 2.0f;   
+					float halfHeight = PLAY_HEIGHT / 2.0f; 
+
+					glm::vec3 topLeft(-halfWidth, -halfHeight, 0);
+					glm::vec3 topRight(halfWidth, -halfHeight, 0);
+					glm::vec3 bottomRight(halfWidth, halfHeight, 0);
+					glm::vec3 bottomLeft(-halfWidth, halfHeight, 0);
+
+					glm::vec2 screenTL = WorldToScreen(topLeft);
+					glm::vec2 screenTR = WorldToScreen(topRight);
+					glm::vec2 screenBR = WorldToScreen(bottomRight);
+					glm::vec2 screenBL = WorldToScreen(bottomLeft);
+
+					ImU32 canvasColor = IM_COL32(100, 255, 100, 255);  
+					float canvasThickness = 2.0f;
+
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(screenTL.x, screenTL.y),
+						ImVec2(screenTR.x, screenTR.y),
+						canvasColor, canvasThickness
+					);
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(screenTR.x, screenTR.y),
+						ImVec2(screenBR.x, screenBR.y),
+						canvasColor, canvasThickness
+					);
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(screenBR.x, screenBR.y),
+						ImVec2(screenBL.x, screenBL.y),
+						canvasColor, canvasThickness
+					);
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(screenBL.x, screenBL.y),
+						ImVec2(screenTL.x, screenTL.y),
+						canvasColor, canvasThickness
+					);
+
+					glm::vec2 screenCenter = WorldToScreen(glm::vec3(0, 0, 0));
+					float crossSize = 20.0f;
+
+					ImU32 centerColor = IM_COL32(255, 100, 100, 255);  // Red
+
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(screenCenter.x - crossSize, screenCenter.y),
+						ImVec2(screenCenter.x + crossSize, screenCenter.y),
+						centerColor, 2.0f
+					);
+					ImGui::GetWindowDrawList()->AddLine(
+						ImVec2(screenCenter.x, screenCenter.y - crossSize),
+						ImVec2(screenCenter.x, screenCenter.y + crossSize),
+						centerColor, 2.0f
+					);
+				}
 
 				Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
 				if (selectedEntity.IsValid())
@@ -176,14 +273,13 @@ namespace Luden
 
 					DrawSelectedEntityOutline(drawList, selectedEntity);
 
-					if (m_ToolbarPanel.GetSelectedTool() != ToolbarPanel::Tool::SELECT && m_SceneState == SceneState::Edit) 
+					if (m_ToolbarPanel.GetSelectedTool() != ToolbarPanel::Tool::SELECT && m_SceneState == SceneState::Edit)
 					{
 						DrawGizmo(drawList, selectedEntity, m_ToolbarPanel.GetSelectedTool());
 					}
 				}
 			}
 
-			// Draw Grid
 			if (m_ToolbarPanel.m_ShowGrid)
 			{
 				sf::Vector2f topLeft = m_RenderTexture->mapPixelToCoords(
@@ -192,7 +288,10 @@ namespace Luden
 				);
 
 				sf::Vector2f bottomRight = m_RenderTexture->mapPixelToCoords(
-					sf::Vector2i(static_cast<int>(m_ViewportSize.x), static_cast<int>(m_ViewportSize.y)),
+					sf::Vector2i(
+						m_RenderTexture->getSize().x,  
+						m_RenderTexture->getSize().y
+					),
 					m_SceneState == SceneState::Edit ? m_EditorCamera.GetView() : m_RenderTexture->getView()
 				);
 
@@ -222,83 +321,6 @@ namespace Luden
 						IM_COL32(255, 255, 255, 100),
 						1.0f
 					);
-				}
-			}
-
-			// Draw grid
-			{
-				if (m_ToolbarPanel.m_ShowMovementCollision || m_ToolbarPanel.m_ShowVisionCollision)
-				{
-					if (m_ActiveScene != nullptr)
-					{
-						auto& entities = m_ActiveScene->GetEntityManager().GetEntities();
-						for (auto& entity : entities)
-						{
-							if (entity.Has<BoxCollider2DComponent>() && entity.Has<TransformComponent>())
-							{
-								sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
-								auto& boxComponent = entity.Get<BoxCollider2DComponent>();
-
-								float halfWidth = boxComponent.Size.x / 2.0f;
-								float halfHeight = boxComponent.Size.y / 2.0f;
-
-								sf::Vector2f corners[4] = {
-									{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y - halfHeight}, 
-									{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y - halfHeight}, 
-									{boxComponent.Offset.x + halfWidth, boxComponent.Offset.y + halfHeight}, 
-									{boxComponent.Offset.x - halfWidth, boxComponent.Offset.y + halfHeight}  
-								};
-
-								ImVec2 screenCorners[4];
-								for (int i = 0; i < 4; i++)
-								{
-									sf::Vector2f worldPos = worldTransform.transformPoint(corners[i]);
-									glm::vec2 screenPos = WorldToScreen(glm::vec3(worldPos.x, worldPos.y, 0.0f));
-									screenCorners[i] = ImVec2(screenPos.x, screenPos.y);
-								}
-
-								if (m_ToolbarPanel.m_ShowMovementCollision)
-								{
-									ImGui::GetWindowDrawList()->AddQuad(
-										screenCorners[0],
-										screenCorners[1],
-										screenCorners[2],
-										screenCorners[3],
-										IM_COL32(240, 240, 10, 240),
-										3.0f
-									);
-								}
-							}
-
-							if (entity.Has<CircleCollider2DComponent>() && entity.Has<TransformComponent>())
-							{
-								sf::Transform worldTransform = m_ActiveScene->GetWorldTransform(entity);
-								auto& circleComponent = entity.Get<CircleCollider2DComponent>();
-
-								sf::Vector2f localCenter(circleComponent.Offset.x, circleComponent.Offset.y);
-								sf::Vector2f worldCenter = worldTransform.transformPoint(localCenter);
-
-								sf::Vector2f scaleTest = worldTransform.transformPoint({ 1.0f, 0.0f }) - worldTransform.transformPoint({ 0.0f, 0.0f });
-								float worldScale = std::sqrt(scaleTest.x * scaleTest.x + scaleTest.y * scaleTest.y);
-								float worldRadius = circleComponent.Radius * worldScale;
-
-								glm::vec2 screenCenter = WorldToScreen(glm::vec3(worldCenter.x, worldCenter.y, 0.0f));
-								glm::vec2 screenEdge = WorldToScreen(glm::vec3(worldCenter.x + worldRadius, worldCenter.y, 0.0f));
-								float screenRadius = glm::distance(screenCenter, screenEdge);
-
-								if (m_ToolbarPanel.m_ShowMovementCollision)
-								{
-									ImGui::GetWindowDrawList()->AddCircle(
-										ImVec2(screenCenter.x, screenCenter.y),
-										screenRadius,
-										IM_COL32(240, 240, 10, 240),
-										32,
-										3.0f
-									);
-								}
-							}
-						}
-					}
 				}
 			}
 
@@ -606,6 +628,20 @@ namespace Luden
 			return { worldPos.x, worldPos.y };
 
 		sf::Vector2i pixelPos = m_RenderTexture->mapCoordsToPixel(sfWorldPos, *activeView);
+
+		if (m_SceneState == SceneState::Play)
+		{
+			float displayWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
+			float displayHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
+
+			float scaleX = displayWidth / (float)PLAY_WIDTH;
+			float scaleY = displayHeight / (float)PLAY_HEIGHT;
+
+			return {
+				m_ViewportBounds[0].x + pixelPos.x * scaleX,
+				m_ViewportBounds[0].y + pixelPos.y * scaleY
+			};
+		}
 
 		return { m_ViewportBounds[0].x + pixelPos.x, m_ViewportBounds[0].y + pixelPos.y };
 	}

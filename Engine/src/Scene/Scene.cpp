@@ -570,6 +570,11 @@ namespace Luden {
 				auto& nsc = newEntity.Get<NativeScriptComponent>();
 				nsc.CreateInstance(newEntity);
 			}
+
+			if (newEntity.Has<RigidBody2DComponent>())
+			{
+				m_PhysicsManager.RegisterEntity(newEntity);
+			}
 		}
 
 		return newEntity;
@@ -667,6 +672,11 @@ namespace Luden {
 	{
 		if (!entity.IsValid())
 			return;
+
+		if (m_IsPlaying && entity.Has<RigidBody2DComponent>())
+		{
+			m_PhysicsManager.UnregisterEntity(entity);
+		}
 
 		if (entity.Has<RelationshipComponent>())
 		{

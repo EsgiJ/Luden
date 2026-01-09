@@ -249,7 +249,20 @@ namespace Luden
 						return;
 					}
 
-					m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
+					try
+					{
+						m_NativeScriptModuleLoader->GetModule()->RegisterScripts(resourceManager.get());
+					}
+					catch (const std::exception& e)
+					{
+						std::cerr << "Hot reload failed: Exception in RegisterScripts: " << e.what() << std::endl;
+						return;
+					}
+					catch (...)
+					{
+						std::cerr << "Hot reload failed: Unknown exception in RegisterScripts!" << std::endl;
+						return;
+					}
 					m_LastModuleWriteTime = currentWriteTime;
 					std::cout << "Hot reload successful!" << std::endl;					
 
