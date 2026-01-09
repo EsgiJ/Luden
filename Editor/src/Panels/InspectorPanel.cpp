@@ -90,7 +90,7 @@ namespace Luden
 				DisplayComponentInPopup<PrefabComponent>(ICON_FA_CUBE " Prefab Component");
 				DisplayComponentInPopup<NativeScriptComponent>(ICON_FA_CODE " Native Script Component");
 				DisplayComponentInPopup<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component");
-				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Font Component");
+				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Text Component");
 				DisplayComponentInPopup<SpriteRendererComponent>(ICON_FA_IMAGE " Sprite Renderer Component");
 				DisplayComponentInPopup<InvincibilityComponent>(ICON_FA_SHIELD_HALVED " Invincibility Component");
 				DisplayComponentInPopup<LifespanComponent>(ICON_FA_CLOCK " Lifespan Component");
@@ -1042,14 +1042,155 @@ namespace Luden
 						ImGui::EndDisabled();
 				});
 
-				DisplayComponentInInspector<TextComponent>(ICON_FA_FONT " Font Component", entity, true, [&]()
+				DisplayComponentInInspector<TextComponent>(ICON_FA_FONT " Text Component", entity, true, [&]()
 					{
-						auto& fontComponent = entity.Get<TextComponent>();
-						auto font = ResourceManager::GetResource<Font>(fontComponent.fontHandle);
-						ImGuiUtils::PrefixLabel("Current");
-						if (ImGuiUtils::ResourceButton(fontComponent.fontHandle, ResourceType::Font))
+						auto& textComp = entity.Get<TextComponent>();
+
+						ImGuiUtils::PrefixLabel("Font");
+						if (ImGuiUtils::ResourceButton(textComp.fontHandle, ResourceType::Font))
 						{
-							//TODO: Font Editor Panel
+							// Open font editor
+						}
+
+						ImGui::Separator();
+						ImGui::Text("Text Content");
+						ImGui::Separator();
+
+						ImGuiUtils::PrefixLabel("Text");
+						char buffer[512];
+						strncpy(buffer, textComp.text.c_str(), sizeof(buffer));
+						buffer[sizeof(buffer) - 1] = '\0';
+
+						if (ImGui::InputTextMultiline("##Text", buffer, sizeof(buffer), ImVec2(-1, 80)))
+						{
+							textComp.text = buffer;
+						}
+
+						ImGuiUtils::PrefixLabel("Size");
+						int size = (int)textComp.characterSize;
+						if (ImGui::DragInt("##CharSize", &size, 1, 8, 200))
+						{
+							textComp.characterSize = (uint32_t)size;
+						}
+
+						ImGui::Separator();
+						ImGui::Text("Colors");
+						ImGui::Separator();
+
+						ImGuiUtils::PrefixLabel("Fill Color");
+						ImVec4 fillColor = {
+							textComp.fillColor.r / 255.0f,
+							textComp.fillColor.g / 255.0f,
+							textComp.fillColor.b / 255.0f,
+							textComp.fillColor.a / 255.0f
+						};
+
+						if (ImGui::ColorEdit4("##FillColor", &fillColor.x))
+						{
+							textComp.fillColor = sf::Color(
+								static_cast<uint8_t>(fillColor.x * 255.0f),
+								static_cast<uint8_t>(fillColor.y * 255.0f),
+								static_cast<uint8_t>(fillColor.z * 255.0f),
+								static_cast<uint8_t>(fillColor.w * 255.0f)
+							);
+						}
+
+						ImGuiUtils::PrefixLabel("Outline Color");
+						ImVec4 outlineColor = {
+							textComp.outlineColor.r / 255.0f,
+							textComp.outlineColor.g / 255.0f,
+							textComp.outlineColor.b / 255.0f,
+							textComp.outlineColor.a / 255.0f
+						};
+
+						if (ImGui::ColorEdit4("##OutlineColor", &outlineColor.x))
+						{
+							textComp.outlineColor = sf::Color(
+								static_cast<uint8_t>(outlineColor.x * 255.0f),
+								static_cast<uint8_t>(outlineColor.y * 255.0f),
+								static_cast<uint8_t>(outlineColor.z * 255.0f),
+								static_cast<uint8_t>(outlineColor.w * 255.0f)
+							);
+						}
+
+						ImGuiUtils::PrefixLabel("Outline Thickness");
+						ImGui::DragFloat("##OutlineThickness", &textComp.outlineThickness, 0.1f, 0.0f, 10.0f);
+
+						ImGui::Separator();
+						ImGui::Text("Spacing");
+						ImGui::Separator();
+
+						ImGuiUtils::PrefixLabel("Letter Spacing");
+						ImGui::DragFloat("##LetterSpacing", &textComp.letterSpacing, 0.01f, 0.0f, 5.0f);
+
+						ImGuiUtils::PrefixLabel("Line Spacing");
+						ImGui::DragFloat("##LineSpacing", &textComp.lineSpacing, 0.01f, 0.0f, 5.0f);
+
+						ImGui::Separator();
+						ImGui::Text("Style");
+						ImGui::Separator();
+
+						bool isBold = textComp.style & TextComponent::Bold;
+						bool isItalic = textComp.style & TextComponent::Italic;
+						bool isUnderlined = textComp.style & TextComponent::Underlined;
+						bool isStrikeThrough = textComp.style & TextComponent::StrikeThrough;
+
+						if (ImGui::Checkbox("Bold", &isBold))
+						{
+							if (isBold)
+								textComp.style |= TextComponent::Bold;
+							else
+								textComp.style &= ~TextComponent::Bold;
+						}
+
+						ImGui::SameLine();
+
+						if (ImGui::Checkbox("Italic", &isItalic))
+						{
+							if (isItalic)
+								textComp.style |= TextComponent::Italic;
+							else
+								textComp.style &= ~TextComponent::Italic;
+						}
+
+						if (ImGui::Checkbox("Underlined", &isUnderlined))
+						{
+							if (isUnderlined)
+								textComp.style |= TextComponent::Underlined;
+							else
+								textComp.style &= ~TextComponent::Underlined;
+						}
+
+						ImGui::SameLine();
+
+						if (ImGui::Checkbox("Strike Through", &isStrikeThrough))
+						{
+							if (isStrikeThrough)
+								textComp.style |= TextComponent::StrikeThrough;
+							else
+								textComp.style &= ~TextComponent::StrikeThrough;
+						}
+
+						ImGui::Separator();
+						ImGui::Text("Alignment");
+						ImGui::Separator();
+
+						ImGuiUtils::PrefixLabel("Line Alignment");
+						const char* alignments[] = { "Default", "Left", "Center", "Right" };
+						int currentAlignment = (int)textComp.lineAlignment;
+
+						if (ImGui::Combo("##LineAlignment", &currentAlignment, alignments, IM_ARRAYSIZE(alignments)))
+						{
+							textComp.lineAlignment = (TextComponent::LineAlignment)currentAlignment;
+						}
+
+						ImGuiUtils::PrefixLabel("Orientation");
+						const char* orientations[] = { "Default", "Top to Bottom", "Bottom to Top" };
+						int currentOrientation = (int)textComp.textOrientation;
+
+						if (ImGui::Combo("##TextOrientation", &currentOrientation, orientations, IM_ARRAYSIZE(orientations)))
+						{
+							textComp.textOrientation = (TextComponent::TextOrientation)currentOrientation;
 						}
 					});
 

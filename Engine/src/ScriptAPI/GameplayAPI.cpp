@@ -18,21 +18,6 @@ namespace Luden
 {
 	namespace GameplayAPI
 	{
-		static std::mt19937& GetRandomGenerator()
-		{
-			static std::mt19937 generator;
-			static bool initialized = false;
-
-			if (!initialized)
-			{
-				std::random_device rd;
-				generator.seed(rd());
-				initialized = true;
-			}
-
-			return generator;
-		}
-
 		Entity SpawnPrefab(PrefabRef prefab, const glm::vec3& location)
 		{
 			if (!prefab)
@@ -75,6 +60,30 @@ namespace Luden
 			return scene->InstantiateChild(prefab, parent, &localPosition, nullptr, nullptr);
 		}
 
+		Entity SpawnEntity(const String& tag, const Vec3& location)
+		{
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return {};
+
+			Entity entity = scene->CreateEntity(tag);
+			entity.Get<TransformComponent>().Translation = location;
+
+			return entity;
+		}
+
+		Entity DuplicateEntity(Entity entity)
+		{
+			if (!entity.IsValid())
+				return {};
+
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return {};
+
+			return scene->DuplicateEntity(entity);
+		}
+
 		void LoadScene(const std::string& sceneName)
 		{
 			//TODO:
@@ -89,34 +98,26 @@ namespace Luden
 		{
 		}
 
-		Entity SpawnEntity(const std::string& tag, const glm::vec3& location)
+		void QuitGame()
 		{
-			Entity entity = GEngine.GetActiveScene()->CreateEntity(tag);
-			entity.Add<TransformComponent>().Translation = location;
-
-			return entity;
+			return void();
 		}
 
-		void DestroyEntity(Entity entity)
-		{
-			entity.Destroy();
-		}
-
-		Entity FindEntityWithTag(const std::string& tag)
+		Entity FindEntityWithTag(const String& tag)
 		{
 			Entity entity = GEngine.GetActiveScene()->TryGetEntityWithTag(tag);
 
 			return entity;
 		}
 
-		std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag)
+		Vector<Entity>& FindAllEntitiesWithTag(const String& tag)
 		{
 			return GEngine.GetActiveScene()->FindAllEntitiesWithTag(tag);
 		}
 
-		std::vector<Entity> FindEntitiesInRadius(const glm::vec3& center, float radius)
+		Vector<Entity> FindEntitiesInRadius(const Vec3& center, float radius)
 		{
-			std::vector<Entity> result;
+			Vector<Entity> result;
 
 			float radiusSquared = radius * radius;
 
@@ -135,6 +136,102 @@ namespace Luden
 			}
 
 			return result;
+		}
+
+		Entity FindClosestEntity(const Vec3& position, const String& tag)
+		{
+			auto& entities = FindAllEntitiesWithTag(tag);
+
+			Entity closest;
+			float minDistSq = FLT_MAX;
+
+			for (auto& entity : entities)
+			{
+				Vec3 entityPos = GetPosition(entity);
+				Vec3 diff = entityPos - position;
+				float distSq = glm::dot(diff, diff);
+
+				if (distSq < minDistSq)
+				{
+					minDistSq = distSq;
+					closest = entity;
+				}
+			}
+
+			return closest;
+		}
+
+		void SetPosition(Entity entity, const Vec3& position)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			entity.Get<TransformComponent>().Translation = position;
+		}
+
+		Vec3 GetPosition(Entity entity)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return Vec3(0.0f);
+
+			return entity.Get<TransformComponent>().Translation;
+		}
+
+		void Move(Entity entity, const Vec3& offset)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			entity.Get<TransformComponent>().Translation += offset;
+		}
+
+		void MoveTowards(Entity entity, const Vec3& target, float maxDistance)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			auto& transform = entity.Get<TransformComponent>();
+			Vec3 direction = glm::normalize(target - transform.Translation);
+			Vec3 offset = direction * maxDistance;
+
+			float dist = glm::distance(transform.Translation, target);
+			if (dist < maxDistance)
+			{
+				transform.Translation = target;
+			}
+			else
+			{
+				transform.Translation += offset;
+			}
+		}
+
+		void SetRotation(Entity entity, float degrees)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			entity.Get<TransformComponent>().angle = degrees;
+		}
+
+		float GetRotation(Entity entity)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return 0.0f;
+
+			return entity.Get<TransformComponent>().angle;
+		}
+
+		void Rotate(Entity entity, float degrees)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			entity.Get<TransformComponent>().angle += degrees;
+		}
+
+		void DestroyEntity(Entity entity)
+		{
+			entity.Destroy();
 		}
 
 		float GetDeltaTime()
@@ -167,6 +264,17 @@ namespace Luden
 			return hit.hit;
 		}
 
+		bool IsInRange(Entity source, Entity target, float range)
+		{
+			return DistanceSquared(source, target) <= (range * range);
+		}
+
+		bool IsInRange(const Vec3& source, const Vec3& target, float range)
+		{
+			Vec3 diff = target - source;
+			return glm::dot(diff, diff) <= (range * range);
+		}
+
 		void LookAt(Entity source, Entity target)
 		{
 			if (!source.Has<TransformComponent>() || !target.Has<TransformComponent>())
@@ -184,21 +292,86 @@ namespace Luden
 			sourceTransform.angle = angleDegree;
 		}
 
-		float RandomFloat(float min, float max)
+		void LookAtPosition(Entity source, const Vec3& target)
 		{
-			std::uniform_real_distribution<float> dist(min, max);
-			return dist(GetRandomGenerator());
+			if (!source.IsValid() || !source.Has<TransformComponent>())
+				return;
+
+			auto& transform = source.Get<TransformComponent>();
+			Vec3 direction = target - transform.Translation;
+
+			float angle = std::atan2(direction.y, direction.x) * 180.0f / 3.14159265f;
+			transform.angle = angle;
 		}
 
-		int RandomInt(int min, int max)
+		float Distance(Entity a, Entity b)
 		{
-			std::uniform_int_distribution<int> dist(min, max);
-			return dist(GetRandomGenerator());
+			return glm::distance(GetPosition(a), GetPosition(b));
 		}
 
-		bool RandomBool(float probability)
+		float Distance(const Vec3& a, const Vec3& b)
 		{
-			return RandomFloat() < probability;
+			return glm::distance(a, b);
+		}
+
+		float DistanceSquared(Entity a, Entity b)
+		{
+			Vec3 diff = GetPosition(a) - GetPosition(b);
+			return glm::dot(diff, diff);
+		}
+
+		Vec2 Direction2D(Entity from, Entity to)
+		{
+			Vec3 dir = GetPosition(to) - GetPosition(from);
+			return glm::normalize(Vec2(dir.x, dir.y));
+		}
+
+		Vec2 Direction2D(const Vec3& from, const Vec3& to)
+		{
+			Vec3 dir = to - from;
+			return glm::normalize(Vec2(dir.x, dir.y));
+		}
+
+		Vec3 Direction(Entity from, Entity to)
+		{
+			return glm::normalize(GetPosition(to) - GetPosition(from));
+		}
+
+		Vec3 Direction(const Vec3& from, const Vec3& to)
+		{
+			return glm::normalize(to - from);
+		}
+
+		void SetScale(Entity entity, const Vec3& scale)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			entity.Get<TransformComponent>().Scale = scale;
+		}
+
+		void SetScale(Entity entity, float uniformScale)
+		{
+			SetScale(entity, Vec3(uniformScale, uniformScale, uniformScale));
+		}
+
+		Vec3 GetScale(Entity entity)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return Vec3(1.0f);
+
+			return entity.Get<TransformComponent>().Scale;
+		}
+
+		void Scale(Entity entity, const Vec3& scale)
+		{
+			if (!entity.IsValid() || !entity.Has<TransformComponent>())
+				return;
+
+			auto& transform = entity.Get<TransformComponent>();
+			transform.Scale.x *= scale.x;
+			transform.Scale.y *= scale.y;
+			transform.Scale.z *= scale.z;
 		}
 	}
 }

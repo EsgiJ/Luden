@@ -40,6 +40,8 @@ namespace Luden {
 
 		void RenderAnimatedEntity(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target);
 		void RenderStaticSprite(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target);
+		void RenderText(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target);
+
 		// Runtime
 		void OnRuntimeStart();
 		void OnRuntimeStop();

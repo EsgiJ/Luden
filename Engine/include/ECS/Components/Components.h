@@ -235,11 +235,49 @@ namespace Luden
 	struct ENGINE_API TextComponent : public IComponent
 	{
 	public:
-		ResourceHandle fontHandle;
-		
+		ResourceHandle fontHandle = 0;
+		std::string text = "Text";
+		uint32_t characterSize = 30;
+
+		sf::Color fillColor = sf::Color::White;
+		sf::Color outlineColor = sf::Color::Black;
+		float outlineThickness = 0.0f;
+
+		float letterSpacing = 1.0f;  
+		float lineSpacing = 1.0f;    
+
+		enum Style
+		{
+			Regular = 0,
+			Bold = 1 << 0,
+			Italic = 1 << 1,
+			Underlined = 1 << 2,
+			StrikeThrough = 1 << 3
+		};
+		uint32_t style = Regular;
+
+		enum class LineAlignment
+		{
+			Default,  
+			Left,
+			Center,
+			Right
+		};
+		LineAlignment lineAlignment = LineAlignment::Default;
+
+		enum class TextOrientation
+		{
+			Default,     
+			TopToBottom,
+			BottomToTop
+		};
+		TextOrientation textOrientation = TextOrientation::Default;
+
 		TextComponent() = default;
 
-		TextComponent(ResourceHandle f) : fontHandle(f) {};
+		TextComponent(ResourceHandle font, const std::string& txt = "Text")
+			: fontHandle(font), text(txt) {
+		}
 	};
 
 	struct ENGINE_API SpriteRendererComponent : public IComponent

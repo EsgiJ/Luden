@@ -16,6 +16,7 @@
 #include <SFML/Window/Event.hpp>
 #include "Physics2D/CollisionChannelRegistry.h"
 #include "SFML/System/Angle.hpp"
+#include "SFML/Graphics/Text.hpp"
 
 namespace Luden {
 
@@ -105,6 +106,11 @@ namespace Luden {
 			{
 				RenderStaticSprite(e, transform, target);
 			}
+
+			if (e.Has<TextComponent>())  
+			{
+				RenderText(e, transform, target);
+			}
 		}
 
 		DebugManager::Instance().Render(target);
@@ -131,6 +137,11 @@ namespace Luden {
 			else if (e.Has<SpriteRendererComponent>())
 			{
 				RenderStaticSprite(e, transform, target);
+			}
+
+			if (e.Has<TextComponent>())
+			{
+				RenderText(e, transform, target);
 			}
 		}
 
@@ -169,6 +180,73 @@ namespace Luden {
 		states.transform = GetWorldTransform(e); 
 
 		target->draw(sfSprite, states);
+	}
+
+	void Scene::RenderText(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target)
+	{
+		auto& textComp = e.Get<TextComponent>();
+
+		if (textComp.fontHandle == 0 || textComp.text.empty())
+			return;
+
+		auto font = ResourceManager::GetResource<Font>(textComp.fontHandle);
+		if (!font)
+			return;
+
+		sf::Text sfText(font->GetFont());
+
+		sfText.setString(textComp.text);
+		sfText.setCharacterSize(textComp.characterSize);
+
+		sfText.setFillColor(textComp.fillColor);
+		sfText.setOutlineColor(textComp.outlineColor);
+		sfText.setOutlineThickness(textComp.outlineThickness);
+
+		sfText.setLetterSpacing(textComp.letterSpacing);
+		sfText.setLineSpacing(textComp.lineSpacing);
+
+		sfText.setStyle(textComp.style);
+
+		sf::Text::LineAlignment sfAlignment;
+		switch (textComp.lineAlignment)
+		{
+		case TextComponent::LineAlignment::Left:
+			sfAlignment = sf::Text::LineAlignment::Left;
+			break;
+		case TextComponent::LineAlignment::Center:
+			sfAlignment = sf::Text::LineAlignment::Center;
+			break;
+		case TextComponent::LineAlignment::Right:
+			sfAlignment = sf::Text::LineAlignment::Right;
+			break;
+		default:
+			sfAlignment = sf::Text::LineAlignment::Default;
+			break;
+		}
+		sfText.setLineAlignment(sfAlignment);
+
+		sf::Text::TextOrientation sfOrientation;
+		switch (textComp.textOrientation)
+		{
+		case TextComponent::TextOrientation::TopToBottom:
+			sfOrientation = sf::Text::TextOrientation::TopToBottom;
+			break;
+		case TextComponent::TextOrientation::BottomToTop:
+			sfOrientation = sf::Text::TextOrientation::BottomToTop;
+			break;
+		default:
+			sfOrientation = sf::Text::TextOrientation::Default;
+			break;
+		}
+		sfText.setTextOrientation(sfOrientation);
+
+		sf::FloatRect bounds = sfText.getLocalBounds();
+		sfText.setOrigin(bounds.getCenter());
+
+		sf::RenderStates states;
+		states.transform = GetWorldTransform(e);
+
+		target->draw(sfText, states);
 	}
 
 	void Scene::RenderAnimatedEntity(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target)

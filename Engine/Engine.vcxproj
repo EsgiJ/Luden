@@ -117,7 +117,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClInclude Include="..\extern\ImGui-SFML\imconfig-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML.h" />
     <ClInclude Include="..\extern\ImGui-SFML\imgui-SFML_export.h" />
-    <ClInclude Include="include\Audio\SoundBuffer.h" />
+    <ClInclude Include="include\Audio\Sound.h" />
     <ClInclude Include="include\Core\Buffer.h" />
     <ClInclude Include="include\Core\Config.h" />
     <ClInclude Include="include\Core\EngineContext.h" />
@@ -181,6 +181,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClInclude Include="include\ScriptAPI\AudioAPI.h" />
     <ClInclude Include="include\ScriptAPI\DebugAPI.h" />
     <ClInclude Include="include\ScriptAPI\GameplayAPI.h" />
+    <ClInclude Include="include\ScriptAPI\MathAPI.h" />
     <ClInclude Include="include\ScriptAPI\Physics2DAPI.h" />
     <ClInclude Include="include\Serialization\ResourcePack.h" />
     <ClInclude Include="include\Serialization\ResourcePackFile.h" />
@@ -195,6 +196,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_win.cpp" />
+    <ClCompile Include="include\Audio\Sound.cpp" />
     <ClCompile Include="src\Audio\SoundBuffer.cpp" />
     <ClCompile Include="src\Core\Platform.cpp" />
     <ClCompile Include="src\Core\RuntimeApplication.cpp" />
@@ -242,6 +244,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClCompile Include="src\ScriptAPI\AudioAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\DebugAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\GameplayAPI.cpp" />
+    <ClCompile Include="src\ScriptAPI\MathAPI.cpp" />
     <ClCompile Include="src\ScriptAPI\Physics2DAPI.cpp" />
     <ClCompile Include="src\Serialization\ResourcePack.cpp" />
     <ClCompile Include="src\Serialization\ResourcePackSerializer.cpp" />

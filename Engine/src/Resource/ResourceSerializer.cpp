@@ -283,12 +283,14 @@ namespace Luden
 
 	bool FontSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
 	{
-		auto fontResource = std::static_pointer_cast<Font>(resource);
+		auto fontResource = std::make_shared<Font>();
 		sf::Font font;
-		if (!font.openFromFile(metadata.FilePath))
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		if (!font.openFromFile(path))
 			return false;
 
 		fontResource->SetFont(font);
+		resource = fontResource;
 		return true;
 	}
 

@@ -1,9 +1,19 @@
 {
   "Resources": [
     {
+      "FilePath": "Scripts/TetrisGameManager.lns",
+      "Handle": 84196771940217023,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Scenes/DefaultScene.lscene",
       "Handle": 669968855889874874,
       "Type": "Scene"
+    },
+    {
+      "FilePath": "Fonts/fa-solid-900.ttf",
+      "Handle": 696919455251773915,
+      "Type": "Font"
     },
     {
       "FilePath": "Prefabs/Block.lprefab",
@@ -19,6 +29,11 @@
       "FilePath": "Prefabs/Tetromino_S.lprefab",
       "Handle": 2005598862416730136,
       "Type": "Prefab"
+    },
+    {
+      "FilePath": "Scripts/Tetromino.lns",
+      "Handle": 4910530520431663063,
+      "Type": "NativeScript"
     },
     {
       "FilePath": "Scenes/MainScene.lscene",

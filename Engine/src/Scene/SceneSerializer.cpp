@@ -202,7 +202,20 @@ namespace Luden
 
 			if (e.Has<TextComponent>())
 			{
-				jEntity["TextComponent"]["fontHandle"] = static_cast<uint64_t>(e.Get<TextComponent>().fontHandle);
+				const auto& c = e.Get<TextComponent>();
+				jEntity["TextComponent"] = {
+					{"fontHandle", static_cast<uint64_t>(c.fontHandle)},
+					{"text", c.text},
+					{"characterSize", c.characterSize},
+					{"fillColor", {c.fillColor.r, c.fillColor.g, c.fillColor.b, c.fillColor.a}},
+					{"outlineColor", {c.outlineColor.r, c.outlineColor.g, c.outlineColor.b, c.outlineColor.a}},
+					{"outlineThickness", c.outlineThickness},
+					{"letterSpacing", c.letterSpacing},
+					{"lineSpacing", c.lineSpacing},
+					{"style", c.style},
+					{"lineAlignment", static_cast<int>(c.lineAlignment)},
+					{"textOrientation", static_cast<int>(c.textOrientation)}
+				};
 			}
 
 			if (e.Has<InvincibilityComponent>())
@@ -484,7 +497,41 @@ namespace Luden
 
 			if (jEntity.contains("TextComponent"))
 			{
-				e.Add<TextComponent>(jEntity["TextComponent"]["fontHandle"].get<uint64_t>());
+				const auto& jText = jEntity["TextComponent"];
+
+				auto& c = e.Add<TextComponent>();
+				c.fontHandle = jText["fontHandle"].get<uint64_t>();
+				c.text = jText["text"].get<std::string>();
+				c.characterSize = jText.value("characterSize", 30u);
+
+				if (jText.contains("fillColor"))
+				{
+					const auto& jColor = jText["fillColor"];
+					c.fillColor = sf::Color(
+						jColor[0].get<uint8_t>(),
+						jColor[1].get<uint8_t>(),
+						jColor[2].get<uint8_t>(),
+						jColor[3].get<uint8_t>()
+					);
+				}
+
+				if (jText.contains("outlineColor"))
+				{
+					const auto& jColor = jText["outlineColor"];
+					c.outlineColor = sf::Color(
+						jColor[0].get<uint8_t>(),
+						jColor[1].get<uint8_t>(),
+						jColor[2].get<uint8_t>(),
+						jColor[3].get<uint8_t>()
+					);
+				}
+
+				c.outlineThickness = jText.value("outlineThickness", 0.0f);
+				c.letterSpacing = jText.value("letterSpacing", 1.0f);
+				c.lineSpacing = jText.value("lineSpacing", 1.0f);
+				c.style = jText.value("style", 0u);
+				c.lineAlignment = jText.value("lineAlignment", TextComponent::LineAlignment::Default);
+				c.textOrientation = jText.value("textOrientation", TextComponent::TextOrientation::Default);
 			}
 		}
 
