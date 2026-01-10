@@ -11,7 +11,8 @@
                     0.0,
                     0.0
                 ],
-                "Radius": 256.0
+                "Radius": 256.0,
+                "Restitution": 10.0
             },
             "NativeScriptComponent": {
                 "ScriptHandle": -5230459360848525946

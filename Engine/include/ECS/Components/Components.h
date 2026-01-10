@@ -118,6 +118,7 @@ namespace Luden
 
 		float Density = 1.0f;
 		float Friction = 1.0f;
+		float Restitution = 0.0f;
 
 		b2ShapeId RuntimeShapeId = b2_nullShapeId;
 
@@ -136,6 +137,7 @@ namespace Luden
 
 		float Density = 1.0f;
 		float Friction = 1.0f;
+		float Restitution = 0.0f;
 
 		b2ShapeId RuntimeShapeId = b2_nullShapeId;
 

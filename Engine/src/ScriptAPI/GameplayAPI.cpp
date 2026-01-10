@@ -172,6 +172,15 @@ namespace Luden
 				return;
 
 			entity.Get<TransformComponent>().Translation = position;
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				Scene* scene = GetCurrentScene();
+				if (scene)
+				{
+					Physics2DAPI::SetTransform(entity, Vec2(position.x, position.y), 0.0f);
+				}
+			}
 		}
 
 		Vec3 GetPosition(Entity entity)
@@ -188,6 +197,16 @@ namespace Luden
 				return;
 
 			entity.Get<TransformComponent>().Translation += offset;
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				auto& transform = entity.Get<TransformComponent>();
+				Physics2DAPI::SetTransform(
+					entity,
+					Vec2(transform.Translation.x, transform.Translation.y),
+					transform.angle
+				);
+			}
 		}
 
 		void MoveTowards(Entity entity, const Vec3& target, float maxDistance)
@@ -208,6 +227,15 @@ namespace Luden
 			{
 				transform.Translation += offset;
 			}
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				Physics2DAPI::SetTransform(
+					entity,
+					Vec2(transform.Translation.x, transform.Translation.y),
+					transform.angle
+				);
+			}
 		}
 
 		void SetRotation(Entity entity, float degrees)
@@ -216,6 +244,16 @@ namespace Luden
 				return;
 
 			entity.Get<TransformComponent>().angle = degrees;
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				auto& transform = entity.Get<TransformComponent>();
+				Physics2DAPI::SetTransform(
+					entity,
+					Vec2(transform.Translation.x, transform.Translation.y),
+					degrees
+				);
+			}
 		}
 
 		float GetRotation(Entity entity)
@@ -232,6 +270,16 @@ namespace Luden
 				return;
 
 			entity.Get<TransformComponent>().angle += degrees;
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				auto& transform = entity.Get<TransformComponent>();
+				Physics2DAPI::SetTransform(
+					entity,
+					Vec2(transform.Translation.x, transform.Translation.y),
+					transform.angle
+				);
+			}
 		}
 
 		void DestroyEntity(Entity entity)
@@ -297,10 +345,19 @@ namespace Luden
 
 			glm::vec2 dir = targetPos - sourcePos;
 
-			float angleRad = std::atan2(dir.x, dir.y);
+			float angleRad = std::atan2(dir.y, dir.x);
 			float angleDegree = glm::degrees(angleRad);
 
 			sourceTransform.angle = angleDegree;
+
+			if (source.Has<RigidBody2DComponent>())
+			{
+				Physics2DAPI::SetTransform(
+					source,
+					Vec2(sourcePos.x, sourcePos.y),
+					angleDegree
+				);
+			}
 		}
 
 		void LookAtPosition(Entity source, const Vec3& target)
@@ -313,6 +370,15 @@ namespace Luden
 
 			float angle = std::atan2(direction.y, direction.x) * 180.0f / 3.14159265f;
 			transform.angle = angle;
+
+			if (source.Has<RigidBody2DComponent>())
+			{
+				Physics2DAPI::SetTransform(
+					source,
+					Vec2(transform.Translation.x, transform.Translation.y),
+					angle
+				);
+			}
 		}
 
 		float Distance(Entity a, Entity b)
@@ -359,6 +425,16 @@ namespace Luden
 				return;
 
 			entity.Get<TransformComponent>().Scale = scale;
+
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				Scene* scene = GetCurrentScene();
+				if (scene)
+				{
+					scene->GetPhysicsManager().UpdateEntityPhysics(entity);
+				}
+			}
 		}
 
 		void SetScale(Entity entity, float uniformScale)

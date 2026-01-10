@@ -240,6 +240,9 @@ namespace Luden
 						ImGuiUtils::PrefixLabel("Friction");
 						ImGui::DragFloat("##Friction", &box.Friction, 0.1f, 0.0f, 10.0f);
 
+						ImGuiUtils::PrefixLabel("Restitution");
+						ImGui::DragFloat("##Restitution", &box.Restitution, 0.1f, 0.0f, 10.0f);
+
 						ImGui::Separator();
 						ImGui::Text("Collision Filtering");
 						ImGui::Separator();
@@ -406,6 +409,9 @@ namespace Luden
 
 						ImGuiUtils::PrefixLabel("Friction");
 						ImGui::DragFloat("##Friction", &circle.Friction, 0.1f, 0.0f, 10.0f);
+
+						ImGuiUtils::PrefixLabel("Restitution");
+						ImGui::DragFloat("##Restitution", &circle.Restitution, 0.1f, 0.0f, 10.0f);
 
 						ImGui::Separator();
 						ImGui::Text("Collision Filtering");

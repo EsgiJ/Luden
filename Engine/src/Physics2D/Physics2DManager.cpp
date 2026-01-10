@@ -30,6 +30,9 @@ namespace Luden
 		m_PhysicsWorldId = b2CreateWorld(&worldDef);
 		int bodyCount = 0;
 
+		if (!b2World_IsValid(m_PhysicsWorldId))
+			return;
+
 		for (auto& entity : m_Scene->GetEntityManager().GetEntities())
 		{
 			if (entity.Has<RigidBody2DComponent>() && entity.Has<TransformComponent>())
@@ -89,10 +92,14 @@ namespace Luden
 					b2ShapeDef shapeDef = b2DefaultShapeDef();
 					shapeDef.density = bc2d.Density;
 					shapeDef.material.friction = bc2d.Friction;
+					shapeDef.material.restitution = bc2d.Restitution;
 
 					shapeDef.filter.categoryBits = bc2d.CategoryBits;
 					shapeDef.filter.maskBits = bc2d.MaskBits;
 					shapeDef.filter.groupIndex = bc2d.GroupIndex;
+
+					shapeDef.enableContactEvents = true; 
+					shapeDef.enableHitEvents = true;
 
 					bc2d.RuntimeShapeId = b2CreatePolygonShape(bodyId, &shapeDef, &boxShape);
 				}
@@ -114,10 +121,14 @@ namespace Luden
 
 					shapeDef.density = cc2d.Density;
 					shapeDef.material.friction = cc2d.Friction;
+					shapeDef.material.restitution = cc2d.Restitution;
 
 					shapeDef.filter.categoryBits = cc2d.CategoryBits;
 					shapeDef.filter.maskBits = cc2d.MaskBits;
 					shapeDef.filter.groupIndex = cc2d.GroupIndex;
+
+					shapeDef.enableContactEvents = true;
+					shapeDef.enableHitEvents = true;
 
 					cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
 				}
@@ -158,6 +169,8 @@ namespace Luden
 				}
 			}
 		}
+
+		ProcessContactEvents();
 	}
 	
 	void Physics2DManager::Shutdown()
@@ -246,6 +259,7 @@ namespace Luden
 			b2ShapeDef shapeDef = b2DefaultShapeDef();
 			shapeDef.density = bc2d.Density;
 			shapeDef.material.friction = bc2d.Friction;
+			shapeDef.material.restitution = bc2d.Restitution;
 
 			shapeDef.filter.categoryBits = bc2d.CategoryBits;
 			shapeDef.filter.maskBits = bc2d.MaskBits;
@@ -271,6 +285,7 @@ namespace Luden
 
 			shapeDef.density = cc2d.Density;
 			shapeDef.material.friction = cc2d.Friction;
+			shapeDef.material.restitution = cc2d.Restitution;
 
 			shapeDef.filter.categoryBits = cc2d.CategoryBits;
 			shapeDef.filter.maskBits = cc2d.MaskBits;

@@ -136,6 +136,7 @@ namespace Luden
 					{"Size", {c.Size.x, c.Size.y}},
 					{"Density", c.Density},
 					{"Friction", c.Friction},
+					{"Restitution", c.Restitution},
 					{"CategoryBits", c.CategoryBits},  
 					{"MaskBits", c.MaskBits},          
 					{"GroupIndex", c.GroupIndex}
@@ -150,6 +151,7 @@ namespace Luden
 					{"Radius", c.Radius},
 					{"Density", c.Density},
 					{"Friction", c.Friction},
+					{"Restitution", c.Restitution},
 					{"CategoryBits", c.CategoryBits},  
 					{"MaskBits", c.MaskBits},          
 					{"GroupIndex", c.GroupIndex}
@@ -364,6 +366,7 @@ namespace Luden
 				c.Size = { size[0].get<float>(), size[1].get<float>() };
 				c.Density = jEntity["BoxCollider2DComponent"]["Density"].get<float>();
 				c.Friction = jEntity["BoxCollider2DComponent"]["Friction"].get<float>();
+				c.Restitution = jEntity["BoxCollider2DComponent"]["Restitution"].get<float>();
 				c.CategoryBits = jEntity["BoxCollider2DComponent"].value("CategoryBits", 0x0001);
 				c.MaskBits = jEntity["BoxCollider2DComponent"].value("MaskBits", 0xFFFF);
 				c.GroupIndex = jEntity["BoxCollider2DComponent"].value("GroupIndex", 0);
@@ -379,6 +382,7 @@ namespace Luden
 				c.Radius = jEntity["CircleCollider2DComponent"]["Radius"].get<float>();
 				c.Density = jEntity["CircleCollider2DComponent"]["Density"].get<float>();
 				c.Friction = jEntity["CircleCollider2DComponent"]["Friction"].get<float>();
+				c.Restitution = jEntity["CircleCollider2DComponent"]["Restitution"].get<float>();
 				c.CategoryBits = jEntity["CircleCollider2DComponent"].value("CategoryBits", 0x0001);
 				c.MaskBits = jEntity["CircleCollider2DComponent"].value("MaskBits", 0xFFFF);
 				c.GroupIndex = jEntity["CircleCollider2DComponent"].value("GroupIndex", 0);

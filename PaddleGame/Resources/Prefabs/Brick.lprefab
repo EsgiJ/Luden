@@ -5,6 +5,7 @@
                 "CategoryBits": 32,
                 "Density": 0.0,
                 "Friction": 0.0,
+				"Restitution": 0.0,
                 "GroupIndex": 0,
                 "MaskBits": 8,
                 "Offset": [

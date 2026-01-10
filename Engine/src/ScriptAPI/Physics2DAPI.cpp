@@ -139,8 +139,21 @@ namespace Luden
 			if (!b2Body_IsValid(rb.RuntimeBodyId))
 				return;
 
+			Scene* scene = GEngine.GetActiveScene();
+			if (!scene)
+				return;
+
+			auto& physicsManager = scene->GetPhysicsManager();
+			float physicsScale = physicsManager.GetPhysicsScale();
+			uint32_t viewportHeight = physicsManager.GetViewportHeight();
+
+			b2Vec2 b2Position(
+				position.x / physicsScale,
+				(viewportHeight - position.y) / physicsScale
+			);
+
 			b2Rot rotation = b2MakeRot(glm::radians(angle));
-			b2Body_SetTransform(rb.RuntimeBodyId, b2Vec2(position.x, position.y), rotation);
+			b2Body_SetTransform(rb.RuntimeBodyId, b2Position, rotation);
 		}
 
 		void SetGravityScale(Entity entity, float scale)

@@ -9,8 +9,8 @@
 
 namespace Luden
 {
-    void PaddleController::OnCreate()
-    {
+	void PaddleController::OnCreate()
+	{
 		auto context = std::make_shared<InputContext>("Gameplay", 100);
 		context->SetEnabled(true);
 
@@ -53,15 +53,32 @@ namespace Luden
 
 		input.BindAction(moveLeftAction, ETriggerEvent::Started, this, &PaddleController::OnMoveLeft);
 		input.BindAction(moveRightAction, ETriggerEvent::Started, this, &PaddleController::OnMoveRight);
-    }
+	}
 
-    void PaddleController::OnUpdate(TimeStep ts)
-    {
+	void PaddleController::OnUpdate(TimeStep ts)
+	{
 		Vec3 pos = GameplayAPI::GetPosition(GetEntity());
 
-		pos.y = 0;
+		pos.x = MathAPI::Clamp(pos.x, m_MinX, m_MaxX);
+
+		pos.y = m_FixedY;
+
 		GameplayAPI::SetPosition(GetEntity(), pos);
-    }
+
+		Vec2 vel = Physics2DAPI::GetLinearVelocity(GetEntity());
+		if (std::abs(vel.y) > 0.01f)
+		{
+			Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(vel.x, 0.0f));
+		}
+
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) &&
+			!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) &&
+			!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A) &&
+			!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+		{
+			Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(0, 0));
+		}
+	}
 
     void PaddleController::OnDestroy()
     {
@@ -70,8 +87,12 @@ namespace Luden
 
     void PaddleController::OnCollisionBegin(const CollisionContact& contact)
     {
-        // TODO: On contact begin
-    }
+		if (contact.otherEntity.Tag() == "Ball")
+		{
+			Vec2 vel = Physics2DAPI::GetLinearVelocity(GetEntity());
+			Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(vel.x, 0.0f));
+		}
+	}
 
     void PaddleController::OnCollisionEnd(const CollisionContact& contact)
     {

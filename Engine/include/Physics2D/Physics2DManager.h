@@ -39,6 +39,8 @@ namespace Luden
 		int GetSubStepCount() { return m_SubStepCount; }
 		void SetSubStepCount(int subStepCount) { m_SubStepCount = subStepCount; }
 
+		uint32_t GetViewportWidth() const { return m_ViewportWidth; }
+		uint32_t GetViewportHeight() const { return m_ViewportHeight; }
 	private:
 		void ProcessContactEvents();
 
