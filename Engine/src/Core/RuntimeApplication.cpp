@@ -25,13 +25,11 @@ namespace Luden {
 	void RuntimeApplication::Init()
 	{
 		sf::VideoMode vm(sf::Vector2u(m_Specification.WindowWidth, m_Specification.WindowHeight));
-		m_Window = std::make_unique<sf::RenderWindow>(vm, m_Specification.Name);
-
-		m_Window->create(
+		m_Window = std::make_unique<sf::RenderWindow>(
 			sf::VideoMode{ {m_Specification.WindowWidth, m_Specification.WindowHeight} },
-			m_Specification.Name
+			m_Specification.Name,
+			sf::Style::Default  
 		);
-
 		if (m_Specification.VSync)
 			m_Window->setVerticalSyncEnabled(true);
 		else
@@ -106,38 +104,28 @@ namespace Luden {
 
 			if (m_CurrentScene)
 			{
-				if (!m_RenderTexture)
-				{
-					m_RenderTexture = std::make_shared<sf::RenderTexture>();
-					if (!m_RenderTexture->resize({ m_Specification.WindowWidth, m_Specification.WindowHeight }))
-					{
-						std::cerr << "[RuntimeApplication] Failed to create render texture!\n";
-						continue;
-					}
-				}
-
-				sf::Vector2u windowSize = m_Window->getSize();
-				if (windowSize.x != m_RenderTexture->getSize().x ||
-					windowSize.y != m_RenderTexture->getSize().y)
-				{
-					if (!m_RenderTexture->resize(windowSize))
-					{
-						std::cerr << "[RuntimeApplication] Failed to resize render texture!\n";
-						continue;
-					}
-
-					m_CurrentScene->SetViewportSize(windowSize.x, windowSize.y);
-				}
-
 				m_RenderTexture->clear();
-
 				m_CurrentScene->OnUpdateRuntime(timestep, m_RenderTexture);
-
 				m_RenderTexture->display();
 
+				sf::Vector2u windowSize = m_Window->getSize();
+				sf::Vector2u textureSize = m_RenderTexture->getSize();
+
+				sf::View windowView(sf::FloatRect(
+					{ 0.f, 0.f },
+					{ static_cast<float>(windowSize.x), static_cast<float>(windowSize.y) }
+				));
+				m_Window->setView(windowView);
+
 				sf::Sprite sprite(m_RenderTexture->getTexture());
+
+				float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
+				float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
+				sprite.setScale({ scaleX, scaleY });
+
 				m_Window->draw(sprite);
 			}
+			std::cout << "FPS: " << 1.f / dt.asSeconds() << "\r" << std::flush;
 
 			m_Window->display();
 		}
@@ -204,7 +192,7 @@ namespace Luden {
 			if (m_Window)
 			{
 				sf::Vector2u windowSize = m_Window->getSize();
-				m_CurrentScene->SetViewportSize(windowSize.x, windowSize.y);
+				m_CurrentScene->SetViewportSize(m_Specification.WindowWidth, m_Specification.WindowHeight);
 			}
 			else
 			{

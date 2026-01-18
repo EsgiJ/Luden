@@ -308,6 +308,7 @@ namespace Luden
 
 	void EditorApplication::ExitEditor()
 	{
+		CloseProject();
 		Shutdown();
 	}
 

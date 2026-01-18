@@ -4,5 +4,6 @@
     "ProjectFileName": "PaddleGame.lproject",
     "ResourceDirectory": "Resources",
     "ResourceRegistry": "Resources/ResourceRegistry.lr",
-    "StartScene": "Resources/Scenes/MainScene.lscene"
+    "StartScene": "Resources/Scenes/MainScene.lscene",
+    "StartSceneHandle": 1694692776833502177
 }

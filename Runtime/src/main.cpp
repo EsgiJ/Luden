@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		projectPath = "C:/GameProjects/Luden/Tetris/Tetris.lproject";
+		projectPath = "C:/GameProjects/Luden/PaddleGame/PaddleGame.lproject";
 	}
 
 	if (!std::filesystem::exists(projectPath))
@@ -43,7 +43,6 @@ int main(int argc, char** argv)
 		std::cout << "Project: " << projectPath << "\n";
 		std::cout << "===========================================\n\n";
 
-		// 1. ÖNCE Projeyi yükle
 		std::cout << "Loading project...\n";
 		std::shared_ptr<Luden::Project> project = std::make_shared<Luden::Project>();
 		Luden::ProjectSerializer serializer(project);
@@ -57,7 +56,6 @@ int main(int argc, char** argv)
 		Luden::Project::SetActive(project);
 		std::cout << "[OK] Project loaded: " << project->GetConfig().Name << "\n\n";
 
-		// 2. SONRA Modülü yükle
 		std::string outputDir = Luden::Config::GetOutputDir();
 		std::filesystem::path modulePath = projectDir / "bin" / outputDir /
 			(projectName + Luden::Config::GetModuleExtension());
@@ -80,16 +78,14 @@ int main(int argc, char** argv)
 
 		std::cout << "[OK] Module loaded!\n\n";
 
-		// 3. ApplicationSpec oluþtur
 		Luden::ApplicationSpecification spec;
 		spec.Name = projectName;
-		spec.WindowWidth = 1280;
-		spec.WindowHeight = 720;
+		spec.WindowWidth = 1920;
+		spec.WindowHeight = 1080;
 		spec.VSync = true;
 		spec.ProjectPath = projectPath;
 		spec.WorkingDirectory = projectDir.string();
 
-		// 4. Module'den RuntimeApplication oluþtur
 		auto module = moduleLoader.GetModule();
 		if (!module)
 		{
@@ -108,7 +104,6 @@ int main(int argc, char** argv)
 
 		std::cout << "[OK] RuntimeApplication created!\n\n";
 
-		// 5. Initialize ve Run
 		std::cout << "Initializing...\n";
 		runtimeApp->Init();
 
