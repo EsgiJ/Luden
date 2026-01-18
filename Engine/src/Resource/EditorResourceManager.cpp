@@ -227,6 +227,22 @@ namespace Luden
 
 	ResourceType EditorResourceManager::GetResourceTypeFromPath(const std::filesystem::path& path)
 	{
+		std::string extension = path.extension().string();
+
+		//TODO: Ugly solution to distinguish sounds between sound resource and music resource
+		if (extension == ".wav" || extension == ".ogg" || extension == ".mp3")
+		{
+			std::string pathStr = path.string();
+
+			if (pathStr.find("/Musics/") != std::string::npos ||
+				pathStr.find("\\Musics\\") != std::string::npos)
+			{
+				return ResourceType::Music;
+			}
+
+			return ResourceType::Sound;
+		}
+
 		return GetResourceTypeFromExtension(path.extension().string());
 	}
 

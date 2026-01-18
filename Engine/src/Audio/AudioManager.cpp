@@ -3,26 +3,28 @@
 #include "Audio/Music.h"
 #include "Core/EngineContext.h"
 
-#include <algorithm>
-
 #include "SFML/Audio/SoundStream.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <chrono>
 
 namespace Luden
 {
 	void AudioManager::PlaySound(std::shared_ptr<Sound> sound, float volume)
-	{
+	{		
 		if (!sound)
 			return;
-		sf::Sound sfSound(sound->GetSoundBuffer());
 
 		float finalVolume = volume * m_SoundVolume * m_MasterVolume;
 		if (m_Muted)
 			finalVolume = 0.0f;
 
+		auto& sfSound = sound->GetSound();
 		sfSound.setVolume(finalVolume * 100.0f);
 		sfSound.play();
 
-		m_ActiveSounds.push_back(std::move(sfSound));
+		m_ActiveSounds.push_back(std::move(sound->GetSound()));
 	}
 
 	void AudioManager::StopAllSounds()

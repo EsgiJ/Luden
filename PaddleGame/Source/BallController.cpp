@@ -93,17 +93,17 @@ namespace Luden
 			Vec2 newVel(diagSpeed * side, std::abs(diagSpeed)); 
 			Physics2DAPI::SetLinearVelocity(GetEntity(), newVel);
 
-			//if (m_PaddleHitSound) SoundAPI::PlaySound(m_PaddleHitSound, 0.5f);
+			if (m_PaddleHitSound) SoundAPI::PlaySound(m_PaddleHitSound, 0.5f);
 		}
 		else if (other.Tag() == "Brick" || other.Tag() == "Wall")
 		{
 			if (other.Tag() == "Brick")
 			{
-				//if (m_BrickHitSound) SoundAPI::PlaySound(m_BrickHitSound, 0.6f);
+				if (m_BrickHitSound) SoundAPI::PlaySound(m_BrickHitSound, 0.6f);
 			}
 			else if (other.Tag() == "Wall")
 			{
-				//if (m_WallHitSound) SoundAPI::PlaySound(m_WallHitSound, 0.3f);
+				if (m_WallHitSound) SoundAPI::PlaySound(m_WallHitSound, 0.3f);
 			}
 
 			Vec2 velocity = Physics2DAPI::GetLinearVelocity(GetEntity());

@@ -5,6 +5,7 @@
 #include "EngineAPI.h"
 #include "Resource/Resource.h"
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 namespace Luden
 {
@@ -26,10 +27,25 @@ namespace Luden
 		sf::SoundBuffer& GetSoundBuffer() { return m_SoundBuffer; }
 		void SetSoundBuffer(const sf::SoundBuffer soundBuffer) { m_SoundBuffer = soundBuffer; }
 
+		sf::Sound& GetSound()
+		{
+			if (!m_Sound.has_value())
+				m_Sound.emplace(m_SoundBuffer);
+			return m_Sound.value();
+		}
+
+		const sf::Sound& GetSound() const
+		{
+			return m_Sound.value();
+		}
+
+		void SetSound(const sf::Sound sound) { m_Sound = sound; }
+
 		static ResourceType GetStaticType() { return ResourceType::Sound; }
 		virtual ResourceType GetResourceType() const override { return GetStaticType(); }
 	private:
 		std::filesystem::path m_FilePath;
 		sf::SoundBuffer m_SoundBuffer;
+		std::optional<sf::Sound> m_Sound;
 	};
 }

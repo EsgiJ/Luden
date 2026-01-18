@@ -31,11 +31,6 @@
       "Type": "Texture"
     },
     {
-      "FilePath": "Musics/barkground.wav",
-      "Handle": 1112378230679933033,
-      "Type": "Sound"
-    },
-    {
       "FilePath": "Textures/Balls/ball_orange_shaded.png",
       "Handle": 1492174034704951946,
       "Type": "Texture"
@@ -409,6 +404,11 @@
       "FilePath": "Textures/Blocks/block_1_purple_outline.png",
       "Handle": 14539436371308345388,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Musics/background.wav",
+      "Handle": 14567463773649412871,
+      "Type": "Music"
     },
     {
       "FilePath": "Fonts/Minecraft.ttf",
