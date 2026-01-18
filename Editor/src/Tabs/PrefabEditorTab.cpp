@@ -23,6 +23,7 @@ namespace Luden
 
 		LoadPrefab(filepath);
 
+		m_ResourceBrowserPanel.SetContext(m_EditorApplication);
 		m_ToolbarPanel.SetContext(m_PrefabScene, &m_HierarchyPanel, &m_EditorCamera);
 		m_ToolbarPanel.InitValues(m_RenderTexture, m_ViewportHovered);
 
@@ -230,6 +231,10 @@ namespace Luden
 
 	void PrefabEditorTab::InitializeDockspace()
 	{
+		m_ResourceBrowserPanel.SetContext(m_EditorApplication);
+		m_ToolbarPanel.SetContext(m_PrefabScene, &m_HierarchyPanel, &m_EditorCamera);
+		m_ToolbarPanel.InitValues(m_RenderTexture, m_ViewportHovered);
+
 		ImGuiID dockSpaceMainID = m_DockspaceID;
 
 		ImGuiID dockTop = ImGui::DockBuilderSplitNode(dockSpaceMainID, ImGuiDir_Up, 0.08f, nullptr, &dockSpaceMainID);

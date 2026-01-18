@@ -1,0 +1,15 @@
+{
+    "Handle": 5156618645979793665,
+    "Name": "Attack_02",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 5115273785965277729,
+    "TextureRect": {
+        "height": 64,
+        "width": 128,
+        "x": 88,
+        "y": 0
+    }
+}

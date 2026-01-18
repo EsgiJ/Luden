@@ -340,14 +340,17 @@ namespace Luden
 		else if (ext == ".lanim")
 		{
 			tab = std::static_pointer_cast<EditorTab>(std::make_shared<AnimationEditorTab>(path));
+			tab->SetEditorContext(this);
 		}
 		else if (ext == ".lsprite")
 		{
 			tab = std::static_pointer_cast<EditorTab>(std::make_shared<SpriteEditorTab>(path));
+			tab->SetEditorContext(this);
 		}
 		else if (ext == ".lprefab")
 		{
 			tab = std::static_pointer_cast<EditorTab>(std::make_shared<PrefabEditorTab>(path));
+			tab->SetEditorContext(this);
 		}
 
 		if (tab) 

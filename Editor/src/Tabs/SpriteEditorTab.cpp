@@ -76,6 +76,8 @@ namespace Luden
 
 	void SpriteEditorTab::InitializeDockspace()
 	{
+		m_ResourceBrowserPanel.SetContext(m_EditorApplication);
+
 		ImGuiID dockMain = m_DockspaceID;
 
 		ImGuiID dockTop = ImGui::DockBuilderSplitNode(dockMain, ImGuiDir_Up, 0.08f, nullptr, &dockMain);

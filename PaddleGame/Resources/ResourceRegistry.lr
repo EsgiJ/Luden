@@ -106,6 +106,16 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sprites/tmp/Attack_04.lsprite",
+      "Handle": 3583407481418592294,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/tmp/Attack_03.lsprite",
+      "Handle": 3750676005770634504,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Scripts/GameManager.lns",
       "Handle": 3833574759852855921,
       "Type": "NativeScript"
@@ -114,6 +124,11 @@
       "FilePath": "Textures/Balls/ball_yellow_flat.png",
       "Handle": 4193723719296246190,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Animations/anim.lanim",
+      "Handle": 4355729857495872094,
+      "Type": "Animation"
     },
     {
       "FilePath": "Textures/Balls/ball_green_flat_outline.png",
@@ -131,9 +146,19 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Textures/zelda_link_atkr.png",
+      "Handle": 5115273785965277729,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Prefabs/Paddle.lprefab",
       "Handle": 5140093269786420268,
       "Type": "Prefab"
+    },
+    {
+      "FilePath": "Sprites/tmp/Attack_02.lsprite",
+      "Handle": 5156618645979793665,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Textures/Blocks/block_2_green.png",
@@ -299,6 +324,11 @@
       "FilePath": "Textures/Balls/ball_white_shaded.png",
       "Handle": 11509625928424558024,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/tmp/Attack_01.lsprite",
+      "Handle": 11587027413678900896,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Textures/Balls/ball_pink_shaded.png",
