@@ -66,6 +66,10 @@ namespace Luden
 
 		ENGINE_API Vec2 GetEntitySize(Entity entity);
 		ENGINE_API Vec2 GetEntitySizeUnscaled(Entity entity);
+
+		ENGINE_API Entity GetMainCameraEntity();
+		ENGINE_API void ShakeCamera(const CameraShakeParams& params, float scale = 1.0f);
+		ENGINE_API void StopCameraShake();
 	}
 }
 

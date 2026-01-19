@@ -1,8 +1,18 @@
 #include "Render/Camera2D.h"
 #include "ECS/Entity.h"
 
+#include <numbers>
+#include <cmath>
+
 namespace Luden
 {
+	Camera2D::Camera2D(glm::vec2 position, glm::vec2 viewportSize)
+		: m_Position(position)
+	{
+		m_View.setCenter(sf::Vector2f(position.x, position.y));
+		m_View.setSize(sf::Vector2f(viewportSize.x, viewportSize.y));
+	}
+
 	const char* Camera2D::CameraTypeToString(Type type)
 	{
 		switch (type)
@@ -22,14 +32,47 @@ namespace Luden
 
 	}
 
-	Camera2D::Camera2D(glm::vec2 position, glm::vec2 viewportSize)
-		: m_Position(position)
+	float Camera2D::EvaluateOscillator(Oscillator& osc, float time)
 	{
-		m_View.setCenter(sf::Vector2f(position.x, position.y));
-		m_View.setSize(sf::Vector2f(viewportSize.x, viewportSize.y));
+		if (osc.amplitude == 0.0f || osc.frequency == 0.0f)
+			return 0.0f;
+
+		return std::sin(2 * std::numbers::pi * osc.frequency * time) * osc.amplitude;
 	}
 
-	void Camera2D::Update()
+	float Camera2D::CalculateBlendWeight(float elapsed, float duration, float blendIn, float blendOut)
+	{
+		float remaining = duration - elapsed;
+
+		if (elapsed < blendIn && blendIn > 0.0f)
+		{
+			return elapsed / blendIn;
+		}
+		else if (remaining < blendOut && blendOut > 0.0f)
+		{
+			return remaining / blendOut;
+		}
+
+		return 1.0f;
+	}
+
+	void Camera2D::Shake(const CameraShakeParams& params, float scale)
+	{
+		m_ActiveShake.params = params;
+		m_ActiveShake.scale = scale;
+		m_ActiveShake.active = true;
+		m_ActiveShake.elapsed = 0.0f;
+	}
+
+	void Camera2D::StopShake()
+	{
+		m_ActiveShake.active = false;
+		m_ShakeOffset = { 0.0f, 0.0f };
+		m_ShakeRotation = 0.0f;
+		m_ShakeZoom = 0.0f;
+	}
+
+	void Camera2D::Update(TimeStep ts)
 	{
 		switch (m_Type)
 		{	
@@ -54,10 +97,45 @@ namespace Luden
 		default:
 			break;
 		}
-		m_Zoom = std::clamp(m_Zoom, m_MinZoom, m_MaxZoom);
 
-		m_View.setSize(sf::Vector2f(m_ViewportSize.x * m_Zoom, m_ViewportSize.y * m_Zoom));
-		m_View.setRotation(sf::degrees(m_Rotation));
+
+		// CameraShake logic
+		m_ShakeOffset = { 0.0f, 0.0f };
+		m_ShakeRotation = 0.0f;
+		m_ShakeZoom = 0.0f;
+
+		if (m_ActiveShake.active)
+		{
+			m_ActiveShake.elapsed += ts;
+
+			if (m_ActiveShake.elapsed >= m_ActiveShake.params.duration)
+			{
+				StopShake();
+			}
+			else
+			{
+				auto& params = m_ActiveShake.params;
+				float time = m_ActiveShake.elapsed;
+				float scale = m_ActiveShake.scale;
+
+				float blend = CalculateBlendWeight(time, params.duration, params.blendInTime, params.blendOutTime);
+
+				float finalScale = scale * blend;
+
+				m_ShakeOffset.x = EvaluateOscillator(params.locOscillationX, time) * finalScale;
+				m_ShakeOffset.y = EvaluateOscillator(params.locOscillationY, time) * finalScale;
+
+				m_ShakeRotation = EvaluateOscillator(params.rotOscillation, time) * finalScale;
+
+				m_ShakeZoom = EvaluateOscillator(params.zoomOscillation, time) * finalScale;
+			}
+		}
+
+		float finalZoom = std::clamp(m_Zoom + m_ShakeZoom, m_MinZoom, m_MaxZoom);
+
+		m_View.setCenter(sf::Vector2f(m_Position.x + m_ShakeOffset.x,m_Position.y + m_ShakeOffset.y));
+		m_View.setSize(sf::Vector2f(m_ViewportSize.x * finalZoom, m_ViewportSize.y * finalZoom));
+		m_View.setRotation(sf::degrees(m_Rotation + m_ShakeRotation));
 	}
 
 	void Camera2D::OnEvent(const std::optional<sf::Event>& evt)

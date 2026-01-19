@@ -7,8 +7,11 @@
 #include "NativeScript/NativeScriptModuleLoader.h"
 #include "Core/Config.h"
 #include "IO/FileSystem.h"
-#include <iostream>
 #include "SFML/Graphics/Sprite.hpp"
+
+#include <imgui-SFML.h>
+
+#include <iostream>
 
 namespace Luden {
 
@@ -19,7 +22,6 @@ namespace Luden {
 
 	RuntimeApplication::~RuntimeApplication()
 	{
-		Shutdown();
 	}
 
 	void RuntimeApplication::Init()
@@ -135,15 +137,12 @@ namespace Luden {
 
 	void RuntimeApplication::Shutdown()
 	{
-		if (m_CurrentScene)
+		if (Project::GetResourceManager())
 		{
-			m_CurrentScene->OnRuntimeStop();
-			m_CurrentScene.reset();
+			Project::GetResourceManager()->Shutdown();
 		}
 
-		m_RenderTexture.reset();
-		m_NativeScriptModuleLoader.reset();
-		m_ResourceManager.reset();
+		ImGui::SFML::Shutdown();
 
 		if (m_Window && m_Window->isOpen())
 			m_Window->close();

@@ -219,20 +219,6 @@ namespace Luden
 				{
 					sceneTab->OnSceneStop();
 				}
-				else
-				{
-					for (auto& entity : activeScene->GetEntityManager().GetEntities())
-					{
-						if (entity.Has<NativeScriptComponent>())
-						{
-							auto& nsc = entity.Get<NativeScriptComponent>();
-							if (nsc.Instance != nullptr)
-							{
-								nsc.DestroyInstance();
-							}
-						}
-					}
-				}
 
 				if (m_NativeScriptModuleLoader->ReloadModule())
 				{

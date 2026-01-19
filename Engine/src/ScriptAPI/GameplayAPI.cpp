@@ -4,13 +4,12 @@
 #include "ECS/Components/Components.h"
 #include "ScriptAPI/Physics2DAPI.h"
 
-#include <cmath>
-
-
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
 #include <glm/trigonometric.hpp>
+
+#include <cmath>
 #include <iostream>
 #include <random>
 
@@ -494,7 +493,7 @@ namespace Luden
 				if (!animation || animation->GetFrameCount() == 0)
 					return Vec2(0.0f, 0.0f);
 
-				uint32_t frameIndex = animator.currentFrame;
+				size_t frameIndex = animator.currentFrame;
 				if (frameIndex >= animation->GetFrameCount())
 					frameIndex = 0;
 
@@ -525,6 +524,43 @@ namespace Luden
 			}
 
 			return Vec2(0.0f, 0.0f);
+		}
+
+		Entity GetMainCameraEntity()
+		{
+			Scene* scene = GEngine.GetActiveScene();
+			if (!scene)
+			{
+				std::cerr << "[GameplayAPI] No active scene!" << std::endl;
+				return {};
+			}
+
+			return scene->GetMainCameraEntity();
+		}
+
+		void ShakeCamera(const CameraShakeParams& params, float scale)
+		{
+			Entity cameraEntity = GetMainCameraEntity();
+
+			if (!cameraEntity.IsValid())
+				return;
+
+			if (cameraEntity.Has<Camera2DComponent>())
+			{
+				auto& camera = cameraEntity.Get<Camera2DComponent>();
+				camera.Camera.Shake(params, scale);
+			}
+		}
+
+		void StopCameraShake()
+		{
+			Entity cameraEntity = GetMainCameraEntity();
+
+			if (cameraEntity.Has<Camera2DComponent>())
+			{
+				auto& camera = cameraEntity.Get<Camera2DComponent>();
+				camera.Camera.StopShake();
+			}
 		}
 	}
 }

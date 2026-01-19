@@ -215,7 +215,7 @@ namespace Luden
 			}
 
 
-			m_EditorCamera.Update();
+			m_EditorCamera.Update(timestep);
 			m_ToolbarPanel.OnUpdate();
 		}
 	}

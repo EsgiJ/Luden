@@ -94,6 +94,7 @@ namespace Luden
 			Physics2DAPI::SetLinearVelocity(GetEntity(), newVel);
 
 			if (m_PaddleHitSound) SoundAPI::PlaySound(m_PaddleHitSound, 0.5f);
+			GameplayAPI::ShakeCamera(hitParams);
 		}
 		else if (other.Tag() == "Brick" || other.Tag() == "Wall")
 		{

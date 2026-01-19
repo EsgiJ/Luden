@@ -42,7 +42,7 @@ namespace Luden {
 		Camera2D& camera = cameraEntity.Get<Camera2DComponent>();
 		camera.SetAttachedEntity(&cameraEntity);
 		camera.SetViewportSize({ (float)m_ViewportWidth, (float)m_ViewportHeight });
-		camera.Update();
+		camera.Update(ts);
 
 		OnRenderRuntime(renderTexture, camera);
 
@@ -78,7 +78,7 @@ namespace Luden {
 		SetViewportSize(renderTexture->getSize().x, renderTexture->getSize().y);
 
 		editorCamera.SetViewportSize({ (float)m_ViewportWidth, (float)m_ViewportHeight });
-		editorCamera.Update();
+		editorCamera.Update(ts);
 
 		OnRenderEditor(renderTexture, editorCamera);
 		AnimationManager::Instance().Update(ts);

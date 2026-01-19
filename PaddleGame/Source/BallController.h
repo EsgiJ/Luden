@@ -17,12 +17,14 @@ namespace Luden
 		void Reset();
 
 	private:
-		float m_Speed = 8.0f;
+		float m_Speed = 15.0f;
 		bool m_IsLaunched = false;
 		Entity m_Paddle;
 
 		SoundRef m_PaddleHitSound;
 		SoundRef m_BrickHitSound;
 		SoundRef m_WallHitSound;
+
+		CameraShakeParams hitParams;
     };
 }

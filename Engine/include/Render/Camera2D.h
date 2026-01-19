@@ -9,10 +9,40 @@
 #include <glm/vec3.hpp>
 
 #include <optional>
+#include "Core/TimeStep.h"
 
 namespace Luden
 {
 	class Entity;
+
+	struct ENGINE_API Oscillator
+	{
+		float amplitude = 0.01f;    
+		float frequency = 20.0f;           
+	};
+
+	struct ENGINE_API CameraShakeParams
+	{
+		float duration = 1.0f;
+		float blendInTime = 0.1f;
+		float blendOutTime = 0.2f;
+
+		Oscillator locOscillationX;
+		Oscillator locOscillationY;
+
+		Oscillator rotOscillation;
+
+		Oscillator zoomOscillation;
+	};
+
+	struct ENGINE_API FActiveShake
+	{
+		CameraShakeParams params;
+		float elapsed = 0.0f;
+		float scale = 1.0f;         
+		bool active = false;
+	};
+
 
 	class ENGINE_API Camera2D
 	{
@@ -47,7 +77,11 @@ namespace Luden
 
 		sf::View& GetView() { return m_View; }
 
-		void Update();
+		void Shake(const CameraShakeParams& params, float scale = 1.0f);
+		void StopShake();
+		bool IsShaking() const { return m_ActiveShake.active; }
+
+		void Update(TimeStep ts);
 
 		void OnEvent(const std::optional<sf::Event>& evt);
 
@@ -62,6 +96,10 @@ namespace Luden
 
 		static const char* CameraTypeToString(Type type);
 		static Type CameraTypeFromString(const std::string& str);
+
+	private:
+		float EvaluateOscillator(Oscillator& osc, float time);
+		float CalculateBlendWeight(float elapsed, float duration, float blendIn, float blendOut);
 	private:
 		Entity* m_AttachedEntity = nullptr;
 		Type m_Type = Type::None;
@@ -81,5 +119,10 @@ namespace Luden
 		float m_MinZoom = 0.1f;
 		float m_MaxZoom = 10.0f;
 		float m_ZoomSpeed = 0.1f;
+
+		FActiveShake m_ActiveShake;
+		glm::vec2 m_ShakeOffset = { 0.0f, 0.0f };
+		float m_ShakeRotation = 0.0f;
+		float m_ShakeZoom = 0.0f;
 	};
 }
