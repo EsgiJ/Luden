@@ -430,17 +430,14 @@ namespace Luden
 		Entity prefabRootEntity)
 	{
 		PrefabComponent savedPrefabComp = instance.Get<PrefabComponent>();
-
 		Entity savedParent = instance.GetParent();
+
+		TransformComponent savedTransform = instance.Get<TransformComponent>();
 
 		scene->CopyAllComponents(instance, prefabRootEntity, true);
 
-		TransformComponent prefabTransform = prefabRootEntity.Get<TransformComponent>();
 		TransformComponent& instanceTransform = instance.Get<TransformComponent>();
-
-		instanceTransform.Translation = prefabTransform.Translation;
-		instanceTransform.Scale = prefabTransform.Scale;        
-		instanceTransform.angle = prefabTransform.angle;        
+		instanceTransform.Translation = savedTransform.Translation;
 
 		if (!instance.Has<PrefabComponent>())
 		{

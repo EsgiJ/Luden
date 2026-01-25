@@ -39,6 +39,9 @@ namespace Luden
 
 		ScriptInstantiateFunc GetInstantiateFunc() const { return m_InstantiateFunc; }
 		ScriptDestroyFunc GetDestroyFunc() const { return m_DestroyFunc; }
+
+		void SetInstantiateFunc(ScriptInstantiateFunc func) { m_InstantiateFunc = func; }
+		void SetDestroyFunc(ScriptDestroyFunc func) { m_DestroyFunc = func; }
 	private:
 		std::string m_ClassName;
 		std::filesystem::path m_HeaderPath;

@@ -876,33 +876,38 @@ namespace Luden
 						if (nsc.ScriptHandle != 0)
 						{
 							auto script = ResourceManager::GetResource<NativeScript>(nsc.ScriptHandle);
+
+
 							ImGuiUtils::PrefixLabel("Status");
 
-							if (!script->GetInstantiateFunc())
+							if (script != nullptr)
 							{
-								ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_XMARK " Not Compiled");
-
-								if (ImGui::Button(ICON_FA_HAMMER " Rebuild GameModule"))
+								if (script->GetInstantiateFunc() == nullptr)
 								{
-									// TODO: Trigger recompile
-									std::cout << "Rebuild triggered!" << std::endl;
-								}
-							}
-							else if (nsc.Instance)
-							{
-								ImGui::TextColored(ImVec4(0, 1, 0, 1), ICON_FA_CHECK " Active");
-							}
-							else
-							{
-								ImGui::TextColored(ImVec4(1, 1, 0, 1), ICON_FA_PAUSE " Not Instantiated");
-							}
+									ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_XMARK " Not Compiled");
 
-							// Show file paths
-							if (ImGui::TreeNode("Files"))
-							{
-								ImGui::Text("Header: %s", script->GetHeaderPath().string().c_str());
-								ImGui::Text("Source: %s", script->GetSourcePath().string().c_str());
-								ImGui::TreePop();
+									if (ImGui::Button(ICON_FA_HAMMER " Rebuild GameModule"))
+									{
+										// TODO: Trigger recompile
+										std::cout << "Rebuild triggered!" << std::endl;
+									}
+								}
+								else if (nsc.Instance)
+								{
+									ImGui::TextColored(ImVec4(0, 1, 0, 1), ICON_FA_CHECK " Active");
+								}
+								else
+								{
+									ImGui::TextColored(ImVec4(1, 1, 0, 1), ICON_FA_PAUSE " Not Instantiated");
+								}
+
+								// Show file paths
+								if (ImGui::TreeNode("Files"))
+								{
+									ImGui::Text("Header: %s", script->GetHeaderPath().string().c_str());
+									ImGui::Text("Source: %s", script->GetSourcePath().string().c_str());
+									ImGui::TreePop();
+								}
 							}
 						}
 				});

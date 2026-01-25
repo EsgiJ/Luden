@@ -5,13 +5,13 @@
                 "CategoryBits": 32,
                 "Density": 0.0,
                 "Friction": 0.0,
-				"Restitution": 0.0,
                 "GroupIndex": 0,
                 "MaskBits": 8,
                 "Offset": [
                     0.0,
                     0.0
                 ],
+                "Restitution": 0.0,
                 "Size": [
                     1024.0,
                     512.0
@@ -53,8 +53,8 @@
                     0.17000000178813934
                 ],
                 "Translation": [
-                    873.3599243164063,
-                    -292.9599914550781,
+                    0.0,
+                    0.0,
                     0.0
                 ],
                 "angle": 0.0

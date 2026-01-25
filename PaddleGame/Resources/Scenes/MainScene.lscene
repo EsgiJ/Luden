@@ -82,7 +82,7 @@
         {
             "BoxCollider2DComponent": {
                 "CategoryBits": 2,
-                "Density": 1000.0,
+                "Density": 1.0,
                 "Friction": 0.0,
                 "GroupIndex": 0,
                 "MaskBits": 65320,
@@ -110,7 +110,7 @@
             },
             "RigidBody2DComponent": {
                 "AngularDrag": 0.0,
-                "BodyType": 1,
+                "BodyType": 2,
                 "FixedRotation": true,
                 "GravityScale": 0.0,
                 "LinearDrag": 0.0,
@@ -133,7 +133,7 @@
                     0.15000000596046448
                 ],
                 "Translation": [
-                    0.0,
+                    -0.0,
                     450.0,
                     0.0
                 ],
@@ -202,7 +202,7 @@
         {
             "BoxCollider2DComponent": {
                 "CategoryBits": 32,
-                "Density": 1000.0,
+                "Density": 1.0,
                 "Friction": 0.0,
                 "GroupIndex": 0,
                 "MaskBits": 10,
