@@ -40,8 +40,24 @@ namespace Luden
         if (!CreateResourceRegistry(resourcePath))
             return false;
 
-        if (NativeScriptModuleGenerator::CreateNewScriptModule(projectName, projectPath))
+        if (!NativeScriptModuleGenerator::CreateNewScriptModule(projectName, projectPath))
             return false;
+
+		std::filesystem::path buildScriptPath = projectPath / "build.bat";
+		if (!CreateBuildScript(buildScriptPath, projectName))
+			return false;
+
+		std::filesystem::path buildReleasePath = projectPath / "build-release.bat";
+		if (!CreateBuildReleaseScript(buildReleasePath))
+			return false;
+
+		std::filesystem::path buildAndRunPath = projectPath / "build-and-run.bat";
+		if (!CreateBuildAndRunScript(buildAndRunPath))
+			return false;
+
+		std::filesystem::path cleanPath = projectPath / "clean.bat";
+		if (!CreateCleanScript(cleanPath))
+			return false;
 
         return true;
     }
@@ -282,4 +298,208 @@ pause
         out << jRegistry.dump(4);
         return true;
     }
+
+	bool ProjectGenerator::CreateBuildScript(const std::filesystem::path& path, const std::string& projectName)
+	{
+		std::ofstream file(path);
+		if (!file.is_open())
+		{
+			std::cerr << "Failed to create build.bat" << std::endl;
+			return false;
+		}
+
+		file << R"(@echo off
+setlocal enabledelayedexpansion
+
+REM ============================================
+REM  Luden Engine - Project Build Script
+REM ============================================
+
+echo.
+echo ==========================================
+echo     Luden Engine - Project Builder
+echo ==========================================
+echo.
+
+set "PROJECT_DIR=%~dp0"
+cd /d "%PROJECT_DIR%"
+set "PROJECT_NAME=)" << projectName << R"("
+
+echo Project: %PROJECT_NAME%
+echo.
+
+set "BUILD_CONFIG=%1"
+if "%BUILD_CONFIG%"=="" set "BUILD_CONFIG=Debug"
+
+echo Build Configuration: %BUILD_CONFIG%
+echo.
+
+set "GAME_DLL_DIR=%PROJECT_DIR%bin\%BUILD_CONFIG%-windows-x86_64"
+set "RUNTIME_DIR=C:\GameProjects\Luden\Runtime\bin\%BUILD_CONFIG%-windows-x86_64"
+set "RESOURCES_DIR=%PROJECT_DIR%Resources"
+set "BUILD_DIR=%PROJECT_DIR%Build"
+
+echo [1/6] Preparing build directory...
+if exist "%BUILD_DIR%" rd /s /q "%BUILD_DIR%"
+mkdir "%BUILD_DIR%"
+echo [OK] Build directory created
+echo.
+
+echo [2/6] Copying game module...
+if not exist "%GAME_DLL_DIR%\%PROJECT_NAME%.dll" (
+    echo [ERROR] Game DLL not found!
+    echo Please build your project first in Visual Studio!
+    pause
+    exit /b 1
+)
+copy /y "%GAME_DLL_DIR%\%PROJECT_NAME%.dll" "%BUILD_DIR%\" > nul
+echo [OK] %PROJECT_NAME%.dll copied
+echo.
+
+echo [3/6] Copying Runtime files...
+copy /y "%RUNTIME_DIR%\Runtime.exe" "%BUILD_DIR%\" > nul
+copy /y "%RUNTIME_DIR%\Engine.dll" "%BUILD_DIR%\" > nul
+echo [OK] Runtime files copied
+echo.
+
+echo [4/6] Copying dependencies...
+copy /y "%RUNTIME_DIR%\*.dll" "%BUILD_DIR%\" > nul 2>&1
+echo [OK] Dependencies copied
+echo.
+
+echo [5/6] Copying project file...
+copy /y "%PROJECT_DIR%%PROJECT_NAME%.lproject" "%BUILD_DIR%\" > nul
+echo [OK] Project file copied
+echo.
+
+echo [6/6] Copying resources...
+if exist "%RESOURCES_DIR%" (
+    xcopy /e /i /y /q "%RESOURCES_DIR%" "%BUILD_DIR%\Resources\" > nul
+    echo [OK] Resources copied
+) else (
+    echo [WARNING] Resources folder not found
+)
+echo.
+
+echo ==========================================
+echo     BUILD SUCCESSFUL!
+echo ==========================================
+echo Build location: %BUILD_DIR%
+echo.
+
+if "%2"=="run" (
+    echo Launching game...
+    cd /d "%BUILD_DIR%"
+    start "" "Runtime.exe" "%PROJECT_NAME%.lproject"
+)
+
+pause
+)";
+
+		file.close();
+		std::cout << "Created build.bat" << std::endl;
+
+        return true;
+	}
+
+	bool ProjectGenerator::CreateBuildReleaseScript(const std::filesystem::path& path)
+	{
+		std::ofstream file(path);
+		if (!file.is_open())
+		{
+			std::cerr << "Failed to create build-release.bat" << std::endl;
+			return false;
+		}
+
+		file << R"(@echo off
+REM ============================================
+REM  Build Release Version
+REM ============================================
+
+echo.
+echo Building RELEASE version...
+echo.
+
+call build.bat Release
+
+exit /b %ERRORLEVEL%
+)";
+
+		file.close();
+		std::cout << "Created build-release.bat" << std::endl;
+		return true;
+	}
+
+	bool ProjectGenerator::CreateBuildAndRunScript(const std::filesystem::path& path)
+	{
+		std::ofstream file(path);
+		if (!file.is_open())
+		{
+			std::cerr << "Failed to create build-and-run.bat" << std::endl;
+			return false;
+		}
+
+		file << R"(@echo off
+REM ============================================
+REM  Build and Run Game
+REM ============================================
+
+echo.
+echo Building and running game...
+echo.
+
+call build.bat Debug run
+
+exit /b %ERRORLEVEL%
+)";
+
+		file.close();
+		std::cout << "Created build-and-run.bat" << std::endl;
+		return true;
+	}
+
+	bool ProjectGenerator::CreateCleanScript(const std::filesystem::path& path)
+	{
+		std::ofstream file(path);
+		if (!file.is_open())
+		{
+			std::cerr << "Failed to create clean.bat" << std::endl;
+			return false;
+		}
+
+		file << R"(@echo off
+REM ============================================
+REM  Clean Build Directory
+REM ============================================
+
+echo.
+echo ==========================================
+echo     Cleaning Build Directory
+echo ==========================================
+echo.
+
+set "PROJECT_DIR=%~dp0"
+set "BUILD_DIR=%PROJECT_DIR%Build"
+
+if exist "%BUILD_DIR%" (
+    echo Removing build directory...
+    rd /s /q "%BUILD_DIR%"
+    echo [OK] Build directory cleaned: %BUILD_DIR%
+) else (
+    echo [INFO] No build directory found.
+)
+
+echo.
+echo ==========================================
+echo     Clean Complete
+echo ==========================================
+echo.
+
+pause
+)";
+
+		file.close();
+		std::cout << "Created clean.bat" << std::endl;
+		return true;
+	}
 }

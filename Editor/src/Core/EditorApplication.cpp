@@ -440,6 +440,26 @@ namespace Luden
 					SaveActiveScene();
 				}
 				ImGui::Separator();
+
+				bool hasProject = Project::GetActiveProject() != nullptr;
+
+				ImGui::BeginDisabled(!hasProject);
+
+				if (ImGui::MenuItem(ICON_FA_HAMMER " Build Debug", "Ctrl+B"))
+					BuildProject();
+
+				if (ImGui::MenuItem(ICON_FA_ROCKET " Build Release"))
+					BuildRelease();
+
+				if (ImGui::MenuItem(ICON_FA_PLAY " Build & Run", "Ctrl+Shift+B"))
+					BuildAndRun();
+
+				if (ImGui::MenuItem(ICON_FA_BROOM " Clean Build"))
+					CleanBuild();
+
+				ImGui::EndDisabled();
+
+				ImGui::Separator();
 				if (ImGui::MenuItem(ICON_FA_RIGHT_FROM_BRACKET " Exit"))
 				{
 					ExitEditor();
@@ -772,5 +792,62 @@ namespace Luden
 				sceneTab->SaveScene();
 			}
 		}
+	}
+
+	void EditorApplication::BuildProject()
+	{
+		auto project = Project::GetActiveProject();
+		if (!project)
+			return;
+
+		SaveProject();
+		SaveActiveScene();
+
+		std::filesystem::path projectDir = project->GetConfig().ProjectDirectory;
+
+		std::string command = "start cmd /c \"cd /d \"" + projectDir.string() + "\" && build.bat\"";
+		system(command.c_str());
+	}
+
+	void EditorApplication::BuildRelease()
+	{
+		auto project = Project::GetActiveProject();
+		if (!project)
+			return;
+
+		SaveProject();
+		SaveActiveScene();
+
+		std::filesystem::path projectDir = project->GetConfig().ProjectDirectory;
+
+		std::string command = "start cmd /c \"cd /d \"" + projectDir.string() + "\" && build-release.bat\"";
+		system(command.c_str());
+	}
+
+	void EditorApplication::BuildAndRun()
+	{
+		auto project = Project::GetActiveProject();
+		if (!project)
+			return;
+
+		SaveProject();
+		SaveActiveScene();
+
+		std::filesystem::path projectDir = project->GetConfig().ProjectDirectory;
+
+		std::string command = "start cmd /c \"cd /d \"" + projectDir.string() + "\" && build-and-run.bat\"";
+		system(command.c_str());
+	}
+
+	void EditorApplication::CleanBuild()
+	{
+		auto project = Project::GetActiveProject();
+		if (!project)
+			return;
+
+		std::filesystem::path projectDir = project->GetConfig().ProjectDirectory;
+
+		std::string command = "start cmd /c \"cd /d \"" + projectDir.string() + "\" && clean.bat\"";
+		system(command.c_str());
 	}
 }

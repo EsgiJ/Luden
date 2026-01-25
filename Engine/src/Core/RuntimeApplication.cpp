@@ -65,8 +65,7 @@ namespace Luden {
 		m_ResourceManager->ReloadResources();
 
 		m_NativeScriptModuleLoader = std::make_unique<NativeScriptModuleLoader>();
-		std::filesystem::path modulePath = Config::GetGameModulePath();
-
+		std::filesystem::path modulePath = std::filesystem::path(project->GetConfig().ProjectDirectory) / (project->GetConfig().Name + Config::GetModuleExtension());
 		if (m_NativeScriptModuleLoader->LoadModule(modulePath))
 		{
 			m_NativeScriptModuleLoader->GetModule()->RegisterScripts(m_ResourceManager.get());

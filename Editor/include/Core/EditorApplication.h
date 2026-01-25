@@ -52,6 +52,11 @@ namespace Luden
 		void LoadProject(const std::filesystem::path& path);
 		void CloseProject();
 
+		void BuildProject();
+		void BuildRelease();
+		void BuildAndRun();
+		void CleanBuild();
+
 		void ShowNewProjectPopup();
 		void ShowLoadProjectPopup();
 
