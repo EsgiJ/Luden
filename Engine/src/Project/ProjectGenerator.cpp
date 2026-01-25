@@ -308,6 +308,10 @@ pause
 			return false;
 		}
 
+		std::filesystem::path engineDir = std::filesystem::current_path().parent_path();
+		std::string enginePath = engineDir.string();
+		std::replace(enginePath.begin(), enginePath.end(), '/', '\\');
+
 		file << R"(@echo off
 setlocal enabledelayedexpansion
 
@@ -334,10 +338,16 @@ if "%BUILD_CONFIG%"=="" set "BUILD_CONFIG=Debug"
 echo Build Configuration: %BUILD_CONFIG%
 echo.
 
+REM Dynamic paths
 set "GAME_DLL_DIR=%PROJECT_DIR%bin\%BUILD_CONFIG%-windows-x86_64"
-set "RUNTIME_DIR=C:\GameProjects\Luden\Runtime\bin\%BUILD_CONFIG%-windows-x86_64"
+set "ENGINE_DIR=)" << enginePath << R"("
+set "RUNTIME_DIR=%ENGINE_DIR%\Runtime\bin\%BUILD_CONFIG%-windows-x86_64"
 set "RESOURCES_DIR=%PROJECT_DIR%Resources"
 set "BUILD_DIR=%PROJECT_DIR%Build"
+
+echo Engine Directory: %ENGINE_DIR%
+echo Runtime Directory: %RUNTIME_DIR%
+echo.
 
 echo [1/6] Preparing build directory...
 if exist "%BUILD_DIR%" rd /s /q "%BUILD_DIR%"
@@ -348,6 +358,7 @@ echo.
 echo [2/6] Copying game module...
 if not exist "%GAME_DLL_DIR%\%PROJECT_NAME%.dll" (
     echo [ERROR] Game DLL not found!
+    echo Path: %GAME_DLL_DIR%\%PROJECT_NAME%.dll
     echo Please build your project first in Visual Studio!
     pause
     exit /b 1
@@ -357,6 +368,14 @@ echo [OK] %PROJECT_NAME%.dll copied
 echo.
 
 echo [3/6] Copying Runtime files...
+if not exist "%RUNTIME_DIR%\Runtime.exe" (
+    echo [ERROR] Runtime.exe not found!
+    echo Path: %RUNTIME_DIR%\Runtime.exe
+    echo.
+    echo Please ensure Runtime project is built!
+    pause
+    exit /b 1
+)
 copy /y "%RUNTIME_DIR%\Runtime.exe" "%BUILD_DIR%\" > nul
 copy /y "%RUNTIME_DIR%\Engine.dll" "%BUILD_DIR%\" > nul
 echo [OK] Runtime files copied
@@ -388,18 +407,37 @@ echo Build location: %BUILD_DIR%
 echo.
 
 if "%2"=="run" (
-    echo Launching game...
+    echo ==========================================
+    echo     Launching Game
+    echo ==========================================
+    echo.
     cd /d "%BUILD_DIR%"
-    start "" "Runtime.exe" "%PROJECT_NAME%.lproject"
+    
+    Runtime.exe
+    
+    echo.
+    echo ==========================================
+    echo     Game Closed - Exit Code: %ERRORLEVEL%
+    echo ==========================================
+    
+    if %ERRORLEVEL% neq 0 (
+        echo [ERROR] Game exited with error code: %ERRORLEVEL%
+        echo.
+    )
+    
+    pause
 )
 
-pause
+if "%2" NEQ "run" (
+    pause
+)
+
+exit /b 0
 )";
 
 		file.close();
 		std::cout << "Created build.bat" << std::endl;
-
-        return true;
+		return true;
 	}
 
 	bool ProjectGenerator::CreateBuildReleaseScript(const std::filesystem::path& path)

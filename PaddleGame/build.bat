@@ -85,9 +85,23 @@ echo Build location: %BUILD_DIR%
 echo.
 
 if "%2"=="run" (
-    echo Launching game...
+    echo ==========================================
+    echo     Launching Game
+    echo ==========================================
+    echo.
     cd /d "%BUILD_DIR%"
-    start "" "Runtime.exe" "%PROJECT_NAME%.lproject"
+    
+    Runtime.exe
+    
+    echo.
+    echo ==========================================
+    echo     Game Closed
+    echo ==========================================
+    pause
 )
 
-pause
+if "%2" NEQ "run" (
+    pause
+)
+
+exit /b 0
