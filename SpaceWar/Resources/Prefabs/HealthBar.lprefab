@@ -1,0 +1,36 @@
+{
+    "Entities": [
+        {
+            "HealthComponent": {
+                "current": 10,
+                "max": 10
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4862984931624403672
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "HealthBar",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10536023311832164723
+        }
+    ],
+    "Name": "HealthBar",
+    "PrefabHandle": 8994821050073474677,
+    "RootEntityUUID": 10536023311832164723,
+    "UUID": 8075085894210483850
+}

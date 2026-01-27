@@ -1,0 +1,8 @@
+{
+    "Name": "SpaceWar",
+    "ProjectDirectory": "C:\\GameProjects\\Luden\\SpaceWar",
+    "ProjectFileName": "SpaceWar.lproject",
+    "ResourceDirectory": "Resources",
+    "ResourceRegistry": "Resources/ResourceRegistry.lr",
+    "StartScene": "Resources/Scenes/DefaultScene.lscene"
+}

@@ -1,0 +1,38 @@
+{
+    "Entities": [
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 2663023674623496792,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Heart",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6419603177006451585
+        }
+    ],
+    "Name": "Heart",
+    "PrefabHandle": 11475101351385364282,
+    "RootEntityUUID": 6419603177006451585,
+    "UUID": 5360799763481771283
+}

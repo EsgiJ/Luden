@@ -1,0 +1,15 @@
+{
+    "Handle": 2663023674623496792,
+    "Name": "HeartIcon",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 1123122014876575319,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

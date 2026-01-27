@@ -76,6 +76,24 @@ namespace Luden
 			return entity;
 		}
 
+		void ParentEntity(Entity& entity, Entity& parent)
+		{
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return;
+
+			scene->ParentEntity(entity, parent);
+		}
+
+		void UnparentEntity(Entity& entity)
+		{
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return;
+
+			scene->UnparentEntity(entity);
+		}
+
 		Entity DuplicateEntity(Entity entity)
 		{
 			if (!entity.IsValid())

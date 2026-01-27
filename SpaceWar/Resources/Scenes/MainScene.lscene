@@ -1,0 +1,85 @@
+{
+    "Entities": [
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "GamaManager",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 1620753604927592997
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 2,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "HealthComponent": {
+                "current": 10,
+                "max": 10
+            },
+            "InputComponent": null,
+            "NativeScriptComponent": {
+                "ScriptHandle": 3446663231277591925
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 10807355855056040341,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 199833875731551408
+        }
+    ],
+    "Name": "MainScene",
+    "UUID": 9140646988252897903
+}

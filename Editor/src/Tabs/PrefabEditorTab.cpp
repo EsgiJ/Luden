@@ -438,6 +438,8 @@ namespace Luden
 
 		TransformComponent& instanceTransform = instance.Get<TransformComponent>();
 		instanceTransform.Translation = savedTransform.Translation;
+		instanceTransform.Scale = savedTransform.Scale;              
+		instanceTransform.angle = savedTransform.angle;
 
 		if (!instance.Has<PrefabComponent>())
 		{

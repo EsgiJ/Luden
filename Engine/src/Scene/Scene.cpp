@@ -547,9 +547,9 @@ namespace Luden {
 			relComp.Children.clear(); 
 		}
 
-		if (entity.Has<TransformComponent>())
+		if (newEntity.Has<TransformComponent>())
 		{
-			auto& newTransform = entity.Get<TransformComponent>();
+			auto& newTransform = newEntity.Get<TransformComponent>();
 
 			if (translation)
 				newTransform.Translation = *translation;

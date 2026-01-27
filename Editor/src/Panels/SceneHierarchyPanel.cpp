@@ -124,8 +124,7 @@ namespace Luden
 
 							if (ImGui::MenuItem(displayName.c_str()))
 							{
-								glm::vec3 pos(0, 0, 0);
-								Entity instance = m_Context->Instantiate(prefab, &pos, &pos, &pos);
+								Entity instance = m_Context->Instantiate(prefab, nullptr, nullptr, nullptr);
 								m_SelectedEntity = instance;
 							}
 						}
@@ -151,7 +150,7 @@ namespace Luden
 						if (prefab)
 						{
 							glm::vec3 pos(0, 0, 0);
-							Entity instance = m_Context->Instantiate(prefab, &pos, &pos, &pos);
+							Entity instance = m_Context->Instantiate(prefab, nullptr, nullptr, nullptr);
 							m_SelectedEntity = instance;
 						}
 					}
@@ -320,7 +319,7 @@ namespace Luden
 						{
 							auto& transformComponent = entity.Get<TransformComponent>();
 							glm::vec3 rotation{ transformComponent.angle, 0.0f, 0.0f };
-							Entity instance = m_Context->InstantiateChild(prefab, entity, &transformComponent.Translation, &rotation, &transformComponent.Scale);
+							Entity instance = m_Context->InstantiateChild(prefab, entity, &transformComponent.Translation, nullptr, nullptr);
 							m_SelectedEntity = instance;
 						}
 					}

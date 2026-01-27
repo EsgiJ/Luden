@@ -17,7 +17,10 @@ namespace Luden
 	{
 		ENGINE_API Entity SpawnPrefab(PrefabRef prefab, const glm::vec3& location);
 		ENGINE_API Entity SpawnPrefabAsChild(PrefabRef prefab, Entity parent, const glm::vec3& localPosition);
+
 		ENGINE_API Entity SpawnEntity(const String& tag, const Vec3& location);
+		ENGINE_API void ParentEntity(Entity& entity, Entity& parent);
+		ENGINE_API void UnparentEntity(Entity& entity);
 		ENGINE_API Entity DuplicateEntity(Entity entity);
 		ENGINE_API void DestroyEntity(Entity entity);
 
@@ -70,6 +73,46 @@ namespace Luden
 		ENGINE_API Entity GetMainCameraEntity();
 		ENGINE_API void ShakeCamera(const CameraShakeParams& params, float scale = 1.0f);
 		ENGINE_API void StopCameraShake();
+
+		template<typename T>
+		T* GetScript(Entity entity)
+		{
+			if (!entity.IsValid() || !entity.Has<NativeScriptComponent>())
+				return nullptr;
+
+			auto& nsc = entity.Get<NativeScriptComponent>();
+			if (!nsc.Instance)
+				return nullptr;
+
+			return dynamic_cast<T*>(nsc.Instance);
+		}
+
+		template<typename T>
+		T* FindScript(const std::string& tag)
+		{
+			Entity entity = FindEntityWithTag(tag);
+			if (!entity.IsValid())
+				return nullptr;
+
+			return GetScript<T>(entity);
+		}
+
+		template<typename T>
+		std::vector<T*> FindAllScripts(const std::string& tag)
+		{
+			std::vector<T*> scripts;
+
+			auto entities = FindAllEntitiesWithTag(tag);
+
+			for (auto& entity : entities)
+			{
+				T* script = GetScript<T>(entity);
+				if (script)
+					scripts.push_back(script);
+			}
+
+			return scripts;
+		}
 	}
 }
 

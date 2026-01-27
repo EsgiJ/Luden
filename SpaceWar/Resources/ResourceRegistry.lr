@@ -1,0 +1,74 @@
+{
+  "Resources": [
+    {
+      "FilePath": "Images/Icons/heart_simple.png",
+      "Handle": 1123122014876575319,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/HeartIcon.lsprite",
+      "Handle": 2663023674623496792,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scenes/MainScene.lscene",
+      "Handle": 3218443304573280268,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Scripts/Player.lns",
+      "Handle": 3446663231277591925,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Scripts/HealthBar.lns",
+      "Handle": 4862984931624403672,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Images/Spaceships/Spaceship_01_NAVY BLUE.png",
+      "Handle": 5096609624959500255,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Scenes/DefaultScene.lscene",
+      "Handle": 5253017352873619723,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Images/Spaceships/Spaceship_01_BLUE.png",
+      "Handle": 8351366092784265110,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/HealthBar.lprefab",
+      "Handle": 8994821050073474677,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Sprites/Spaceship_Blue.lsprite",
+      "Handle": 10807355855056040341,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/Spaceships/Spaceship_01_YELLOW.png",
+      "Handle": 11037920269647707098,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/Heart.lprefab",
+      "Handle": 11475101351385364282,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Images/Spaceships/Spaceship_01_GREEN.png",
+      "Handle": 14540324466844109426,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/Spaceships/Spaceship_01_RED.png",
+      "Handle": 15113779942043340198,
+      "Type": "Texture"
+    }
+  ]
+}
