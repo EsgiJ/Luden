@@ -62,6 +62,8 @@ namespace Luden
 		ENGINE_API float GetGameTime();
 		ENGINE_API float GetTimeScale();
 		ENGINE_API void SetTimeScale(float scale);
+		ENGINE_API void SetWorldGravity(Vec2 gravity);
+
 
 		ENGINE_API bool IsGrounded(Entity entity);
 		ENGINE_API bool IsInRange(Entity source, Entity target, float range);

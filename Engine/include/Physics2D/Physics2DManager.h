@@ -34,7 +34,7 @@ namespace Luden
 		void SetPhysicsScale(float physicsScale) { m_PhysicsScale = physicsScale; }
 
 		b2Vec2 GetGravity() { return m_Gravity; }
-		void SetGravity(b2Vec2 gravity) { m_Gravity = gravity; }
+		void SetGravity(b2Vec2 gravity);
 
 		int GetSubStepCount() { return m_SubStepCount; }
 		void SetSubStepCount(int subStepCount) { m_SubStepCount = subStepCount; }

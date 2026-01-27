@@ -325,6 +325,14 @@ namespace Luden
 			return GEngine.GetTimeScale();
 		}
 
+		void SetWorldGravity(Vec2 gravity)
+		{
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return;
+
+			scene->SetWorldGravity(b2Vec2(gravity.x, gravity.y));
+		}
 		bool IsGrounded(Entity entity)
 		{
 			if (!entity.Has<TransformComponent>())

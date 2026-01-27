@@ -929,6 +929,11 @@ namespace Luden {
 		return m_PhysicsManager.GetPhysicsWorldId();
 	}
 
+	void Scene::SetWorldGravity(b2Vec2 gravity)
+	{
+		m_PhysicsManager.SetGravity(gravity);
+	}
+
 	std::shared_ptr<Scene> Scene::CreateEmpty()
 	{
 		return std::make_shared<Scene>("Empty");

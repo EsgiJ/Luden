@@ -121,6 +121,8 @@ namespace Luden {
 		Physics2DManager& GetPhysicsManager() { return m_PhysicsManager; }
 		const Physics2DManager& GetPhysicsManager() const { return m_PhysicsManager; }
 
+		void SetWorldGravity(b2Vec2 gravity);
+
 		UUID GetUUID() const { return Handle; }
 
 		void SetPaused(bool paused) { m_Paused = paused; }

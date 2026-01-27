@@ -21,6 +21,11 @@
       "Type": "NativeScript"
     },
     {
+      "FilePath": "Prefabs/Player.lprefab",
+      "Handle": 3680578699471625246,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Scripts/HealthBar.lns",
       "Handle": 4862984931624403672,
       "Type": "NativeScript"

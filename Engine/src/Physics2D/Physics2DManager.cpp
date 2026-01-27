@@ -328,6 +328,16 @@ namespace Luden
 		RegisterEntity(entity);
 	}
 
+	void Physics2DManager::SetGravity(b2Vec2 gravity)
+	{
+		m_Gravity = gravity;
+
+		if (b2World_IsValid(m_PhysicsWorldId))
+		{
+			b2World_SetGravity(m_PhysicsWorldId, gravity);
+		}
+	}
+
 	void Physics2DManager::ProcessContactEvents()
 	{
 		b2ContactEvents events = b2World_GetContactEvents(m_PhysicsWorldId);
