@@ -106,9 +106,39 @@ namespace Luden
 			return scene->DuplicateEntity(entity);
 		}
 
-		void LoadScene(const std::string& sceneName)
+		void ChangeScene(const std::string& sceneName)
 		{
-			//TODO:
+			Scene* currentScene = GetCurrentScene();
+			if (!currentScene)
+				return;
+
+			auto resourceManager = Project::GetEditorResourceManager();
+			if (!resourceManager)
+				return;
+
+			auto allScenes = resourceManager->GetAllResourcesWithType(ResourceType::Scene);
+
+			for (auto sceneHandle : allScenes)
+			{
+				
+				auto metadata = resourceManager->GetMetadata(sceneHandle);
+
+				if (metadata.FilePath.filename().stem() == sceneName)
+				{
+					auto newScene = ResourceManager::GetResource<Scene>(sceneHandle);
+
+					if (newScene)
+					{
+						currentScene->OnRuntimeStop();
+
+						GEngine.SetActiveScene(newScene.get());
+
+						newScene->OnRuntimeStart();
+
+						return;
+					}
+				}
+			}
 		}
 
 		Scene* GetCurrentScene()
@@ -118,6 +148,12 @@ namespace Luden
 
 		void ReloadCurrentScene()
 		{
+			Scene* currentScene = GetCurrentScene();
+			if (!currentScene)
+				return;
+
+			std::string sceneName = currentScene->GetName();
+			ChangeScene(sceneName);
 		}
 
 		void QuitGame()

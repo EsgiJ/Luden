@@ -24,7 +24,7 @@ namespace Luden
 		ENGINE_API Entity DuplicateEntity(Entity entity);
 		ENGINE_API void DestroyEntity(Entity entity);
 
-		ENGINE_API void LoadScene(const std::string& sceneName);
+		ENGINE_API void ChangeScene(const std::string& sceneName);
 		ENGINE_API Scene* GetCurrentScene();
 		ENGINE_API void ReloadCurrentScene();
 		ENGINE_API void QuitGame();
