@@ -1,6 +1,11 @@
 {
   "Resources": [
     {
+      "FilePath": "Prefabs/Bullet.lprefab",
+      "Handle": 606446288182306542,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Images/Icons/heart_simple.png",
       "Handle": 1123122014876575319,
       "Type": "Texture"
@@ -46,6 +51,11 @@
       "Type": "Scene"
     },
     {
+      "FilePath": "Images/Bullet/Flame_01.png",
+      "Handle": 7208669981208477482,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Spaceships/Spaceship_01_BLUE.png",
       "Handle": 8351366092784265110,
       "Type": "Texture"
@@ -69,6 +79,11 @@
       "FilePath": "Prefabs/Heart.lprefab",
       "Handle": 11475101351385364282,
       "Type": "Prefab"
+    },
+    {
+      "FilePath": "Sprites/Bullet.lsprite",
+      "Handle": 14108710082540076076,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Images/Spaceships/Spaceship_01_GREEN.png",

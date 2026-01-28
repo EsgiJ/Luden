@@ -159,10 +159,22 @@ namespace Luden
 
 	void InputManager::ProcessEventInternal(const sf::Event& evt, EntityManager& entityManager)
 	{
-		if (auto e = evt.getIf<sf::Event::KeyPressed>())
-			ProcessKeyPressed(*e, entityManager);
-		else if (auto e = evt.getIf<sf::Event::KeyReleased>())
-			ProcessKeyReleased(*e, entityManager);
+		if (auto* keyPressed = evt.getIf<sf::Event::KeyPressed>())
+		{
+			ProcessKeyPressed(*keyPressed, entityManager);
+		}
+		else if (auto* keyReleased = evt.getIf<sf::Event::KeyReleased>())
+		{
+			ProcessKeyReleased(*keyReleased, entityManager);
+		}
+		else if (auto* mousePressed = evt.getIf<sf::Event::MouseButtonPressed>())
+		{
+			ProcessMouseButtonPressed(*mousePressed, entityManager);
+		}
+		else if (auto* mouseReleased = evt.getIf<sf::Event::MouseButtonReleased>())
+		{
+			ProcessMouseButtonReleased(*mouseReleased, entityManager);
+		}
 	}
 
 	void InputManager::Update(TimeStep ts, EntityManager& entityManager)
@@ -281,10 +293,100 @@ namespace Luden
 
 	void InputManager::ProcessMouseButtonPressed(const sf::Event::MouseButtonPressed& evt, EntityManager& em)
 	{
+		InputKey key = evt.button;
+		auto& state = m_KeyStates[key];
+
+		bool wasAlreadyPressed = state.pressed;
+		state.pressed = true;
+		state.currentValue = InputValue(true);
+
+		if (!wasAlreadyPressed)
+		{
+			state.pressedTime = m_CurrentTime;
+		}
+
+		auto contexts = m_ContextStack.GetActiveContexts();
+
+		for (auto context : contexts)
+		{
+			if (!context->IsEnabled())
+				continue;
+
+			for (const auto& mapping : context->GetMappings())
+			{
+				if (auto* mappedButton = std::get_if<sf::Mouse::Button>(&mapping.key))
+				{
+					if (*mappedButton == evt.button)
+					{
+						ProcessMapping(mapping, key, true, em);
+					}
+				}
+			}
+
+			for (const auto& chord : context->GetChordMappings())
+			{
+				ProcessChordMapping(chord, em);
+			}
+
+			for (const auto& combo : context->GetComboMappings())
+			{
+				ProcessComboMapping(combo, key, em);
+			}
+
+			if (context->IsBlocking())
+				break;
+		}
 	}
 
 	void InputManager::ProcessMouseButtonReleased(const sf::Event::MouseButtonReleased& evt, EntityManager& em)
 	{
+		InputKey key = evt.button;
+		auto& state = m_KeyStates[key];
+
+		state.pressed = false;
+		state.releasedTime = m_CurrentTime;
+		state.currentValue = InputValue(false);
+
+		float holdDuration = m_CurrentTime - state.pressedTime;
+
+		auto contexts = m_ContextStack.GetActiveContexts();
+
+		for (auto* context : contexts)
+		{
+			if (!context->IsEnabled())
+				continue;
+
+			for (const auto& mapping : context->GetMappings())
+			{
+				if (auto* mappedButton = std::get_if<sf::Mouse::Button>(&mapping.key))
+				{
+					if (*mappedButton == evt.button)
+					{
+						if (mapping.triggerConfig.type == ETriggerType::Released)
+						{
+							TriggerAction(mapping.action, ETriggerEvent::Completed, InputValue(false), em);
+						}
+						else if (mapping.triggerConfig.type == ETriggerType::Tap)
+						{
+							if (holdDuration <= mapping.triggerConfig.tapTime)
+							{
+								TriggerAction(mapping.action, ETriggerEvent::Triggered, InputValue(true), em);
+							}
+						}
+						else if (mapping.triggerConfig.type == ETriggerType::Hold)
+						{
+							if (holdDuration >= mapping.triggerConfig.holdTime)
+							{
+								TriggerAction(mapping.action, ETriggerEvent::Completed, InputValue(true), em);
+							}
+						}
+					}
+				}
+			}
+
+			if (context->IsBlocking())
+				break;
+		}
 	}
 
 	void InputManager::ProcessMouseMoved(const sf::Event::MouseMoved& evt, EntityManager& em)

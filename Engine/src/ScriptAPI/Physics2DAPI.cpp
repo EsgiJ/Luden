@@ -26,7 +26,7 @@ namespace Luden
 			if (!b2Body_IsValid(rb.RuntimeBodyId))
 				return;
 
-			b2Body_SetLinearVelocity(rb.RuntimeBodyId, b2Vec2(velocity.x, velocity.y));
+			b2Body_SetLinearVelocity(rb.RuntimeBodyId, b2Vec2(velocity.x, -velocity.y));
 		}
 
 		glm::vec2 GetLinearVelocity(Entity entity)
@@ -40,7 +40,7 @@ namespace Luden
 				return {0.0f, 0.0f};
 
 			b2Vec2 velocity = b2Body_GetLinearVelocity(rb.RuntimeBodyId);
-			return { velocity.x, velocity.y };
+			return { velocity.x, -velocity.y };
 		}
 
 		void SetAngularVelocity(Entity entity, float velocity)
@@ -80,7 +80,7 @@ namespace Luden
 			if (!b2Body_IsValid(rb.RuntimeBodyId))
 				return;
 
-			b2Body_ApplyLinearImpulseToCenter(rb.RuntimeBodyId, b2Vec2(impulse.x, impulse.y), true);
+			b2Body_ApplyLinearImpulseToCenter(rb.RuntimeBodyId, b2Vec2(impulse.x, -impulse.y), true);
 		}
 
 		void AddForceToCenter(Entity entity, glm::vec2 force)
@@ -93,7 +93,7 @@ namespace Luden
 			if (!b2Body_IsValid(rb.RuntimeBodyId))
 				return;
 
-			b2Body_ApplyForceToCenter(rb.RuntimeBodyId, b2Vec2(force.x, force.y), true);
+			b2Body_ApplyForceToCenter(rb.RuntimeBodyId, b2Vec2(force.x, -force.y), true);
 		}
 
 		void SetMass(Entity entity, float mass)

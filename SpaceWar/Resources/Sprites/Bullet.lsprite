@@ -1,0 +1,15 @@
+{
+    "Handle": 14108710082540076076,
+    "Name": "Bullet",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 7208669981208477482,
+    "TextureRect": {
+        "height": 90,
+        "width": 40,
+        "x": 230,
+        "y": 206
+    }
+}

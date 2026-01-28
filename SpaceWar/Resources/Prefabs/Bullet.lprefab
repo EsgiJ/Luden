@@ -1,0 +1,62 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 14,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 65535,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    40.0,
+                    90.0
+                ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 2,
+                "FixedRotation": false,
+                "GravityScale": 0.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14108710082540076076,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Bullet",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 17668222731358649133
+        }
+    ],
+    "Name": "Bullet",
+    "PrefabHandle": 606446288182306542,
+    "RootEntityUUID": 17668222731358649133,
+    "UUID": 18089304145428661201
+}

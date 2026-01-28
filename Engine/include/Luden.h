@@ -3,6 +3,7 @@
 #include "NativeScript/ScriptableEntity.h"
 #include "Scene/Prefab.h"
 #include "Input/InputContext.h"
+#include "Input/InputManager.h"
 #include "Render/Camera2D.h"
 #include "Graphics/Animation.h"
 #include "Graphics/Sprite.h"
