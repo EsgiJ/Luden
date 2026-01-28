@@ -11,6 +11,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Scripts/GameManager.lns",
+      "Handle": 2750594084348854181,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Scenes/MainScene.lscene",
       "Handle": 3218443304573280268,
       "Type": "Scene"

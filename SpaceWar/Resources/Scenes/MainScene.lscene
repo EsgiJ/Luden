@@ -1,6 +1,9 @@
 {
     "Entities": [
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": 2750594084348854181
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
@@ -50,9 +53,21 @@
             "NativeScriptComponent": {
                 "ScriptHandle": 3446663231277591925
             },
+            "PrefabComponent": {
+                "EntityID": 7292348173488200612,
+                "PrefabID": 3680578699471625246
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 2,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
             },
             "SpriteRendererComponent": {
                 "spriteHandle": 10807355855056040341,
@@ -66,9 +81,9 @@
             "Tag": "Player",
             "TransformComponent": {
                 "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.5,
+                    0.5,
+                    0.5
                 ],
                 "Translation": [
                     0.0,
@@ -77,7 +92,7 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 199833875731551408
+            "UUID": 7292348173488200612
         }
     ],
     "Name": "MainScene",

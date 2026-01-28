@@ -13,6 +13,8 @@
 
 #include <iostream>
 
+#include "Core/EngineContext.h"
+
 namespace Luden {
 
 	RuntimeApplication::RuntimeApplication(const ApplicationSpecification& spec)
@@ -32,6 +34,12 @@ namespace Luden {
 			m_Specification.Name,
 			sf::Style::Default  
 		);
+
+		GEngine.SetWindow(m_Window.get());
+		GEngine.SetViewportBounds(
+			glm::vec2(0.0f, 0.0f),
+			glm::vec2(static_cast<float>(m_Specification.WindowWidth), static_cast<float>(m_Specification.WindowHeight))
+		);
 		if (m_Specification.VSync)
 			m_Window->setVerticalSyncEnabled(true);
 		else
@@ -43,6 +51,7 @@ namespace Luden {
 			std::cerr << "[RuntimeApplication] ERROR: Failed to create RenderTexture!\n";
 			return;
 		}
+		GEngine.SetRenderTexture(m_RenderTexture.get());
 
 		if (m_Specification.VSync)
 			m_Window->setVerticalSyncEnabled(true);

@@ -12,5 +12,8 @@ namespace Luden
         virtual void OnCollisionBegin(const CollisionContact& contact) override;
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
+
+	private:
+        Vec2 m_WorldGravity = {0.0f, 0.0f};
     };
 }

@@ -37,6 +37,9 @@ namespace Luden
 		if (!script)
 			return;
 
+		if (!(script->GetInstantiateFunc()))
+			return;
+
 		Instance = script->GetInstantiateFunc()();
 		if (Instance)
 		{
@@ -67,6 +70,10 @@ namespace Luden
 		}
 
 		Instance->OnDestroy();
+
+		if (!(script->GetDestroyFunc()))
+			return;
+
 		script->GetDestroyFunc()(Instance);
 		Instance = nullptr; 
 	}

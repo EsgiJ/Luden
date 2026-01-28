@@ -1,7 +1,10 @@
 #include "Player.h"
 
+#include <iostream>
+
 #include "HealthBar.h"
 #include "ScriptAPI/GameplayAPI.h"
+#include "ScriptAPI/DebugAPI.h"
 
 namespace Luden
 {
@@ -14,7 +17,16 @@ namespace Luden
 
     void Player::OnUpdate(TimeStep ts)
     {
-        // TODO: Update logic
+        Vec2 mousePosition = GameplayAPI::GetMousePosition();
+        //std::cout << "MousePosition.X: " << mousePosition.x << " MousePosition.Y: " << mousePosition.y << std::endl;
+
+        Entity ownerEntity = GetEntity();
+
+        if (ownerEntity.IsValid())
+        {
+            DebugAPI::DrawDebugLine(GameplayAPI::GetPosition(ownerEntity), Vec3(mousePosition.x, mousePosition.y, 0.0f), sf::Color::Red, 0.0f);
+            GameplayAPI::LookAtPosition(ownerEntity, { mousePosition.x, mousePosition.y, 0.0f });
+        }
     }
 
     void Player::OnDestroy()
@@ -62,6 +74,6 @@ namespace Luden
         auto context = std::make_shared<InputContext>("Gameplay", 100);
         context->SetEnabled(true);
 
-        InputAction moveLe
+        
     }
 }

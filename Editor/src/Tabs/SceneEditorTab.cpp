@@ -8,6 +8,8 @@
 
 #include <imgui.h>
 #include <imgui-SFML.h>
+
+#include "Core/EngineContext.h"
 #include "glm/geometric.hpp"
 
 namespace Luden
@@ -16,6 +18,9 @@ namespace Luden
 		: EditorTab(name), m_ViewportPanelName("Viewport##" + std::to_string(m_TabID))
 	{
 		m_RenderTexture = std::make_shared<sf::RenderTexture>();
+
+		GEngine.SetRenderTexture(m_RenderTexture.get());
+
 		m_ToolbarPanel.InitValues(m_RenderTexture, m_ViewportHovered);
 
 		std::filesystem::path path(name);
@@ -153,6 +158,8 @@ namespace Luden
 
 			ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 			m_ViewportSize = ImVec2(viewportSize.x, viewportSize.y);
+
+			GEngine.SetViewportBounds({ m_ViewportPosition.x, m_ViewportPosition.y }, { viewportSize.x, viewportSize.y });
 
 			if (m_SceneState == SceneState::Edit)
 			{

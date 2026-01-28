@@ -4,8 +4,10 @@
 
 #include "Source/HealthBar.h"
 #include "Source/Player.h"
+#include "Source/GameManager.h"
 
 #include <iostream>
+
 
 namespace Luden
 {
@@ -21,12 +23,10 @@ namespace Luden
 
 	void SpaceWar::RegisterScripts(ResourceManagerBase* resourceManager)
 	{
-		std::cout << "[SpaceWar] Registering scripts..." << std::endl;
-		
-		// TODO: Register your native scripts here
-		// Example:
 		NativeScriptRegistry::RegisterScript<HealthBar>("HealthBar", resourceManager);
 		NativeScriptRegistry::RegisterScript<Player>("Player", resourceManager);
+		NativeScriptRegistry::RegisterScript<GameManager>("GameManager", resourceManager);
+
 
 	}
 

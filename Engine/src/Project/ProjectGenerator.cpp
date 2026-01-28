@@ -104,6 +104,7 @@ namespace Luden
         jProject["ResourceDirectory"] = "Resources";
         jProject["ResourceRegistry"] = "Resources/ResourceRegistry.lr";
         jProject["StartScene"] = "Resources/Scenes/DefaultScene.lscene";
+        jProject["StartSceneHandle"] = 0;
 
         out << jProject.dump(4);
         return true;

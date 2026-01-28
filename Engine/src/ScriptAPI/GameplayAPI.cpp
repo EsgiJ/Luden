@@ -3,6 +3,8 @@
 #include "Scene/Scene.h"
 #include "ECS/Components/Components.h"
 #include "ScriptAPI/Physics2DAPI.h"
+#include "ScriptAPI/MathAPI.h"
+#include "Input/InputManager.h"
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -12,6 +14,8 @@
 #include <cmath>
 #include <iostream>
 #include <random>
+#include <SFML/Graphics/RenderWindow.hpp>
+
 
 namespace Luden
 {
@@ -430,6 +434,10 @@ namespace Luden
 			Vec3 direction = target - transform.Translation;
 
 			float angle = std::atan2(direction.y, direction.x) * 180.0f / 3.14159265f;
+
+
+			angle += 90.0f;  
+
 			transform.angle = angle;
 
 			if (source.Has<RigidBody2DComponent>())
@@ -450,6 +458,12 @@ namespace Luden
 		float Distance(const Vec3& a, const Vec3& b)
 		{
 			return glm::distance(a, b);
+		}
+
+		float DistanceSquared(const Vec3& a, const Vec3& b)
+		{
+			Vec3 diff = a - b;
+			return glm::dot(diff, diff);
 		}
 
 		float DistanceSquared(Entity a, Entity b)
@@ -592,10 +606,7 @@ namespace Luden
 		{
 			Scene* scene = GEngine.GetActiveScene();
 			if (!scene)
-			{
-				std::cerr << "[GameplayAPI] No active scene!" << std::endl;
 				return {};
-			}
 
 			return scene->GetMainCameraEntity();
 		}
@@ -623,6 +634,219 @@ namespace Luden
 				auto& camera = cameraEntity.Get<Camera2DComponent>();
 				camera.Camera.StopShake();
 			}
+		}
+
+		Vec2 GetMousePosition()
+		{
+			sf::RenderWindow* window = GEngine.GetWindow();
+			if (!window)
+				return { 0.0f, 0.0f };
+
+			sf::Vector2i windowMousePos = sf::Mouse::getPosition(*window);
+
+			glm::vec2 viewportPos = GEngine.GetViewportPosition();
+			glm::vec2 viewportSize = GEngine.GetViewportSize();
+
+			float viewportMouseX = (float)windowMousePos.x - viewportPos.x;
+			float viewportMouseY = (float)windowMousePos.y - viewportPos.y;
+
+			if (viewportMouseX < 0.0f || viewportMouseX > viewportSize.x ||
+				viewportMouseY < 0.0f || viewportMouseY > viewportSize.y)
+			{
+				return { -1.0f, -1.0f };
+			}
+
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return { viewportMouseX, viewportMouseY };
+
+			Entity cameraEntity = scene->GetMainCameraEntity();
+			if (!cameraEntity.IsValid() || !cameraEntity.Has<Camera2DComponent>())
+				return { viewportMouseX, viewportMouseY };
+
+			sf::RenderTexture* renderTexture = GEngine.GetRenderTexture();
+			if (!renderTexture)
+				return { viewportMouseX, viewportMouseY };
+
+			auto& camera = cameraEntity.Get<Camera2DComponent>();
+			const sf::View& view = camera.Camera.GetView();
+
+			sf::Vector2u textureSize = renderTexture->getSize();
+
+			float scaleX = (float)textureSize.x / viewportSize.x;
+			float scaleY = (float)textureSize.y / viewportSize.y;
+
+
+			float textureMouseX = viewportMouseX * scaleX;
+			float textureMouseY = viewportMouseY * scaleY;
+
+
+			sf::Vector2i texturePixel((int)textureMouseX, (int)textureMouseY);
+			sf::Vector2f worldPos = renderTexture->mapPixelToCoords(texturePixel, view);
+
+			return { worldPos.x, worldPos.y };
+		}
+
+
+		Entity GetEntityUnderMouse()
+		{
+			Vec2 mouseWorld = GetMousePosition();
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return {};
+
+			for (auto& entity : scene->GetEntityManager().GetEntities())
+			{
+				if (!entity.Has<TransformComponent>())
+					continue;
+
+				Vec3 pos = entity.Get<TransformComponent>().Translation;
+				Vec2 size = GetEntitySize(entity);
+
+				if (IsPointInRect(mouseWorld, pos, size))
+					return entity;
+			}
+
+			return {};
+		}
+
+		bool IsOnScreen(Entity entity)
+		{
+			if (!entity.IsValid())
+				return false;
+
+			Vec3 pos = GetPosition(entity);
+			return IsOnScreen(pos);
+		}
+
+		bool IsOnScreen(const Vec3& worldPos)
+		{
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return false;
+
+			Entity cameraEntity = scene->GetMainCameraEntity();
+			if (!cameraEntity.IsValid() || !cameraEntity.Has<Camera2DComponent>())
+				return false;
+
+			sf::RenderTexture* renderTexture = GEngine.GetRenderTexture();
+			if (!renderTexture)
+				return false;
+
+			auto& camera = cameraEntity.Get<Camera2DComponent>();
+			const sf::View& view = camera.Camera.GetView();
+
+			sf::Vector2f viewCenter = view.getCenter();
+			sf::Vector2f viewSize = view.getSize();
+
+			float halfWidth = viewSize.x * 0.5f;
+			float halfHeight = viewSize.y * 0.5f;
+
+			float padding = 100.0f;
+			return (worldPos.x > viewCenter.x - halfWidth - padding &&
+				worldPos.x < viewCenter.x + halfWidth + padding &&
+				worldPos.y > viewCenter.y - halfHeight - padding &&
+				worldPos.y < viewCenter.y + halfHeight + padding);
+		}
+
+		Vec2 GetScreenSize()
+		{
+			sf::RenderTexture* renderTexture = GEngine.GetRenderTexture();
+			if (!renderTexture)
+				return { 0.0f, 0.0f };
+
+			sf::Vector2u size = renderTexture->getSize();
+			return { static_cast<float>(size.x), static_cast<float>(size.y) };
+		}
+
+		Vec2 GetWorldBounds()
+		{
+			Scene* scene = GetCurrentScene();
+			if (!scene)
+				return GetScreenSize();
+
+			Entity cameraEntity = scene->GetMainCameraEntity();
+			if (!cameraEntity.IsValid() || !cameraEntity.Has<Camera2DComponent>())
+				return GetScreenSize();
+
+			auto& camera = cameraEntity.Get<Camera2DComponent>();
+			const sf::View& view = camera.Camera.GetView();
+
+			sf::Vector2f viewSize = view.getSize();
+			return { viewSize.x, viewSize.y };
+		}
+
+		bool CheckCircleOverlap(const Vec3& posA, float radiusA, const Vec3& posB, float radiusB)
+		{
+			float distSq = DistanceSquared(posA, posB);
+			float radiusSum = radiusA + radiusB;
+			return distSq <= (radiusSum * radiusSum);
+		}
+
+		bool CheckAABBOverlap(const Vec3& posA, const Vec2& sizeA, const Vec3& posB, const Vec2& sizeB)
+		{
+			float halfWidthA = sizeA.x * 0.5f;
+			float halfHeightA = sizeA.y * 0.5f;
+			float halfWidthB = sizeB.x * 0.5f;
+			float halfHeightB = sizeB.y * 0.5f;
+
+			return (std::abs(posA.x - posB.x) < (halfWidthA + halfWidthB)) &&
+				(std::abs(posA.y - posB.y) < (halfHeightA + halfHeightB));
+		}
+
+		bool IsPointInCircle(const Vec2& point, const Vec3& center, float radius)
+		{
+			float dx = point.x - center.x;
+			float dy = point.y - center.y;
+			return (dx * dx + dy * dy) <= (radius * radius);
+		}
+
+		bool IsPointInRect(const Vec2& point, const Vec3& rectPos, const Vec2& rectSize)
+		{
+			float halfWidth = rectSize.x * 0.5f;
+			float halfHeight = rectSize.y * 0.5f;
+
+			return (point.x >= rectPos.x - halfWidth &&
+				point.x <= rectPos.x + halfWidth &&
+				point.y >= rectPos.y - halfHeight &&
+				point.y <= rectPos.y + halfHeight);
+		}
+
+		Vec2 GetCameraPosition()
+		{
+			Entity cameraEntity = GetMainCameraEntity();
+			if (!cameraEntity.IsValid())
+				return { 0.0f, 0.0f };
+
+			Vec3 pos = GetPosition(cameraEntity);
+			return { pos.x, pos.y };
+		}
+
+		void SetCameraPosition(const Vec2& position)
+		{
+			Entity cameraEntity = GetMainCameraEntity();
+			if (!cameraEntity.IsValid())
+				return;
+
+			SetPosition(cameraEntity, Vec3(position.x, position.y, 0.0f));
+		}
+
+		float GetCameraZoom()
+		{
+			Entity cameraEntity = GetMainCameraEntity();
+			if (!cameraEntity.IsValid() || !cameraEntity.Has<Camera2DComponent>())
+				return 1.0f;
+
+			return cameraEntity.Get<Camera2DComponent>().Camera.GetZoom();
+		}
+
+		void SetCameraZoom(float zoom)
+		{
+			Entity cameraEntity = GetMainCameraEntity();
+			if (!cameraEntity.IsValid() || !cameraEntity.Has<Camera2DComponent>())
+				return;
+
+			cameraEntity.Get<Camera2DComponent>().Camera.SetZoom(zoom);
 		}
 	}
 }

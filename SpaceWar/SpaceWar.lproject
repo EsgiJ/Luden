@@ -4,5 +4,6 @@
     "ProjectFileName": "SpaceWar.lproject",
     "ResourceDirectory": "Resources",
     "ResourceRegistry": "Resources/ResourceRegistry.lr",
-    "StartScene": "Resources/Scenes/DefaultScene.lscene"
+    "StartScene": "Resources/Scenes/MainScene.lscene",
+	"StartSceneHandle": 3218443304573280268
 }

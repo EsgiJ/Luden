@@ -48,6 +48,7 @@ namespace Luden
 		ENGINE_API float Distance(Entity a, Entity b);
 		ENGINE_API float Distance(const Vec3& a, const Vec3& b);
 		ENGINE_API float DistanceSquared(Entity a, Entity b);
+		ENGINE_API float DistanceSquared(const Vec3& a, const Vec3& b);
 		ENGINE_API Vec2 Direction2D(Entity from, Entity to);
 		ENGINE_API Vec2 Direction2D(const Vec3& from, const Vec3& to);
 		ENGINE_API Vec3 Direction(Entity from, Entity to);
@@ -75,6 +76,23 @@ namespace Luden
 		ENGINE_API Entity GetMainCameraEntity();
 		ENGINE_API void ShakeCamera(const CameraShakeParams& params, float scale = 1.0f);
 		ENGINE_API void StopCameraShake();
+		ENGINE_API Vec2 GetCameraPosition();
+		ENGINE_API void SetCameraPosition(const Vec2& position);
+		ENGINE_API float GetCameraZoom();
+		ENGINE_API void SetCameraZoom(float zoom);
+
+		ENGINE_API Vec2 GetMousePosition();              
+		ENGINE_API Entity GetEntityUnderMouse();
+
+		ENGINE_API bool IsOnScreen(Entity entity);
+		ENGINE_API bool IsOnScreen(const Vec3& worldPos);
+		ENGINE_API Vec2 GetScreenSize();
+		ENGINE_API Vec2 GetWorldBounds();
+
+		ENGINE_API bool CheckCircleOverlap(const Vec3& posA, float radiusA, const Vec3& posB, float radiusB);
+		ENGINE_API bool CheckAABBOverlap(const Vec3& posA, const Vec2& sizeA, const Vec3& posB, const Vec2& sizeB);
+		ENGINE_API bool IsPointInCircle(const Vec2& point, const Vec3& center, float radius);
+		ENGINE_API bool IsPointInRect(const Vec2& point, const Vec3& rectPos, const Vec2& rectSize);
 
 		template<typename T>
 		T* GetScript(Entity entity)

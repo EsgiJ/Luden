@@ -6,7 +6,7 @@ namespace Luden
 {
     void GameManager::OnCreate()
     {
-        GameplayAPI::g
+        GameplayAPI::SetWorldGravity(m_WorldGravity);
     }
 
     void GameManager::OnUpdate(TimeStep ts)

@@ -23,6 +23,8 @@
 #include <imgui-SFML.h>
 #include <imgui_internal.h>
 
+#include "Core/EngineContext.h"
+
 namespace Luden 
 {
 	EditorApplication::EditorApplication() {}
@@ -34,11 +36,13 @@ namespace Luden
 		m_Window.create(sf::VideoMode(sf::Vector2u(1920, 1080)), "Luden Editor", sf::Style::Titlebar);
 		m_Window.setFramerateLimit(60);
 
+		GEngine.SetWindow(&m_Window);
+
 		if (!ImGui::SFML::Init(m_Window))
 			std::cerr << "Window initialization error";
 
 		ImGuiIO& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; 
 
 		EditorResources::Init();
 
