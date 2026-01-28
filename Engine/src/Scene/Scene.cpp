@@ -771,7 +771,7 @@ namespace Luden {
 		return m_EntityManager.TryGetEntityWithTag(tag);
 	}
 
-	std::vector<Entity>& Scene::FindAllEntitiesWithTag(const std::string& tag)
+	std::vector<Entity> Scene::FindAllEntitiesWithTag(const std::string& tag)
 	{
 		auto& map = m_EntityManager.GetEntityMap();
 		auto it = map.find(tag);

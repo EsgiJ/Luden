@@ -30,7 +30,7 @@ namespace Luden
 		ENGINE_API void QuitGame();
 
 		ENGINE_API Entity FindEntityWithTag(const String& tag);
-		ENGINE_API Vector<Entity>& FindAllEntitiesWithTag(const String& tag);
+		ENGINE_API Vector<Entity> FindAllEntitiesWithTag(const String& tag);
 		ENGINE_API Vector<Entity> FindEntitiesInRadius(const Vec3& center, float radius);
 		ENGINE_API Entity FindClosestEntity(const Vec3& position, const String& tag);
 

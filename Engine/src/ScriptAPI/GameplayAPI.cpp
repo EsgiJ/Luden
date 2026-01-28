@@ -167,14 +167,27 @@ namespace Luden
 
 		Entity FindEntityWithTag(const String& tag)
 		{
-			Entity entity = GEngine.GetActiveScene()->TryGetEntityWithTag(tag);
+			Scene* currentScene = GetCurrentScene();
+
+			if (!currentScene)
+				return {};
+
+			Entity entity = currentScene->TryGetEntityWithTag(tag);
 
 			return entity;
 		}
 
-		Vector<Entity>& FindAllEntitiesWithTag(const String& tag)
+		Vector<Entity> FindAllEntitiesWithTag(const String& tag)
 		{
-			return GEngine.GetActiveScene()->FindAllEntitiesWithTag(tag);
+			Scene* currentScene = GetCurrentScene();
+
+			if (!currentScene)
+			{
+				std::vector<Entity> empty;
+				return empty;
+			}
+
+			return currentScene->FindAllEntitiesWithTag(tag);
 		}
 
 		Vector<Entity> FindEntitiesInRadius(const Vec3& center, float radius)
@@ -183,7 +196,15 @@ namespace Luden
 
 			float radiusSquared = radius * radius;
 
-			auto& entities = GEngine.GetActiveScene()->GetEntityManager().GetEntities();
+			Scene* currentScene = GetCurrentScene();
+
+			if (!currentScene)
+			{
+				std::vector<Entity> empty;
+				return empty;
+			}
+
+			auto& entities = currentScene->GetEntityManager().GetEntities();
 
 			for (auto& entity : entities)
 			{
@@ -202,7 +223,7 @@ namespace Luden
 
 		Entity FindClosestEntity(const Vec3& position, const String& tag)
 		{
-			auto& entities = FindAllEntitiesWithTag(tag);
+			auto entities = FindAllEntitiesWithTag(tag);
 
 			Entity closest;
 			float minDistSq = FLT_MAX;

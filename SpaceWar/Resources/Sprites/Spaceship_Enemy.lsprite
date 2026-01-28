@@ -1,0 +1,15 @@
+{
+    "Handle": 9528139493928048732,
+    "Name": "Spaceship_Enemy",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 15113779942043340198,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

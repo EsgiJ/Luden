@@ -2,11 +2,11 @@
     "Entities": [
         {
             "BoxCollider2DComponent": {
-                "CategoryBits": 2,
+                "CategoryBits": 4,
                 "Density": 1.0,
                 "Friction": 1.0,
                 "GroupIndex": 0,
-                "MaskBits": 65292,
+                "MaskBits": 65290,
                 "Offset": [
                     0.0,
                     0.0
@@ -17,17 +17,12 @@
                     500.0
                 ]
             },
-            "Camera2DComponent": {
-                "Primary": true,
-                "Type": "FollowXY"
-            },
             "HealthComponent": {
-                "current": 8,
-                "max": 8
+                "current": 5,
+                "max": 5
             },
-            "InputComponent": null,
             "NativeScriptComponent": {
-                "ScriptHandle": 3446663231277591925
+                "ScriptHandle": 5568646880235121285
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -36,13 +31,13 @@
             "RigidBody2DComponent": {
                 "AngularDrag": 0.05000000074505806,
                 "BodyType": 1,
-                "FixedRotation": true,
+                "FixedRotation": false,
                 "GravityScale": 1.0,
                 "LinearDrag": 0.009999999776482582,
                 "Mass": 1.0
             },
             "SpriteRendererComponent": {
-                "spriteHandle": 10807355855056040341,
+                "spriteHandle": 9528139493928048732,
                 "tint": [
                     255,
                     255,
@@ -50,12 +45,12 @@
                     255
                 ]
             },
-            "Tag": "Player",
+            "Tag": "Enemy",
             "TransformComponent": {
                 "Scale": [
-                    0.5,
-                    0.5,
-                    0.5
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
                 ],
                 "Translation": [
                     0.0,
@@ -64,11 +59,11 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 18373041638342448445
+            "UUID": 3136140152185478573
         }
     ],
-    "Name": "Player",
-    "PrefabHandle": 3680578699471625246,
-    "RootEntityUUID": 18373041638342448445,
-    "UUID": 9590201146360565746
+    "Name": "Enemy",
+    "PrefabHandle": 8508145073184329164,
+    "RootEntityUUID": 3136140152185478573,
+    "UUID": 5545546227823786403
 }

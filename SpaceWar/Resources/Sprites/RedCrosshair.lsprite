@@ -1,0 +1,15 @@
+{
+    "Handle": 9859628466437393890,
+    "Name": "RedCrosshair",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 16507800843599228380,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

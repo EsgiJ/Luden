@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class BallController : public ScriptableEntity
+	class EnemySpawner : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -13,18 +13,19 @@ namespace Luden
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
-		void Launch();
-		void Reset();
+    public:
+        PrefabRef m_EnemyPrefab;
 
-	private:
-		float m_Speed = 1.0f;
-		bool m_IsLaunched = false;
-		Entity m_Paddle;
+        float m_SpawnInterval = 3.0f;
+        float m_SpawnDistance = 700.0f;  
+        int m_MaxEnemies = 10;
 
-		SoundRef m_PaddleHitSound;
-		SoundRef m_BrickHitSound;
-		SoundRef m_WallHitSound;
+    private:
+        void SpawnEnemy();
+        Vec3 GetRandomOffscreenPosition();
 
-		CameraShakeParams hitParams;
+    private:
+        float m_SpawnTimer = 0.0f;
+        int m_CurrentEnemyCount = 0;
     };
 }

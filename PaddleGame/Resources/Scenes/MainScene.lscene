@@ -529,6 +529,27 @@
                 "angle": 0.0
             },
             "UUID": 11154929886547580846
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Empty Entity",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18322852982100704012
         }
     ],
     "Name": "MainScene",

@@ -51,6 +51,16 @@
       "Type": "Scene"
     },
     {
+      "FilePath": "Scripts/Enemy.lns",
+      "Handle": 5568646880235121285,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Scripts/Bullet.lns",
+      "Handle": 6275159910871478703,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Images/Bullet/Flame_01.png",
       "Handle": 7208669981208477482,
       "Type": "Texture"
@@ -61,9 +71,34 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Prefabs/Enemy.lprefab",
+      "Handle": 8508145073184329164,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Prefabs/Crosshair.lprefab",
+      "Handle": 8610310944599756106,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Prefabs/HealthBar.lprefab",
       "Handle": 8994821050073474677,
       "Type": "Prefab"
+    },
+    {
+      "FilePath": "Sprites/Spaceship_Enemy.lsprite",
+      "Handle": 9528139493928048732,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/RedCrosshair.lsprite",
+      "Handle": 9859628466437393890,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scripts/EnemySpawner.lns",
+      "Handle": 10058747572131314652,
+      "Type": "NativeScript"
     },
     {
       "FilePath": "Sprites/Spaceship_Blue.lsprite",
@@ -93,6 +128,11 @@
     {
       "FilePath": "Images/Spaceships/Spaceship_01_RED.png",
       "Handle": 15113779942043340198,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/crosshair_01.png",
+      "Handle": 16507800843599228380,
       "Type": "Texture"
     }
   ]

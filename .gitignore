@@ -11,8 +11,13 @@ build/
 out/
 x64/
 x86/
-Debug/
-Release/
+
+/Debug/
+/Release/
+/*/bin/Debug/
+/*/bin/Release/
+/*/bin-int/Debug/
+/*/bin-int/Release/
 
 # Executables and libraries
 *.exe

@@ -30,7 +30,7 @@
                 "Density": 1.0,
                 "Friction": 1.0,
                 "GroupIndex": 0,
-                "MaskBits": 65535,
+                "MaskBits": 65292,
                 "Offset": [
                     0.0,
                     0.0
@@ -46,8 +46,8 @@
                 "Type": "FollowXY"
             },
             "HealthComponent": {
-                "current": 10,
-                "max": 10
+                "current": 8,
+                "max": 8
             },
             "InputComponent": null,
             "NativeScriptComponent": {
@@ -63,7 +63,7 @@
             },
             "RigidBody2DComponent": {
                 "AngularDrag": 0.05000000074505806,
-                "BodyType": 2,
+                "BodyType": 1,
                 "FixedRotation": true,
                 "GravityScale": 1.0,
                 "LinearDrag": 0.009999999776482582,
@@ -93,6 +93,30 @@
                 "angle": 0.0
             },
             "UUID": 7292348173488200612
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -8387996501578236964
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "EnemySpawner",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7231996942412459452
         }
     ],
     "Name": "MainScene",

@@ -1,10 +1,6 @@
 {
     "Entities": [
         {
-            "HealthComponent": {
-                "current": 10,
-                "max": 10
-            },
             "NativeScriptComponent": {
                 "ScriptHandle": 4862984931624403672
             },

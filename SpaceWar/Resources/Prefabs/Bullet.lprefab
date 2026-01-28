@@ -2,11 +2,11 @@
     "Entities": [
         {
             "BoxCollider2DComponent": {
-                "CategoryBits": 14,
+                "CategoryBits": 8,
                 "Density": 1.0,
                 "Friction": 1.0,
                 "GroupIndex": 0,
-                "MaskBits": 65535,
+                "MaskBits": 65286,
                 "Offset": [
                     0.0,
                     0.0
@@ -17,13 +17,16 @@
                     90.0
                 ]
             },
+            "NativeScriptComponent": {
+                "ScriptHandle": 6275159910871478703
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
             },
             "RigidBody2DComponent": {
                 "AngularDrag": 0.05000000074505806,
-                "BodyType": 2,
+                "BodyType": 1,
                 "FixedRotation": false,
                 "GravityScale": 0.0,
                 "LinearDrag": 0.009999999776482582,

@@ -8,16 +8,27 @@ namespace Luden
     {
         m_HeartPrefab = GetResource<Prefab>("Heart");
 
-        auto& healthBarComponent = GetEntity().Get<HealthComponent>();
-        CreateHearts(healthBarComponent.max);
+        Entity parentEntity = GetEntity().GetParent();
+
+        if (!parentEntity.IsValid())
+            return;
+
+        if (!parentEntity.Has<HealthComponent>())
+            return;
+
+        auto& health = parentEntity.Get<HealthComponent>();
+        CreateHearts(health.max);
+        m_LastKnownHealth = health.current;
     }
 
     void HealthBar::OnUpdate(TimeStep ts)
     {
-        if (!GetEntity().Has<HealthComponent>())
+        Entity parentEntity = GetEntity().GetParent();
+
+        if (!parentEntity.IsValid() || !parentEntity.Has<HealthComponent>())
             return;
 
-        auto& health = GetEntity().Get<HealthComponent>();
+        auto& health = parentEntity.Get<HealthComponent>();
 
         if (health.current != m_LastKnownHealth)
         {
@@ -30,7 +41,7 @@ namespace Luden
 
     void HealthBar::OnDestroy()
     {
-        // TODO: Cleanup
+        DestroyAllHearts();
     }
 
     void HealthBar::OnCollisionBegin(const CollisionContact& contact)
@@ -62,14 +73,15 @@ namespace Luden
 
     void HealthBar::UpdateHealthBar()
     {
-        if (!GetEntity().Has<HealthComponent>())
+        Entity parentEntity = GetEntity().GetParent();
+
+        if (!parentEntity.IsValid() || !parentEntity.Has<HealthComponent>())
             return;
 
-        auto& health = GetEntity().Get<HealthComponent>();
+        auto& health = parentEntity.Get<HealthComponent>();
 
         DestroyAllHearts();
         CreateHearts(health.current);
-
         m_LastKnownHealth = health.current;
     }
 
@@ -82,10 +94,12 @@ namespace Luden
         {
             Vec3 heartPosition = CalculateHeartPosition(i, count);
 
-            Entity ownerEntity = GetEntity();
-            Entity heart;
-            if (ownerEntity.IsValid())
-				 heart = GameplayAPI::SpawnPrefabAsChild(m_HeartPrefab, ownerEntity, heartPosition);
+            Entity healthBarEntity = GetEntity();
+
+            if (!healthBarEntity.IsValid())
+                continue;
+
+            Entity heart = GameplayAPI::SpawnPrefabAsChild(m_HeartPrefab, healthBarEntity, heartPosition);
 
 
 
@@ -98,10 +112,12 @@ namespace Luden
 
     void HealthBar::UpdateHeartPositions()
     {
-        if (!GetEntity().Has<HealthComponent>())
+        Entity parentEntity = GetEntity().GetParent();
+
+        if (!parentEntity.IsValid() || !parentEntity.Has<HealthComponent>())
             return;
 
-        auto& health = GetEntity().Get<HealthComponent>();
+        auto& health = parentEntity.Get<HealthComponent>();
         int count = health.current;
 
         for (int i = 0; i < m_HeartEntities.size() && i < count; i++)
@@ -117,16 +133,21 @@ namespace Luden
 
     Vec3 HealthBar::CalculateHeartPosition(int index, int count)
     {
-        Vec3 ownerPosition = GameplayAPI::GetPosition(GetEntity());
-        float totalWidth = (count - 1) * m_HeartSpacing;
+        Entity parentEntity = GetEntity().GetParent();
 
-        float startX = ownerPosition.x - (totalWidth / 2);
+        if (!parentEntity.IsValid())
+            return Vec3(0.0f, 0.0f, 0.0f);
+
+        Vec3 parentPosition = GameplayAPI::GetPosition(parentEntity);
+
+        float totalWidth = (count - 1) * m_HeartSpacing;
+        float startX = parentPosition.x - (totalWidth / 2.0f);
 
         Vec3 heartPosition;
         heartPosition.x = startX + (index * m_HeartSpacing);
-        heartPosition.y = ownerPosition.y + m_Offset.y;
-        heartPosition.z = ownerPosition.z;
-        
-    	return heartPosition;
+        heartPosition.y = parentPosition.y + m_Offset.y;
+        heartPosition.z = parentPosition.z;
+
+        return heartPosition;
     }
 }

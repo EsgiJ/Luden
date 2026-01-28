@@ -78,7 +78,7 @@ namespace Luden {
 		Entity TryGetEntityWithUUID(const UUID& uuid) const;
 		Entity TryGetEntityWithTag(const std::string& tag) const;
 
-		std::vector<Entity>& FindAllEntitiesWithTag(const std::string& tag);
+		std::vector<Entity> FindAllEntitiesWithTag(const std::string& tag);
 
 		Entity FindEntityByBodyId(b2BodyId bodyId);
 		Entity FindEntityByShapeId(b2ShapeId shapeId);

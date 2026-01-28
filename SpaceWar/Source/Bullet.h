@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class BallController : public ScriptableEntity
+	class Bullet : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -13,18 +13,12 @@ namespace Luden
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
-		void Launch();
-		void Reset();
+    public:
+        float m_Lifetime = 5.0f;
+        int m_Damage = 1;
+        String m_OwnerTag = "Player";  
 
-	private:
-		float m_Speed = 1.0f;
-		bool m_IsLaunched = false;
-		Entity m_Paddle;
-
-		SoundRef m_PaddleHitSound;
-		SoundRef m_BrickHitSound;
-		SoundRef m_WallHitSound;
-
-		CameraShakeParams hitParams;
+    private:
+        float m_TimeAlive = 0.0f;
     };
 }

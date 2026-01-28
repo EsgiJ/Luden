@@ -1,0 +1,38 @@
+{
+    "Entities": [
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9859628466437393890,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Crosshair",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11795833945664176001
+        }
+    ],
+    "Name": "Crosshair",
+    "PrefabHandle": 8610310944599756106,
+    "RootEntityUUID": 11795833945664176001,
+    "UUID": 3496890659876212012
+}
