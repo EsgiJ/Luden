@@ -59,7 +59,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>LUDEN_CONFIG_DEBUG;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nfd\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -88,7 +88,7 @@ copy /B /Y ..\extern\SFML\build\bin\Debug\sfml-audio-d-3.dll bin\Debug-windows-x
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>LUDEN_CONFIG_RELEASE;ENGINE_EXPORTS;SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nativefiledialog-extended\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\extern\Box2D\include;..\extern\imgui;..\extern\ImGui-SFML;..\extern\glm;..\extern\SFML\include;..\extern\json\include;..\extern\IconFontCppHeaders;..\extern\nfd\src\include;..\Tools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -197,7 +197,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="..\extern\nativefiledialog-extended\src\nfd_win.cpp" />
+    <ClCompile Include="..\extern\nfd\src\nfd_win.cpp" />
     <ClCompile Include="src\Audio\AudioManager.cpp" />
     <ClCompile Include="src\Audio\Music.cpp" />
     <ClCompile Include="src\Audio\Sound.cpp" />

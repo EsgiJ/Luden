@@ -34,7 +34,7 @@ project "Engine"
     }
 
     filter "system:windows"
-        files { "../extern/nativefiledialog-extended/src/nfd_win.cpp" }
+        files { "../extern/nfd/src/nfd_win.cpp" }
         links {"comdlg32", "ole32", "uuid", "shell32", "user32"}
 
     filter { "system:windows", "configurations:Debug" }

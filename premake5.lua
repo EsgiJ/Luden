@@ -26,7 +26,7 @@ IncludeDirs["json"] = "extern/json/include"
 IncludeDirs["imgui"] = "extern/imgui"
 IncludeDirs["ImGuiSFML"] = "extern/ImGui-SFML"
 IncludeDirs["IconFontCpp"] = "extern/IconFontCppHeaders"
-IncludeDirs["nfd"] = "extern/nativefiledialog-extended/src/include"
+IncludeDirs["nfd"] = "extern/nfd/src/include"
 
 -- Include sub-projects
 include "Engine"
