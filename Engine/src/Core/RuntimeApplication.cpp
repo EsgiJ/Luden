@@ -84,6 +84,8 @@ namespace Luden {
 			std::cerr << "[RuntimeApplication] Failed to load native script module!\n";
 		}
 
+		GEngine.SetApplication(this);
+
 		LoadScene(project->GetConfig().StartSceneHandle);
 	}
 
@@ -183,7 +185,46 @@ namespace Luden {
 		Project::SetActive(project);
 	}
 
-	void RuntimeApplication::ChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent)
+	void RuntimeApplication::ChangeScene(const std::string& sceneName)
+	{
+		if (!m_ResourceManager)
+		{
+			std::cerr << "[RuntimeApplication::ChangeScene] No resource manager!" << std::endl;
+			return;
+		}
+
+		auto allScenes = m_ResourceManager->GetAllResourcesWithType(ResourceType::Scene);
+
+		for (auto sceneHandle : allScenes)
+		{
+			auto metadata = m_ResourceManager->GetMetadata(sceneHandle);
+
+			if (metadata.FilePath.filename().stem() == sceneName)
+			{
+				auto newScene = ResourceManager::GetResource<Scene>(sceneHandle);
+
+				if (newScene)
+				{
+					InternalChangeScene(newScene->GetName(), newScene);
+					std::cout << "[RuntimeApplication] Changed to scene: " << sceneName << std::endl;
+					return;
+				}
+			}
+		}
+
+		std::cerr << "[RuntimeApplication::ChangeScene] Scene not found: " << sceneName << std::endl;
+	}
+
+	void RuntimeApplication::ReloadCurrentScene()
+	{
+		if (!m_CurrentScene)
+			return;
+
+		std::string sceneName = m_CurrentScene->GetName();
+		ChangeScene(sceneName);
+	}
+
+	void RuntimeApplication::InternalChangeScene(const std::string& name, std::shared_ptr<Scene> scene, bool endCurrent)
 	{
 		if (endCurrent && m_CurrentScene)
 		{
@@ -195,22 +236,16 @@ namespace Luden {
 
 		if (m_CurrentScene)
 		{
+			GEngine.SetActiveScene(m_CurrentScene.get());  
 
 			if (m_Window)
 			{
-				sf::Vector2u windowSize = m_Window->getSize();
 				m_CurrentScene->SetViewportSize(m_Specification.WindowWidth, m_Specification.WindowHeight);
-			}
-			else
-			{
-				std::cout << "[RuntimeApplication::ChangeScene] WARNING: Window is null!\n";
 			}
 
 			m_CurrentScene->OnRuntimeStart();
-		}
-		else
-		{
-			std::cout << "[RuntimeApplication::ChangeScene] ERROR: Scene is null after assignment!\n";
+
+			std::cout << "[RuntimeApplication] Scene loaded: " << name << std::endl;
 		}
 	}
 
@@ -224,15 +259,7 @@ namespace Luden {
 
 		if (!m_ResourceManager->IsResourceHandleValid(handle))
 		{
-			std::cerr << "[RuntimeApplication::LoadScene] ERROR: Invalid StartScene handle: " << handle << "\n";
-
-			auto allScenes = m_ResourceManager->GetAllResourcesWithType(ResourceType::Scene);
-			std::cout << "[RuntimeApplication::LoadScene] Available scenes in registry: " << allScenes.size() << "\n";
-			for (auto sceneHandle : allScenes)
-			{
-				auto metadata = m_ResourceManager->GetMetadata(sceneHandle);
-				std::cout << "  - Handle: " << sceneHandle << ", Path: " << metadata.FilePath << "\n";
-			}
+			std::cerr << "[RuntimeApplication::LoadScene] ERROR: Invalid scene handle: " << handle << "\n";
 			return;
 		}
 
@@ -240,16 +267,11 @@ namespace Luden {
 
 		if (scene)
 		{
-			ChangeScene(scene->GetName(), scene);
+			InternalChangeScene(scene->GetName(), scene, false);  
 		}
 		else
 		{
-			std::cerr << "[RuntimeApplication::LoadScene] ERROR: Failed to get Scene resource!\n";
-			std::cerr << "[RuntimeApplication::LoadScene] Handle: " << handle << "\n";
-
-			auto metadata = m_ResourceManager->GetMetadata(handle);
-			std::cout << "[RuntimeApplication::LoadScene] Metadata - FilePath: " << metadata.FilePath
-				<< ", Type: " << (int)metadata.Type << "\n";
+			std::cerr << "[RuntimeApplication::LoadScene] ERROR: Failed to load scene!\n";
 		}
 	}
 }

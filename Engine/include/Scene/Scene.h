@@ -133,6 +133,8 @@ namespace Luden {
 
 		bool IsPlaying() { return m_IsPlaying; }
 
+		void ProcessPendingSceneChanges();
+
 	public:
 		static std::shared_ptr<Scene> CreateEmpty();
 

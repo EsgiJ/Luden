@@ -9,6 +9,10 @@ namespace Luden
 		std::cout << "[SpaceWarRuntimeApp] Custom runtime application created!" << std::endl;
 	}
 
+	SpaceWarRuntimeApp::~SpaceWarRuntimeApp()
+	{
+	}
+
 	void SpaceWarRuntimeApp::OnUpdate(TimeStep ts)
 	{
 		RuntimeApplication::OnUpdate(ts);

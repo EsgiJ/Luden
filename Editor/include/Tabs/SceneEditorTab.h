@@ -42,6 +42,8 @@ namespace Luden
 
 		virtual void SaveScene();
 		virtual void LoadScene(const std::filesystem::path& path);
+		void ChangeScene(const std::string& sceneName);
+		void ReloadScene();
 
 		std::shared_ptr<Scene> GetActiveScene() { return m_ActiveScene; }
 		SceneState GetSceneState() { return m_SceneState; }

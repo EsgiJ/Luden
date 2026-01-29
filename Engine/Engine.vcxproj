@@ -120,6 +120,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClInclude Include="include\Audio\AudioManager.h" />
     <ClInclude Include="include\Audio\Music.h" />
     <ClInclude Include="include\Audio\Sound.h" />
+    <ClInclude Include="include\Core\Application.h" />
     <ClInclude Include="include\Core\Buffer.h" />
     <ClInclude Include="include\Core\Config.h" />
     <ClInclude Include="include\Core\EngineContext.h" />
@@ -202,6 +203,7 @@ copy /B /Y ..\extern\SFML\build\bin\Release\sfml-audio-3.dll bin\Release-windows
     <ClCompile Include="src\Audio\AudioManager.cpp" />
     <ClCompile Include="src\Audio\Music.cpp" />
     <ClCompile Include="src\Audio\Sound.cpp" />
+    <ClCompile Include="src\Core\EngineContext.cpp" />
     <ClCompile Include="src\Core\Platform.cpp" />
     <ClCompile Include="src\Core\RuntimeApplication.cpp" />
     <ClCompile Include="src\Core\TimeStep.cpp" />

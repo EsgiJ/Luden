@@ -1320,10 +1320,10 @@ namespace Luden
 						auto& transformComponent = entity.Get<TransformComponent>();
 
 						ImGuiUtils::PrefixLabel("Position");
-						ImGuiUtils::DragFloat2Colored("##Pos", &transformComponent.Translation.x, 0.1f);
+						ImGuiUtils::DragFloat3Colored("##Pos", &transformComponent.Translation.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Scale");
-						ImGuiUtils::DragFloat2Colored("##Scale", &transformComponent.Scale.x, 0.1f);
+						ImGuiUtils::DragFloat3Colored("##Scale", &transformComponent.Scale.x, 0.1f);
 
 						ImGuiUtils::PrefixLabel("Angle" );
 						ImGui::DragFloat("##Angle", &transformComponent.angle, 0.1f);

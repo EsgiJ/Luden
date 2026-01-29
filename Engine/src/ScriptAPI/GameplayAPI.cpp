@@ -126,37 +126,7 @@ namespace Luden
 
 		void ChangeScene(const std::string& sceneName)
 		{
-			Scene* currentScene = GetCurrentScene();
-			if (!currentScene)
-				return;
-
-			auto resourceManager = Project::GetEditorResourceManager();
-			if (!resourceManager)
-				return;
-
-			auto allScenes = resourceManager->GetAllResourcesWithType(ResourceType::Scene);
-
-			for (auto sceneHandle : allScenes)
-			{
-				
-				auto metadata = resourceManager->GetMetadata(sceneHandle);
-
-				if (metadata.FilePath.filename().stem() == sceneName)
-				{
-					auto newScene = ResourceManager::GetResource<Scene>(sceneHandle);
-
-					if (newScene)
-					{
-						currentScene->OnRuntimeStop();
-
-						GEngine.SetActiveScene(newScene.get());
-
-						newScene->OnRuntimeStart();
-
-						return;
-					}
-				}
-			}
+			GEngine.RequestSceneChange(sceneName);
 		}
 
 		Scene* GetCurrentScene()
@@ -166,12 +136,7 @@ namespace Luden
 
 		void ReloadCurrentScene()
 		{
-			Scene* currentScene = GetCurrentScene();
-			if (!currentScene)
-				return;
-
-			std::string sceneName = currentScene->GetName();
-			ChangeScene(sceneName);
+			GEngine.RequestSceneReload();
 		}
 
 		void QuitGame()
@@ -634,6 +599,13 @@ namespace Luden
 				return Vec2((float)texSize.x, (float)texSize.y);
 			}
 
+			if (entity.Has<TextComponent>())
+			{
+				auto& textComp = entity.Get<TextComponent>();
+
+				return Vec2(textComp.bounds.size.x, textComp.bounds.size.y);
+			}
+
 			return Vec2(0.0f, 0.0f);
 		}
 
@@ -722,13 +694,15 @@ namespace Luden
 			return { worldPos.x, worldPos.y };
 		}
 
-
 		Entity GetEntityUnderMouse()
 		{
 			Vec2 mouseWorld = GetMousePosition();
+
 			Scene* scene = GetCurrentScene();
 			if (!scene)
 				return {};
+
+			std::vector<Entity> candidates;
 
 			for (auto& entity : scene->GetEntityManager().GetEntities())
 			{
@@ -739,10 +713,19 @@ namespace Luden
 				Vec2 size = GetEntitySize(entity);
 
 				if (IsPointInRect(mouseWorld, pos, size))
-					return entity;
+					candidates.push_back(entity);
 			}
 
-			return {};
+			if (candidates.empty())
+				return {};
+
+			std::sort(candidates.begin(), candidates.end(), [](const Entity& a, const Entity& b) {
+				float zA = a.Get<TransformComponent>().Translation.z;
+				float zB = b.Get<TransformComponent>().Translation.z;
+				return zA > zB;  
+				});
+
+			return candidates[0];
 		}
 
 		bool IsOnScreen(Entity entity)

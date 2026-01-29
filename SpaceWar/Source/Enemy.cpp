@@ -52,7 +52,6 @@ namespace Luden
 
         if (other.Tag() == "PlayerBullet")
         {
-            std::cout << "Enemy took damage!" << std::endl;
             TakeDamage(m_Damage);
             GameplayAPI::DestroyEntity(other);
         }
@@ -161,7 +160,6 @@ namespace Luden
         auto& health = ownerEntity.Get<HealthComponent>();
         health.current -= damage;
 
-        std::cout << "Enemy MaxHealth: " << health.max << "Enemy CurrentHealth: " << health.current << std::endl;
         if (health.current <= 0)
         {
             health.current = 0;

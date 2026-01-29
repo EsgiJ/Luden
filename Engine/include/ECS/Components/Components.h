@@ -262,6 +262,8 @@ namespace Luden
 		float letterSpacing = 1.0f;  
 		float lineSpacing = 1.0f;    
 
+		sf::FloatRect bounds;
+
 		enum Style
 		{
 			Regular = 0,

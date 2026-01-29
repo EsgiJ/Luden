@@ -121,7 +121,7 @@ namespace Luden
 		out << "\t{\n";
 		out << "\tpublic:\n";
 		out << "\t\t" << projectName << "RuntimeApp(const ApplicationSpecification& spec);\n";
-		out << "\t\t~" << projectName << "RuntimeApp() override = default;\n\n";
+		out << "\t\t~" << projectName << "RuntimeApp() override;\n\n";
 		out << "\t\tvoid OnUpdate(TimeStep ts) override;\n\n";
 		out << "\tprivate:\n";
 		out << "\t\t// Add your custom runtime application members here\n";
@@ -148,6 +148,12 @@ namespace Luden
 		out << "\t\t: RuntimeApplication(spec)\n";
 		out << "\t{\n";
 		out << "\t\tstd::cout << \"[" << projectName << "RuntimeApp] Custom runtime application created!\" << std::endl;\n";
+		out << "\t}\n\n";
+
+		out << "\t" << projectName << "RuntimeApp::~" << projectName << "RuntimeApp()\n";
+		out << "\t\t: RuntimeApplication(spec)\n";
+		out << "\t{\n";
+		out << "\t\tstd::cout << \"[" << projectName << "RuntimeApp] Custom runtime application destroyed!\" << std::endl;\n";
 		out << "\t}\n\n";
 
 		out << "\tvoid " << projectName << "RuntimeApp::OnUpdate(TimeStep ts)\n";

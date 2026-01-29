@@ -4,6 +4,8 @@
 
 #include <glm/glm.hpp>
 
+#include "Application.h"
+
 namespace sf
 {
 	class RenderWindow;
@@ -50,13 +52,30 @@ namespace Luden
 		glm::vec2 GetViewportPosition() const { return m_ViewportPosition; }
 		glm::vec2 GetViewportSize() const { return m_ViewportSize; }
 
+		void SetApplication(Application* application) { m_Application = application; }
+		Application* GetApplication() { return m_Application; }
+
+		void RequestSceneChange(const std::string& sceneName);
+		void RequestSceneReload();
+
+		bool HasPendingSceneReload() const { return m_PendingSceneReload; }
+		bool HasPendingSceneChange() const { return m_PendingSceneChange; }
+		const std::string& GetPendingSceneName() const { return m_PendingSceneName; }
+		void ClearPendingSceneChange() { m_PendingSceneChange = false; m_PendingSceneName.clear(); }
+
 		EngineContext(const EngineContext&) = delete;
 		EngineContext& operator =(EngineContext&) = delete;
 
 	private:
 		EngineContext() = default;
 
+		Application* m_Application = nullptr;
+
 		Scene* m_ActiveScene = nullptr;
+
+		bool m_PendingSceneChange = false;
+		bool m_PendingSceneReload = false;
+		std::string m_PendingSceneName;
 
 		float m_DeltaTime = 0.0f;
 		float m_GameTime = 0.0f;

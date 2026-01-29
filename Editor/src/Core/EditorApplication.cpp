@@ -59,6 +59,8 @@ namespace Luden
 			//TODO: ASSERT Unable to update the font texture
 		}
 		SetupImGuiStyle();
+
+		GEngine.SetApplication(this);
 	}
 
 	void EditorApplication::Run()
@@ -853,5 +855,41 @@ namespace Luden
 
 		std::string command = "start cmd /c \"cd /d \"" + projectDir.string() + "\" && clean.bat\"";
 		system(command.c_str());
+	}
+
+	void EditorApplication::ChangeScene(const std::string& sceneName)
+	{
+		if (!m_FocusedTab)
+			return;
+
+		auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab);
+		if (!sceneTab)
+			return;
+
+		sceneTab->ChangeScene(sceneName);
+	}
+
+	void EditorApplication::ReloadCurrentScene()
+	{
+		if (!m_FocusedTab)
+			return;
+
+		auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab);
+		if (!sceneTab)
+			return;
+
+		sceneTab->ReloadScene();
+	}
+
+	Scene* EditorApplication::GetCurrentScene()
+	{
+		if (!m_FocusedTab)
+			return nullptr;
+
+		auto sceneTab = std::dynamic_pointer_cast<SceneEditorTab>(m_FocusedTab);
+		if (!sceneTab)
+			return nullptr;
+
+		return sceneTab->GetActiveScene().get();
 	}
 }

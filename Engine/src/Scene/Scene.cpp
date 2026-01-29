@@ -72,6 +72,9 @@ namespace Luden {
 		AnimationManager::Instance().Update(ts);
 		AudioManager::Instance().Update();
 		m_EntityManager.Update(ts);
+
+		ProcessPendingSceneChanges();
+
 	}
 
 	void Scene::OnUpdateEditor(TimeStep ts, std::shared_ptr<sf::RenderTexture> renderTexture, Camera2D& editorCamera)
@@ -86,34 +89,39 @@ namespace Luden {
 		m_PhysicsManager.Update(ts);
 
 		m_EntityManager.Update(ts);
+
+		ProcessPendingSceneChanges();
 	}
 
 	void Scene::OnRenderRuntime(std::shared_ptr<sf::RenderTexture> target, Camera2D& runtimeCamera)
 	{
 		target->clear(sf::Color(32, 32, 32));
-
 		target->setView(runtimeCamera.GetView());
 
+		std::vector<Entity> renderList;
 		for (auto& e : m_EntityManager.GetEntities())
 		{
-			if (!e.Has<TransformComponent>())
-				continue;
+			if (e.Has<TransformComponent>())
+				renderList.push_back(e);
+		}
 
+		std::sort(renderList.begin(), renderList.end(), [](const Entity& a, const Entity& b) {
+			float zA = a.Get<TransformComponent>().Translation.z;
+			float zB = b.Get<TransformComponent>().Translation.z;
+			return zA < zB;
+			});
+
+		for (auto& e : renderList)
+		{
 			auto& transform = e.Get<TransformComponent>();
 
 			if (e.Has<SpriteAnimatorComponent>())
-			{
 				RenderAnimatedEntity(e, transform, target);
-			}
 			else if (e.Has<SpriteRendererComponent>())
-			{
 				RenderStaticSprite(e, transform, target);
-			}
 
-			if (e.Has<TextComponent>())  
-			{
+			if (e.Has<TextComponent>())
 				RenderText(e, transform, target);
-			}
 		}
 
 		DebugManager::Instance().Render(target);
@@ -123,33 +131,36 @@ namespace Luden {
 	void Scene::OnRenderEditor(std::shared_ptr<sf::RenderTexture> target, Camera2D& editorCamera)
 	{
 		target->clear(sf::Color(32, 32, 32));
-
 		target->setView(editorCamera.GetView());
 
+		std::vector<Entity> renderList;
 		for (auto& e : m_EntityManager.GetEntities())
 		{
-			if (!e.Has<TransformComponent>())
-				continue;
+			if (e.Has<TransformComponent>())
+				renderList.push_back(e);
+		}
 
+		std::sort(renderList.begin(), renderList.end(), [](const Entity& a, const Entity& b) {
+			float zA = a.Get<TransformComponent>().Translation.z;
+			float zB = b.Get<TransformComponent>().Translation.z;
+			return zA < zB;
+			});
+
+		for (auto& e : renderList)
+		{
 			auto& transform = e.Get<TransformComponent>();
 
 			if (e.Has<SpriteAnimatorComponent>())
-			{
 				RenderAnimatedEntity(e, transform, target);
-			}
 			else if (e.Has<SpriteRendererComponent>())
-			{
 				RenderStaticSprite(e, transform, target);
-			}
 
 			if (e.Has<TextComponent>())
-			{
 				RenderText(e, transform, target);
-			}
 		}
 
-		DebugManager::Instance().DebugDrawPhysics2D(m_PhysicsManager.GetPhysicsWorldId());
 		DebugManager::Instance().Render(target);
+		DebugManager::Instance().DebugDrawPhysics2D(m_PhysicsManager.GetPhysicsWorldId());
 	}
 
 	void Scene::RenderStaticSprite(Entity& e, TransformComponent& transform, std::shared_ptr<sf::RenderTexture> target)
@@ -267,6 +278,9 @@ namespace Luden {
 
 		sf::FloatRect bounds = sfText.getLocalBounds();
 		sfText.setOrigin(bounds.getCenter());
+
+
+		textComp.bounds = bounds;
 
 		sf::RenderStates states;
 		states.transform = GetWorldTransform(e);
@@ -449,7 +463,6 @@ namespace Luden {
 	{
 		auto childEntity = m_EntityManager.AddEntity(name, this);
 		childEntity.Add<TransformComponent>();
-
 		childEntity.Add<RelationshipComponent>();
 
 		if (parent.IsValid())
@@ -1008,4 +1021,30 @@ namespace Luden {
 		return std::make_shared<Scene>("Empty");
 	}
 
+	void Scene::ProcessPendingSceneChanges()
+	{
+		if (GEngine.HasPendingSceneChange())
+		{
+			if (GEngine.GetPendingSceneName().empty() && GEngine.HasPendingSceneReload())
+			{
+				Application* application = GEngine.GetApplication();
+				if (application)
+				{
+					application->ReloadCurrentScene();
+				}
+			}
+			else if (GEngine.HasPendingSceneChange())
+			{
+				std::string sceneName = GEngine.GetPendingSceneName();
+
+				Application* application = GEngine.GetApplication();
+				if (application)
+				{
+					application->ChangeScene(sceneName);
+				}
+
+				GEngine.ClearPendingSceneChange();
+			}
+		}
+	}
 }

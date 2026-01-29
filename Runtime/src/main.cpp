@@ -31,7 +31,6 @@ int main(int argc, char** argv)
 				break;
 			}
 		}
-
 		if (projectPath.empty())
 		{
 			std::cerr << "\n[ERROR] No .lproject file found!\n\n";

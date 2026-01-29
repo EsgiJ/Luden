@@ -16,7 +16,8 @@ namespace Luden
 {
 	class EditorTab;
 	class NativeScriptModuleLoader;
-	class EditorApplication 
+
+	class EditorApplication : public Application
 	{
 	public:
 		EditorApplication();
@@ -37,6 +38,10 @@ namespace Luden
 		void CreateNewScene();
 		void SaveActiveScene();
 		void ExitEditor();
+
+		virtual void ChangeScene(const std::string& sceneName) override;
+		virtual void ReloadCurrentScene() override;
+		virtual Scene* GetCurrentScene() override;
 
 		void ProcessOpenResourceRequests();
 		void OpenResource(const std::filesystem::path& path);

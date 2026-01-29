@@ -569,6 +569,43 @@ namespace Luden
 		m_Appearing = true;
 	}
 
+	void SceneEditorTab::ChangeScene(const std::string& sceneName)
+	{
+		auto resourceManager = Project::GetEditorResourceManager();
+		if (!resourceManager)
+			return;
+
+		auto allScenes = resourceManager->GetAllResourcesWithType(ResourceType::Scene);
+
+		for (auto sceneHandle : allScenes)
+		{
+			auto metadata = resourceManager->GetMetadata(sceneHandle);
+
+			if (metadata.FilePath.filename().stem() == sceneName)
+			{
+				std::filesystem::path scenePath = resourceManager->GetFileSystemPath(metadata);
+
+				LoadScene(scenePath);
+
+				OnScenePlay();
+				return;
+			}
+		}
+	}
+
+	void SceneEditorTab::ReloadScene()
+	{
+		if (m_SceneState == SceneState::Play)
+		{
+			OnSceneStop();  
+		}
+
+		if (!m_ActiveScenePath.empty())
+		{
+			LoadScene(m_ActiveScenePath);
+		}
+	}
+
 	void SceneEditorTab::LoadScene(const std::filesystem::path& path)
 	{
 		if (!FileSystem::Exists(path))
@@ -584,14 +621,19 @@ namespace Luden
 
 		std::shared_ptr<Scene> newScene = std::make_shared<Scene>();
 		SceneSerializer sceneSerializer = SceneSerializer(newScene);
+
 		if (sceneSerializer.Deserialize(path))
 		{
 			m_EditorScene = newScene;
 			m_ActiveScene = newScene;
 			m_ActiveScenePath = path;
+
+			GEngine.SetActiveScene(m_ActiveScene.get());
+
 			SetPanelsContext();
 		}
 	}
+
 	void SceneEditorTab::SaveScene()
 	{
 		if (m_SceneState == SceneState::Edit)

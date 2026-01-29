@@ -91,6 +91,11 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Scripts/MenuPlayerController.lns",
+      "Handle": 8889985316863257042,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Prefabs/HealthBar.lprefab",
       "Handle": 8994821050073474677,
       "Type": "Prefab"

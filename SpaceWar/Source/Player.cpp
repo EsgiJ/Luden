@@ -112,8 +112,6 @@ namespace Luden
 
     void Player::OnMove(const InputValue& value)
     {
-        std::cout << "OnMove!" << std::endl;
-
         Vec2 moveValue = value.GetAxis2D();
 
         Entity ownerEntity = GetEntity();

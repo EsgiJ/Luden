@@ -7,7 +7,7 @@ namespace Luden
 	{
 	public:
 		SpaceWarRuntimeApp(const ApplicationSpecification& spec);
-		~SpaceWarRuntimeApp() override = default;
+		~SpaceWarRuntimeApp() override;
 
 		void OnUpdate(TimeStep ts) override;
 

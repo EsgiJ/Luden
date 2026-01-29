@@ -15,8 +15,7 @@ namespace Luden
     {
         Entity clickableEntity = GameplayAPI::GetEntityUnderMouse();
 
-        std::cout << "Entity Tag: " << clickableEntity.Tag() << std::endl;
-	    if (clickableEntity.IsValid())
+	    if (clickableEntity.IsValid() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	    {
 		    if (clickableEntity.Tag() == "StartGame")
 		    {

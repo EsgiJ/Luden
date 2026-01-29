@@ -7,7 +7,7 @@
             },
             "InputComponent": null,
             "NativeScriptComponent": {
-                "ScriptHandle": -1985417635827706907
+                "ScriptHandle": 8889985316863257042
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -53,7 +53,7 @@
                 "Translation": [
                     0.0,
                     0.0,
-                    0.0
+                    -100.0
                 ],
                 "angle": 0.0
             },
@@ -97,7 +97,7 @@
                 "Translation": [
                     0.0,
                     0.0,
-                    0.0
+                    100.0
                 ],
                 "angle": 0.0
             },
@@ -141,7 +141,7 @@
                 "Translation": [
                     0.0,
                     252.3000030517578,
-                    0.0
+                    100.0
                 ],
                 "angle": 0.0
             },
@@ -185,7 +185,7 @@
                 "Translation": [
                     0.0,
                     132.1999969482422,
-                    0.0
+                    100.0
                 ],
                 "angle": 0.0
             },
@@ -229,7 +229,7 @@
                 "Translation": [
                     0.0,
                     -246.89999389648438,
-                    0.0
+                    100.0
                 ],
                 "angle": 0.0
             },
