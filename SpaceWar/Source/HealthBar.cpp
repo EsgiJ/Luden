@@ -145,7 +145,7 @@ namespace Luden
 
         Vec3 heartPosition;
         heartPosition.x = startX + (index * m_HeartSpacing);
-        heartPosition.y = parentPosition.y + m_Offset.y;
+        heartPosition.y = m_Offset.y;
         heartPosition.z = parentPosition.z;
 
         return heartPosition;

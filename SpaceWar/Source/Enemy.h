@@ -21,12 +21,12 @@ namespace Luden
 
         float m_ShootRange = 500.0f;
         float m_ShootCooldown = 1.0f;
-        float m_BulletSpeed = 800.0f;
+        float m_BulletSpeed = 10.0f;
         int m_Damage = 1;
 
         float m_MoveSpeed = 200.0f;
-        float m_ChaseRange = 600.0f;
-        float m_StopDistance = 400.0f;
+        float m_ChaseRange = 2000.0f;
+        float m_StopDistance = 300.0f;
 
         Vec2 m_HealthBarOffset = { 0.0f, -80.0f };
 

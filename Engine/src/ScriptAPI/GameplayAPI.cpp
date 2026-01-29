@@ -36,7 +36,14 @@ namespace Luden
 				return {};
 			}
 
-			return scene->Instantiate(prefab, &location, nullptr, nullptr);
+			Entity entity = scene->Instantiate(prefab, &location, nullptr, nullptr);
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				scene->GetPhysicsManager().RegisterEntity(entity);
+			}
+
+			return entity;
 		}
 
 		Entity SpawnPrefabAsChild(PrefabRef prefab, Entity parent, const glm::vec3& localPosition)
@@ -60,7 +67,14 @@ namespace Luden
 				return {};
 			}
 
-			return scene->InstantiateChild(prefab, parent, &localPosition, nullptr, nullptr);
+			Entity entity = scene->InstantiateChild(prefab, parent, &localPosition, nullptr, nullptr);
+
+			if (entity.Has<RigidBody2DComponent>())
+			{
+				scene->GetPhysicsManager().RegisterEntity(entity);
+			}
+
+			return entity;
 		}
 
 		Entity SpawnEntity(const String& tag, const Vec3& location)

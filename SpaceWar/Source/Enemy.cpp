@@ -129,8 +129,8 @@ namespace Luden
 
         Vec2 enemySize = GameplayAPI::GetEntitySize(ownerEntity);
         Vec3 spawnPosition = enemyPos + Vec3(
-            shootDirection.x * enemySize.x * 0.6f,
-            shootDirection.y * enemySize.y * 0.6f,
+            shootDirection.x * enemySize.x * 1.2f,
+            shootDirection.y * enemySize.y * 1.2f,
             0.0f
         );
 

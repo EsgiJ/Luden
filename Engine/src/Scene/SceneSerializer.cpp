@@ -367,8 +367,8 @@ namespace Luden
 				c.Density = jEntity["BoxCollider2DComponent"]["Density"].get<float>();
 				c.Friction = jEntity["BoxCollider2DComponent"]["Friction"].get<float>();
 				c.Restitution = jEntity["BoxCollider2DComponent"]["Restitution"].get<float>();
-				c.CategoryBits = jEntity["BoxCollider2DComponent"].value("CategoryBits", 0x0001);
-				c.MaskBits = jEntity["BoxCollider2DComponent"].value("MaskBits", 0xFFFF);
+				c.CategoryBits = jEntity["BoxCollider2DComponent"].value("CategoryBits", 1);  
+				c.MaskBits = jEntity["BoxCollider2DComponent"].value("MaskBits", 1);        
 				c.GroupIndex = jEntity["BoxCollider2DComponent"].value("GroupIndex", 0);
 			}
 
@@ -383,9 +383,9 @@ namespace Luden
 				c.Density = jEntity["CircleCollider2DComponent"]["Density"].get<float>();
 				c.Friction = jEntity["CircleCollider2DComponent"]["Friction"].get<float>();
 				c.Restitution = jEntity["CircleCollider2DComponent"]["Restitution"].get<float>();
-				c.CategoryBits = jEntity["CircleCollider2DComponent"].value("CategoryBits", 0x0001);
-				c.MaskBits = jEntity["CircleCollider2DComponent"].value("MaskBits", 0xFFFF);
-				c.GroupIndex = jEntity["CircleCollider2DComponent"].value("GroupIndex", 0);
+				c.CategoryBits = jEntity["BoxCollider2DComponent"].value("CategoryBits", 1);  
+				c.MaskBits = jEntity["BoxCollider2DComponent"].value("MaskBits", 1);         
+				c.GroupIndex = jEntity["BoxCollider2DComponent"].value("GroupIndex", 0);
 			}
 
 			if (jEntity.contains("InvincibilityComponent"))

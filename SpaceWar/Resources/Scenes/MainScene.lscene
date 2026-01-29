@@ -25,12 +25,36 @@
             "UUID": 1620753604927592997
         },
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": -8387996501578236964
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "EnemySpawner",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7231996942412459452
+        },
+        {
             "BoxCollider2DComponent": {
                 "CategoryBits": 2,
                 "Density": 1.0,
                 "Friction": 1.0,
                 "GroupIndex": 0,
-                "MaskBits": 65292,
+                "MaskBits": 12,
                 "Offset": [
                     0.0,
                     0.0
@@ -54,7 +78,7 @@
                 "ScriptHandle": 3446663231277591925
             },
             "PrefabComponent": {
-                "EntityID": 7292348173488200612,
+                "EntityID": 6358274197740119094,
                 "PrefabID": 3680578699471625246
             },
             "RelationshipComponent": {
@@ -67,7 +91,7 @@
                 "FixedRotation": true,
                 "GravityScale": 1.0,
                 "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
+                "Mass": 1000.0
             },
             "SpriteRendererComponent": {
                 "spriteHandle": 10807355855056040341,
@@ -87,36 +111,77 @@
                 ],
                 "Translation": [
                     0.0,
-                    0.0,
+                    256.0,
                     0.0
                 ],
                 "angle": 0.0
             },
-            "UUID": 7292348173488200612
+            "UUID": 6358274197740119094
         },
         {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 4,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 10,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "HealthComponent": {
+                "current": 5,
+                "max": 5
+            },
             "NativeScriptComponent": {
-                "ScriptHandle": -8387996501578236964
+                "ScriptHandle": 5568646880235121285
+            },
+            "PrefabComponent": {
+                "EntityID": 15628895104496715950,
+                "PrefabID": 8508145073184329164
             },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
             },
-            "Tag": "EnemySpawner",
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 1,
+                "FixedRotation": false,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1000.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9528139493928048732,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Enemy",
             "TransformComponent": {
                 "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
                 ],
                 "Translation": [
                     0.0,
-                    0.0,
+                    -256.0,
                     0.0
                 ],
                 "angle": 0.0
             },
-            "UUID": 7231996942412459452
+            "UUID": 15628895104496715950
         }
     ],
     "Name": "MainScene",

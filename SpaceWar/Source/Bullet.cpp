@@ -41,13 +41,13 @@ namespace Luden
 
         if (m_OwnerTag == "Player" && other.Tag() == "Enemy")
         {
-            std::cout << "Bullet hit Player" << std::endl;
+            std::cout << "Bullet hit Enemy" << std::endl;
             GameplayAPI::DestroyEntity(GetEntity());
         }
 
         if (m_OwnerTag == "Enemy" && other.Tag() == "Player")
         {
-            std::cout << "Bullet hit Enemy" << std::endl;
+            std::cout << "Bullet hit Player" << std::endl;
             GameplayAPI::DestroyEntity(GetEntity());
         }
     }

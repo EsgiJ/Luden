@@ -123,7 +123,7 @@ namespace Luden
 		b2ShapeId RuntimeShapeId = b2_nullShapeId;
 
 		uint16_t CategoryBits = 0x0001;
-		uint16_t MaskBits = 0xFFFF;
+		uint16_t MaskBits = 0x00FF;
 		uint16_t GroupIndex = 0;
 
 		BoxCollider2DComponent() = default;
@@ -142,7 +142,7 @@ namespace Luden
 		b2ShapeId RuntimeShapeId = b2_nullShapeId;
 
 		uint16_t CategoryBits = 0x0001;
-		uint16_t MaskBits = 0xFFFF;
+		uint16_t MaskBits = 0x00FF;
 		uint16_t GroupIndex = 0;
 
 		CircleCollider2DComponent() = default;

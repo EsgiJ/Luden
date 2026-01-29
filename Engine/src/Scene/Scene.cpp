@@ -1,4 +1,4 @@
-#include "Scene/Scene.h"
+﻿#include "Scene/Scene.h"
 #include "Core/RuntimeApplication.h"
 #include "Project/Project.h"
 #include "NativeScript/ScriptableEntity.h"
@@ -307,6 +307,8 @@ namespace Luden {
 			CollisionChannelRegistry::Instance().Deserialize(channelsPath);
 		}
 
+		m_PhysicsManager.Init(this, m_ViewportWidth, m_ViewportHeight);
+
 		for (auto& entity : GetEntityManager().GetEntities())
 		{
 			if (entity.Has<NativeScriptComponent>())
@@ -316,7 +318,6 @@ namespace Luden {
 				nsc.CreateInstance(entity);
 			}
 		}
-		m_PhysicsManager.Init(this, m_ViewportWidth, m_ViewportHeight);
 	}
 
 	void Scene::OnRuntimeStop()

@@ -364,7 +364,12 @@ namespace Luden
 						{
 							if (ImGui::Button("Collide With All", ImVec2(-1, 0)))
 							{
-								box.MaskBits = 0xFFFF; // All bits set
+								uint16_t allValidBits = 0;
+								for (const auto& channel : allChannels)
+								{
+									allValidBits |= channel.Bit;
+								}
+								box.MaskBits = allValidBits; 
 							}
 
 							if (ImGui::Button("Collide With None", ImVec2(-1, 0)))
@@ -375,7 +380,13 @@ namespace Luden
 							if (ImGui::Button("Reset to Default", ImVec2(-1, 0)))
 							{
 								box.CategoryBits = registry.GetChannelBit("Default");
-								box.MaskBits = 0xFFFF;
+
+								uint16_t allValidBits = 0;
+								for (const auto& channel : allChannels)
+								{
+									allValidBits |= channel.Bit;
+								}
+								box.MaskBits = allValidBits;
 								box.GroupIndex = 0;
 							}
 

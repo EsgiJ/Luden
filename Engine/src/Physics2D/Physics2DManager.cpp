@@ -265,6 +265,9 @@ namespace Luden
 			shapeDef.filter.maskBits = bc2d.MaskBits;
 			shapeDef.filter.groupIndex = bc2d.GroupIndex;
 
+			shapeDef.enableContactEvents = true;
+			shapeDef.enableHitEvents = true;
+
 			bc2d.RuntimeShapeId = b2CreatePolygonShape(bodyId, &shapeDef, &boxShape);
 		}
 
@@ -290,6 +293,9 @@ namespace Luden
 			shapeDef.filter.categoryBits = cc2d.CategoryBits;
 			shapeDef.filter.maskBits = cc2d.MaskBits;
 			shapeDef.filter.groupIndex = cc2d.GroupIndex;
+
+			shapeDef.enableContactEvents = true;
+			shapeDef.enableHitEvents = true;
 
 			cc2d.RuntimeShapeId = b2CreateCircleShape(bodyId, &shapeDef, &circle);
 		}
