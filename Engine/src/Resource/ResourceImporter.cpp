@@ -2,6 +2,7 @@
 #include "Resource/ResourceManager.h"
 #include "Audio/Sound.h"
 #include "Audio/Music.h"
+#include "Graphics/Shader.h"
 
 namespace Luden
 {
@@ -17,6 +18,7 @@ namespace Luden
 		s_Serializers[ResourceType::NativeScript] = std::make_unique<NativeScriptResourceSerializer>();
 		s_Serializers[ResourceType::Sprite] = std::make_unique<SpriteSerializer>();
 		s_Serializers[ResourceType::Prefab] = std::make_unique<PrefabSerializer>();
+		s_Serializers[ResourceType::Shader] = std::make_unique<ShaderSerializer>();
 	}
 
 	void ResourceImporter::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource)
@@ -91,6 +93,7 @@ namespace Luden
 		case ResourceType::Animation:    resource = std::make_shared<Animation>(); break;
 		case ResourceType::NativeScript: resource = std::make_shared<NativeScript>(); break;
 		case ResourceType::Prefab:       resource = std::make_shared<Prefab>(); break;
+		case ResourceType::Shader:       resource = std::make_shared<Shader>(); break; 
 		default:                         return nullptr;
 		}
 

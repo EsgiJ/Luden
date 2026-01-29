@@ -12,6 +12,8 @@
 
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
+#include <glm/vec4.hpp>
+
 #include "glm/ext/vector_float3.hpp"
 #include "SFML/Graphics/Color.hpp"
 
@@ -172,6 +174,18 @@ namespace Luden
 		void BindFromHandle(ResourceHandle handle);
 		void CreateInstance(Entity entity);
 		void DestroyInstance();
+	};
+
+	struct ENGINE_API ShaderComponent : public IComponent
+	{
+		ResourceHandle shaderHandle = 0;
+
+		std::unordered_map<std::string, float> floatUniforms;
+		std::unordered_map<std::string, glm::vec2> vec2Uniforms;
+		std::unordered_map<std::string, glm::vec3> vec3Uniforms;
+		std::unordered_map<std::string, glm::vec4> vec4Uniforms;
+
+		ShaderComponent() = default;
 	};
 
 	struct ENGINE_API InputComponent : public IComponent

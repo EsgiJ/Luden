@@ -9,6 +9,8 @@
 #include "Core/EditorApplication.h"
 
 #include <IconsFontAwesome7.h>
+
+#include "Graphics/Shader.h"
 #include "Resource/ResourceImporter.h"
 
 
@@ -393,7 +395,130 @@ namespace Luden
 			ImGui::EndPopup();
 		}
 
-		ImGui::SameLine(); 
+		ImGui::SameLine();
+
+		if (ImGui::Button(ICON_FA_WAND_MAGIC_SPARKLES " New Shader"))
+		{
+			ImGui::OpenPopup("CreateShaderDialog");
+		}
+
+		if (ImGui::BeginPopupModal("CreateShaderDialog", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			static char shaderName[256] = "";
+			static char fragmentPath[512] = "";
+			static char vertexPath[512] = "";
+			static bool hasVertexShader = false;
+
+			ImGui::Text("Create New Shader Resource");
+			ImGui::Separator();
+
+			ImGui::InputText("Shader Name", shaderName, sizeof(shaderName));
+			ImGui::Spacing();
+
+			ImGui::Text("Fragment Shader (Required):");
+			ImGui::InputText("##FragmentPath", fragmentPath, sizeof(fragmentPath));
+			ImGui::SameLine();
+			if (ImGui::Button("Browse##Frag"))
+			{
+				std::filesystem::path fragFile = FileSystem::OpenFileDialog({
+					{"Fragment Shader", "frag"}
+					});
+
+				if (!fragFile.empty())
+				{
+					auto relativePath = std::filesystem::relative(fragFile, Project::GetActiveResourceDirectory());
+					strncpy_s(fragmentPath, relativePath.string().c_str(), sizeof(fragmentPath));
+				}
+			}
+
+			ImGui::Spacing();
+			ImGui::Checkbox("Has Vertex Shader", &hasVertexShader);
+
+			if (hasVertexShader)
+			{
+				ImGui::Text("Vertex Shader (Optional):");
+				ImGui::InputText("##VertexPath", vertexPath, sizeof(vertexPath));
+				ImGui::SameLine();
+				if (ImGui::Button("Browse##Vert"))
+				{
+					std::filesystem::path vertFile = FileSystem::OpenFileDialog({
+						{"Vertex Shader", "vert"}
+						});
+
+					if (!vertFile.empty())
+					{
+						auto relativePath = std::filesystem::relative(vertFile, Project::GetActiveResourceDirectory());
+						strncpy_s(vertexPath, relativePath.string().c_str(), sizeof(vertexPath));
+					}
+				}
+			}
+
+			ImGui::Spacing();
+			ImGui::Separator();
+
+			bool canCreate = (shaderName[0] != '\0' && fragmentPath[0] != '\0');
+
+			ImGui::BeginDisabled(!canCreate);
+			if (ImGui::Button("Create", ImVec2(120, 0)))
+			{
+				if (m_EditorApplication)
+				{
+					std::filesystem::path newPath = m_CurrentDirectory / (std::string(shaderName) + ".lshader");
+
+					ResourceHandle shaderHandle = Project::GetEditorResourceManager()->CreateResource(ResourceType::Shader, newPath);
+					auto shader = ResourceManager::GetResource<Shader>(shaderHandle);
+
+					if (shader)
+					{
+						shader->SetName(shaderName);
+
+						shader->SetFragmentShaderPath(fragmentPath);
+						if (hasVertexShader && vertexPath[0] != '\0')
+						{
+							shader->SetVertexShaderPath(vertexPath);
+						}
+
+						std::filesystem::path resourceDir = Project::GetActiveResourceDirectory();
+						if (hasVertexShader && vertexPath[0] != '\0')
+						{
+							shader->LoadFromFile(
+								resourceDir / vertexPath,
+								resourceDir / fragmentPath
+							);
+						}
+						else
+						{
+							shader->LoadFromFile(resourceDir / fragmentPath);
+						}
+
+						ResourceImporter::Serialize(shader);
+					}
+
+					shaderName[0] = '\0';
+					fragmentPath[0] = '\0';
+					vertexPath[0] = '\0';
+					hasVertexShader = false;
+
+					ImGui::CloseCurrentPopup();
+				}
+			}
+			ImGui::EndDisabled();
+
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel", ImVec2(120, 0)))
+			{
+				shaderName[0] = '\0';
+				fragmentPath[0] = '\0';
+				vertexPath[0] = '\0';
+				hasVertexShader = false;
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::SameLine();
 
 		if (ImGui::Button(ICON_FA_FILM " New Sprite"))
 		{

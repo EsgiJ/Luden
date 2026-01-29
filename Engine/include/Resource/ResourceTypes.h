@@ -29,7 +29,8 @@ namespace Luden
 		Music,
 		Font,
 		Animation,
-		NativeScript
+		NativeScript,
+		Shader
 	};
 
 	namespace Utils
@@ -46,6 +47,7 @@ namespace Luden
 			if (resourceType == "Font")				return ResourceType::Font;
 			if (resourceType == "Animation")		return ResourceType::Animation;
 			if (resourceType == "NativeScript")		return ResourceType::NativeScript;
+			if (resourceType == "Shader")			return ResourceType::Shader;
 
 			return ResourceType::None;
 		}
@@ -64,6 +66,7 @@ namespace Luden
 			case ResourceType::Font:			return "Font";
 			case ResourceType::Animation:		return "Animation";
 			case ResourceType::NativeScript:	return "NativeScript";
+			case ResourceType::Shader:			return "Shader";
 			}
 
 			return "None";

@@ -17,6 +17,10 @@ namespace Luden
         InitializeHealthBar();
 
         m_PlayerEntity = GameplayAPI::FindEntityWithTag("Player");
+
+        auto& shader = GetEntity().Get<ShaderComponent>();
+        shader.vec3Uniforms["glowColor"] = glm::vec3(1.0f, 0.5f, 0.0f);
+        shader.floatUniforms["intensity"] = 0.3f;
     }
 
     void Enemy::OnUpdate(TimeStep ts)
@@ -30,6 +34,9 @@ namespace Luden
 
         if (m_ShootTimer > 0.0f)
             m_ShootTimer -= ts;
+
+        auto& shader = GetEntity().Get<ShaderComponent>();
+        shader.floatUniforms["time"] = GameplayAPI::GetGameTime();
 
         UpdateAI(ts);
     }

@@ -15,6 +15,7 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include "Audio/Music.h"
+#include "Graphics/Shader.h"
 
 namespace Luden
 {
@@ -771,4 +772,80 @@ namespace Luden
 		return anim;
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////
+	// ShaderSerializer
+	//////////////////////////////////////////////////////////////////////////////////
+	void ShaderSerializer::Serialize(const ResourceMetadata& metadata, const std::shared_ptr<Resource>& resource) const
+	{
+		auto shader = std::static_pointer_cast<Shader>(resource);
+		nlohmann::json j;
+
+		j["Name"] = shader->GetName();
+		j["Handle"] = static_cast<uint64_t>(shader->Handle);
+
+		j["FragmentShaderPath"] = shader->GetFragmentShaderPath().string();
+		j["VertexShaderPath"] = shader->GetVertexShaderPath().string();
+
+		std::ofstream out(Project::GetEditorResourceManager()->GetFileSystemPath(metadata));
+		if (out.is_open())
+		{
+			out << j.dump(4);
+		}
+	}
+
+	bool ShaderSerializer::TryLoadData(const ResourceMetadata& metadata, std::shared_ptr<Resource>& resource) const
+	{
+		auto path = Project::GetEditorResourceManager()->GetFileSystemPath(metadata);
+		std::ifstream in(path);
+		if (!in.is_open())
+			return false;
+
+		nlohmann::json j;
+		in >> j;
+
+		auto shader = std::make_shared<Shader>();
+
+		if (j.contains("Name"))
+			shader->SetName(j["Name"].get<std::string>());
+
+		shader->Handle = j["Handle"].get<uint64_t>();
+
+		std::string fragPath = j.value("FragmentShaderPath", "");
+		std::string vertPath = j.value("VertexShaderPath", "");
+
+		shader->SetFragmentShaderPath(fragPath);
+		shader->SetVertexShaderPath(vertPath);
+
+		std::filesystem::path resourceDir = Project::GetActiveResourceDirectory();
+
+		if (!vertPath.empty() && !fragPath.empty())
+		{
+			shader->LoadFromFile(
+				resourceDir / vertPath,
+				resourceDir / fragPath
+			);
+		}
+		else if (!fragPath.empty())
+		{
+			shader->LoadFromFile(resourceDir / fragPath);
+		}
+
+		resource = shader;
+		return true;
+	}
+
+	bool ShaderSerializer::SerializeToResourcePack(ResourceHandle handle, FileStreamWriter& stream, ResourceSerializationInfo& outInfo) const
+	{
+		// TODO: 
+
+		return false;
+	}
+
+	std::shared_ptr<Resource> ShaderSerializer::DeserializeFromResourcePack(FileStreamReader& stream, const ResourcePackFile::ResourceInfo& resourceInfo) const
+	{
+		// TODO: 
+		auto shader = std::make_shared<Shader>();
+
+		return shader;
+	}
 }

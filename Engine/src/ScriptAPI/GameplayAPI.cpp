@@ -176,7 +176,7 @@ namespace Luden
 
 		void QuitGame()
 		{
-			return void();
+			GEngine.GetWindow()->close();
 		}
 
 		Entity FindEntityWithTag(const String& tag)

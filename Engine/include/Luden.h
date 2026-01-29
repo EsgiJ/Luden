@@ -8,6 +8,7 @@
 #include "Graphics/Animation.h"
 #include "Graphics/Sprite.h"
 #include "Graphics/Font.h"
+#include "Graphics/Shader.h"
 #include "Audio/Sound.h"
 #include "Audio/Music.h"
 #include "Resource/Resource.h"
@@ -22,6 +23,7 @@ namespace Luden
 	using SoundRef = std::shared_ptr<Sound>;
 	using MusicRef = std::shared_ptr<Music>;
 	using SpriteRef = std::shared_ptr<Sprite>;
+	using ShaderRef = std::shared_ptr<Sprite>;
 
 	// Pointer 
 	template<typename T>

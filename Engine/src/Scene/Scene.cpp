@@ -18,6 +18,7 @@
 #include "SFML/System/Angle.hpp"
 #include "SFML/Graphics/Text.hpp"
 #include "Audio/AudioManager.h"
+#include "Graphics/Shader.h"
 
 namespace Luden {
 
@@ -181,6 +182,28 @@ namespace Luden {
 		sf::RenderStates states;
 		states.transform = GetWorldTransform(e); 
 
+		if (e.Has<ShaderComponent>())
+		{
+			auto& shaderComp = e.Get<ShaderComponent>();
+			if (shaderComp.shaderHandle != 0)
+			{
+				auto shader = ResourceManager::GetResource<Shader>(shaderComp.shaderHandle);
+				if (shader)
+				{
+					for (auto& [name, value] : shaderComp.floatUniforms)
+						shader->SetFloat(name, value);
+					for (auto& [name, value] : shaderComp.vec2Uniforms)
+						shader->SetVec2(name, value);
+					for (auto& [name, value] : shaderComp.vec3Uniforms)
+						shader->SetVec3(name, value);
+					for (auto& [name, value] : shaderComp.vec4Uniforms)
+						shader->SetVec4(name, value);
+
+					states.shader = &shader->GetShader();
+				}
+			}
+		}
+
 		target->draw(sfSprite, states);
 	}
 
@@ -248,6 +271,28 @@ namespace Luden {
 		sf::RenderStates states;
 		states.transform = GetWorldTransform(e);
 
+		if (e.Has<ShaderComponent>())
+		{
+			auto& shaderComp = e.Get<ShaderComponent>();
+			if (shaderComp.shaderHandle != 0)
+			{
+				auto shader = ResourceManager::GetResource<Shader>(shaderComp.shaderHandle);
+				if (shader)
+				{
+					for (auto& [name, value] : shaderComp.floatUniforms)
+						shader->SetFloat(name, value);
+					for (auto& [name, value] : shaderComp.vec2Uniforms)
+						shader->SetVec2(name, value);
+					for (auto& [name, value] : shaderComp.vec3Uniforms)
+						shader->SetVec3(name, value);
+					for (auto& [name, value] : shaderComp.vec4Uniforms)
+						shader->SetVec4(name, value);
+
+					states.shader = &shader->GetShader();
+				}
+			}
+		}
+
 		target->draw(sfText, states);
 	}
 
@@ -290,6 +335,28 @@ namespace Luden {
 
 		sf::RenderStates states;
 		states.transform = GetWorldTransform(e);
+
+		if (e.Has<ShaderComponent>())
+		{
+			auto& shaderComp = e.Get<ShaderComponent>();
+			if (shaderComp.shaderHandle != 0)
+			{
+				auto shader = ResourceManager::GetResource<Shader>(shaderComp.shaderHandle);
+				if (shader)
+				{
+					for (auto& [name, value] : shaderComp.floatUniforms)
+						shader->SetFloat(name, value);
+					for (auto& [name, value] : shaderComp.vec2Uniforms)
+						shader->SetVec2(name, value);
+					for (auto& [name, value] : shaderComp.vec3Uniforms)
+						shader->SetVec3(name, value);
+					for (auto& [name, value] : shaderComp.vec4Uniforms)
+						shader->SetVec4(name, value);
+
+					states.shader = &shader->GetShader();
+				}
+			}
+		}
 
 		target->draw(sfSprite, states);
 	}
@@ -665,6 +732,7 @@ namespace Luden {
 		CopyComponentIfExists<SpriteAnimatorComponent>(dest, source);
 		CopyComponentIfExists<TextComponent>(dest, source);
 		CopyComponentIfExists<SpriteRendererComponent>(dest, source);
+		CopyComponentIfExists<ShaderComponent>(dest, source);
 		CopyComponentIfExists<InvincibilityComponent>(dest, source);
 		CopyComponentIfExists<LifespanComponent>(dest, source);
 		CopyComponentIfExists<PatrolComponent>(dest, source);

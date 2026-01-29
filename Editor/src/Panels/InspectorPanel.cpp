@@ -14,6 +14,8 @@
 #include <IconsFontAwesome7.h>
 #include <imgui.h>
 #include <imgui_internal.h>
+
+#include "Graphics/Shader.h"
 #include "Physics2D/CollisionChannelRegistry.h"
 #include "Resource/ResourceImporter.h"
 
@@ -77,6 +79,8 @@ namespace Luden
 
 			if (ImGui::BeginPopup("AddComponent"))
 			{
+				DisplayComponentInPopup<TransformComponent>(ICON_FA_ARROWS_UP_DOWN_LEFT_RIGHT " Transform Component");
+				DisplayComponentInPopup<ShaderComponent>(ICON_FA_WAND_MAGIC_SPARKLES " Shader Component");
 				DisplayComponentInPopup<DamageComponent>(ICON_FA_GUN " Damage Component");
 				DisplayComponentInPopup<DraggableComponent>(ICON_FA_HAND " Draggable Component");
 				DisplayComponentInPopup<FollowPLayerComponent>(ICON_FA_PERSON_RUNNING " Follow Player Component");
@@ -87,7 +91,6 @@ namespace Luden
 				DisplayComponentInPopup<BoxCollider2DComponent>(ICON_FA_SQUARE " Box Collider 2D Component");
 				DisplayComponentInPopup<CircleCollider2DComponent>(ICON_FA_CIRCLE " Circle Collider 2D Component");
 				DisplayComponentInPopup<RigidBody2DComponent>(ICON_FA_CUBES " RigidBody 2D Component");
-				DisplayComponentInPopup<PrefabComponent>(ICON_FA_CUBE " Prefab Component");
 				DisplayComponentInPopup<NativeScriptComponent>(ICON_FA_CODE " Native Script Component");
 				DisplayComponentInPopup<SpriteAnimatorComponent>(ICON_FA_PLAY " Animation Component");
 				DisplayComponentInPopup<TextComponent>(ICON_FA_FONT " Text Component");
@@ -96,7 +99,8 @@ namespace Luden
 				DisplayComponentInPopup<LifespanComponent>(ICON_FA_CLOCK " Lifespan Component");
 				DisplayComponentInPopup<PatrolComponent>(ICON_FA_ROAD " Patrol Component");
 				DisplayComponentInPopup<StateComponent>(ICON_FA_SCROLL " State Component");
-				DisplayComponentInPopup<TransformComponent>(ICON_FA_ARROWS_UP_DOWN_LEFT_RIGHT " Transform Component");
+;				DisplayComponentInPopup<PrefabComponent>(ICON_FA_CUBE " Prefab Component");
+
 				ImGui::EndPopup();
 			}
 
@@ -1323,6 +1327,266 @@ namespace Luden
 
 						ImGuiUtils::PrefixLabel("Angle" );
 						ImGui::DragFloat("##Angle", &transformComponent.angle, 0.1f);
+					});
+
+				DisplayComponentInInspector<ShaderComponent>(ICON_FA_WAND_MAGIC_SPARKLES " Shader Component", entity, true, [&]()
+					{
+						auto& shaderComp = entity.Get<ShaderComponent>();
+
+						// Shader Resource Selection
+						ImGuiUtils::PrefixLabel("Shader");
+
+						std::string shaderName = "None";
+						if (shaderComp.shaderHandle != 0)
+						{
+							auto shader = ResourceManager::GetResource<Shader>(shaderComp.shaderHandle);
+							if (shader)
+								shaderName = shader->GetName();
+						}
+
+						ImGui::SetNextItemWidth(-1);
+						if (ImGui::BeginCombo("##Shader", shaderName.c_str()))
+						{
+							auto allShaders = Project::GetEditorResourceManager()->GetAllResourcesWithType(ResourceType::Shader);
+
+							if (ImGui::Selectable("None", shaderComp.shaderHandle == 0))
+							{
+								shaderComp.shaderHandle = 0;
+							}
+
+							for (auto handle : allShaders)
+							{
+								auto shader = ResourceManager::GetResource<Shader>(handle);
+								if (!shader) continue;
+
+								bool isSelected = (shaderComp.shaderHandle == handle);
+								if (ImGui::Selectable(shader->GetName().c_str(), isSelected))
+								{
+									shaderComp.shaderHandle = handle;
+								}
+							}
+
+							ImGui::EndCombo();
+						}
+
+						if (shaderComp.shaderHandle == 0)
+							return;
+
+						auto shader = ResourceManager::GetResource<Shader>(shaderComp.shaderHandle);
+						if (!shader)
+							return;
+
+						ImGui::Separator();
+
+						if (ImGui::TreeNodeEx("Shader Info", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							ImGui::Text("Fragment Shader:");
+							ImGui::SameLine();
+							ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "%s",
+								shader->GetFragmentShaderPath().string().c_str());
+
+							if (shader->HasVertexShader())
+							{
+								ImGui::Text("Vertex Shader:");
+								ImGui::SameLine();
+								ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "%s",
+									shader->GetVertexShaderPath().string().c_str());
+							}
+
+							ImGui::TreePop();
+						}
+
+						ImGui::Separator();
+						ImGui::Text("Uniforms");
+						ImGui::Separator();
+
+						// Float Uniforms
+						if (ImGui::TreeNodeEx("Float Uniforms", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							static char newUniformName[64] = "";
+							ImGui::InputText("##NewFloatUniform", newUniformName, sizeof(newUniformName));
+							ImGui::SameLine();
+							if (ImGui::Button(ICON_FA_PLUS " Add Float"))
+							{
+								if (strlen(newUniformName) > 0)
+								{
+									shaderComp.floatUniforms[newUniformName] = 0.0f;
+									memset(newUniformName, 0, sizeof(newUniformName));
+								}
+							}
+
+							std::vector<std::string> toRemove;
+							for (auto& [name, value] : shaderComp.floatUniforms)
+							{
+								ImGui::PushID(name.c_str());
+
+								ImGui::Text("%s", name.c_str());
+								ImGui::SameLine();
+
+								ImGui::SetNextItemWidth(150);
+								ImGui::DragFloat("##Value", &value, 0.01f);
+
+								ImGui::SameLine();
+								if (ImGui::Button(ICON_FA_TRASH))
+								{
+									toRemove.push_back(name);
+								}
+
+								ImGui::PopID();
+							}
+
+							for (const auto& name : toRemove)
+							{
+								shaderComp.floatUniforms.erase(name);
+							}
+
+							ImGui::TreePop();
+						}
+
+						// Vec2 Uniforms
+						if (ImGui::TreeNodeEx("Vec2 Uniforms", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							static char newVec2Name[64] = "";
+							ImGui::InputText("##NewVec2Uniform", newVec2Name, sizeof(newVec2Name));
+							ImGui::SameLine();
+							if (ImGui::Button(ICON_FA_PLUS " Add Vec2"))
+							{
+								if (strlen(newVec2Name) > 0)
+								{
+									shaderComp.vec2Uniforms[newVec2Name] = glm::vec2(0.0f);
+									memset(newVec2Name, 0, sizeof(newVec2Name));
+								}
+							}
+
+							std::vector<std::string> toRemove;
+							for (auto& [name, value] : shaderComp.vec2Uniforms)
+							{
+								ImGui::PushID(name.c_str());
+
+								ImGui::Text("%s", name.c_str());
+								ImGui::SameLine();
+
+								ImGui::SetNextItemWidth(150);
+								ImGui::DragFloat2("##Value", &value.x, 0.01f);
+
+								ImGui::SameLine();
+								if (ImGui::Button(ICON_FA_TRASH))
+								{
+									toRemove.push_back(name);
+								}
+
+								ImGui::PopID();
+							}
+
+							for (const auto& name : toRemove)
+							{
+								shaderComp.vec2Uniforms.erase(name);
+							}
+
+							ImGui::TreePop();
+						}
+
+						// Vec3 Uniforms
+						if (ImGui::TreeNodeEx("Vec3 Uniforms", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							static char newVec3Name[64] = "";
+							ImGui::InputText("##NewVec3Uniform", newVec3Name, sizeof(newVec3Name));
+							ImGui::SameLine();
+							if (ImGui::Button(ICON_FA_PLUS " Add Vec3"))
+							{
+								if (strlen(newVec3Name) > 0)
+								{
+									shaderComp.vec3Uniforms[newVec3Name] = glm::vec3(1.0f);
+									memset(newVec3Name, 0, sizeof(newVec3Name));
+								}
+							}
+
+							std::vector<std::string> toRemove;
+							for (auto& [name, value] : shaderComp.vec3Uniforms)
+							{
+								ImGui::PushID(name.c_str());
+
+								ImGui::Text("%s", name.c_str());
+
+								ImGui::SetNextItemWidth(150);
+								ImGui::ColorEdit3("##Value", &value.x);
+
+								ImGui::SameLine();
+								if (ImGui::Button(ICON_FA_TRASH))
+								{
+									toRemove.push_back(name);
+								}
+
+								ImGui::PopID();
+							}
+
+							for (const auto& name : toRemove)
+							{
+								shaderComp.vec3Uniforms.erase(name);
+							}
+
+							ImGui::TreePop();
+						}
+
+						// Vec4 Uniforms
+						if (ImGui::TreeNodeEx("Vec4 Uniforms", ImGuiTreeNodeFlags_DefaultOpen))
+						{
+							static char newVec4Name[64] = "";
+							ImGui::InputText("##NewVec4Uniform", newVec4Name, sizeof(newVec4Name));
+							ImGui::SameLine();
+							if (ImGui::Button(ICON_FA_PLUS " Add Vec4"))
+							{
+								if (strlen(newVec4Name) > 0)
+								{
+									shaderComp.vec4Uniforms[newVec4Name] = glm::vec4(1.0f);
+									memset(newVec4Name, 0, sizeof(newVec4Name));
+								}
+							}
+
+							std::vector<std::string> toRemove;
+							for (auto& [name, value] : shaderComp.vec4Uniforms)
+							{
+								ImGui::PushID(name.c_str());
+
+								ImGui::Text("%s", name.c_str());
+
+								ImGui::SetNextItemWidth(150);
+								ImGui::ColorEdit4("##Value", &value.x);
+
+								ImGui::SameLine();
+								if (ImGui::Button(ICON_FA_TRASH))
+								{
+									toRemove.push_back(name);
+								}
+
+								ImGui::PopID();
+							}
+
+							for (const auto& name : toRemove)
+							{
+								shaderComp.vec4Uniforms.erase(name);
+							}
+
+							ImGui::TreePop();
+						}
+
+						// Reload Button
+						if (ImGui::Button("Reload Shader", ImVec2(-1, 0)))
+						{
+							std::filesystem::path resourceDir = Project::GetActiveResourceDirectory();
+
+							if (shader->HasVertexShader())
+							{
+								shader->LoadFromFile(
+									resourceDir / shader->GetVertexShaderPath(),
+									resourceDir / shader->GetFragmentShaderPath()
+								);
+							}
+							else
+							{
+								shader->LoadFromFile(resourceDir / shader->GetFragmentShaderPath());
+							}
+						}
 					});
 
 				ImGui::EndTable();

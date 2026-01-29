@@ -220,6 +220,36 @@ namespace Luden
 				};
 			}
 
+			if (e.Has<ShaderComponent>())
+			{
+				const auto& c = e.Get<ShaderComponent>();
+				json jShader;
+				jShader["shaderHandle"] = static_cast<uint64_t>(c.shaderHandle);
+
+				json jFloats = json::object();
+				for (const auto& [name, value] : c.floatUniforms)
+					jFloats[name] = value;
+
+				json jVec2s = json::object();
+				for (const auto& [name, value] : c.vec2Uniforms)
+					jVec2s[name] = { value.x, value.y };
+
+				json jVec3s = json::object();
+				for (const auto& [name, value] : c.vec3Uniforms)
+					jVec3s[name] = { value.x, value.y, value.z };
+
+				json jVec4s = json::object();
+				for (const auto& [name, value] : c.vec4Uniforms)
+					jVec4s[name] = { value.x, value.y, value.z, value.w };
+
+				jShader["floatUniforms"] = jFloats;
+				jShader["vec2Uniforms"] = jVec2s;
+				jShader["vec3Uniforms"] = jVec3s;
+				jShader["vec4Uniforms"] = jVec4s;
+
+				jEntity["ShaderComponent"] = jShader;
+			}
+
 			if (e.Has<InvincibilityComponent>())
 			{
 				jEntity["InvincibilityComponent"]["iframes"] = e.Get<InvincibilityComponent>().iframes;
@@ -536,6 +566,38 @@ namespace Luden
 				c.style = jText.value("style", 0u);
 				c.lineAlignment = jText.value("lineAlignment", TextComponent::LineAlignment::Default);
 				c.textOrientation = jText.value("textOrientation", TextComponent::TextOrientation::Default);
+			}
+
+			if (jEntity.contains("ShaderComponent"))
+			{
+				const auto& jShader = jEntity["ShaderComponent"];
+
+				auto& c = e.Add<ShaderComponent>();
+				c.shaderHandle = jShader["shaderHandle"].get<uint64_t>();
+
+				if (jShader.contains("floatUniforms"))
+				{
+					for (auto& [name, value] : jShader["floatUniforms"].items())
+						c.floatUniforms[name] = value.get<float>();
+				}
+
+				if (jShader.contains("vec2Uniforms"))
+				{
+					for (auto& [name, value] : jShader["vec2Uniforms"].items())
+						c.vec2Uniforms[name] = glm::vec2(value[0].get<float>(), value[1].get<float>());
+				}
+
+				if (jShader.contains("vec3Uniforms"))
+				{
+					for (auto& [name, value] : jShader["vec3Uniforms"].items())
+						c.vec3Uniforms[name] = glm::vec3(value[0].get<float>(), value[1].get<float>(), value[2].get<float>());
+				}
+
+				if (jShader.contains("vec4Uniforms"))
+				{
+					for (auto& [name, value] : jShader["vec4Uniforms"].items())
+						c.vec4Uniforms[name] = glm::vec4(value[0].get<float>(), value[1].get<float>(), value[2].get<float>(), value[3].get<float>());
+				}
 			}
 		}
 

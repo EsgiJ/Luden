@@ -29,6 +29,7 @@ namespace Luden {
         sourceScene->CopyComponentIfExists<SpriteAnimatorComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<TextComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
+		sourceScene->CopyComponentIfExists<ShaderComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<InvincibilityComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<LifespanComponent>(newEntity, entity);
         sourceScene->CopyComponentIfExists<PatrolComponent>(newEntity, entity);

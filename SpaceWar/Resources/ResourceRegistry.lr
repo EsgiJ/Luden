@@ -116,6 +116,11 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Shaders/Glow.lshader",
+      "Handle": 13051149814912967988,
+      "Type": "Shader"
+    },
+    {
       "FilePath": "Sprites/Bullet.lsprite",
       "Handle": 14108710082540076076,
       "Type": "Sprite"

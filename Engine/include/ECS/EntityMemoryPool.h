@@ -37,6 +37,7 @@ namespace Luden
 		std::vector<Luden::SpriteAnimatorComponent>,
 		std::vector<Luden::TextComponent>,
 		std::vector<Luden::SpriteRendererComponent>,
+		std::vector<Luden::ShaderComponent>,
 		std::vector<Luden::LifespanComponent>,
 		std::vector<Luden::InvincibilityComponent>,
 		std::vector<Luden::PatrolComponent>,

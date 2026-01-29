@@ -26,6 +26,9 @@ namespace Luden {
 
 	void ToolbarPanel::OnUpdate() 
 	{
+		if (!m_Context->IsPlaying())
+			return;
+
 		switch (m_SelectedTool) 
 		{
 		case Tool::SELECT:

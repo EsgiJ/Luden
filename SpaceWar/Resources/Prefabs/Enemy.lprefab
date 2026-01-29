@@ -36,6 +36,13 @@
                 "LinearDrag": 0.009999999776482582,
                 "Mass": 1000.0
             },
+            "ShaderComponent": {
+                "floatUniforms": {},
+                "shaderHandle": 13051149814912967988,
+                "vec2Uniforms": {},
+                "vec3Uniforms": {},
+                "vec4Uniforms": {}
+            },
             "SpriteRendererComponent": {
                 "spriteHandle": 9528139493928048732,
                 "tint": [
