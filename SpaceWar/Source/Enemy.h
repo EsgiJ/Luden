@@ -21,7 +21,7 @@ namespace Luden
 
         float m_ShootRange = 500.0f;
         float m_ShootCooldown = 1.0f;
-        float m_BulletSpeed = 10.0f;
+        float m_BulletSpeed = 4.0f;
         int m_Damage = 1;
 
         float m_MoveSpeed = 200.0f;

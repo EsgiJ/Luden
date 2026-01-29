@@ -138,15 +138,13 @@ namespace Luden
         if (!parentEntity.IsValid())
             return Vec3(0.0f, 0.0f, 0.0f);
 
-        Vec3 parentPosition = GameplayAPI::GetPosition(parentEntity);
-
         float totalWidth = (count - 1) * m_HeartSpacing;
-        float startX = parentPosition.x - (totalWidth / 2.0f);
+        float startX = -(totalWidth / 2.0f);
 
         Vec3 heartPosition;
         heartPosition.x = startX + (index * m_HeartSpacing);
         heartPosition.y = m_Offset.y;
-        heartPosition.z = parentPosition.z;
+        heartPosition.z = 0.0f;
 
         return heartPosition;
     }

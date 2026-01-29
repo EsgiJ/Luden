@@ -37,17 +37,13 @@ namespace Luden
     {
         Entity other = contact.otherEntity;
 
-        std::cout << "Bullet hit. OwnerTag: " << m_OwnerTag << " OtherTag: " << other.Tag() << std::endl;
-
         if (m_OwnerTag == "Player" && other.Tag() == "Enemy")
         {
-            std::cout << "Bullet hit Enemy" << std::endl;
             GameplayAPI::DestroyEntity(GetEntity());
         }
 
         if (m_OwnerTag == "Enemy" && other.Tag() == "Player")
         {
-            std::cout << "Bullet hit Player" << std::endl;
             GameplayAPI::DestroyEntity(GetEntity());
         }
     }

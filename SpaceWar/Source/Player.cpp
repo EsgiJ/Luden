@@ -48,8 +48,6 @@ namespace Luden
     {
         Entity other = contact.otherEntity;
 
-        std::cout << "[Player]Bullet hit" << std::endl;
-
         if (other.Tag() == "EnemyBullet")
         {
             TakeDamage(1);
@@ -112,6 +110,26 @@ namespace Luden
         }
     }
 
+    void Player::OnMove(const InputValue& value)
+    {
+        std::cout << "OnMove!" << std::endl;
+
+        Vec2 moveValue = value.GetAxis2D();
+
+        Entity ownerEntity = GetEntity();
+        if (!ownerEntity.IsValid())
+            return;
+
+        Vec3 movement = Vec3(moveValue.x, moveValue.y, 0.0f);
+
+        if (MathAPI::Length(movement) > 0.0f)
+        {
+            movement = MathAPI::Normalize(movement);
+        }
+
+        GameplayAPI::Move(ownerEntity, movement * m_MoveSpeed);
+    }
+
     void Player::SetupInput()
     {
         auto context = std::make_shared<InputContext>("Gameplay", 100);
@@ -126,6 +144,17 @@ namespace Luden
             TriggerConfig(ETriggerType::Pressed)
         });
 
+        InputAction MoveAction("Move");
+
+        context->AddAxis2DMapping({
+            MoveAction,
+            sf::Keyboard::Key::W,
+        	sf::Keyboard::Key::S,
+            sf::Keyboard::Key::A,
+            sf::Keyboard::Key::D,
+            ModifierConfig(),
+            });
+
         InputManager::Instance().PushContext(context);
 
         auto& input = GetComponent<InputComponent>();
@@ -133,6 +162,7 @@ namespace Luden
         input.consumeInput = true;
 
         input.BindAction(shootAction, ETriggerEvent::Started, this, &Player::OnShoot);
+        input.BindAction(MoveAction, ETriggerEvent::Ongoing, this, &Player::OnMove);
     }
 
     void Player::TakeDamage(int damage)

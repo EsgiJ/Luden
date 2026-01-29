@@ -30,7 +30,7 @@
             },
             "RigidBody2DComponent": {
                 "AngularDrag": 0.05000000074505806,
-                "BodyType": 1,
+                "BodyType": 2,
                 "FixedRotation": false,
                 "GravityScale": 1.0,
                 "LinearDrag": 0.009999999776482582,
