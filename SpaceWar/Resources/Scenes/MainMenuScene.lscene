@@ -1,0 +1,241 @@
+{
+    "Entities": [
+        {
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "InputComponent": null,
+            "NativeScriptComponent": {
+                "ScriptHandle": -1985417635827706907
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12654597291067058201
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 3771340438875851871,
+                "tint": [
+                    209,
+                    209,
+                    209,
+                    255
+                ]
+            },
+            "Tag": "Background",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10025207551768782655
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "StartGame",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 12349529158468568365,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 10.0,
+                "style": 1,
+                "text": "Start Game",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7754476219171336584
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "ExitGame",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 12349529158468568365,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 10.0,
+                "style": 0,
+                "text": "Exit Game",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    252.3000030517578,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18173111346826907897
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Settings",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 12349529158468568365,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 10.0,
+                "style": 0,
+                "text": "Settings",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    132.1999969482422,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5736436148692441325
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "GameTitle",
+            "TextComponent": {
+                "characterSize": 128,
+                "fillColor": [
+                    255,
+                    0,
+                    0,
+                    255
+                ],
+                "fontHandle": 12349529158468568365,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 10.0,
+                "style": 0,
+                "text": "Space War",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -246.89999389648438,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16287175144638299154
+        }
+    ],
+    "Name": "MainMenuScene",
+    "UUID": 6819595562481375066
+}

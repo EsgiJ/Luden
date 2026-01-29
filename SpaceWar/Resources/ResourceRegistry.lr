@@ -36,6 +36,11 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Sprites/Background_01.lsprite",
+      "Handle": 3771340438875851871,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Scripts/HealthBar.lns",
       "Handle": 4862984931624403672,
       "Type": "NativeScript"
@@ -63,6 +68,11 @@
     {
       "FilePath": "Images/Bullet/Flame_01.png",
       "Handle": 7208669981208477482,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/Backgrounds/clouds_dark_top.png",
+      "Handle": 8234022450935685704,
       "Type": "Texture"
     },
     {
@@ -116,6 +126,16 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Images/Backgrounds/desert.png",
+      "Handle": 12300105256932766329,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Fonts/Minecraft.ttf",
+      "Handle": 12349529158468568365,
+      "Type": "Font"
+    },
+    {
       "FilePath": "Shaders/Glow.lshader",
       "Handle": 13051149814912967988,
       "Type": "Shader"
@@ -139,6 +159,11 @@
       "FilePath": "Images/crosshair_01.png",
       "Handle": 16507800843599228380,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Scenes/MainMenuScene.lscene",
+      "Handle": 16788723314191566088,
+      "Type": "Scene"
     }
   ]
 }

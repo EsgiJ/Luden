@@ -5,13 +5,12 @@
 #include "Source/HealthBar.h"
 #include "Source/Player.h"
 #include "Source/GameManager.h"
+#include "Source/Bullet.h"
+#include "Source/Enemy.h"
+#include "Source/EnemySpawner.h"
+#include "Source/MenuPlayerController.h"
 
 #include <iostream>
-
-#include "Bullet.h"
-#include "Enemy.h"
-#include "EnemySpawner.h"
-
 
 namespace Luden
 {
@@ -33,6 +32,7 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<Enemy>("Enemy", resourceManager);
 		NativeScriptRegistry::RegisterScript<EnemySpawner>("EnemySpawner", resourceManager);
 		NativeScriptRegistry::RegisterScript<Bullet>("Bullet", resourceManager);
+		NativeScriptRegistry::RegisterScript<MenuPlayerController>("MenuPlayerController", resourceManager);
 	}
 
 	uint32_t SpaceWar::GetVersion() const
