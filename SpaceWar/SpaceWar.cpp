@@ -8,7 +8,9 @@
 #include "Source/Bullet.h"
 #include "Source/Enemy.h"
 #include "Source/EnemySpawner.h"
-#include "Source/MenuPlayerController.h"
+#include "Source/UIButton.h"
+#include "Source/MainMenu.h"
+#include "Source/AudioSlider.h"
 
 #include <iostream>
 
@@ -32,7 +34,9 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<Enemy>("Enemy", resourceManager);
 		NativeScriptRegistry::RegisterScript<EnemySpawner>("EnemySpawner", resourceManager);
 		NativeScriptRegistry::RegisterScript<Bullet>("Bullet", resourceManager);
-		NativeScriptRegistry::RegisterScript<MenuPlayerController>("MenuPlayerController", resourceManager);
+		NativeScriptRegistry::RegisterScript<MainMenu>("MainMenu", resourceManager);
+		NativeScriptRegistry::RegisterScript<UIButton>("UIButton", resourceManager);
+		NativeScriptRegistry::RegisterScript<AudioSlider>("AudioSlider", resourceManager);
 	}
 
 	uint32_t SpaceWar::GetVersion() const

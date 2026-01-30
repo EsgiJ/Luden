@@ -29,6 +29,7 @@ namespace Luden
 	template<typename T>
 	using Ref = std::shared_ptr<T>;
 
+	using Function = std::function<void()>;
 	// Data Structures
 	template<typename T>
 	using Vector = std::vector<T>;

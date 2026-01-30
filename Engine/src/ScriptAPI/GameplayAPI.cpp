@@ -144,6 +144,38 @@ namespace Luden
 			GEngine.GetWindow()->close();
 		}
 
+		Entity FindEntityWithUUID(const UUID& uuid)
+		{
+			Scene* currentScene = GetCurrentScene();
+
+			if (!currentScene)
+				return {};
+
+			Entity entity = currentScene->TryGetEntityWithUUID(uuid);
+
+			return entity;
+		}
+
+		Vector<Entity> GetChildren(Entity parent)
+		{
+			std::vector<Entity> result;
+
+			Scene* currentScene = GetCurrentScene();
+
+			if (!parent.IsValid() || !currentScene)
+			{
+				return result;
+			}
+			
+			for (auto childId : parent.Children())
+			{
+				Entity child = FindEntityWithUUID(childId);
+				result.push_back(child);
+			}
+
+			return result;
+		}
+
 		Entity FindEntityWithTag(const String& tag)
 		{
 			Scene* currentScene = GetCurrentScene();

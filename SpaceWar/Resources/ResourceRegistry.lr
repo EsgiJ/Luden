@@ -61,6 +61,11 @@
       "Type": "NativeScript"
     },
     {
+      "FilePath": "Sprites/SliderBar.lsprite",
+      "Handle": 5836295056786713008,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Scripts/Bullet.lns",
       "Handle": 6275159910871478703,
       "Type": "NativeScript"
@@ -91,14 +96,19 @@
       "Type": "Prefab"
     },
     {
-      "FilePath": "Scripts/MenuPlayerController.lns",
-      "Handle": 8889985316863257042,
-      "Type": "NativeScript"
-    },
-    {
       "FilePath": "Prefabs/HealthBar.lprefab",
       "Handle": 8994821050073474677,
       "Type": "Prefab"
+    },
+    {
+      "FilePath": "Scenes/Settings.lscene",
+      "Handle": 9008123043756305205,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Images/UI/block_1_white_outline.png",
+      "Handle": 9161504996443895016,
+      "Type": "Texture"
     },
     {
       "FilePath": "Sprites/Spaceship_Enemy.lsprite",
@@ -121,6 +131,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Prefabs/SliderBar.lprefab",
+      "Handle": 10913825540077396671,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Images/Spaceships/Spaceship_01_YELLOW.png",
       "Handle": 11037920269647707098,
       "Type": "Texture"
@@ -141,6 +156,11 @@
       "Type": "Font"
     },
     {
+      "FilePath": "Scripts/MainMenu.lns",
+      "Handle": 12847343861310406517,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Shaders/Glow.lshader",
       "Handle": 13051149814912967988,
       "Type": "Shader"
@@ -156,8 +176,18 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sprites/SliderHandle.lsprite",
+      "Handle": 14756114589369891421,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Images/Spaceships/Spaceship_01_RED.png",
       "Handle": 15113779942043340198,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/UI/ball_white_shaded_outline.png",
+      "Handle": 15144226403790760615,
       "Type": "Texture"
     },
     {
@@ -166,9 +196,19 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/UIButton.lns",
+      "Handle": 16655553914777174625,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Scenes/MainMenuScene.lscene",
       "Handle": 16788723314191566088,
       "Type": "Scene"
+    },
+    {
+      "FilePath": "Scripts/AudioSlider.lns",
+      "Handle": 16899872940629504947,
+      "Type": "NativeScript"
     }
   ]
 }

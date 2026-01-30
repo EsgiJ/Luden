@@ -1,0 +1,15 @@
+{
+    "Handle": 5836295056786713008,
+    "Name": "SliderBar",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 9161504996443895016,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

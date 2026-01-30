@@ -7,7 +7,7 @@
             },
             "InputComponent": null,
             "NativeScriptComponent": {
-                "ScriptHandle": 8889985316863257042
+                "ScriptHandle": -5599400212399145099
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -60,11 +60,14 @@
             "UUID": 10025207551768782655
         },
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": -1791190158932376991
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
             },
-            "Tag": "StartGame",
+            "Tag": "PlayButton",
             "TextComponent": {
                 "characterSize": 64,
                 "fillColor": [
@@ -104,11 +107,14 @@
             "UUID": 7754476219171336584
         },
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": -1791190158932376991
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
             },
-            "Tag": "ExitGame",
+            "Tag": "QuitButton",
             "TextComponent": {
                 "characterSize": 64,
                 "fillColor": [
@@ -148,11 +154,14 @@
             "UUID": 18173111346826907897
         },
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": -1791190158932376991
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 0
             },
-            "Tag": "Settings",
+            "Tag": "SettingsButton",
             "TextComponent": {
                 "characterSize": 64,
                 "fillColor": [

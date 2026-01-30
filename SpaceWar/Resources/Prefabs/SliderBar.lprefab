@@ -1,0 +1,185 @@
+{
+    "Entities": [
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -1546871133080046669
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    14369261783786830867,
+                    4856620209345380180,
+                    4079458870229733918,
+                    6156496811499212107
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "MusicSlider",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6759759767024439222
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6759759767024439222
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 5836295056786713008,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "SliderBar",
+            "TransformComponent": {
+                "Scale": [
+                    10.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    -10.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 14369261783786830867
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6759759767024439222
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14756114589369891421,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "SliderHandle",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    10.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4856620209345380180
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6759759767024439222
+            },
+            "Tag": "ValueText",
+            "TextComponent": {
+                "characterSize": 256,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 12349529158468568365,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 50.0,
+                "style": 3,
+                "text": "100",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    3000.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4079458870229733918
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6759759767024439222
+            },
+            "Tag": "SliderText",
+            "TextComponent": {
+                "characterSize": 512,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 12349529158468568365,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 50.0,
+                "style": 1,
+                "text": "Slider",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -600.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6156496811499212107
+        }
+    ],
+    "Name": "SliderBar",
+    "PrefabHandle": 10913825540077396671,
+    "RootEntityUUID": 6759759767024439222,
+    "UUID": 12010920471899460928
+}

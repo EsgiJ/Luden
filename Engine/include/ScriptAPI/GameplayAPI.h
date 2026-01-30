@@ -29,6 +29,8 @@ namespace Luden
 		ENGINE_API void ReloadCurrentScene();
 		ENGINE_API void QuitGame();
 
+		ENGINE_API Entity FindEntityWithUUID(const UUID& uuid);
+		ENGINE_API Vector<Entity> GetChildren(Entity parent);
 		ENGINE_API Entity FindEntityWithTag(const String& tag);
 		ENGINE_API Vector<Entity> FindAllEntitiesWithTag(const String& tag);
 		ENGINE_API Vector<Entity> FindEntitiesInRadius(const Vec3& center, float radius);
