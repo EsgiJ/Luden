@@ -53,7 +53,7 @@
             "RelationshipComponent": {
                 "Children": [
                     17984839182257646899,
-                    3697524784983147011
+                    13662315940587642142
                 ],
                 "ParentHandle": 0
             },
@@ -93,6 +93,10 @@
             "NativeScriptComponent": {
                 "ScriptHandle": -4960231655435649035
             },
+            "PrefabComponent": {
+                "EntityID": 13662315940587642142,
+                "PrefabID": 11697368830080691786
+            },
             "RelationshipComponent": {
                 "Children": null,
                 "ParentHandle": 12476889919593032710
@@ -122,13 +126,13 @@
                     1.0
                 ],
                 "Translation": [
-                    50.0,
+                    0.0,
                     0.0,
                     0.0
                 ],
                 "angle": 0.0
             },
-            "UUID": 3697524784983147011
+            "UUID": 13662315940587642142
         }
     ],
     "Name": "Elephant",
