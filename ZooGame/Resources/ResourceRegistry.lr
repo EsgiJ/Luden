@@ -516,6 +516,11 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Scripts/Elephant.lns",
+      "Handle": 13910162967670977420,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Animations/ElephantPullAnim.lanim",
       "Handle": 13927744607971831506,
       "Type": "Animation"
@@ -624,6 +629,11 @@
       "FilePath": "Sprites/Backgrounds/DesertBackground.lsprite",
       "Handle": 16130889689165339788,
       "Type": "Sprite"
+    },
+    {
+      "FilePath": "Animations/ElephantIdleAnim.lanim",
+      "Handle": 16348366307340108880,
+      "Type": "Animation"
     },
     {
       "FilePath": "Sprites/Elephant/e_10.lsprite",

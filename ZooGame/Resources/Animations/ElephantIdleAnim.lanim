@@ -1,0 +1,16 @@
+{
+    "FrameCount": 1,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 16660585307691929202
+        }
+    ],
+    "Handle": 16348366307340108880,
+    "Loop": true,
+    "Name": "ElephantIdleAnim"
+}

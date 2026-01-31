@@ -21,7 +21,7 @@ namespace Luden
         void Activate();
         void Deactivate();
 
-        float m_AnimDuration = 1.2f;
+        float m_AnimDuration = 5.0f;
         float m_PassedTime = 0.0f;
 
         bool m_AnimTriggered = false;

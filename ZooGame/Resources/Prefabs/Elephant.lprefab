@@ -20,7 +20,7 @@
                 "animationHandles": [
                     4063115052138678179,
                     13927744607971831506,
-                    7553635674637996750
+                    16348366307340108880
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
@@ -92,10 +92,6 @@
             },
             "NativeScriptComponent": {
                 "ScriptHandle": -4960231655435649035
-            },
-            "PrefabComponent": {
-                "EntityID": 3697524784983147011,
-                "PrefabID": 11697368830080691786
             },
             "RelationshipComponent": {
                 "Children": null,

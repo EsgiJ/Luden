@@ -6,7 +6,7 @@ namespace Luden
 {
     void Elephant::OnCreate()
     {
-        m_EmptyAnim = GetResource<Animation>("EmptyAnim");
+        m_EmptyAnim = GetResource<Animation>("ElephantIdleAnim");
         m_ElephantPushAnim = GetResource<Animation>("ElephantPushAnim");
         m_ElephantPullAnim = GetResource<Animation>("ElephantPullAnim");
 
