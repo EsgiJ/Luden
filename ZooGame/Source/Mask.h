@@ -5,12 +5,13 @@ namespace Luden
 {
     enum class MaskType : uint8_t
     {
-        None,
-	    Elephant,
-        Rabbit,
-        Monkey
+        None = 0,
+        Elephant = 1,
+        Rabbit = 2,
+        Monkey = 3
     };
-	class Mask : public ScriptableEntity
+
+    class Mask : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -21,6 +22,8 @@ namespace Luden
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
         MaskType m_Type = MaskType::None;
+
+        AnimationRef m_EmptyAnim = nullptr;
 
         AnimationRef m_CurrentIdleAnim = nullptr;
         AnimationRef m_CurrentBackAnim = nullptr;
@@ -41,5 +44,8 @@ namespace Luden
         AnimationRef m_MonkeyBackAnim = nullptr;
         AnimationRef m_MonkeyFrontAnim = nullptr;
         AnimationRef m_MonkeySideAnim = nullptr;
+
+    private:
+        void UpdateMaskAnimations();
     };
 }

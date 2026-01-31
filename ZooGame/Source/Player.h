@@ -25,6 +25,7 @@ namespace Luden
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
 	public:
+        Mask* m_MaskScript = nullptr;
         Entity m_MaskEntity;
         MaskType m_Type = MaskType::None;
 
@@ -40,7 +41,9 @@ namespace Luden
 	private:
         void SetupInput();
         void OnMove(const InputValue& value);
+        void OnChangeMask(const InputValue& value);
         void TakeDamage(int damage);
         void Die();
+        void UpdateMovementAnimation(const Vec3& movement);
     };
 }

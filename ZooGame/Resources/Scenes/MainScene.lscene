@@ -347,12 +347,12 @@
                 "ScriptHandle": 5114375928514767093
             },
             "PrefabComponent": {
-                "EntityID": 725223593981231711,
+                "EntityID": 1553677953538249896,
                 "PrefabID": 4818737851084715457
             },
             "RelationshipComponent": {
                 "Children": [
-                    10748073905930788610
+                    7572051586702190600
                 ],
                 "ParentHandle": 0
             },
@@ -373,7 +373,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.03392000123858452,
+                "frameTimer": 0.0,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -396,7 +396,7 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 725223593981231711
+            "UUID": 1553677953538249896
         },
         {
             "BoxCollider2DComponent": {
@@ -420,7 +420,7 @@
             },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 725223593981231711
+                "ParentHandle": 1553677953538249896
             },
             "RigidBody2DComponent": {
                 "AngularDrag": 0.05000000074505806,
@@ -434,11 +434,15 @@
                 "animationHandles": [
                     11896305348074595209,
                     8355092832829679700,
-                    15668835922991334784
+                    15668835922991334784,
+                    1855706625149231958,
+                    1237646521231655321,
+                    13309109761928807195,
+                    7553635674637996750
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.03392000123858452,
+                "frameTimer": 0.0,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -461,7 +465,7 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 10748073905930788610
+            "UUID": 7572051586702190600
         }
     ],
     "Name": "MainScene",

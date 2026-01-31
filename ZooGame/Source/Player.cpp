@@ -27,24 +27,17 @@ namespace Luden
 	    {
 		    if (child.Tag() == "Mask")
 		    {
-                std::cout << "Mask entity found" << std::endl;
                 m_MaskEntity = child;
 		    }
 	    }
 
-	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
-	    {
-            int  i = (int)m_Type;
-            i++;
-            m_Type = (MaskType)i;
-	    }
 	    if (m_MaskEntity.IsValid())
 	    {
-            auto maskScript = GameplayAPI::GetScript<Mask>(m_MaskEntity);
+            m_MaskScript = GameplayAPI::GetScript<Mask>(m_MaskEntity);
 
-            if (maskScript != nullptr)
+            if (m_MaskScript != nullptr)
             {
-                maskScript->m_Type = m_Type;
+                m_MaskScript->m_Type = m_Type;
             }
 	    }
     }
@@ -87,40 +80,111 @@ namespace Luden
                 movement.y = 0.0f;
         }
 
+        UpdateMovementAnimation(movement);
+
+        Physics2DAPI::SetLinearVelocity(ownerEntity, movement * m_MoveSpeed);
+    }
+
+    void Player::UpdateMovementAnimation(const Vec3& movement)
+    {
         if (movement.x == 0.0f && movement.y == 0.0f)
         {
             AnimationAPI::PlayAnimation(GetEntity(), m_IdleAnim);
+
+            if (m_MaskEntity.IsValid() && m_MaskScript)
+            {
+                if (m_MaskScript->m_CurrentIdleAnim)
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_CurrentIdleAnim);
+                else
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_EmptyAnim);
+            }
         }
-        else if (movement.x > 0.0f )
+        else if (movement.x > 0.0f)
         {
             AnimationAPI::PlayAnimation(GetEntity(), m_SideAnim);
-            Vec3 scale = GameplayAPI::GetScale(GetEntity());
 
-            if (scale.x > 0.0f)
-                scale.x *= -1;
+            Vec3 playerScale = GameplayAPI::GetScale(GetEntity());
+            if (playerScale.x > 0.0f)
+                playerScale.x *= -1;
+            GameplayAPI::SetScale(GetEntity(), playerScale);
 
-            GameplayAPI::SetScale(GetEntity(), scale);
+            if (m_MaskEntity.IsValid() && m_MaskScript)
+            {
+                if (m_MaskScript->m_CurrentSideAnim)
+                {
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_CurrentSideAnim);
+
+                    Vec3 maskScale = GameplayAPI::GetScale(m_MaskEntity);
+                    if (maskScale.x < 0.0f)
+                        maskScale.x *= -1;
+                    GameplayAPI::SetScale(m_MaskEntity, maskScale);
+                }
+                else
+                {
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_EmptyAnim);
+                }
+            }
         }
         else if (movement.x < 0.0f)
         {
             AnimationAPI::PlayAnimation(GetEntity(), m_SideAnim);
-            Vec3 scale = GameplayAPI::GetScale(GetEntity());
 
-            if (scale.x < 0.0f)
-                scale.x *= -1;
+            Vec3 playerScale = GameplayAPI::GetScale(GetEntity());
+            if (playerScale.x < 0.0f)
+                playerScale.x *= -1;
+            GameplayAPI::SetScale(GetEntity(), playerScale);
 
-            GameplayAPI::SetScale(GetEntity(), scale);
+            if (m_MaskEntity.IsValid() && m_MaskScript)
+            {
+                if (m_MaskScript->m_CurrentSideAnim)
+                {
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_CurrentSideAnim);
+
+                    Vec3 maskScale = GameplayAPI::GetScale(m_MaskEntity);
+                    if (maskScale.x < 0.0f)
+                        maskScale.x *= -1;
+                    GameplayAPI::SetScale(m_MaskEntity, maskScale);
+                }
+                else
+                {
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_EmptyAnim);
+                }
+            }
         }
         else if (movement.y > 0.0f)
         {
             AnimationAPI::PlayAnimation(GetEntity(), m_FrontAnim);
+
+            if (m_MaskEntity.IsValid() && m_MaskScript)
+            {
+                if (m_MaskScript->m_CurrentFrontAnim)
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_CurrentFrontAnim);
+                else
+                    AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_EmptyAnim);
+            }
         }
         else if (movement.y < 0.0f)
         {
             AnimationAPI::PlayAnimation(GetEntity(), m_BackAnim);
+
+            if (m_MaskEntity.IsValid() && m_MaskScript)
+            {
+                AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_EmptyAnim);
+            }
+        }
+    }
+
+    void Player::OnChangeMask(const InputValue& value)
+    {
+        int i = (int)m_Type;
+        i++;
+
+        if (i > (int)MaskType::Monkey)
+        {
+            i = (int)MaskType::None;
         }
 
-        Physics2DAPI::SetLinearVelocity(ownerEntity, movement * m_MoveSpeed);
+        m_Type = (MaskType)i;
     }
 
     void Player::SetupInput()
@@ -139,6 +203,15 @@ namespace Luden
             ModifierConfig(),
             });
 
+        InputAction ChangeMaskAction("ChangeMask");
+
+        context->AddMapping({
+            ChangeMaskAction,
+            sf::Keyboard::Key::R,
+            ModifierConfig(),
+            TriggerConfig()
+            });
+
         InputManager::Instance().PushContext(context);
 
         auto& input = GetComponent<InputComponent>();
@@ -146,6 +219,7 @@ namespace Luden
         input.consumeInput = true;
 
         input.BindAction(MoveAction, ETriggerEvent::Ongoing, this, &Player::OnMove);
+        input.BindAction(ChangeMaskAction, ETriggerEvent::Started, this, &Player::OnChangeMask);
     }
 
     void Player::TakeDamage(int damage)

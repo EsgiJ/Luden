@@ -26,8 +26,6 @@ namespace Luden
 
         if (m_Overlap)
         {
-            std::cout << "Overlap" << std::endl;
-
             Entity cameraEntity = GameplayAPI::FindEntityWithTag("Camera");
 
             if (cameraEntity.IsValid())

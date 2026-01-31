@@ -176,6 +176,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Animations/Masks/EmptyAnim.lanim",
+      "Handle": 7553635674637996750,
+      "Type": "Animation"
+    },
+    {
       "FilePath": "Images/Player/back animation/back_3.png",
       "Handle": 7735793656867008866,
       "Type": "Texture"
@@ -286,6 +291,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Animations/Masks/RabbitMaskSideAnim.lanim",
+      "Handle": 13309109761928807195,
+      "Type": "Animation"
+    },
+    {
       "FilePath": "Sprites/Masks/RabbitMask/r_mask_side_1.lsprite",
       "Handle": 13486677544138314620,
       "Type": "Sprite"
@@ -293,11 +303,6 @@
     {
       "FilePath": "Animations/Player/SideAnim.lanim",
       "Handle": 13581614685594068458,
-      "Type": "Animation"
-    },
-    {
-      "FilePath": "Animations/Masks/RabbitMaskSideAnim.lanim",
-      "Handle": 13839329288961789655,
       "Type": "Animation"
     },
     {
