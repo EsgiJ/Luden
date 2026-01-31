@@ -49,11 +49,9 @@ namespace Luden
 				else if (rb2d.BodyType == RigidBody2DComponent::Type::Dynamic)
 					bodyDef.type = b2_dynamicBody;
 
-				glm::vec2 worldPos = GetPhysicsWorldPosition(entity);
-
 				bodyDef.position = b2Vec2(
-					worldPos.x / m_PhysicsScale,
-					(m_ViewportHeight - worldPos.y) / m_PhysicsScale
+					transformComponent.Translation.x / m_PhysicsScale,
+					(m_ViewportHeight - transformComponent.Translation.y) / m_PhysicsScale
 				);
 				bodyDef.rotation = b2MakeRot(glm::radians(transformComponent.angle));
 
@@ -156,32 +154,18 @@ namespace Luden
 			{
 				auto& rb2d = entity.Get<RigidBody2DComponent>();
 				auto& transform = entity.Get<TransformComponent>();
+				b2BodyId bodyId = rb2d.RuntimeBodyId;
 
-				if (b2Body_IsValid(rb2d.RuntimeBodyId))
+				if (b2Body_IsValid(bodyId))
 				{
-					b2Vec2 physPos = b2Body_GetPosition(rb2d.RuntimeBodyId);
-					glm::vec2 worldPos(physPos.x * m_PhysicsScale, m_ViewportHeight - (physPos.y * m_PhysicsScale));
+					b2Vec2 position = b2Body_GetPosition(bodyId);
+					b2Rot rotation = b2Body_GetRotation(bodyId);
 
-					Entity parent = entity.GetParent();
-					if (parent.IsValid())
-					{
-						sf::Transform parentWorldXform = m_Scene->GetWorldTransform(parent);
-						sf::Vector2f localPos = parentWorldXform.getInverse().transformPoint({ worldPos.x, worldPos.y });
+					float angle = atan2f(rotation.s, rotation.c);
 
-						transform.Translation.x = localPos.x;
-						transform.Translation.y = localPos.y;
-					}
-					else
-					{
-						transform.Translation.x = worldPos.x;
-						transform.Translation.y = worldPos.y;
-					}
-
-					float physAngle = glm::degrees(atan2f(b2Body_GetRotation(rb2d.RuntimeBodyId).s, b2Body_GetRotation(rb2d.RuntimeBodyId).c));
-					if (parent.IsValid())
-						transform.angle = physAngle - parent.Get<TransformComponent>().angle; 
-					else
-						transform.angle = physAngle;
+					transform.Translation.x = position.x * m_PhysicsScale;
+					transform.Translation.y = m_ViewportHeight - (position.y * m_PhysicsScale);
+					transform.angle = glm::degrees(angle);
 				}
 			}
 		}
@@ -207,15 +191,6 @@ namespace Luden
 				e.Get<RigidBody2DComponent>().RuntimeBodyId = b2_nullBodyId;
 			}
 		}
-	}
-
-	glm::vec2 Physics2DManager::GetPhysicsWorldPosition(Entity entity)
-	{
-		sf::Transform worldXform = m_Scene->GetWorldTransform(entity);
-
-		sf::Vector2f globalPos = worldXform.transformPoint({ 0.0f, 0.0f });
-
-		return glm::vec2(globalPos.x, globalPos.y);
 	}
 
 	void Physics2DManager::RegisterEntity(Entity entity)

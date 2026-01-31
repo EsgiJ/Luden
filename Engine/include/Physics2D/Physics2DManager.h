@@ -4,8 +4,6 @@
 #include "Core/TimeStep.h"
 
 #include <box2d/box2d.h>
-#include <glm/vec2.hpp>
-#include <SFML/Graphics/Transform.hpp>
 
 namespace Luden
 {
@@ -26,7 +24,7 @@ namespace Luden
 
 		void RegisterEntity(Entity entity);
 		void UnregisterEntity(Entity entity);
-		glm::vec2 GetPhysicsWorldPosition(Entity entity);
+
 		void UpdateEntityPhysics(Entity entity);
 
 		b2WorldId GetPhysicsWorldId() { return m_PhysicsWorldId; }

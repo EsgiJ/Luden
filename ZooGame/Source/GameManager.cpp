@@ -33,4 +33,5 @@ namespace Luden
     {
         // TODO: On hit(high speed)
     }
+
 }
