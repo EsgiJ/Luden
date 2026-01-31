@@ -1,0 +1,2247 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 15093811533209290993,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_01",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -1.8176727294921875,
+                    64.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15093811533209290993
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 4391885055339339584,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_02",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4391885055339339584
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 16130889689165339788,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_01",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3562157811018178896
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 15320351474544585897,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_02",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4579043834887269539
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 9057803210153999491,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_03",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9057803210153999491
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 18228788536384652773,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_04",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18228788536384652773
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 11331097269474042888,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_03",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3058867465585202622
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 17343503998614316081,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_04",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16448930008948144034
+        },
+        {
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Camera",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 820306929253099785
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4032297394750075137
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "GameManager",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13138823751795800436
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -9067742687865085594
+            },
+            "PrefabComponent": {
+                "EntityID": 10464241567110153751,
+                "PrefabID": 11697368830080691786
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "ElephantTarget",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    -1165.238037109375,
+                    -641.9575805664063,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10464241567110153751
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -2333808518275202909
+            },
+            "PrefabComponent": {
+                "EntityID": 9953576499655722404,
+                "PrefabID": 16030370767367817417
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 6511408708968070631,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -640.0,
+                    -192.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9953576499655722404
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 2,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1000.0,
+                    1000.0
+                ]
+            },
+            "HealthComponent": {
+                "current": 1,
+                "max": 1
+            },
+            "InputComponent": null,
+            "NativeScriptComponent": {
+                "ScriptHandle": 5114375928514767093
+            },
+            "PrefabComponent": {
+                "EntityID": 5132926230552123236,
+                "PrefabID": 4818737851084715457
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    7977923351461327926
+                ],
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 1,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    10990375467485372143,
+                    13581614685594068458,
+                    16692048177833949225,
+                    3416439760125896420
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 0,
+                "frameTimer": 0.017007000744342804,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    -832.0,
+                    1472.0,
+                    100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5132926230552123236
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 1,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 1,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1000.0,
+                    1000.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 972696849183037665
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 5132926230552123236
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    11896305348074595209,
+                    8355092832829679700,
+                    15668835922991334784,
+                    1855706625149231958,
+                    1237646521231655321,
+                    13309109761928807195,
+                    7553635674637996750,
+                    13724373472184807112,
+                    6275384229511597737,
+                    295733085267296872
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 0,
+                "frameTimer": 0.017007000744342804,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Mask",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7977923351461327926
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": 8546310150132358388
+            },
+            "PrefabComponent": {
+                "EntityID": 8621185374905623599,
+                "PrefabID": 17006766870255329594
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    16975136079037653994,
+                    10379668539867658874
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "MonkeyBridge",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    320.0,
+                    -384.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8621185374905623599
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8621185374905623599
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Bridge",
+            "TransformComponent": {
+                "Scale": [
+                    3.0,
+                    0.5,
+                    0.5
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16975136079037653994
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8621185374905623599
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12189214047291068214,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Monkey",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10379668539867658874
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    10225875081587324986,
+                    160284168265175920,
+                    8949244485346422617,
+                    7227621459032980337,
+                    7294409602906638322,
+                    12458424915530985448,
+                    14988943361299251317
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Elephant Room",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11524156850033803809
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    16418124469871640841,
+                    17473272625787693969,
+                    7459686511747744037
+                ],
+                "ParentHandle": 11524156850033803809
+            },
+            "Tag": "Blocks",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10225875081587324986
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 10225875081587324986
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block_1",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.8999999761581421,
+                    0.8999999761581421
+                ],
+                "Translation": [
+                    -674.7988891601563,
+                    1378.466064453125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16418124469871640841
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 10225875081587324986
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block_1_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.800000011920929,
+                    0.800000011920929
+                ],
+                "Translation": [
+                    -726.3463745117188,
+                    740.4154663085938,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 17473272625787693969
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11524156850033803809
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    127,
+                    33,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Mask Room",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.800000011920929,
+                    0.800000011920929
+                ],
+                "Translation": [
+                    741.9573974609375,
+                    1731.9464111328125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 160284168265175920
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11524156850033803809
+            },
+            "Tag": "Elephant Targets",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7227621459032980337
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 10225875081587324986
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Block_1_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    1.399999976158142,
+                    1.399999976158142
+                ],
+                "Translation": [
+                    563.7618408203125,
+                    905.7142944335938,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7459686511747744037
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11524156850033803809
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    0,
+                    255,
+                    54,
+                    255
+                ]
+            },
+            "Tag": "next level gate",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.5,
+                    0.5
+                ],
+                "Translation": [
+                    951.7075805664063,
+                    791.8432006835938,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8949244485346422617
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    8435228385460128545,
+                    6441961633872597627,
+                    17656182126336483710
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Rabbit_Room_1",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8940412848283742930
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8940412848283742930
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    185,
+                    0,
+                    209,
+                    255
+                ]
+            },
+            "Tag": "Elephant_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    1446.7515869140625,
+                    602.7247314453125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8435228385460128545
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6441961633872597627
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    1444.3780517578125,
+                    754.6647338867188,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7857142133039136069
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6441961633872597627
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    1912.7088623046875,
+                    1058.3701171875,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6611903385828732620
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 6441961633872597627
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    2361.170654296875,
+                    1058.3699951171875,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8549716092403140867
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    7857142133039136069,
+                    6611903385828732620,
+                    8549716092403140867
+                ],
+                "ParentHandle": 8940412848283742930
+            },
+            "Tag": "Next Level",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6441961633872597627
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    12753105791162817388,
+                    486445923146452920,
+                    11333040932525292090,
+                    6581564454167191021,
+                    5345579663363828669,
+                    11904815737081030458
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Rabbit_Room_2",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7136415451050119483
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12753105791162817388
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    -647.5626831054688,
+                    240.20364379882813,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11263614474219277232
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12753105791162817388
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    -642.6992797851563,
+                    -24.847023010253906,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12062985577463800454
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12753105791162817388
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    -219.59091186523438,
+                    -12.688743591308594,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16099535396274499483
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12753105791162817388
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    150.02090454101563,
+                    -10.257087707519531,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11719630827937603447
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12753105791162817388
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    500.1793212890625,
+                    -285.03436279296875,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15229409902861470671
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12753105791162817388
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    488.0211181640625,
+                    -32.14197540283203,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8041172181633420122
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    11263614474219277232,
+                    12062985577463800454,
+                    16099535396274499483,
+                    11719630827937603447,
+                    15229409902861470671,
+                    8041172181633420122
+                ],
+                "ParentHandle": 7136415451050119483
+            },
+            "Tag": "Lotus Group",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12753105791162817388
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7136415451050119483
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    185,
+                    0,
+                    209,
+                    255
+                ]
+            },
+            "Tag": "Elephant_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    -937.5279541015625,
+                    282.9937744140625,
+                    0.0
+                ],
+                "angle": 90.0
+            },
+            "UUID": 486445923146452920
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7136415451050119483
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    185,
+                    0,
+                    210,
+                    255
+                ]
+            },
+            "Tag": "Elephant_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    889.5060424804688,
+                    -333.63043212890625,
+                    0.0
+                ],
+                "angle": 90.0
+            },
+            "UUID": 11333040932525292090
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7136415451050119483
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    0,
+                    255,
+                    54,
+                    255
+                ]
+            },
+            "Tag": "next level gate_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.5,
+                    0.5
+                ],
+                "Translation": [
+                    942.6641235351563,
+                    235.64825439453125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6581564454167191021
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7136415451050119483
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    127,
+                    33,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Mask Room_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.800000011920929,
+                    0.800000011920929
+                ],
+                "Translation": [
+                    -683.0426025390625,
+                    -653.0535888671875,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5345579663363828669
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    11516100586525573880,
+                    6605674249669752316,
+                    15430012432341187199,
+                    4099108402767854670,
+                    5506081773522525593,
+                    10708870963042133779,
+                    17467029616541762079,
+                    12871231010925247508
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Monkey Room",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11017262351300803581
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    10586960174459799625,
+                    14834551020091155611,
+                    5076726394390162900,
+                    733954608777871976,
+                    5852639467094208445
+                ],
+                "ParentHandle": 11017262351300803581
+            },
+            "Tag": "Lotus Group",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11516100586525573880
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11516100586525573880
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    1239.583251953125,
+                    90.98567199707031,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10586960174459799625
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11516100586525573880
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    1601.560546875,
+                    90.98565673828125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 14834551020091155611
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    0,
+                    0,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "lotus with monkey",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    1593.5889892578125,
+                    -174.73483276367188,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6605674249669752316
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11516100586525573880
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    1593.589111328125,
+                    327.4768371582031,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5076726394390162900
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11516100586525573880
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    2082.222900390625,
+                    337.2552795410156,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 733954608777871976
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    185,
+                    0,
+                    210,
+                    255
+                ]
+            },
+            "Tag": "Elephant_copy_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    2082.351806640625,
+                    534.4785766601563,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15430012432341187199
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    0,
+                    0,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "lotus with monkey_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    2374.12109375,
+                    -177.23655700683594,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4099108402767854670
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11516100586525573880
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    242,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "Lotus_copy_copy_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    2394.936279296875,
+                    317.2415466308594,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5852639467094208445
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    31,
+                    255,
+                    0,
+                    255
+                ]
+            },
+            "Tag": "lotus with key",
+            "TransformComponent": {
+                "Scale": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "Translation": [
+                    2635.100341796875,
+                    -365.7240295410156,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 17467029616541762079
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    185,
+                    0,
+                    210,
+                    255
+                ]
+            },
+            "Tag": "Elephant_copy_copy_copy_copy_copy_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.6000000238418579,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    2615.114990234375,
+                    -549.210205078125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5506081773522525593
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    0,
+                    110,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "lotus with monkey_copy_copy",
+            "TransformComponent": {
+                "Scale": [
+                    0.5,
+                    0.800000011920929,
+                    0.800000011920929
+                ],
+                "Translation": [
+                    1606.8408203125,
+                    -670.8040161132813,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10708870963042133779
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8940412848283742930
+            },
+            "Tag": "Tutor Reminder Text",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 15493987458093450895,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 0,
+                "text": "Press H for help",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1900.8004150390625,
+                    1564.2001953125,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 17656182126336483710
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11524156850033803809
+            },
+            "Tag": "Tutor Reminder Text_copy",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 15493987458093450895,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 0,
+                "text": "Press H for help",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    280.07659912109375,
+                    1576.310302734375,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7294409602906638322
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7136415451050119483
+            },
+            "Tag": "Tutor Reminder Text_copy_copy",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 15493987458093450895,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 0,
+                "text": "Press H for help",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    180.07647705078125,
+                    466.31005859375,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11904815737081030458
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11017262351300803581
+            },
+            "Tag": "Tutor Reminder Text_copy_copy_copy",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "fontHandle": 15493987458093450895,
+                "letterSpacing": 1.0,
+                "lineAlignment": 0,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "outlineThickness": 0.0,
+                "style": 0,
+                "text": "Press H for help",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    2107.280029296875,
+                    -472.4069519042969,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12871231010925247508
+        },
+        {
+            "PrefabComponent": {
+                "EntityID": 12458424915530985448,
+                "PrefabID": 17239031210567999200
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    11478456494250362853,
+                    2901973591619049871
+                ],
+                "ParentHandle": 11524156850033803809
+            },
+            "Tag": "ElephantRoot",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -448.0,
+                    1152.0,
+                    0.0
+                ],
+                "angle": -90.0
+            },
+            "UUID": 12458424915530985448
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4536581106038574196
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12458424915530985448
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    4063115052138678179,
+                    13927744607971831506,
+                    16348366307340108880
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 11,
+                "frameTimer": 0.06602700054645538,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Elephant",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 90.0
+            },
+            "UUID": 11478456494250362853
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": -4960231655435649035
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 12458424915530985448
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "ElephantTarget",
+            "TransformComponent": {
+                "Scale": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "Translation": [
+                    50.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 2901973591619049871
+        },
+        {
+            "PrefabComponent": {
+                "EntityID": 14988943361299251317,
+                "PrefabID": 17239031210567999200
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    646357470315105419,
+                    3785177134425028131
+                ],
+                "ParentHandle": 11524156850033803809
+            },
+            "Tag": "ElephantRoot",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    448.0,
+                    1472.0,
+                    0.0
+                ],
+                "angle": 180.0
+            },
+            "UUID": 14988943361299251317
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4536581106038574196
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 14988943361299251317
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    4063115052138678179,
+                    13927744607971831506,
+                    16348366307340108880
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 11,
+                "frameTimer": 0.06602700054645538,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Elephant",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 90.0
+            },
+            "UUID": 646357470315105419
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": -4960231655435649035
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 14988943361299251317
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "ElephantTarget",
+            "TransformComponent": {
+                "Scale": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "Translation": [
+                    50.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3785177134425028131
+        }
+    ],
+    "Name": "MainScene",
+    "UUID": 2599998760147687382
+}

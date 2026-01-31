@@ -6,7 +6,7 @@ workspace "ZooGame"
     startproject "ZooGame"
 
 -- Engine path set by project generator
-ENGINE_PATH = "C:/GameProjects/Luden"
+ENGINE_PATH = "C:\\Users\\Ataberk\\Luden"
 
 project "ZooGame"
     location "."

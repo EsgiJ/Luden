@@ -93,3 +93,5 @@ local_settings.*
 # Backup files
 *.backup.*
 *.backup.json
+ZooGame/premake5.lua
+ZooGame/ZooGame.lproject
