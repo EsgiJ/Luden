@@ -64,7 +64,7 @@ namespace Luden
         void UseMonkeyAbility();
 
         void UpdateRabbitJump(TimeStep ts);
-        Entity FindClosestPlatformInDirection(float greaterThan);
+        Entity FindClosestPlatformInDirection();
 
         void UpdateMonkeyWalk(TimeStep ts);
 
@@ -87,12 +87,6 @@ namespace Luden
         float m_MinRabbitJumpDistance = 500.0f;
         float m_MinElephantDistance = 500.0f;
         float m_MinMonkeyJumpDistance = 1000.0f;
-
-        Entity m_MonkeySourcePlatform;  
-        Entity m_MonkeyTargetPlatform;  
-
-        WalkDirection GetOppositeDirection(WalkDirection dir);
-        void ActivateMonkeyArmInDirection(Entity platform, WalkDirection direction, bool deactivate);
 
     };
 }

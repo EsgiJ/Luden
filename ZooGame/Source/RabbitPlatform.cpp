@@ -12,13 +12,6 @@ namespace Luden
         {
             PlatformSize = GameplayAPI::GetEntitySize(GetEntity());
         }
-
-        auto entities = GameplayAPI::GetChildren(GetEntity());
-
-        MonkeyArmRight = entities[0];
-        MonkeyArmLeft = entities[1];
-        MonkeyArmUp = entities[2];
-        MonkeyArmDown = entities[3];
     }
 
     void RabbitPlatform::OnUpdate(TimeStep ts)
