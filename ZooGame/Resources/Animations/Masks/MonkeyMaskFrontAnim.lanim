@@ -1,0 +1,32 @@
+{
+    "FrameCount": 3,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 12211400430462129605
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 12506038761244238323
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 10892051807649988557
+        }
+    ],
+    "Handle": 295733085267296872,
+    "Loop": true,
+    "Name": "MonkeyMaskFrontAnim"
+}

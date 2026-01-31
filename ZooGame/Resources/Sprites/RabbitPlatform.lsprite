@@ -1,0 +1,15 @@
+{
+    "Handle": 6511408708968070631,
+    "Name": "RabbitPlatform",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 3016414214087338806,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

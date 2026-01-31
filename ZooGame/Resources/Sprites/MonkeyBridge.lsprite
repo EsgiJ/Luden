@@ -1,0 +1,15 @@
+{
+    "Handle": 12358888176231115231,
+    "Name": "MonkeyBridge",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 3110604717578439817,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

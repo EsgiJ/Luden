@@ -1,0 +1,41 @@
+{
+    "Entities": [
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -2333808518275202909
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 6511408708968070631,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 2677992487756687948
+        }
+    ],
+    "Name": "RabbitPlatform",
+    "PrefabHandle": 16030370767367817417,
+    "RootEntityUUID": 2677992487756687948,
+    "UUID": 4471742514163833919
+}

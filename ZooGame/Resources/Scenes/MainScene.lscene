@@ -322,6 +322,104 @@
             "UUID": 820306929253099785
         },
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4032297394750075137
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "GameManager",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13138823751795800436
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4960231655435649035
+            },
+            "PrefabComponent": {
+                "EntityID": 10464241567110153751,
+                "PrefabID": 11697368830080691786
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "ElephantTarget",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    -640.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10464241567110153751
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -2333808518275202909
+            },
+            "PrefabComponent": {
+                "EntityID": 9953576499655722404,
+                "PrefabID": 16030370767367817417
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 6511408708968070631,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -640.0,
+                    -192.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9953576499655722404
+        },
+        {
             "BoxCollider2DComponent": {
                 "CategoryBits": 2,
                 "Density": 1.0,
@@ -347,12 +445,12 @@
                 "ScriptHandle": 5114375928514767093
             },
             "PrefabComponent": {
-                "EntityID": 1553677953538249896,
+                "EntityID": 5132926230552123236,
                 "PrefabID": 4818737851084715457
             },
             "RelationshipComponent": {
                 "Children": [
-                    7572051586702190600
+                    7977923351461327926
                 ],
                 "ParentHandle": 0
             },
@@ -373,7 +471,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0,
+                "frameTimer": 0.0519770011305809,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -396,7 +494,7 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 1553677953538249896
+            "UUID": 5132926230552123236
         },
         {
             "BoxCollider2DComponent": {
@@ -420,7 +518,7 @@
             },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 1553677953538249896
+                "ParentHandle": 5132926230552123236
             },
             "RigidBody2DComponent": {
                 "AngularDrag": 0.05000000074505806,
@@ -438,11 +536,14 @@
                     1855706625149231958,
                     1237646521231655321,
                     13309109761928807195,
-                    7553635674637996750
+                    7553635674637996750,
+                    13724373472184807112,
+                    6275384229511597737,
+                    295733085267296872
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0,
+                "frameTimer": 0.0519770011305809,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -465,7 +566,98 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 7572051586702190600
+            "UUID": 7977923351461327926
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": 8546310150132358388
+            },
+            "PrefabComponent": {
+                "EntityID": 8621185374905623599,
+                "PrefabID": 17006766870255329594
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    16975136079037653994,
+                    10379668539867658874
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "MonkeyBridge",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    320.0,
+                    -384.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8621185374905623599
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8621185374905623599
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Bridge",
+            "TransformComponent": {
+                "Scale": [
+                    3.0,
+                    0.5,
+                    0.5
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16975136079037653994
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8621185374905623599
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12189214047291068214,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Monkey",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10379668539867658874
         }
     ],
     "Name": "MainScene",

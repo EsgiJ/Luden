@@ -3,10 +3,13 @@
 #include "NativeScript/NativeScriptRegistry.h"
 #include <iostream>
 
+#include "ElephantTarget.h"
 #include "MainMenu.h"
 #include "Player.h"
 #include "GameManager.h"
 #include "Mask.h"
+#include "MonkeyBridge.h"
+#include "RabbitPlatform.h"
 #include "UIButton.h"
 #include "Room.h"
 
@@ -32,6 +35,10 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<GameManager>("GameManager", resourceManager);
 		NativeScriptRegistry::RegisterScript<Room>("Room", resourceManager);
 		NativeScriptRegistry::RegisterScript<Mask>("Mask", resourceManager);
+		NativeScriptRegistry::RegisterScript<MonkeyBridge>("MonkeyBridge", resourceManager);
+		NativeScriptRegistry::RegisterScript<RabbitPlatform>("RabbitPlatform", resourceManager);
+		NativeScriptRegistry::RegisterScript<ElephantTarget>("ElephantTarget", resourceManager);
+
 	}
 
 	uint32_t ZooGame::GetVersion() const

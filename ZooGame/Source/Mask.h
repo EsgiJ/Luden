@@ -1,5 +1,6 @@
 #pragma once
 #include "Luden.h"
+#include <functional>
 
 namespace Luden
 {
@@ -23,6 +24,15 @@ namespace Luden
 
         MaskType m_Type = MaskType::None;
 
+        std::function<void()> OnAbilityUse;
+
+        float AbilityCooldown = 0.0f;
+        float MaxCooldown = 2.0f;
+
+        void UseAbility();
+        bool CanUseAbility() const;
+
+        // Animations
         AnimationRef m_EmptyAnim = nullptr;
 
         AnimationRef m_CurrentIdleAnim = nullptr;

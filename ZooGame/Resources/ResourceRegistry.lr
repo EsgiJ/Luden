@@ -6,6 +6,11 @@
       "Type": "Scene"
     },
     {
+      "FilePath": "Animations/Masks/MonkeyMaskFrontAnim.lanim",
+      "Handle": 295733085267296872,
+      "Type": "Animation"
+    },
+    {
       "FilePath": "Images/Masks/RabbitMask/r_mask_side2.png",
       "Handle": 549775497836359214,
       "Type": "Texture"
@@ -46,6 +51,11 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Sprites/Masks/MonkeyMask/m_mask_side_01.lsprite",
+      "Handle": 1423111951503471749,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Scenes/MainScene.lscene",
       "Handle": 1494540518983563555,
       "Type": "Scene"
@@ -66,9 +76,19 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Sprites/Masks/MonkeyMask/m_mask_idle.lsprite",
+      "Handle": 1961888035524585338,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Sprites/Masks/ElephantMask.lsprite",
       "Handle": 1983708016949544103,
       "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/Masks/MonkeyMask/m_mask_idle.png",
+      "Handle": 2535571119796090817,
+      "Type": "Texture"
     },
     {
       "FilePath": "Images/Masks/ElephantMask/e_front_3.png",
@@ -76,8 +96,23 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/Masks/MonkeyMask/m_mask_side1.png",
+      "Handle": 2861325408175918638,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Background/mountains_day.png",
       "Handle": 2963543680482810059,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/animal_fox_outline_captured.png",
+      "Handle": 3010143249038272837,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/coin_bronze_0.png",
+      "Handle": 3016414214087338806,
       "Type": "Texture"
     },
     {
@@ -89,6 +124,11 @@
       "FilePath": "Sprites/Player/back animation/back_2.lsprite",
       "Handle": 3045908408161936250,
       "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/block_2_orange_outline.png",
+      "Handle": 3110604717578439817,
+      "Type": "Texture"
     },
     {
       "FilePath": "Animations/Player/BackAnim.lanim",
@@ -103,6 +143,11 @@
     {
       "FilePath": "Images/Masks/RabbitMask/r_front_2.png",
       "Handle": 4171967476460333850,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/Masks/MonkeyMask/m_mask_side2.png",
+      "Handle": 4320278646738628727,
       "Type": "Texture"
     },
     {
@@ -146,6 +191,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/Masks/MonkeyMask/m_front_3.png",
+      "Handle": 5471360622739761512,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Scripts/UIButton.lns",
       "Handle": 5483456309594446471,
       "Type": "NativeScript"
@@ -158,6 +208,16 @@
     {
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_front_2.lsprite",
       "Handle": 5912584632502220341,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Animations/Masks/MonkeyMaskSideAnim.lanim",
+      "Handle": 6275384229511597737,
+      "Type": "Animation"
+    },
+    {
+      "FilePath": "Sprites/RabbitPlatform.lsprite",
+      "Handle": 6511408708968070631,
       "Type": "Sprite"
     },
     {
@@ -194,6 +254,11 @@
       "FilePath": "Images/Player/elephant mask/e_side_2.png",
       "Handle": 8543264321547862578,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Scripts/MonkeyBridge.lns",
+      "Handle": 8546310150132358388,
+      "Type": "NativeScript"
     },
     {
       "FilePath": "Prefabs/MazeBlock.lprefab",
@@ -241,9 +306,19 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sprites/Masks/MonkeyMask/m_mask_front_03.lsprite",
+      "Handle": 10892051807649988557,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Animations/Player/IdleAnim.lanim",
       "Handle": 10990375467485372143,
       "Type": "Animation"
+    },
+    {
+      "FilePath": "Images/Masks/MonkeyMask/m_front_1.png",
+      "Handle": 11052038329752336677,
+      "Type": "Texture"
     },
     {
       "FilePath": "Sprites/Backgrounds/MountainsCloud.lsprite",
@@ -256,6 +331,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Prefabs/ElephantTarget.lprefab",
+      "Handle": 11697368830080691786,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Animations/Masks/ElephantMaskIdle.lanim",
       "Handle": 11896305348074595209,
       "Type": "Animation"
@@ -266,13 +346,33 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sprites/MonkeyHead.lsprite",
+      "Handle": 12189214047291068214,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/Masks/MonkeyMask/m_mask_front_01.lsprite",
+      "Handle": 12211400430462129605,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_side_1.lsprite",
       "Handle": 12336527180368637147,
       "Type": "Sprite"
     },
     {
+      "FilePath": "Sprites/MonkeyBridge.lsprite",
+      "Handle": 12358888176231115231,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Sprites/Player/front animation/front_1.lsprite",
       "Handle": 12406095897123594600,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/Masks/MonkeyMask/m_mask_front_02.lsprite",
+      "Handle": 12506038761244238323,
       "Type": "Sprite"
     },
     {
@@ -296,6 +396,16 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Sprites/Masks/MonkeyMask/m_mask_side_02.lsprite",
+      "Handle": 13460877936102331458,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scripts/ElephantTarget.lns",
+      "Handle": 13486512418273902581,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Sprites/Masks/RabbitMask/r_mask_side_1.lsprite",
       "Handle": 13486677544138314620,
       "Type": "Sprite"
@@ -303,6 +413,11 @@
     {
       "FilePath": "Animations/Player/SideAnim.lanim",
       "Handle": 13581614685594068458,
+      "Type": "Animation"
+    },
+    {
+      "FilePath": "Animations/Masks/MonkeyMaskIdleAnim.lanim",
+      "Handle": 13724373472184807112,
       "Type": "Animation"
     },
     {
@@ -371,9 +486,19 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Prefabs/RabbitPlatform.lprefab",
+      "Handle": 16030370767367817417,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Images/Masks/gem_sapphire_0.png",
       "Handle": 16097215868058510116,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Scripts/RabbitPlatform.lns",
+      "Handle": 16112935555434348707,
+      "Type": "NativeScript"
     },
     {
       "FilePath": "Sprites/Backgrounds/DesertBackground.lsprite",
@@ -396,6 +521,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Images/Masks/MonkeyMask/m_front_2.png",
+      "Handle": 16684578464346060423,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Animations/Player/FrontAnim.lanim",
       "Handle": 16692048177833949225,
       "Type": "Animation"
@@ -414,6 +544,11 @@
       "FilePath": "Images/Player/front animation/front_1.png",
       "Handle": 16955201695552233010,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Prefabs/MonkeyBridge.lprefab",
+      "Handle": 17006766870255329594,
+      "Type": "Prefab"
     },
     {
       "FilePath": "Sprites/Masks/RabbitMask/r_mask_front_1.lsprite",

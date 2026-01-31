@@ -42,8 +42,14 @@ namespace Luden
         void SetupInput();
         void OnMove(const InputValue& value);
         void OnChangeMask(const InputValue& value);
+        void OnUseAbility(const InputValue& value);
         void TakeDamage(int damage);
         void Die();
         void UpdateMovementAnimation(const Vec3& movement);
+
+        void SetupMaskAbility();
+        void UseElephantAbility();
+        void UseRabbitAbility();
+        void UseMonkeyAbility();
     };
 }

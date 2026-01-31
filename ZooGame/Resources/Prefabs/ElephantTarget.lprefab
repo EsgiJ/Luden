@@ -1,0 +1,41 @@
+{
+    "Entities": [
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4960231655435649035
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "ElephantTarget",
+            "TransformComponent": {
+                "Scale": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4503160301186163860
+        }
+    ],
+    "Name": "ElephantTarget",
+    "PrefabHandle": 11697368830080691786,
+    "RootEntityUUID": 4503160301186163860,
+    "UUID": 3117489255191987244
+}

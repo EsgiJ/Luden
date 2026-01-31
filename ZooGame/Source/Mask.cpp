@@ -16,7 +16,7 @@ namespace Luden
         m_RabbitIdleAnim = GetResource<Animation>("RabbitMaskIdleAnim");
         m_RabbitSideAnim = GetResource<Animation>("RabbitMaskSideAnim");
         m_RabbitFrontAnim = GetResource<Animation>("RabbitMaskFrontAnim");
-
+        
         m_MonkeyIdleAnim = GetResource<Animation>("MonkeyMaskIdleAnim");
         m_MonkeySideAnim = GetResource<Animation>("MonkeyMaskSideAnim");
         m_MonkeyFrontAnim = GetResource<Animation>("MonkeyMaskFrontAnim");
@@ -29,8 +29,12 @@ namespace Luden
 
     void Mask::OnUpdate(TimeStep ts)
     {
-        static MaskType lastType = MaskType::None;
+        if (AbilityCooldown > 0.0f)
+        {
+            AbilityCooldown -= ts;
+        }
 
+        static MaskType lastType = MaskType::None;
         if (m_Type != lastType)
         {
             UpdateMaskAnimations();
@@ -38,10 +42,39 @@ namespace Luden
         }
     }
 
+    void Mask::UseAbility()
+    {
+        if (!CanUseAbility())
+        {
+            std::cout << "[Mask] Ability on cooldown!" << std::endl;
+            return;
+        }
+
+        if (OnAbilityUse)
+        {
+            OnAbilityUse();
+            AbilityCooldown = MaxCooldown;  
+
+            std::cout << "[Mask] Ability used! Cooldown: " << MaxCooldown << "s" << std::endl;
+        }
+        else
+        {
+            std::cout << "[Mask] No ability assigned for this mask!" << std::endl;
+        }
+    }
+
+    bool Mask::CanUseAbility() const
+    {
+        return AbilityCooldown <= 0.0f;
+    }
+
     void Mask::UpdateMaskAnimations()
     {
+
         if (m_Type == MaskType::None)
         {
+            OnAbilityUse = nullptr;
+
             m_CurrentIdleAnim = nullptr;
             m_CurrentBackAnim = nullptr;
             m_CurrentFrontAnim = nullptr;
@@ -50,7 +83,6 @@ namespace Luden
             if (m_EmptyAnim)
             {
                 AnimationAPI::PlayAnimation(GetEntity(), m_EmptyAnim);
-                std::cout << "[Mask] Changed to None - Playing EmptyAnim" << std::endl;
             }
         }
         else if (m_Type == MaskType::Elephant)
@@ -63,7 +95,6 @@ namespace Luden
             if (m_CurrentIdleAnim)
             {
                 AnimationAPI::PlayAnimation(GetEntity(), m_CurrentIdleAnim);
-                std::cout << "[Mask] Changed to Elephant" << std::endl;
             }
         }
         else if (m_Type == MaskType::Monkey)
@@ -76,7 +107,6 @@ namespace Luden
             if (m_CurrentIdleAnim)
             {
                 AnimationAPI::PlayAnimation(GetEntity(), m_CurrentIdleAnim);
-                std::cout << "[Mask] Changed to Monkey" << std::endl;
             }
         }
         else if (m_Type == MaskType::Rabbit)
@@ -89,7 +119,6 @@ namespace Luden
             if (m_CurrentIdleAnim)
             {
                 AnimationAPI::PlayAnimation(GetEntity(), m_CurrentIdleAnim);
-                std::cout << "[Mask] Changed to Rabbit" << std::endl;
             }
         }
     }
