@@ -181,6 +181,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/WalkablePlatform.lns",
+      "Handle": 4276100862133818430,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Images/Masks/MonkeyMask/m_mask_side2.png",
       "Handle": 4320278646738628727,
       "Type": "Texture"
