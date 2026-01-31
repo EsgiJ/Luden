@@ -176,6 +176,11 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Images/monkey_arm.png",
+      "Handle": 4933973190888722764,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Player/back animation/back_2.png",
       "Handle": 4985426154103953413,
       "Type": "Texture"
@@ -256,11 +261,6 @@
       "Type": "Texture"
     },
     {
-      "FilePath": "Scripts/MonkeyBridge.lns",
-      "Handle": 8546310150132358388,
-      "Type": "NativeScript"
-    },
-    {
       "FilePath": "Prefabs/MazeBlock.lprefab",
       "Handle": 8573014746082161878,
       "Type": "Prefab"
@@ -306,6 +306,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/MonkeyArm.lns",
+      "Handle": 10418794189064664274,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Sprites/Masks/MonkeyMask/m_mask_front_03.lsprite",
       "Handle": 10892051807649988557,
       "Type": "Sprite"
@@ -331,6 +336,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Prefabs/RabbitPlatform.lprefab",
+      "Handle": 11697105583134610824,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Prefabs/ElephantTarget.lprefab",
       "Handle": 11697368830080691786,
       "Type": "Prefab"
@@ -341,6 +351,11 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Sprites/Lotus.lsprite",
+      "Handle": 11971180510922012865,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Images/Masks/ElephantMask/e_mask_idle.png",
       "Handle": 12016233085651923280,
       "Type": "Texture"
@@ -349,6 +364,11 @@
       "FilePath": "Sprites/MonkeyHead.lsprite",
       "Handle": 12189214047291068214,
       "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/lotus.png",
+      "Handle": 12197408095210806211,
+      "Type": "Texture"
     },
     {
       "FilePath": "Sprites/Masks/MonkeyMask/m_mask_front_01.lsprite",
@@ -441,6 +461,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/monkey.png",
+      "Handle": 14637252116041372325,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Background/desert.png",
       "Handle": 14790192553624357979,
       "Type": "Texture"
@@ -484,11 +509,6 @@
       "FilePath": "Sprites/Player/back animation/back_4.lsprite",
       "Handle": 16011692319605626914,
       "Type": "Sprite"
-    },
-    {
-      "FilePath": "Prefabs/RabbitPlatform.lprefab",
-      "Handle": 16030370767367817417,
-      "Type": "Prefab"
     },
     {
       "FilePath": "Images/Masks/gem_sapphire_0.png",
@@ -544,11 +564,6 @@
       "FilePath": "Images/Player/front animation/front_1.png",
       "Handle": 16955201695552233010,
       "Type": "Texture"
-    },
-    {
-      "FilePath": "Prefabs/MonkeyBridge.lprefab",
-      "Handle": 17006766870255329594,
-      "Type": "Prefab"
     },
     {
       "FilePath": "Sprites/Masks/RabbitMask/r_mask_front_1.lsprite",

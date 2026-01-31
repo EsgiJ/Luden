@@ -2,6 +2,7 @@
 #include <iostream>
 #include "ScriptAPI/GameplayAPI.h"
 #include "Player.h"
+#include "MonkeyArm.h"
 
 namespace Luden
 {
@@ -86,9 +87,27 @@ namespace Luden
 
     Vec3 RabbitPlatform::GetLandingPosition()
     {
-        Entity ownerEntity = GetEntity();
+        Vec3 platformPos = GameplayAPI::GetPosition(GetEntity());
+        platformPos += LandingOffset;
+        platformPos.z = 500.0f;
 
-        Vec3 platformPos = GameplayAPI::GetPosition(ownerEntity);
         return platformPos + LandingOffset;
+    }
+
+    Entity RabbitPlatform::GetMonkeyInDirection(int direction)
+    {
+        switch (direction)
+        {
+        case 0: 
+            return MonkeyArmUp;
+        case 1: 
+            return MonkeyArmDown;
+        case 2: 
+            return MonkeyArmLeft;
+        case 3: 
+            return MonkeyArmRight;
+        default:
+            return Entity();
+        }
     }
 }

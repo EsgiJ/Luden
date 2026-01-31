@@ -617,14 +617,18 @@ namespace Luden {
 	{
 		if (!entity.IsValid()) return {};
 
+		// 1. Yeni entity'yi oluştur (Yeni bir UUID atanır)
 		Entity newEntity = CreateEntityImmediate(entity.Tag());
 
+		// 2. Bileşenleri kopyala (Transform ve Relationship'i şimdilik atla, elle kuracağız)
 		CopyAllComponents(newEntity, entity, true);
 
+		// 3. Parent-Child ilişkisini kur
 		if (parent.IsValid()) {
 			ParentEntity(newEntity, parent);
 		}
 
+		// 4. Transform değerlerini uygula
 		auto& newTransform = newEntity.Get<TransformComponent>();
 		if (translation) newTransform.Translation = *translation;
 		else newTransform.Translation = entity.Get<TransformComponent>().Translation;
@@ -635,21 +639,26 @@ namespace Luden {
 		if (scale) newTransform.Scale = *scale;
 		else newTransform.Scale = entity.Get<TransformComponent>().Scale;
 
+		// 5. ÇOCUKLARI OLUŞTUR (Kritik nokta)
 		if (entity.Has<RelationshipComponent>())
 		{
+			// Kaynak entity'nin çocuk listesini al
 			auto childrenToCopy = entity.Get<RelationshipComponent>().Children;
 
 			for (auto childId : childrenToCopy)
 			{
+				// Kaynak prefab sahnesinden çocuk entity'yi bul
 				Entity childSource = entity.GetScene()->TryGetEntityWithUUID(childId);
 
 				if (childSource.IsValid())
 				{
+					// Rekürsif olarak oluştur ve 'newEntity'yi parent olarak ver
 					CreatePrefabEntity(childSource, newEntity, nullptr, nullptr, nullptr);
 				}
 			}
 		}
 
+		// 6. Runtime sistemlerini başlat
 		if (m_IsPlaying)
 		{
 			if (newEntity.Has<NativeScriptComponent>()) {

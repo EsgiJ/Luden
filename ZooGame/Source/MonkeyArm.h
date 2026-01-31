@@ -3,7 +3,15 @@
 
 namespace Luden
 {
-	class MonkeyBridge : public ScriptableEntity
+    enum class MonkeyDirection : uint8_t
+    {
+        Up = 0,
+        Down = 1,
+        Left = 2,
+        Right = 3
+    };
+
+    class MonkeyArm : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -16,17 +24,17 @@ namespace Luden
         void Activate();
         void Deactivate();
 
-	public:
-        float DetectionRadius = 500.0f;
+        Vec3 GetTargetPosition();
 
-        float TargetRotation = 90.0f;    
-        float StartRotation = 0.0f;      
-        float RotateSpeed = 2.0f;        
+    public:
+        MonkeyDirection Direction = MonkeyDirection::Right;
 
         bool IsActivated = false;
-        bool IsRotated = false;
-	private:
-        void RotateToTarget(TimeStep ts);
-        void RotateToStart(TimeStep ts);
+
+        float WalkDistance = 200.0f;
+
+    private:
+        Entity m_HeadEntity;   
+        Entity m_ArmEntity;    
     };
 }

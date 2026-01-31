@@ -2,12 +2,13 @@
 #include <iostream>
 #include "ElephantTarget.h"
 #include "Mask.h"
-#include "MonkeyBridge.h"
+#include "MonkeyArm.h"
 #include "RabbitPlatform.h"
 #include "ScriptAPI/GameplayAPI.h"
 #include "ScriptAPI/MathAPI.h"
 #include "ScriptAPI/Physics2DAPI.h"
 #include "ScriptAPI/AnimationAPI.h"
+#include "ScriptAPI/DebugAPI.h"
 
 namespace Luden
 {
@@ -50,6 +51,32 @@ namespace Luden
         {
             UpdateRabbitJump(ts);
         }
+
+        if (m_IsWalkingToMonkey)
+        {
+            UpdateMonkeyWalk(ts);
+        }
+
+        Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
+
+        switch (m_Type)
+        {
+        case MaskType::Elephant:
+            DebugAPI::DrawDebugCircle(playerPos, m_MinElephantDistance, sf::Color::Blue, 0.0f);
+            break;
+
+        case MaskType::Rabbit:
+            DebugAPI::DrawDebugCircle(playerPos, m_MinRabbitJumpDistance, sf::Color::Blue, 0.0f);
+            break;
+
+        case MaskType::Monkey:
+            DebugAPI::DrawDebugCircle(playerPos, m_MinMonkeyJumpDistance, sf::Color::Blue, 0.0f);
+            break;
+
+        case MaskType::None:
+        default:
+            break;
+        }
     }
 
     void Player::OnDestroy()
@@ -73,7 +100,7 @@ namespace Luden
 
     void Player::OnMove(const InputValue& value)
     {
-        if (m_IsJumping)
+        if (m_IsJumping || m_IsWalkingToMonkey)
             return;
 
         if (m_IsOnRabbitPlatform)
@@ -124,7 +151,6 @@ namespace Luden
             m_WalkDirection = WalkDirection::Up;
 
         UpdateMovementAnimation(movement);
-
         Physics2DAPI::SetLinearVelocity(ownerEntity, movement * m_MoveSpeed);
     }
 
@@ -217,6 +243,34 @@ namespace Luden
         }
     }
 
+    void Player::UpdateMonkeyWalk(TimeStep ts)
+    {
+        m_MonkeyWalkProgress += ts / m_MonkeyWalkDuration;
+
+        if (m_MonkeyWalkProgress >= 1.0f)
+        {
+            m_MonkeyWalkProgress = 1.0f;
+            GameplayAPI::SetPosition(GetEntity(), m_MonkeyWalkTarget);
+            m_IsWalkingToMonkey = false;
+
+            if (m_ActiveMonkeyArm.IsValid())
+            {
+                auto monkeyScript = GameplayAPI::GetScript<MonkeyArm>(m_ActiveMonkeyArm);
+                if (monkeyScript)
+                {
+                    monkeyScript->Deactivate();
+                }
+                m_ActiveMonkeyArm = Entity();
+            }
+
+            m_IsOnRabbitPlatform = false;
+            m_CurrentPlatform = Entity();
+
+            std::cout << "[Player] Reached destination - movement unlocked!" << std::endl;
+            return;
+        }
+    }
+
     void Player::OnChangeMask(const InputValue& value)
     {
         int i = (int)m_Type;
@@ -289,6 +343,7 @@ namespace Luden
             return;
 
         m_MaskScript->OnAbilityUse = nullptr;
+        Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
 
         switch (m_Type)
         {
@@ -324,7 +379,7 @@ namespace Luden
         auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantTarget");
 
         Entity closest;
-        float minDist = 500.0f;
+        float minDist = m_MinElephantDistance;
 
         for (auto target : targets)
         {
@@ -395,10 +450,10 @@ namespace Luden
         std::cout << "[Player] Using Monkey Ability - Finding nearest bridge..." << std::endl;
 
         Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
-        auto bridges = GameplayAPI::FindAllEntitiesWithTag("MonkeyBridge");
+        auto bridges = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
 
         Entity closest;
-        float minDist = 500.0f;
+        float minDist = m_MinMonkeyJumpDistance;
 
         for (auto bridge : bridges)
         {
@@ -412,13 +467,47 @@ namespace Luden
 
         if (closest.IsValid())
         {
-            auto monkeyBridge = GameplayAPI::GetScript<MonkeyBridge>(closest);
-            if (monkeyBridge)
+            Vector<Entity> entities = GameplayAPI::GetChildren(closest);
+            
+            MonkeyArm* monkeyArm = nullptr;
+            switch (m_WalkDirection)
             {
-                if (!monkeyBridge->IsActivated)
-                    monkeyBridge->Activate();
+            case WalkDirection::Right:
+                std::cout << "RightArm extended" << std::endl;
+                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[0]);
+                break;
+
+            case WalkDirection::Left:
+                std::cout << "LeftArm extended" << std::endl;
+
+                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[1]);
+                break;
+
+            case WalkDirection::Up:
+                std::cout << "UpArm extended" << std::endl;
+
+                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[2]);
+                break;
+
+            case WalkDirection::Down:
+                std::cout << "DownArm extended" << std::endl;
+
+                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[3]);
+                break;
+            }
+
+            if (monkeyArm)
+            {
+                if (!monkeyArm->IsActivated)
+                {
+                    std::cout << "monkeyArm->IsActivated" << std::endl;
+                    monkeyArm->Activate();
+                }
                 else
-                    monkeyBridge->Deactivate();
+                {
+                    std::cout << "monkeyBridge->AlreadyActivated" << std::endl;
+                    monkeyArm->Deactivate();
+                }
 
                 std::cout << "[Player] Toggled MonkeyBridge!" << std::endl;
             }
@@ -441,7 +530,8 @@ namespace Luden
         auto allPlatforms = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
 
         Entity closestPlatform;
-        float minDistance = FLT_MAX;
+        float minDistance = m_MinRabbitJumpDistance;
+
 
         for (auto platform : allPlatforms)
         {

@@ -3,6 +3,8 @@
 
 namespace Luden
 {
+    class MonkeyArm;
+
     class RabbitPlatform : public ScriptableEntity
     {
     public:
@@ -15,10 +17,17 @@ namespace Luden
 
         Vec3 GetLandingPosition();
 
+        Entity GetMonkeyInDirection(int direction);  
+
     public:
         Vec2 PlatformSize = Vec2(200.0f, 50.0f);
 
         Vec3 LandingOffset = Vec3(0.0f, -30.0f, 0.0f);
+
+        Entity MonkeyArmUp;
+        Entity MonkeyArmDown;
+        Entity MonkeyArmLeft;
+        Entity MonkeyArmRight;
 
     private:
         bool IsPlayerOnPlatform();

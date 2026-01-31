@@ -8,10 +8,10 @@ namespace Luden
 
     enum class WalkDirection : uint8_t
     {
-        Right,
-        Left,
-        Up,
-        Down
+        Right = 3,
+        Left = 2,
+        Up = 0,
+        Down = 1
     };
 
     class Player : public ScriptableEntity
@@ -38,9 +38,12 @@ namespace Luden
         WalkDirection m_WalkDirection = WalkDirection::Right;
 
         bool m_IsOnRabbitPlatform = false;
+
         Entity m_CurrentPlatform;
 
         bool m_IsJumping = false;
+
+        bool m_IsWalkingToMonkey = false;
 
         CameraShakeParams damageCameraShake;
 
@@ -60,6 +63,8 @@ namespace Luden
         void UpdateRabbitJump(TimeStep ts);
         Entity FindClosestPlatformInDirection();
 
+        void UpdateMonkeyWalk(TimeStep ts);
+
         void TakeDamage(int damage);
         void Die();
 
@@ -69,5 +74,16 @@ namespace Luden
         float m_JumpProgress = 0.0f;
         float m_JumpDuration = 0.8f;
         float m_JumpHeight = 100.0f;
+
+        Vec3 m_MonkeyWalkTarget;
+        Vec3 m_MonkeyWalkStart;
+        float m_MonkeyWalkProgress = 0.0f;
+        float m_MonkeyWalkDuration = 1.5f;
+        Entity m_ActiveMonkeyArm;
+
+        float m_MinRabbitJumpDistance = 500.0f;
+        float m_MinElephantDistance = 500.0f;
+        float m_MinMonkeyJumpDistance = 1000.0f;
+
     };
 }

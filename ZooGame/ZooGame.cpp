@@ -8,10 +8,10 @@
 #include "Player.h"
 #include "GameManager.h"
 #include "Mask.h"
-#include "MonkeyBridge.h"
 #include "RabbitPlatform.h"
 #include "UIButton.h"
 #include "Room.h"
+#include "MonkeyArm.h"
 
 namespace Luden
 {
@@ -35,9 +35,10 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<GameManager>("GameManager", resourceManager);
 		NativeScriptRegistry::RegisterScript<Room>("Room", resourceManager);
 		NativeScriptRegistry::RegisterScript<Mask>("Mask", resourceManager);
-		NativeScriptRegistry::RegisterScript<MonkeyBridge>("MonkeyBridge", resourceManager);
 		NativeScriptRegistry::RegisterScript<RabbitPlatform>("RabbitPlatform", resourceManager);
 		NativeScriptRegistry::RegisterScript<ElephantTarget>("ElephantTarget", resourceManager);
+		NativeScriptRegistry::RegisterScript<MonkeyArm>("MonkeyArm", resourceManager);
+
 
 	}
 

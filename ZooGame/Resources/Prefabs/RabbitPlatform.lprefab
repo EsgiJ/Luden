@@ -5,11 +5,16 @@
                 "ScriptHandle": -2333808518275202909
             },
             "RelationshipComponent": {
-                "Children": null,
+                "Children": [
+                    9000000000000000001,
+                    9000000000000000004,
+                    9000000000000000007,
+                    9000000000000000010
+                ],
                 "ParentHandle": 0
             },
             "SpriteRendererComponent": {
-                "spriteHandle": 6511408708968070631,
+                "spriteHandle": 11971180510922012865,
                 "tint": [
                     255,
                     255,
@@ -18,6 +23,63 @@
                 ]
             },
             "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    10.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 14527859003568433432
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -8027949884644887342
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    9000000000000000002,
+                    9000000000000000003
+                ],
+                "ParentHandle": 14527859003568433432
+            },
+            "Tag": "MonkeyArm_Right",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    280.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000001
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000001
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12189214047291068214,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyHead",
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -31,11 +93,302 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 2677992487756687948
+            "UUID": 9000000000000000002
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000001
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyArm_Sprite",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000003
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -8027949884644887342
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    9000000000000000005,
+                    9000000000000000006
+                ],
+                "ParentHandle": 14527859003568433432
+            },
+            "Tag": "MonkeyArm_Left",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -270.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 180.0
+            },
+            "UUID": 9000000000000000004
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000004
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12189214047291068214,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyHead",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000005
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000004
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyArm_Sprite",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000006
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -8027949884644887342
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    9000000000000000008,
+                    9000000000000000009
+                ],
+                "ParentHandle": 14527859003568433432
+            },
+            "Tag": "MonkeyArm_Up",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    -270.0,
+                    0.0
+                ],
+                "angle": -90.0
+            },
+            "UUID": 9000000000000000007
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000007
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12189214047291068214,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyHead",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000008
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000007
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyArm_Sprite",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000009
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -8027949884644887342
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    9000000000000000011,
+                    9000000000000000012
+                ],
+                "ParentHandle": 14527859003568433432
+            },
+            "Tag": "MonkeyArm_Down",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    270.0,
+                    0.0
+                ],
+                "angle": 90.0
+            },
+            "UUID": 9000000000000000010
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000010
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12189214047291068214,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyHead",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000011
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 9000000000000000010
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MonkeyArm_Sprite",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9000000000000000012
         }
     ],
     "Name": "RabbitPlatform",
-    "PrefabHandle": 16030370767367817417,
-    "RootEntityUUID": 2677992487756687948,
-    "UUID": 4471742514163833919
+    "PrefabHandle": 11697105583134610824,
+    "RootEntityUUID": 14527859003568433432,
+    "UUID": 14527859003568433432
 }
