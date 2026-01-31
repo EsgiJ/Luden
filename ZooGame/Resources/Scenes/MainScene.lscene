@@ -397,7 +397,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.08841800689697266,
+                "frameTimer": 0.08201000094413757,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -469,7 +469,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.08841800689697266,
+                "frameTimer": 0.08201000094413757,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -546,7 +546,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.08841800689697266,
+                "frameTimer": 0.08201000094413757,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -1797,6 +1797,43 @@
                 "angle": 0.0
             },
             "UUID": 13834934014241369927
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": 4276100862133818430
+            },
+            "PrefabComponent": {
+                "EntityID": 14931510491013208484,
+                "PrefabID": 5681215828149337375
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    50
+                ]
+            },
+            "Tag": "WalkablePlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    2560.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 14931510491013208484
         }
     ],
     "Name": "MainScene",

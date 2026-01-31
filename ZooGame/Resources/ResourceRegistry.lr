@@ -251,6 +251,11 @@
       "Type": "NativeScript"
     },
     {
+      "FilePath": "Prefabs/WalkablePlatform.lprefab",
+      "Handle": 5681215828149337375,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_side_2.lsprite",
       "Handle": 5766835177092179801,
       "Type": "Sprite"
