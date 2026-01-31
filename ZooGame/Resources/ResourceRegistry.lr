@@ -261,6 +261,11 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Scenes/BlockoutScene.lscene",
+      "Handle": 6490967561368407172,
+      "Type": "Scene"
+    },
+    {
       "FilePath": "Sprites/RabbitPlatform.lsprite",
       "Handle": 6511408708968070631,
       "Type": "Sprite"
