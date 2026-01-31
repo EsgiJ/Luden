@@ -1,0 +1,36 @@
+{
+    "CollisionChannelRegistry": [
+        {
+            "Bit": 1,
+            "Name": "Default"
+        },
+        {
+            "Bit": 2,
+            "Name": "Player"
+        },
+        {
+            "Bit": 4,
+            "Name": "Enemy"
+        },
+        {
+            "Bit": 8,
+            "Name": "Projectile"
+        },
+        {
+            "Bit": 16,
+            "Name": "Ground"
+        },
+        {
+            "Bit": 32,
+            "Name": "Wall"
+        },
+        {
+            "Bit": 64,
+            "Name": "Trigger"
+        },
+        {
+            "Bit": 128,
+            "Name": "Item"
+        }
+    ]
+}

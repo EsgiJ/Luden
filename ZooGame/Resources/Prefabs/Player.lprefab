@@ -1,0 +1,74 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 2,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    124.0,
+                    124.0
+                ]
+            },
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "HealthComponent": {
+                "current": 1,
+                "max": 1
+            },
+            "InputComponent": null,
+            "NativeScriptComponent": {
+                "ScriptHandle": 0
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 1,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 3946147272597825418,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16733809313402328790
+        }
+    ],
+    "Name": "Player",
+    "PrefabHandle": 4818737851084715457,
+    "RootEntityUUID": 16733809313402328790,
+    "UUID": 4242136240810513869
+}

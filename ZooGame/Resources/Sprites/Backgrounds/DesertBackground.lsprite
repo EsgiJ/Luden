@@ -1,0 +1,15 @@
+{
+    "Handle": 16130889689165339788,
+    "Name": "DesertBackground",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 14790192553624357979,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

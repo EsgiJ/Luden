@@ -1,0 +1,15 @@
+{
+    "Handle": 11331097269474042888,
+    "Name": "MountainsCloud",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 2963543680482810059,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

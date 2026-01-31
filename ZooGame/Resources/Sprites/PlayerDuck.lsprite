@@ -1,0 +1,15 @@
+{
+    "Handle": 3946147272597825418,
+    "Name": "PlayerDuck",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 17614298322648313161,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

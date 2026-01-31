@@ -638,6 +638,12 @@ namespace Luden
 				return Vec2(textComp.bounds.size.x, textComp.bounds.size.y);
 			}
 
+			if (entity.Has<BoxCollider2DComponent>())
+			{
+				auto& box = entity.Get<BoxCollider2DComponent>();
+
+				return Vec2(box.Size.x, box.Size.y);
+			}
 			return Vec2(0.0f, 0.0f);
 		}
 

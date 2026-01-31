@@ -1,0 +1,9 @@
+{
+    "Name": "ZooGame",
+    "ProjectDirectory": "C:\\GameProjects\\Luden\\ZooGame",
+    "ProjectFileName": "ZooGame.lproject",
+    "ResourceDirectory": "Resources",
+    "ResourceRegistry": "Resources/ResourceRegistry.lr",
+    "StartScene": "Resources/Scenes/MainMenuScene.lscene",
+    "StartSceneHandle": 857955617728876751
+}

@@ -1,0 +1,48 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 7817039413587039480
+        }
+    ],
+    "Name": "Room",
+    "PrefabHandle": 1508762769465245991,
+    "RootEntityUUID": 7817039413587039480,
+    "UUID": 7815818626598129571
+}

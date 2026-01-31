@@ -1,0 +1,134 @@
+{
+  "Resources": [
+    {
+      "FilePath": "Scenes/DefaultScene.lscene",
+      "Handle": 4812597294623990,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Scripts/MainMenu.lns",
+      "Handle": 604093891577710739,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Sprites/Masks/Mask.lsprite",
+      "Handle": 734903692974566134,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scenes/MainMenuScene.lscene",
+      "Handle": 857955617728876751,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Scenes/MainScene.lscene",
+      "Handle": 1494540518983563555,
+      "Type": "Scene"
+    },
+    {
+      "FilePath": "Prefabs/Room.lprefab",
+      "Handle": 1508762769465245991,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Images/Background/mountains_day.png",
+      "Handle": 2963543680482810059,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/PlayerDuck.lsprite",
+      "Handle": 3946147272597825418,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scripts/Room.lns",
+      "Handle": 4674775994275471559,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Prefabs/Player.lprefab",
+      "Handle": 4818737851084715457,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Scripts/Player.lns",
+      "Handle": 5114375928514767093,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Scripts/UIButton.lns",
+      "Handle": 5483456309594446471,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Prefabs/MazeBlock.lprefab",
+      "Handle": 8573014746082161878,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Images/Background/mountains_dark_grey.png",
+      "Handle": 8625965740668450042,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/MountainsCloud.lsprite",
+      "Handle": 11331097269474042888,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/Background/forest_middle.png",
+      "Handle": 14208713286443846704,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/BlackBlock.lsprite",
+      "Handle": 14401149277774659045,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Scripts/GameManager.lns",
+      "Handle": 14414446678959476479,
+      "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Images/Masks/gem_topaz_0.png",
+      "Handle": 14490848190585670612,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/Background/desert.png",
+      "Handle": 14790192553624357979,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/ForestBackground.lsprite",
+      "Handle": 15320351474544585897,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/DesertBackground.lsprite",
+      "Handle": 16130889689165339788,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/MountainsDark.lsprite",
+      "Handle": 17343503998614316081,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Prefabs/Mask.lprefab",
+      "Handle": 17489632794411363491,
+      "Type": "Prefab"
+    },
+    {
+      "FilePath": "Images/Player/player_duck.png",
+      "Handle": 17614298322648313161,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/Blocks/block_1_black.png",
+      "Handle": 17792539707343984798,
+      "Type": "Texture"
+    }
+  ]
+}

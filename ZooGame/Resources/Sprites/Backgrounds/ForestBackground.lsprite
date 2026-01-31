@@ -1,0 +1,15 @@
+{
+    "Handle": 15320351474544585897,
+    "Name": "ForestBackground",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 14208713286443846704,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

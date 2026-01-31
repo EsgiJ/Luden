@@ -1,0 +1,15 @@
+{
+    "Handle": 17343503998614316081,
+    "Name": "MountainsDark",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 8625965740668450042,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

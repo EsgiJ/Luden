@@ -1,0 +1,393 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 15093811533209290993,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_01",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15093811533209290993
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 4391885055339339584,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_02",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4391885055339339584
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 16130889689165339788,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_01",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3562157811018178896
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 15320351474544585897,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_02",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 4579043834887269539
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 9057803210153999491,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_03",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9057803210153999491
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 64,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1920.0,
+                    1080.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 4674775994275471559
+            },
+            "PrefabComponent": {
+                "EntityID": 18228788536384652773,
+                "PrefabID": 1508762769465245991
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Room_04",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18228788536384652773
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 11331097269474042888,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_03",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3058867465585202622
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 17343503998614316081,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background_Room_04",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    1080.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16448930008948144034
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 2,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    124.0,
+                    124.0
+                ]
+            },
+            "HealthComponent": {
+                "current": 1,
+                "max": 1
+            },
+            "InputComponent": null,
+            "NativeScriptComponent": {
+                "ScriptHandle": 5114375928514767093
+            },
+            "PrefabComponent": {
+                "EntityID": 2647579753443392479,
+                "PrefabID": 4818737851084715457
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.0,
+                "BodyType": 1,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.0,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 3946147272597825418,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 2647579753443392479
+        },
+        {
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "Camera",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    1920.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 820306929253099785
+        }
+    ],
+    "Name": "MainScene",
+    "UUID": 2599998760147687382
+}

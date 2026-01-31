@@ -120,7 +120,7 @@
                 ],
                 "ParentHandle": 0
             },
-            "Tag": "MusicSlider",
+            "Tag": "MasterSlider",
             "TransformComponent": {
                 "Scale": [
                     0.10000000149011612,
@@ -266,7 +266,7 @@
                 ],
                 "outlineThickness": 50.0,
                 "style": 1,
-                "text": "Music",
+                "text": "Master",
                 "textOrientation": 0
             },
             "TransformComponent": {
@@ -482,7 +482,7 @@
                 ],
                 "ParentHandle": 0
             },
-            "Tag": "MusicSlider",
+            "Tag": "SFXSlider",
             "TransformComponent": {
                 "Scale": [
                     0.10000000149011612,

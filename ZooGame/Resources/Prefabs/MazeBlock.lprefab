@@ -1,0 +1,62 @@
+{
+    "Entities": [
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 14401149277774659045,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "MazeBlock",
+            "TransformComponent": {
+                "Scale": [
+                    0.12999999523162842,
+                    0.12999999523162842,
+                    0.12999999523162842
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 11297542661366624335
+        }
+    ],
+    "Name": "MazeBlock",
+    "PrefabHandle": 8573014746082161878,
+    "RootEntityUUID": 11297542661366624335,
+    "UUID": 17471746887927256725
+}

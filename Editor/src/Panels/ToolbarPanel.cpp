@@ -26,9 +26,6 @@ namespace Luden {
 
 	void ToolbarPanel::OnUpdate() 
 	{
-		if (!m_Context->IsPlaying())
-			return;
-
 		switch (m_SelectedTool) 
 		{
 		case Tool::SELECT:
@@ -369,6 +366,7 @@ namespace Luden {
 
 		Entity selected;
 
+		std::vector<Entity> selectedEntities;
 		auto& manager = m_Context->GetEntityManager();
 		for (auto& entity : manager.GetEntities())
 		{
@@ -395,10 +393,20 @@ namespace Luden {
 			if (worldPos.x > min.x && worldPos.x < max.x &&
 				worldPos.y > min.y && worldPos.y < max.y)
 			{
+				selectedEntities.push_back(entity);
 				selected = entity;
 				break;
 			}
 		}
+
+		std::sort(selectedEntities.begin(), selectedEntities.end(), [](const Entity& a, const Entity& b) {
+			float zA = a.Get<TransformComponent>().Translation.z;
+			float zB = b.Get<TransformComponent>().Translation.z;
+			return zA < zB;
+			});
+
+		if (!selectedEntities.empty())
+			selected = selectedEntities[0];
 
 		if (selected)
 			m_SceneHierarchyPanel->SetSelectedEntity(selected);

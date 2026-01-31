@@ -1,0 +1,15 @@
+{
+    "Handle": 14401149277774659045,
+    "Name": "BlackBlock",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 17792539707343984798,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}
