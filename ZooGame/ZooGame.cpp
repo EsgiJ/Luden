@@ -40,8 +40,7 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<ElephantTarget>("ElephantTarget", resourceManager);
 		NativeScriptRegistry::RegisterScript<MonkeyArm>("MonkeyArm", resourceManager);
 		NativeScriptRegistry::RegisterScript<Elephant>("Elephant", resourceManager);
-
-
+		NativeScriptRegistry::RegisterScript<WalkablePlatform>("WalkablePlatform", resourceManager);
 	}
 
 	uint32_t ZooGame::GetVersion() const

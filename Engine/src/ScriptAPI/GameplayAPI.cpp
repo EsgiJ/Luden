@@ -533,7 +533,7 @@ namespace Luden
 
 			entity.Get<TransformComponent>().Scale = scale;
 
-			// TODO: GGJ fix solution
+
 			/*
 			if (entity.Has<RigidBody2DComponent>())
 			{

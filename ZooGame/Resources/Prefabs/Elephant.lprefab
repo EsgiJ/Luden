@@ -53,7 +53,7 @@
             "RelationshipComponent": {
                 "Children": [
                     17984839182257646899,
-                    13662315940587642142
+                    16094454346652017931
                 ],
                 "ParentHandle": 0
             },
@@ -94,7 +94,7 @@
                 "ScriptHandle": -4960231655435649035
             },
             "PrefabComponent": {
-                "EntityID": 13662315940587642142,
+                "EntityID": 16094454346652017931,
                 "PrefabID": 11697368830080691786
             },
             "RelationshipComponent": {
@@ -132,7 +132,7 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 13662315940587642142
+            "UUID": 16094454346652017931
         }
     ],
     "Name": "Elephant",
