@@ -471,7 +471,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0519770011305809,
+                "frameTimer": 0.0849509984254837,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -543,7 +543,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0519770011305809,
+                "frameTimer": 0.0849509984254837,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -658,6 +658,117 @@
                 "angle": 0.0
             },
             "UUID": 10379668539867658874
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -2333808518275202909
+            },
+            "PrefabComponent": {
+                "EntityID": 8099336899265401704,
+                "PrefabID": 16030370767367817417
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 6511408708968070631,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -320.0,
+                    -192.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 8099336899265401704
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -2333808518275202909
+            },
+            "PrefabComponent": {
+                "EntityID": 17494647186407249974,
+                "PrefabID": 16030370767367817417
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 6511408708968070631,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -640.0,
+                    -448.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 17494647186407249974
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -2333808518275202909
+            },
+            "PrefabComponent": {
+                "EntityID": 15166697939295207656,
+                "PrefabID": 16030370767367817417
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 6511408708968070631,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "RabbitPlatform",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -320.0,
+                    -448.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15166697939295207656
         }
     ],
     "Name": "MainScene",

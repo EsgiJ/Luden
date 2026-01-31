@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class RabbitPlatform : public ScriptableEntity
+    class RabbitPlatform : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -13,16 +13,15 @@ namespace Luden
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
-        void TeleportPlayerHere(Entity player);
-	public:
-        float DetectionRadius = 500.0f;
+        Vec3 GetLandingPosition();
 
-        float TeleportSpeed = 5.0f;  
-        Vec3 TeleportOffset = Vec3(0.0f, 0.0f, 0.0f);  
+    public:
+        Vec2 PlatformSize = Vec2(200.0f, 50.0f);
+
+        Vec3 LandingOffset = Vec3(0.0f, -30.0f, 0.0f);
 
     private:
-        bool m_IsTeleporting = false;
-        Entity m_TeleportingPlayer;
-        Vec3 m_TargetPosition;
+        bool IsPlayerOnPlatform();
+        bool m_PlayerWasOnPlatform = false;
     };
 }

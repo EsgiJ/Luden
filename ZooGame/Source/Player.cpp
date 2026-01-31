@@ -1,7 +1,5 @@
 #include "Player.h"
-
 #include <iostream>
-
 #include "ElephantTarget.h"
 #include "Mask.h"
 #include "MonkeyBridge.h"
@@ -44,36 +42,64 @@ namespace Luden
             if (m_MaskScript->m_Type != m_Type)
             {
                 m_MaskScript->m_Type = m_Type;
-
                 SetupMaskAbility();
             }
+        }
+
+        if (m_IsJumping)
+        {
+            UpdateRabbitJump(ts);
         }
     }
 
     void Player::OnDestroy()
     {
-        // TODO: Cleanup
+        // Cleanup
     }
 
     void Player::OnCollisionBegin(const CollisionContact& contact)
     {
-
+        // Handle collisions
     }
 
     void Player::OnCollisionEnd(const CollisionContact& contact)
     {
-        // TODO: On contact end
+        // Handle collision end
     }
 
     void Player::OnCollisionHit(const CollisionContact& contact)
     {
-        // TODO: On hit(high speed)
     }
 
     void Player::OnMove(const InputValue& value)
     {
-        Vec2 moveValue = value.GetAxis2D();
+        if (m_IsJumping)
+            return;
 
+        if (m_IsOnRabbitPlatform)
+        {
+            Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(0.0f, 0.0f));
+
+            Vec2 moveValue = value.GetAxis2D();
+            if (moveValue.x > 0.0f)
+                m_WalkDirection = WalkDirection::Right;
+            else if (moveValue.x < 0.0f)
+                m_WalkDirection = WalkDirection::Left;
+            else if (moveValue.y > 0.0f)
+                m_WalkDirection = WalkDirection::Down;
+            else if (moveValue.y < 0.0f)
+                m_WalkDirection = WalkDirection::Up;
+
+            AnimationAPI::PlayAnimation(GetEntity(), m_IdleAnim);
+            if (m_MaskEntity.IsValid() && m_MaskScript && m_MaskScript->m_CurrentIdleAnim)
+            {
+                AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_CurrentIdleAnim);
+            }
+
+            return;
+        }
+
+        Vec2 moveValue = value.GetAxis2D();
         Entity ownerEntity = GetEntity();
         if (!ownerEntity.IsValid())
             return;
@@ -87,6 +113,15 @@ namespace Luden
             if (movement.x != 0.0f)
                 movement.y = 0.0f;
         }
+
+        if (movement.x > 0.0f)
+            m_WalkDirection = WalkDirection::Right;
+        else if (movement.x < 0.0f)
+            m_WalkDirection = WalkDirection::Left;
+        else if (movement.y > 0.0f)
+            m_WalkDirection = WalkDirection::Down;
+        else if (movement.y < 0.0f)
+            m_WalkDirection = WalkDirection::Up;
 
         UpdateMovementAnimation(movement);
 
@@ -193,6 +228,8 @@ namespace Luden
         }
 
         m_Type = (MaskType)i;
+
+        std::cout << "[Player] Mask changed to: " << i << std::endl;
     }
 
     void Player::SetupInput()
@@ -218,6 +255,7 @@ namespace Luden
             TriggerConfig()
             });
 
+        // Use Ability
         InputAction UseAbilityAction("UseAbility");
         context->AddMapping({
             UseAbilityAction,
@@ -234,7 +272,7 @@ namespace Luden
 
         input.BindAction(MoveAction, ETriggerEvent::Ongoing, this, &Player::OnMove);
         input.BindAction(ChangeMaskAction, ETriggerEvent::Started, this, &Player::OnChangeMask);
-        input.BindAction(UseAbilityAction, ETriggerEvent::Started, this, &Player::OnUseAbility);  
+        input.BindAction(UseAbilityAction, ETriggerEvent::Started, this, &Player::OnUseAbility);
     }
 
     void Player::OnUseAbility(const InputValue& value)
@@ -245,44 +283,16 @@ namespace Luden
         }
     }
 
-    void Player::TakeDamage(int damage)
-    {
-        Entity ownerEntity = GetEntity();
-        if (!ownerEntity.Has<HealthComponent>())
-            return;
-
-        auto& health = ownerEntity.Get<HealthComponent>();
-        health.current -= damage;
-
-        GameplayAPI::ShakeCamera(damageCameraShake);
-
-        if (health.current <= 0)
-        {
-            health.current = 0;
-            Die();
-        }
-    }
-
-    void Player::Die()
-    {
-        std::cout << "Player died!" << std::endl;
-
-        GameplayAPI::DestroyEntity(GetEntity());
-    }
-
     void Player::SetupMaskAbility()
     {
-        std::cout << "[Player]SetupAbility" << std::endl;
         if (!m_MaskScript)
             return;
-        std::cout << "[Player]SetupAbility valid" << std::endl;
 
         m_MaskScript->OnAbilityUse = nullptr;
 
         switch (m_Type)
         {
         case MaskType::Elephant:
-            std::cout << "[Player]Elephant ability assigned" << std::endl;
             m_MaskScript->OnAbilityUse = [this]() { UseElephantAbility(); };
             m_MaskScript->MaxCooldown = 3.0f;
             break;
@@ -302,6 +312,8 @@ namespace Luden
             m_MaskScript->OnAbilityUse = nullptr;
             break;
         }
+
+        std::cout << "[Player] Mask ability setup for type: " << (int)m_Type << std::endl;
     }
 
     void Player::UseElephantAbility()
@@ -312,7 +324,7 @@ namespace Luden
         auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantTarget");
 
         Entity closest;
-        float minDist = 1000.0f;  
+        float minDist = 500.0f;
 
         for (auto target : targets)
         {
@@ -341,37 +353,41 @@ namespace Luden
 
     void Player::UseRabbitAbility()
     {
-        std::cout << "[Player] Using Rabbit Ability - Finding nearest platform..." << std::endl;
-
-        Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
-        auto platforms = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
-
-        Entity closest;
-        float minDist = 500.0f;
-
-        for (auto platform : platforms)
+        if (!m_IsOnRabbitPlatform)
         {
-            float dist = GameplayAPI::Distance(playerPos, GameplayAPI::GetPosition(platform));
-            if (dist < minDist)
-            {
-                minDist = dist;
-                closest = platform;
-            }
+            std::cout << "[Player] Must be on a RabbitPlatform to jump!" << std::endl;
+            return;
         }
 
-        if (closest.IsValid())
+        if (m_IsJumping)
         {
-            auto rabbitPlatform = GameplayAPI::GetScript<RabbitPlatform>(closest);
-            if (rabbitPlatform)
-            {
-                rabbitPlatform->TeleportPlayerHere(GetEntity());
-                std::cout << "[Player] Teleporting to platform!" << std::endl;
-            }
+            std::cout << "[Player] Already jumping!" << std::endl;
+            return;
         }
-        else
+
+        Entity targetPlatform = FindClosestPlatformInDirection();
+
+        if (!targetPlatform.IsValid())
         {
-            std::cout << "[Player] No RabbitPlatform in range!" << std::endl;
+            std::cout << "[Player] No platform in that direction!" << std::endl;
+            return;
         }
+
+        auto targetScript = GameplayAPI::GetScript<RabbitPlatform>(targetPlatform);
+        if (!targetScript)
+        {
+            std::cout << "[Player] Target platform has no script!" << std::endl;
+            return;
+        }
+
+        m_JumpStartPos = GameplayAPI::GetPosition(GetEntity());
+        m_JumpEndPos = targetScript->GetLandingPosition();
+        m_JumpProgress = 0.0f;
+        m_IsJumping = true;
+
+        Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(0.0f, 0.0f));
+
+        std::cout << "[Player] Jumping to platform!" << std::endl;
     }
 
     void Player::UseMonkeyAbility()
@@ -411,5 +427,128 @@ namespace Luden
         {
             std::cout << "[Player] No MonkeyBridge in range!" << std::endl;
         }
+    }
+
+    Entity Player::FindClosestPlatformInDirection()
+    {
+        if (!m_CurrentPlatform.IsValid())
+        {
+            std::cout << "[Player] Not on a platform!" << std::endl;
+            return Entity();
+        }
+
+        Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
+        auto allPlatforms = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
+
+        Entity closestPlatform;
+        float minDistance = FLT_MAX;
+
+        for (auto platform : allPlatforms)
+        {
+            if (platform == m_CurrentPlatform)
+                continue;
+
+            Vec3 platformPos = GameplayAPI::GetPosition(platform);
+            Vec3 direction = platformPos - playerPos;
+
+            bool isInDirection = false;
+
+            switch (m_WalkDirection)
+            {
+            case WalkDirection::Right:
+                isInDirection = (direction.x > 50.0f && abs(direction.y) < 100.0f);
+                break;
+
+            case WalkDirection::Left:
+                isInDirection = (direction.x < -50.0f && abs(direction.y) < 100.0f);
+                break;
+
+            case WalkDirection::Up:
+                isInDirection = (direction.y < -50.0f && abs(direction.x) < 100.0f);
+                break;
+
+            case WalkDirection::Down:
+                isInDirection = (direction.y > 50.0f && abs(direction.x) < 100.0f);
+                break;
+            }
+
+            if (!isInDirection)
+                continue;
+
+            float distance = GameplayAPI::Distance(playerPos, platformPos);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestPlatform = platform;
+            }
+        }
+
+        if (closestPlatform.IsValid())
+        {
+            std::cout << "[Player] Found platform in direction at distance: " << minDistance << std::endl;
+        }
+        else
+        {
+            std::cout << "[Player] No platform found in facing direction!" << std::endl;
+        }
+
+        return closestPlatform;
+    }
+
+    void Player::UpdateRabbitJump(TimeStep ts)
+    {
+        m_JumpProgress += ts / m_JumpDuration;
+
+        if (m_JumpProgress >= 1.0f)
+        {
+            m_JumpProgress = 1.0f;
+            GameplayAPI::SetPosition(GetEntity(), m_JumpEndPos);
+            m_IsJumping = false;
+
+            AnimationAPI::PlayAnimation(GetEntity(), m_IdleAnim);
+            if (m_MaskEntity.IsValid() && m_MaskScript && m_MaskScript->m_CurrentIdleAnim)
+            {
+                AnimationAPI::PlayAnimation(m_MaskEntity, m_MaskScript->m_CurrentIdleAnim);
+            }
+
+            std::cout << "[Player] Landed!" << std::endl;
+            return;
+        }
+
+        float t = m_JumpProgress;
+        float smoothT = t * t * (3.0f - 2.0f * t);  
+
+        Vec3 horizontalPos = MathAPI::Lerp(m_JumpStartPos, m_JumpEndPos, smoothT);
+
+        float arcOffset = -4.0f * m_JumpHeight * t * (t - 1.0f);
+
+        Vec3 finalPos = horizontalPos;
+        finalPos.y += arcOffset;
+
+        GameplayAPI::SetPosition(GetEntity(), finalPos);
+    }
+
+    void Player::TakeDamage(int damage)
+    {
+        Entity ownerEntity = GetEntity();
+        if (!ownerEntity.Has<HealthComponent>())
+            return;
+
+        auto& health = ownerEntity.Get<HealthComponent>();
+        health.current -= damage;
+
+        GameplayAPI::ShakeCamera(damageCameraShake);
+
+        if (health.current <= 0)
+        {
+            health.current = 0;
+            Die();
+        }
+    }
+
+    void Player::Die()
+    {
+        std::cout << "[Player] Player died!" << std::endl;
+        GameplayAPI::DestroyEntity(GetEntity());
     }
 }

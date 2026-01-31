@@ -7,7 +7,8 @@
             "RelationshipComponent": {
                 "Children": [
                     3752068319927271535,
-                    11579840661385650169
+                    11579840661385650169,
+                    12646756601384875057
                 ],
                 "ParentHandle": 0
             },
@@ -41,7 +42,7 @@
                     255
                 ]
             },
-            "Tag": "Bridge",
+            "Tag": "Bridge_01",
             "TransformComponent": {
                 "Scale": [
                     3.0,
@@ -86,6 +87,36 @@
                 "angle": 0.0
             },
             "UUID": 11579840661385650169
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11545583432281423291
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 12358888176231115231,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Bridge_02",
+            "TransformComponent": {
+                "Scale": [
+                    3.0,
+                    0.5,
+                    0.5
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12646756601384875057
         }
     ],
     "Name": "MonkeyBridge",

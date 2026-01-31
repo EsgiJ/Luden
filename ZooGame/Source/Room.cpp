@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <ScriptAPI/GameplayAPI.h>
+#include <ScriptAPI/MathAPI.h>
 
 namespace Luden
 {

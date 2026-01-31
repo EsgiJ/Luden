@@ -1,69 +1,94 @@
 #include "RabbitPlatform.h"
-
 #include <iostream>
-#include <ScriptAPI/GameplayAPI.h>
-#include <ScriptAPI/MathAPI.h>
+#include "ScriptAPI/GameplayAPI.h"
+#include "Player.h"
 
 namespace Luden
 {
     void RabbitPlatform::OnCreate()
     {
-        // TODO: Initialize
+        if (GetEntity().Has<SpriteRendererComponent>())
+        {
+            PlatformSize = GameplayAPI::GetEntitySize(GetEntity());
+        }
     }
 
     void RabbitPlatform::OnUpdate(TimeStep ts)
     {
-        if (m_IsTeleporting && m_TeleportingPlayer.IsValid())
+        bool isPlayerOn = IsPlayerOnPlatform();
+
+        if (isPlayerOn && !m_PlayerWasOnPlatform)
         {
-            Vec3 playerPos = GameplayAPI::GetPosition(m_TeleportingPlayer);
-
-            Vec3 newPos = MathAPI::Lerp(playerPos, m_TargetPosition, TeleportSpeed * ts);
-            GameplayAPI::SetPosition(m_TeleportingPlayer, newPos);
-
-            float dist = GameplayAPI::Distance(newPos, m_TargetPosition);
-            if (dist < 5.0f)
+            Entity player = GameplayAPI::FindEntityWithTag("Player");
+            if (player.IsValid())
             {
-                GameplayAPI::SetPosition(m_TeleportingPlayer, m_TargetPosition);
-                m_IsTeleporting = false;
+                auto playerScript = GameplayAPI::GetScript<Player>(player);
+                if (playerScript)
+                {
+                    playerScript->m_IsOnRabbitPlatform = true;
+                    playerScript->m_CurrentPlatform = GetEntity();
 
-                std::cout << "[RabbitPlatform] Teleport complete!" << std::endl;
+                    std::cout << "[RabbitPlatform] Player entered - movement locked!" << std::endl;
+                }
             }
         }
+        else if (!isPlayerOn && m_PlayerWasOnPlatform)
+        {
+            Entity player = GameplayAPI::FindEntityWithTag("Player");
+            if (player.IsValid())
+            {
+                auto playerScript = GameplayAPI::GetScript<Player>(player);
+                if (playerScript && playerScript->m_CurrentPlatform == GetEntity())
+                {
+                    playerScript->m_IsOnRabbitPlatform = false;
+                    playerScript->m_CurrentPlatform = Entity();
+
+                    std::cout << "[RabbitPlatform] Player left - movement unlocked!" << std::endl;
+                }
+            }
+        }
+
+        m_PlayerWasOnPlatform = isPlayerOn;
     }
 
     void RabbitPlatform::OnDestroy()
     {
-        // TODO: Cleanup
+        // Cleanup
     }
 
     void RabbitPlatform::OnCollisionBegin(const CollisionContact& contact)
     {
-        // TODO: On contact begin
     }
 
     void RabbitPlatform::OnCollisionEnd(const CollisionContact& contact)
     {
-        // TODO: On contact end
     }
 
     void RabbitPlatform::OnCollisionHit(const CollisionContact& contact)
     {
-        // TODO: On hit(high speed)
     }
 
-    void RabbitPlatform::TeleportPlayerHere(Entity player)
+    bool RabbitPlatform::IsPlayerOnPlatform()
     {
+        Entity player = GameplayAPI::FindEntityWithTag("Player");
         if (!player.IsValid())
-            return;
+            return false;
 
         Vec3 platformPos = GameplayAPI::GetPosition(GetEntity());
-        m_TargetPosition = platformPos + TeleportOffset;
+        Vec3 playerPos = GameplayAPI::GetPosition(player);
+        Vec2 playerSize = GameplayAPI::GetEntitySize(player);
 
-        m_TeleportingPlayer = player;
-        m_IsTeleporting = true;
+        return GameplayAPI::CheckAABBOverlap(
+            platformPos, PlatformSize,
+            playerPos, playerSize
+        );
+    }
 
-        std::cout << "[RabbitPlatform] Teleporting player to: " << m_TargetPosition.x << ", " << m_TargetPosition.y << std::endl;
+    Vec3 RabbitPlatform::GetLandingPosition()
+    {
+        Entity ownerEntity = GetEntity();
 
-        //TODO: Play teleport effect&sound
+        Vec3 platformPos = GameplayAPI::GetPosition(ownerEntity);
+        return platformPos + LandingOffset;
     }
 }
