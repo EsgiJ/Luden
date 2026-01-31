@@ -326,6 +326,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sprites/Backgrounds/lake.png",
+      "Handle": 8964376240404383489,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Masks/RabbitMask/r_mask_idle.png",
       "Handle": 9033291848572475001,
       "Type": "Texture"
@@ -598,6 +603,11 @@
     {
       "FilePath": "Sprites/Masks/MonkeyMask.lsprite",
       "Handle": 15441287435103906205,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/lake-background.lsprite",
+      "Handle": 15477636281873588830,
       "Type": "Sprite"
     },
     {

@@ -218,7 +218,7 @@
             },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 0
+                "ParentHandle": 8940412848283742930
             },
             "Tag": "Room_04",
             "TransformComponent": {
@@ -229,8 +229,8 @@
                 ],
                 "Translation": [
                     1920.0,
-                    1080.0,
-                    -100.0
+                    1088.0,
+                    -170.0
                 ],
                 "angle": 0.0
             },
@@ -471,7 +471,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.018439000472426414,
+                "frameTimer": 0.033730000257492065,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -543,7 +543,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.018439000472426414,
+                "frameTimer": 0.033730000257492065,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -890,7 +890,9 @@
                     8435228385460128545,
                     6441961633872597627,
                     17656182126336483710,
-                    15306960261945259527
+                    15306960261945259527,
+                    18228788536384652773,
+                    3995259019919599907
                 ],
                 "ParentHandle": 0
             },
@@ -1932,7 +1934,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.018439000472426414,
+                "frameTimer": 0.033730000257492065,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2066,7 +2068,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.018439000472426414,
+                "frameTimer": 0.033730000257492065,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2200,7 +2202,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.018439000472426414,
+                "frameTimer": 0.033730000257492065,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2394,6 +2396,36 @@
                 "angle": 0.0
             },
             "UUID": 11018588011201398021
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 8940412848283742930
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 15477636281873588830,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Background",
+            "TransformComponent": {
+                "Scale": [
+                    0.3799999952316284,
+                    0.3799999952316284,
+                    0.3799999952316284
+                ],
+                "Translation": [
+                    1920.0,
+                    1088.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3995259019919599907
         }
     ],
     "Name": "MainScene",
