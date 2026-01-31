@@ -34,7 +34,10 @@ namespace Luden
         AnimationRef m_FrontAnim = nullptr;
         AnimationRef m_SideAnim = nullptr;
 
+
+
         float m_MoveSpeed = 10.0f;
+
         WalkDirection m_WalkDirection = WalkDirection::Right;
 
         bool m_IsOnRabbitPlatform = false;

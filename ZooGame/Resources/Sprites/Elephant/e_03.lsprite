@@ -1,0 +1,15 @@
+{
+    "Handle": 265178072108083312,
+    "Name": "e_03",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 6976887463827945704,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

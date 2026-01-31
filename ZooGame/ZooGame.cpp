@@ -3,6 +3,7 @@
 #include "NativeScript/NativeScriptRegistry.h"
 #include <iostream>
 
+#include "Elephant.h"
 #include "ElephantTarget.h"
 #include "MainMenu.h"
 #include "Player.h"
@@ -38,6 +39,7 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<RabbitPlatform>("RabbitPlatform", resourceManager);
 		NativeScriptRegistry::RegisterScript<ElephantTarget>("ElephantTarget", resourceManager);
 		NativeScriptRegistry::RegisterScript<MonkeyArm>("MonkeyArm", resourceManager);
+		NativeScriptRegistry::RegisterScript<Elephant>("Elephant", resourceManager);
 
 
 	}

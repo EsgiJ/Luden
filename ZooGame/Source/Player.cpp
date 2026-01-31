@@ -1,5 +1,7 @@
 #include "Player.h"
 #include <iostream>
+
+#include "Elephant.h"
 #include "ElephantTarget.h"
 #include "Mask.h"
 #include "MonkeyArm.h"
@@ -376,7 +378,7 @@ namespace Luden
         std::cout << "[Player] Using Elephant Ability - Finding nearest target..." << std::endl;
 
         Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
-        auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantTarget");
+        auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantRoot");
 
         Entity closest;
         float minDist = m_MinElephantDistance;
@@ -393,11 +395,29 @@ namespace Luden
 
         if (closest.IsValid())
         {
-            auto elephantTarget = GameplayAPI::GetScript<ElephantTarget>(closest);
-            if (elephantTarget)
+            auto children = GameplayAPI::GetChildren(closest);
+
+            Entity elephantEntity = children[0];
+            Entity elephantTargetEntity = children[1];
+
+            if (elephantTargetEntity.IsValid())
             {
-                elephantTarget->Activate();
-                std::cout << "[Player] Activated ElephantTarget!" << std::endl;
+                auto elephantTarget = GameplayAPI::GetScript<ElephantTarget>(elephantTargetEntity);
+                if (elephantTarget)
+                {
+                    elephantTarget->Activate();
+                    std::cout << "[Player] Activated ElephantTarget!" << std::endl;
+                }
+            }
+
+            if (elephantEntity.IsValid())
+            {
+                auto elephant = GameplayAPI::GetScript<Elephant>(elephantEntity);
+
+                if (elephant)
+                {
+                    elephant->Activate();
+                }
             }
         }
         else
