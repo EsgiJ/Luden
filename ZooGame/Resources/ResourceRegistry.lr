@@ -181,6 +181,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/WalkablePlatform.lns",
+      "Handle": 4276100862133818430,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Images/Masks/MonkeyMask/m_mask_side2.png",
       "Handle": 4320278646738628727,
       "Type": "Texture"
@@ -244,6 +249,11 @@
       "FilePath": "Scripts/UIButton.lns",
       "Handle": 5483456309594446471,
       "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Prefabs/WalkablePlatform.lprefab",
+      "Handle": 5681215828149337375,
+      "Type": "Prefab"
     },
     {
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_side_2.lsprite",
