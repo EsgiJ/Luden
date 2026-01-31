@@ -1,0 +1,15 @@
+{
+    "Handle": 16390287983722122117,
+    "Name": "front_3",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 11655992987715421077,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

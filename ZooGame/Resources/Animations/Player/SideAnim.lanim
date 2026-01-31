@@ -1,0 +1,24 @@
+{
+    "FrameCount": 2,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 4575087748803154775
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 16683005888778096750
+        }
+    ],
+    "Handle": 13581614685594068458,
+    "Loop": true,
+    "Name": "SideAnim"
+}

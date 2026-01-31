@@ -1,0 +1,24 @@
+{
+    "FrameCount": 2,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 12336527180368637147
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 5766835177092179801
+        }
+    ],
+    "Handle": 15668835922991334784,
+    "Loop": true,
+    "Name": "ElephantMaskSide"
+}

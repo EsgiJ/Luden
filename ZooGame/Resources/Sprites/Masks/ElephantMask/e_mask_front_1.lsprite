@@ -1,11 +1,11 @@
 {
-    "Handle": 734903692974566134,
-    "Name": "Mask",
+    "Handle": 3029995051066659168,
+    "Name": "e_mask_front_1",
     "Pivot": {
         "x": 0.5,
         "y": 0.5
     },
-    "TextureHandle": 14490848190585670612,
+    "TextureHandle": 16578835125219639667,
     "TextureRect": {
         "height": 0,
         "width": 0,

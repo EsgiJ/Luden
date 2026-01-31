@@ -13,13 +13,9 @@
                 ],
                 "Restitution": 0.0,
                 "Size": [
-                    124.0,
-                    124.0
+                    1000.0,
+                    1000.0
                 ]
-            },
-            "Camera2DComponent": {
-                "Primary": true,
-                "Type": "FollowXY"
             },
             "HealthComponent": {
                 "current": 1,
@@ -27,10 +23,12 @@
             },
             "InputComponent": null,
             "NativeScriptComponent": {
-                "ScriptHandle": 0
+                "ScriptHandle": 5114375928514767093
             },
             "RelationshipComponent": {
-                "Children": null,
+                "Children": [
+                    3229489671081612429
+                ],
                 "ParentHandle": 0
             },
             "RigidBody2DComponent": {
@@ -41,8 +39,17 @@
                 "LinearDrag": 0.0,
                 "Mass": 1.0
             },
-            "SpriteRendererComponent": {
-                "spriteHandle": 3946147272597825418,
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    10990375467485372143,
+                    13581614685594068458,
+                    16692048177833949225,
+                    3416439760125896420
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 0,
+                "frameTimer": 0.0,
+                "playbackSpeed": 1.0,
                 "tint": [
                     255,
                     255,
@@ -51,6 +58,75 @@
                 ]
             },
             "Tag": "Player",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16733809313402328790
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 1,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 1,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1000.0,
+                    1000.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 972696849183037665
+            },
+            "PrefabComponent": {
+                "EntityID": 3229489671081612429,
+                "PrefabID": 17489632794411363491
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 16733809313402328790
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    11896305348074595209,
+                    8355092832829679700,
+                    15668835922991334784
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 0,
+                "frameTimer": 0.0,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Mask",
             "TransformComponent": {
                 "Scale": [
                     1.0,
@@ -64,7 +140,7 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 16733809313402328790
+            "UUID": 3229489671081612429
         }
     ],
     "Name": "Player",

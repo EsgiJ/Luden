@@ -1,0 +1,32 @@
+{
+    "FrameCount": 3,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 12406095897123594600
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 558209482319207013
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 16390287983722122117
+        }
+    ],
+    "Handle": 16692048177833949225,
+    "Loop": true,
+    "Name": "FrontAnim"
+}

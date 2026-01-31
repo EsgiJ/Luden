@@ -1,0 +1,15 @@
+{
+    "Handle": 987906282729788192,
+    "Name": "back_1",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 683151447512003150,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

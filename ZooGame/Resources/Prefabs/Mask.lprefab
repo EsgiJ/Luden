@@ -2,20 +2,23 @@
     "Entities": [
         {
             "BoxCollider2DComponent": {
-                "CategoryBits": 128,
+                "CategoryBits": 1,
                 "Density": 1.0,
                 "Friction": 1.0,
                 "GroupIndex": 0,
-                "MaskBits": 2,
+                "MaskBits": 1,
                 "Offset": [
                     0.0,
                     0.0
                 ],
                 "Restitution": 0.0,
                 "Size": [
-                    100.0,
-                    100.0
+                    1000.0,
+                    1000.0
                 ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 972696849183037665
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -29,8 +32,16 @@
                 "LinearDrag": 0.009999999776482582,
                 "Mass": 1.0
             },
-            "SpriteRendererComponent": {
-                "spriteHandle": 734903692974566134,
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    11896305348074595209,
+                    8355092832829679700,
+                    15668835922991334784
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 0,
+                "frameTimer": 0.0,
+                "playbackSpeed": 1.0,
                 "tint": [
                     255,
                     255,

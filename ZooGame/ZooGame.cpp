@@ -6,6 +6,7 @@
 #include "MainMenu.h"
 #include "Player.h"
 #include "GameManager.h"
+#include "Mask.h"
 #include "UIButton.h"
 #include "Room.h"
 
@@ -30,6 +31,7 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<MainMenu>("MainMenu", resourceManager);
 		NativeScriptRegistry::RegisterScript<GameManager>("GameManager", resourceManager);
 		NativeScriptRegistry::RegisterScript<Room>("Room", resourceManager);
+		NativeScriptRegistry::RegisterScript<Mask>("Mask", resourceManager);
 	}
 
 	uint32_t ZooGame::GetVersion() const

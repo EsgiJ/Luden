@@ -1,0 +1,15 @@
+{
+    "Handle": 15706906639259634923,
+    "Name": "e_mask_front_03",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 2651692474253468142,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

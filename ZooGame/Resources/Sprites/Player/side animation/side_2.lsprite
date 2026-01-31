@@ -1,0 +1,15 @@
+{
+    "Handle": 16683005888778096750,
+    "Name": "side_2",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 7487901830043135391,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

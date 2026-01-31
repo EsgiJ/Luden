@@ -1,11 +1,11 @@
 {
-    "Handle": 3946147272597825418,
-    "Name": "PlayerDuck",
+    "Handle": 15441287435103906205,
+    "Name": "MonkeyMask",
     "Pivot": {
         "x": 0.5,
         "y": 0.5
     },
-    "TextureHandle": 17614298322648313161,
+    "TextureHandle": 16097215868058510116,
     "TextureRect": {
         "height": 0,
         "width": 0,

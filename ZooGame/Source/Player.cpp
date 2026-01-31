@@ -2,20 +2,51 @@
 
 #include <iostream>
 
+#include "Mask.h"
 #include "ScriptAPI/GameplayAPI.h"
 #include "ScriptAPI/MathAPI.h"
 #include "ScriptAPI/Physics2DAPI.h"
+#include "ScriptAPI/AnimationAPI.h"
 
 namespace Luden
 {
     void Player::OnCreate()
     {
+        m_IdleAnim = GetResource<Animation>("IdleAnim");
+        m_SideAnim = GetResource<Animation>("SideAnim");
+        m_BackAnim = GetResource<Animation>("BackAnim");
+        m_FrontAnim = GetResource<Animation>("FrontAnim");
+
         SetupInput();
     }
 
     void Player::OnUpdate(TimeStep ts)
     {
+    	Vector<Entity> children = GameplayAPI::GetChildren(GetEntity());
+	    for (Entity child : children)
+	    {
+		    if (child.Tag() == "Mask")
+		    {
+                std::cout << "Mask entity found" << std::endl;
+                m_MaskEntity = child;
+		    }
+	    }
 
+	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))
+	    {
+            int  i = (int)m_Type;
+            i++;
+            m_Type = (MaskType)i;
+	    }
+	    if (m_MaskEntity.IsValid())
+	    {
+            auto maskScript = GameplayAPI::GetScript<Mask>(m_MaskEntity);
+
+            if (maskScript != nullptr)
+            {
+                maskScript->m_Type = m_Type;
+            }
+	    }
     }
 
     void Player::OnDestroy()
@@ -40,7 +71,6 @@ namespace Luden
 
     void Player::OnMove(const InputValue& value)
     {
-        std::cout << "[Player] OnMove triggered..." << std::endl;
         Vec2 moveValue = value.GetAxis2D();
 
         Entity ownerEntity = GetEntity();
@@ -52,6 +82,42 @@ namespace Luden
         if (MathAPI::Length(movement) > 0.0f)
         {
             movement = MathAPI::Normalize(movement);
+
+            if (movement.x != 0.0f)
+                movement.y = 0.0f;
+        }
+
+        if (movement.x == 0.0f && movement.y == 0.0f)
+        {
+            AnimationAPI::PlayAnimation(GetEntity(), m_IdleAnim);
+        }
+        else if (movement.x > 0.0f )
+        {
+            AnimationAPI::PlayAnimation(GetEntity(), m_SideAnim);
+            Vec3 scale = GameplayAPI::GetScale(GetEntity());
+
+            if (scale.x > 0.0f)
+                scale.x *= -1;
+
+            GameplayAPI::SetScale(GetEntity(), scale);
+        }
+        else if (movement.x < 0.0f)
+        {
+            AnimationAPI::PlayAnimation(GetEntity(), m_SideAnim);
+            Vec3 scale = GameplayAPI::GetScale(GetEntity());
+
+            if (scale.x < 0.0f)
+                scale.x *= -1;
+
+            GameplayAPI::SetScale(GetEntity(), scale);
+        }
+        else if (movement.y > 0.0f)
+        {
+            AnimationAPI::PlayAnimation(GetEntity(), m_FrontAnim);
+        }
+        else if (movement.y < 0.0f)
+        {
+            AnimationAPI::PlayAnimation(GetEntity(), m_BackAnim);
         }
 
         Physics2DAPI::SetLinearVelocity(ownerEntity, movement * m_MoveSpeed);

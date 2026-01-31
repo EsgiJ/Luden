@@ -1,0 +1,32 @@
+{
+    "FrameCount": 3,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 17276377543928313566
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 1755268662265653054
+        },
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 4782277372451376756
+        }
+    ],
+    "Handle": 1237646521231655321,
+    "Loop": true,
+    "Name": "RabbitMaskFrontAnim"
+}

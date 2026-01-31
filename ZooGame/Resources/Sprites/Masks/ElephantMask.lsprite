@@ -1,0 +1,15 @@
+{
+    "Handle": 1983708016949544103,
+    "Name": "ElephantMask",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 9260509829023972613,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}
