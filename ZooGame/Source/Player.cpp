@@ -346,7 +346,7 @@ namespace Luden
 
         case MaskType::Rabbit:
             m_MaskScript->OnAbilityUse = [this]() { UseRabbitAbility(); };
-            m_MaskScript->MaxCooldown = 5.0f;
+            m_MaskScript->MaxCooldown = 0.5f;
             break;
 
         case MaskType::Monkey:

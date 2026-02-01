@@ -18,7 +18,7 @@ namespace Luden
         Vec3 GetLandingPosition();
 
         Entity GetMonkeyInDirection(int direction);  
-
+        bool CheckIfMonkeyMaskGrabbed();
     public:
         Vec2 PlatformSize = Vec2(200.0f, 50.0f);
 

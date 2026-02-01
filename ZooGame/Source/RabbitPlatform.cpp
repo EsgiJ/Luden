@@ -1,5 +1,7 @@
 #include "RabbitPlatform.h"
 #include <iostream>
+
+#include "CollectableMask.h"
 #include "ScriptAPI/GameplayAPI.h"
 #include "Player.h"
 #include "MonkeyArm.h"
@@ -39,6 +41,7 @@ namespace Luden
 
     void RabbitPlatform::OnUpdate(TimeStep ts)
     {
+        CheckIfMonkeyMaskGrabbed();
         bool isPlayerOn = IsPlayerOnPlatform();
 
         if (isPlayerOn && !m_PlayerWasOnPlatform)
@@ -132,5 +135,45 @@ namespace Luden
         default:
             return Entity();
         }
+    }
+
+    bool RabbitPlatform::CheckIfMonkeyMaskGrabbed()
+    {
+        Entity maskEntity = GameplayAPI::FindEntityWithTag("CollectableMonkeyMask");
+
+        if (!maskEntity.IsValid())
+            return false;
+
+        Vec3 maskPosition = GameplayAPI::GetPosition(maskEntity);
+        Vec2 maskSize = GameplayAPI::GetEntitySize(maskEntity);
+
+        Entity playerEntity = GameplayAPI::FindEntityWithTag("Player");
+
+        if (playerEntity.IsValid())
+        {
+            Vec3 playerPosition = GameplayAPI::GetPosition(playerEntity);
+            Vec2 playerSize = GameplayAPI::GetEntitySize(playerEntity);
+
+            bool overlap = GameplayAPI::CheckAABBOverlap(maskPosition, maskSize,
+                playerPosition, playerSize);
+            if (overlap)
+            {
+                CollectableMask* mask = GameplayAPI::GetScript<CollectableMask>(maskEntity);
+                Player* player = GameplayAPI::GetScript<Player>(playerEntity);
+
+                if (!player || !mask)
+                    return false;
+
+                MaskType type = mask->Type;
+                player->CollectMask(type);
+
+                GameplayAPI::DestroyEntity(maskEntity);
+
+                std::cout << "[RabbitPlatform] Player collected mask type: "
+                    << (int)type << std::endl;
+                return true;
+            }
+        }
+        return false;
     }
 }

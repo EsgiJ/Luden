@@ -1,0 +1,15 @@
+{
+    "Handle": 3312786825651276318,
+    "Name": "ElephantCollect",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 16231727221695241878,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

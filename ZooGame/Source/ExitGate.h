@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class MainMenu : public ScriptableEntity
+	class ExitGate : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -12,20 +12,5 @@ namespace Luden
         virtual void OnCollisionBegin(const CollisionContact& contact) override;
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
-
-	public:
-        String m_StartSceneName = "BlockoutScene";
-        String m_SettingsSceneName = "Settings";
-
-        MusicRef m_BackgroundMusic;
-
-    private:
-        void OnPlayClicked();
-        void OnSettingsClicked();
-        void OnQuitClicked();
-
-        Entity m_PlayButton;
-        Entity m_SettingsButton;
-        Entity m_QuitButton;
     };
 }

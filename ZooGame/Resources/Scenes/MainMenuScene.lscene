@@ -7,7 +7,7 @@
             },
             "InputComponent": null,
             "NativeScriptComponent": {
-                "ScriptHandle": -5599400212399145099
+                "ScriptHandle": 604093891577710739
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -76,7 +76,7 @@
                     255,
                     255
                 ],
-                "fontHandle": 3942170602175638594,
+                "fontHandle": 12574412462348067972,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -123,7 +123,7 @@
                     255,
                     255
                 ],
-                "fontHandle": 3942170602175638594,
+                "fontHandle": 12574412462348067972,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -146,59 +146,12 @@
                 ],
                 "Translation": [
                     0.0,
-                    252.3000030517578,
+                    128.0,
                     100.0
                 ],
                 "angle": 0.0
             },
             "UUID": 18173111346826907897
-        },
-        {
-            "NativeScriptComponent": {
-                "ScriptHandle": 5483456309594446471
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 0
-            },
-            "Tag": "SettingsButton",
-            "TextComponent": {
-                "characterSize": 64,
-                "fillColor": [
-                    255,
-                    255,
-                    255,
-                    255
-                ],
-                "fontHandle": 3942170602175638594,
-                "letterSpacing": 1.0,
-                "lineAlignment": 2,
-                "lineSpacing": 1.0,
-                "outlineColor": [
-                    0,
-                    0,
-                    0,
-                    255
-                ],
-                "outlineThickness": 10.0,
-                "style": 0,
-                "text": "Settings",
-                "textOrientation": 0
-            },
-            "TransformComponent": {
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "Translation": [
-                    0.0,
-                    132.1999969482422,
-                    100.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 5736436148692441325
         },
         {
             "RelationshipComponent": {
@@ -214,7 +167,7 @@
                     0,
                     255
                 ],
-                "fontHandle": 3942170602175638594,
+                "fontHandle": 12574412462348067972,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -226,7 +179,7 @@
                 ],
                 "outlineThickness": 10.0,
                 "style": 0,
-                "text": "Disarranged Penguen",
+                "text": "Deranged Penguen",
                 "textOrientation": 0
             },
             "TransformComponent": {

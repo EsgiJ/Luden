@@ -1,10 +1,20 @@
+{
+    "Entities": [
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -1899463034577410086
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
             "SpriteRendererComponent": {
                 "spriteHandle": 14401149277774659045,
                 "tint": [
                     255,
                     255,
                     255,
-                    50
+                    0
                 ]
             },
             "Tag": "WalkablePlatform",
@@ -21,11 +31,11 @@
                 ],
                 "angle": 0.0
             },
-            "UUID": 4305909032922594035
+            "UUID": 634391136890906135
         }
     ],
-    "Name": "WalkablePlatform",
-    "PrefabHandle": 5681215828149337375,
-    "RootEntityUUID": 4305909032922594035,
-    "UUID": 14202879344344357901
+    "Name": "WalkablePlatformm",
+    "PrefabHandle": 11093213378543921187,
+    "RootEntityUUID": 634391136890906135,
+    "UUID": 15194253528192155932
 }

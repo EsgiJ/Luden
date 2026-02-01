@@ -28,6 +28,9 @@ namespace Luden
         bool HasMask(MaskType type);
         const std::unordered_set<MaskType>& GetCollectedMasks() { return m_CollectedMasks; }
         MaskType GetNextAvailableMask(MaskType current);
+
+        void CollectKey() { m_HasKey = true; }
+        bool HasKey() const { return m_HasKey; }
     public:
         Mask* m_MaskScript = nullptr;
         Entity m_MaskEntity;
@@ -77,6 +80,7 @@ namespace Luden
 
     private:
         std::unordered_set<MaskType> m_CollectedMasks;
+        bool m_HasKey = false;
 
         Vec3 m_JumpStartPos;
         Vec3 m_JumpEndPos;

@@ -50,7 +50,23 @@ namespace Luden
 
                 script->StartPosition = elephantPos;
 
-                script->EndPosition = elephantPos + Vec3(direction * script->DistanceBetweenPositions, 0.0f, 0.0f);
+                auto transform = GetEntity().Get<TransformComponent>();
+                if (transform.angle == 0)
+                {
+                    script->EndPosition = elephantPos + Vec3(0.0f , -direction * script->DistanceBetweenPositions, 0.0f);
+                }
+                else if (transform.angle == 90)
+                {
+                    script->EndPosition = elephantPos + Vec3(direction * script->DistanceBetweenPositions, 0.0f, 0.0f);
+                }
+                else if (transform.angle == -90)
+                {
+                    script->EndPosition = elephantPos + Vec3(-direction * script->DistanceBetweenPositions, 0.0f, 0.0f);
+                }                
+                else 
+                {
+                    script->EndPosition = elephantPos + Vec3(0.0f, direction * script->DistanceBetweenPositions, 0.0f);
+                }
             }
         }
     }

@@ -42,7 +42,30 @@ namespace Luden
 
     void CollectableMask::OnUpdate(TimeStep ts)
     {
+        /*Vec3 maskPosition = GameplayAPI::GetPosition(GetEntity());
+        Vec2 maskSize = GameplayAPI::GetEntitySize(GetEntity());
 
+        Entity playerEntity = GameplayAPI::FindEntityWithTag("Player");
+
+        if (playerEntity.IsValid())
+        {
+            Vec3 playerPosition = GameplayAPI::GetPosition(playerEntity);
+            Vec2 playerSize = GameplayAPI::GetEntitySize(playerEntity);
+
+            bool overlap = GameplayAPI::CheckAABBOverlap(maskPosition, maskSize, playerPosition, playerSize);
+			if (overlap)
+			{
+                Player* player = GameplayAPI::GetScript<Player>(playerEntity);
+                if (!player)
+                    return;
+
+                player->CollectMask(Type);
+
+                std::cout << "[CollectableMask] Player collected mask type: " << (int)Type << std::endl;
+
+                GameplayAPI::DestroyEntity(GetEntity());
+			}
+        }*/
     }
 
     void CollectableMask::OnDestroy()

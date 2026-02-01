@@ -1,11 +1,11 @@
 {
-    "Handle": 16195621475342852555,
-    "Name": "ElephantCollectable",
+    "Handle": 14909919992302244346,
+    "Name": "Key",
     "Pivot": {
         "x": 0.5,
         "y": 0.5
     },
-    "TextureHandle": 9540834660829097641,
+    "TextureHandle": 3016414214087338806,
     "TextureRect": {
         "height": 0,
         "width": 0,

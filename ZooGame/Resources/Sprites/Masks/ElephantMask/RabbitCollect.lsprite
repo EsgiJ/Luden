@@ -1,11 +1,11 @@
 {
-    "Handle": 3858288495149638203,
-    "Name": "MonkeyCollectable",
+    "Handle": 8661261849678588513,
+    "Name": "RabbitCollect",
     "Pivot": {
         "x": 0.5,
         "y": 0.5
     },
-    "TextureHandle": 6194000564315527683,
+    "TextureHandle": 13437670105999552225,
     "TextureRect": {
         "height": 0,
         "width": 0,

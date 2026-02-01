@@ -15,6 +15,9 @@
 #include "Room.h"
 #include "MonkeyArm.h"
 #include "CollectableMask.h"
+#include "ExitGate.h"
+#include "WalkablePlatform.h"
+#include "CollectableKey.h"
 
 namespace Luden
 {
@@ -43,6 +46,9 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<MonkeyArm>("MonkeyArm", resourceManager);
 		NativeScriptRegistry::RegisterScript<Elephant>("Elephant", resourceManager);
 		NativeScriptRegistry::RegisterScript<CollectableMask>("CollectableMask", resourceManager);
+		NativeScriptRegistry::RegisterScript<WalkablePlatform>("WalkablePlatform", resourceManager);
+		NativeScriptRegistry::RegisterScript<CollectableKey>("CollectableKey", resourceManager);
+		NativeScriptRegistry::RegisterScript<ExitGate>("ExitGate", resourceManager);
 
 	}
 
