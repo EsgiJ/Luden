@@ -2,7 +2,7 @@
     "Entities": [
         {
             "BoxCollider2DComponent": {
-                "CategoryBits": 64,
+                "CategoryBits": 32,
                 "Density": 1.0,
                 "Friction": 1.0,
                 "GroupIndex": 0,
@@ -174,7 +174,7 @@
             },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 0
+                "ParentHandle": 11524156850033803809
             },
             "Tag": "Room_03",
             "TransformComponent": {
@@ -471,7 +471,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.033730000257492065,
+                "frameTimer": 0.03440599888563156,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -543,7 +543,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.033730000257492065,
+                "frameTimer": 0.03440599888563156,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -667,8 +667,8 @@
                     8949244485346422617,
                     7227621459032980337,
                     7294409602906638322,
-                    12458424915530985448,
-                    14988943361299251317
+                    9057803210153999491,
+                    14892764402600671282
                 ],
                 "ParentHandle": 0
             },
@@ -690,11 +690,7 @@
         },
         {
             "RelationshipComponent": {
-                "Children": [
-                    16418124469871640841,
-                    17473272625787693969,
-                    7459686511747744037
-                ],
+                "Children": null,
                 "ParentHandle": 11524156850033803809
             },
             "Tag": "Blocks",
@@ -705,7 +701,7 @@
                     1.0
                 ],
                 "Translation": [
-                    0.0,
+                    1.569061279296875,
                     0.0,
                     0.0
                 ],
@@ -714,12 +710,36 @@
             "UUID": 10225875081587324986
         },
         {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 33,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    1100.0
+                ]
+            },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 10225875081587324986
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
             },
             "SpriteRendererComponent": {
-                "spriteHandle": 14401149277774659045,
+                "spriteHandle": 2977169651319675373,
                 "tint": [
                     255,
                     255,
@@ -727,51 +747,21 @@
                     255
                 ]
             },
-            "Tag": "Block_1",
+            "Tag": "Elephant_Block_2",
             "TransformComponent": {
                 "Scale": [
                     0.30000001192092896,
-                    0.8999999761581421,
-                    0.8999999761581421
+                    0.4000000059604645,
+                    0.4000000059604645
                 ],
                 "Translation": [
-                    -674.7988891601563,
-                    1378.466064453125,
+                    -646.6578979492188,
+                    1396.131591796875,
                     0.0
                 ],
                 "angle": 0.0
             },
             "UUID": 16418124469871640841
-        },
-        {
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 10225875081587324986
-            },
-            "SpriteRendererComponent": {
-                "spriteHandle": 14401149277774659045,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "Block_1_copy",
-            "TransformComponent": {
-                "Scale": [
-                    0.6000000238418579,
-                    0.800000011920929,
-                    0.800000011920929
-                ],
-                "Translation": [
-                    -726.3463745117188,
-                    740.4154663085938,
-                    0.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 17473272625787693969
         },
         {
             "RelationshipComponent": {
@@ -825,12 +815,36 @@
             "UUID": 7227621459032980337
         },
         {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 1,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    1200.0
+                ]
+            },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 10225875081587324986
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
             },
             "SpriteRendererComponent": {
-                "spriteHandle": 14401149277774659045,
+                "spriteHandle": 2977169651319675373,
                 "tint": [
                     255,
                     255,
@@ -838,16 +852,16 @@
                     255
                 ]
             },
-            "Tag": "Block_1_copy_copy",
+            "Tag": "Elephant_Block_3",
             "TransformComponent": {
                 "Scale": [
                     0.30000001192092896,
-                    1.399999976158142,
-                    1.399999976158142
+                    0.6000000238418579,
+                    0.6000000238418579
                 ],
                 "Translation": [
-                    563.7618408203125,
-                    905.7142944335938,
+                    474.5236511230469,
+                    873.3089599609375,
                     0.0
                 ],
                 "angle": 0.0
@@ -1887,332 +1901,6 @@
                 "ScriptHandle": -4536581106038574196
             },
             "PrefabComponent": {
-                "EntityID": 12458424915530985448,
-                "PrefabID": 17239031210567999200
-            },
-            "RelationshipComponent": {
-                "Children": [
-                    11478456494250362853,
-                    2901973591619049871
-                ],
-                "ParentHandle": 11524156850033803809
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 0,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteAnimatorComponent": {
-                "animationHandles": [
-                    4063115052138678179,
-                    13927744607971831506,
-                    16348366307340108880,
-                    5882264386255241029
-                ],
-                "currentAnimationIndex": 0,
-                "currentFrame": 0,
-                "frameTimer": 0.0,
-                "playbackSpeed": 1.0,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "ElephantRoot",
-            "TransformComponent": {
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "Translation": [
-                    -448.0,
-                    1152.0,
-                    0.0
-                ],
-                "angle": -90.0
-            },
-            "UUID": 12458424915530985448
-        },
-        {
-            "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 12458424915530985448
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 0,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteAnimatorComponent": {
-                "animationHandles": [
-                    4063115052138678179,
-                    13927744607971831506,
-                    16348366307340108880
-                ],
-                "currentAnimationIndex": 0,
-                "currentFrame": 11,
-                "frameTimer": 0.033730000257492065,
-                "playbackSpeed": 1.0,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "Elephant",
-            "TransformComponent": {
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "Translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "angle": 90.0
-            },
-            "UUID": 11478456494250362853
-        },
-        {
-            "BoxCollider2DComponent": {
-                "CategoryBits": 32,
-                "Density": 1.0,
-                "Friction": 1.0,
-                "GroupIndex": 0,
-                "MaskBits": 255,
-                "Offset": [
-                    0.0,
-                    0.0
-                ],
-                "Restitution": 0.0,
-                "Size": [
-                    500.0,
-                    500.0
-                ]
-            },
-            "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 12458424915530985448
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 0,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteRendererComponent": {
-                "spriteHandle": 14401149277774659045,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "ElephantTarget",
-            "TransformComponent": {
-                "Scale": [
-                    0.4000000059604645,
-                    0.4000000059604645,
-                    0.4000000059604645
-                ],
-                "Translation": [
-                    50.0,
-                    0.0,
-                    0.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 2901973591619049871
-        },
-        {
-            "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
-            },
-            "PrefabComponent": {
-                "EntityID": 14988943361299251317,
-                "PrefabID": 17239031210567999200
-            },
-            "RelationshipComponent": {
-                "Children": [
-                    646357470315105419,
-                    3785177134425028131
-                ],
-                "ParentHandle": 11524156850033803809
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 0,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteAnimatorComponent": {
-                "animationHandles": [
-                    4063115052138678179,
-                    13927744607971831506,
-                    16348366307340108880,
-                    5882264386255241029
-                ],
-                "currentAnimationIndex": 0,
-                "currentFrame": 0,
-                "frameTimer": 0.0,
-                "playbackSpeed": 1.0,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "ElephantRoot",
-            "TransformComponent": {
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "Translation": [
-                    448.0,
-                    1472.0,
-                    0.0
-                ],
-                "angle": 180.0
-            },
-            "UUID": 14988943361299251317
-        },
-        {
-            "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 14988943361299251317
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 0,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteAnimatorComponent": {
-                "animationHandles": [
-                    4063115052138678179,
-                    13927744607971831506,
-                    16348366307340108880
-                ],
-                "currentAnimationIndex": 0,
-                "currentFrame": 11,
-                "frameTimer": 0.033730000257492065,
-                "playbackSpeed": 1.0,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "Elephant",
-            "TransformComponent": {
-                "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "Translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "angle": 90.0
-            },
-            "UUID": 646357470315105419
-        },
-        {
-            "BoxCollider2DComponent": {
-                "CategoryBits": 32,
-                "Density": 1.0,
-                "Friction": 1.0,
-                "GroupIndex": 0,
-                "MaskBits": 255,
-                "Offset": [
-                    0.0,
-                    0.0
-                ],
-                "Restitution": 0.0,
-                "Size": [
-                    500.0,
-                    500.0
-                ]
-            },
-            "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
-            },
-            "RelationshipComponent": {
-                "Children": null,
-                "ParentHandle": 14988943361299251317
-            },
-            "RigidBody2DComponent": {
-                "AngularDrag": 0.05000000074505806,
-                "BodyType": 0,
-                "FixedRotation": true,
-                "GravityScale": 1.0,
-                "LinearDrag": 0.009999999776482582,
-                "Mass": 1.0
-            },
-            "SpriteRendererComponent": {
-                "spriteHandle": 14401149277774659045,
-                "tint": [
-                    255,
-                    255,
-                    255,
-                    255
-                ]
-            },
-            "Tag": "ElephantTarget",
-            "TransformComponent": {
-                "Scale": [
-                    0.4000000059604645,
-                    0.4000000059604645,
-                    0.4000000059604645
-                ],
-                "Translation": [
-                    50.0,
-                    0.0,
-                    0.0
-                ],
-                "angle": 0.0
-            },
-            "UUID": 3785177134425028131
-        },
-        {
-            "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
-            },
-            "PrefabComponent": {
                 "EntityID": 15306960261945259527,
                 "PrefabID": 17239031210567999200
             },
@@ -2235,12 +1923,11 @@
                 "animationHandles": [
                     4063115052138678179,
                     13927744607971831506,
-                    16348366307340108880,
-                    5882264386255241029
+                    16348366307340108880
                 ],
                 "currentAnimationIndex": 0,
-                "currentFrame": 0,
-                "frameTimer": 0.0,
+                "currentFrame": 11,
+                "frameTimer": 0.03440599888563156,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2289,7 +1976,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.033730000257492065,
+                "frameTimer": 0.03440599888563156,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2513,6 +2200,224 @@
                 "angle": 0.0
             },
             "UUID": 3995259019919599907
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 11524156850033803809
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9182060730798231048,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "elephant_room_bg",
+            "TransformComponent": {
+                "Scale": [
+                    0.4000000059604645,
+                    0.38999998569488525,
+                    0.38999998569488525
+                ],
+                "Translation": [
+                    53.36619567871094,
+                    1095.8304443359375,
+                    -9.699999809265137
+                ],
+                "angle": 0.0
+            },
+            "UUID": 14892764402600671282
+        },
+        {
+            "PrefabComponent": {
+                "EntityID": 7099160518846059985,
+                "PrefabID": 17239031210567999200
+            },
+            "RelationshipComponent": {
+                "Children": [
+                    13958287083986276459,
+                    18166890165692984274
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "ElephantRoot",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -440.62103271484375,
+                    1059.2652587890625,
+                    0.0
+                ],
+                "angle": -90.0
+            },
+            "UUID": 7099160518846059985
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4536581106038574196
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7099160518846059985
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    4063115052138678179,
+                    13927744607971831506,
+                    16348366307340108880
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 11,
+                "frameTimer": 0.03440599888563156,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Elephant",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 90.0
+            },
+            "UUID": 13958287083986276459
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 0,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    0.0,
+                    0.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": -4960231655435649035
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 7099160518846059985
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 17437968927475946540,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "ElephantTarget",
+            "TransformComponent": {
+                "Scale": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18166890165692984274
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 32,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 255,
+                "Offset": [
+                    8.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    1000.0,
+                    1000.0
+                ]
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 4927848764689519157,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "Elephant_block_1",
+            "TransformComponent": {
+                "Scale": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                ],
+                "Translation": [
+                    -810.787109375,
+                    705.7138061523438,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 10324549630591241224
         }
     ],
     "Name": "MainScene",
