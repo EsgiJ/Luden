@@ -35,20 +35,20 @@
                 "ParentHandle": 0
             },
             "SpriteRendererComponent": {
-                "spriteHandle": 3771340438875851871,
+                "spriteHandle": 15477636281873588830,
                 "tint": [
-                    209,
-                    209,
-                    209,
+                    255,
+                    255,
+                    255,
                     255
                 ]
             },
             "Tag": "Background",
             "TransformComponent": {
                 "Scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
                 ],
                 "Translation": [
                     0.0,
@@ -61,7 +61,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1791190158932376991
+                "ScriptHandle": 5483456309594446471
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -76,7 +76,7 @@
                     255,
                     255
                 ],
-                "fontHandle": 12349529158468568365,
+                "fontHandle": 3942170602175638594,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -108,7 +108,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1791190158932376991
+                "ScriptHandle": 5483456309594446471
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -123,7 +123,7 @@
                     255,
                     255
                 ],
-                "fontHandle": 12349529158468568365,
+                "fontHandle": 3942170602175638594,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -155,7 +155,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1791190158932376991
+                "ScriptHandle": 5483456309594446471
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -170,7 +170,7 @@
                     255,
                     255
                 ],
-                "fontHandle": 12349529158468568365,
+                "fontHandle": 3942170602175638594,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -210,11 +210,11 @@
                 "characterSize": 128,
                 "fillColor": [
                     255,
-                    0,
+                    64,
                     0,
                     255
                 ],
-                "fontHandle": 12349529158468568365,
+                "fontHandle": 3942170602175638594,
                 "letterSpacing": 1.0,
                 "lineAlignment": 2,
                 "lineSpacing": 1.0,
@@ -226,7 +226,7 @@
                 ],
                 "outlineThickness": 10.0,
                 "style": 0,
-                "text": "Space War",
+                "text": "Disarranged Penguen",
                 "textOrientation": 0
             },
             "TransformComponent": {

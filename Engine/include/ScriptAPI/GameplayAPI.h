@@ -38,6 +38,7 @@ namespace Luden
 
 		ENGINE_API void SetPosition(Entity entity, const Vec3& position);
 		ENGINE_API Vec3 GetPosition(Entity entity);
+		ENGINE_API Vec3 GetWorldPosition(Entity entity);
 		ENGINE_API void Move(Entity entity, const Vec3& offset);
 		ENGINE_API void MoveTowards(Entity entity, const Vec3& target, float maxDistance);
 
