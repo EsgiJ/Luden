@@ -33,7 +33,7 @@ namespace Luden
 
         Entity m_ElephantEntity;
         float m_ColliderDistanceFromElephant = 100.0f;
-
+        Entity m_PlatformEntity;
         Entity m_ColliderEntity;
         Vec2 m_ColliderSize = Vec2(500.0f, 500.0f); 
     };

@@ -12,6 +12,8 @@ namespace Luden
 
     void ElephantTarget::OnUpdate(TimeStep ts)
     {
+        m_ColliderSize = GameplayAPI::GetEntitySize(GetEntity());
+
         if (!m_FirstColliderSpawned && StartPosition != Vec3(0.0f, 0.0f, 0.0f))
         {
             SpawnColliderAtCurrentPosition();
