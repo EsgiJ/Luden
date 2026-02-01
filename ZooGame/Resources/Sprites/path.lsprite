@@ -1,0 +1,15 @@
+{
+    "Handle": 1422560552232519601,
+    "Name": "path",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 1236765337061921193,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

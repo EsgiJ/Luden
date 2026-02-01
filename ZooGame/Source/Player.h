@@ -91,7 +91,7 @@ namespace Luden
         Entity m_ActiveMonkeyArm;
 
         float m_MinRabbitJumpDistance = 500.0f;
-        float m_MinElephantDistance = 500.0f;
+        float m_MinElephantDistance = 5000.0f;
         float m_MinMonkeyJumpDistance = 1000.0f;
 
         Entity m_MonkeySourcePlatform; 
