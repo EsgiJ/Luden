@@ -24,12 +24,15 @@ namespace Luden
         float MoveSpeed = 2.0f;
         bool IsAtEnd = false;
         bool IsActivated = false;
-
+        bool m_FirstColliderSpawned = false;
     private:
         void MoveTowardsEnd(TimeStep ts);
         void MoveTowardsStart(TimeStep ts);
         void SpawnColliderAtCurrentPosition();
         void DestroyCollider();
+
+        Entity m_ElephantEntity;
+        float m_ColliderDistanceFromElephant = 100.0f;
 
         Entity m_ColliderEntity;
         Vec2 m_ColliderSize = Vec2(500.0f, 500.0f); 

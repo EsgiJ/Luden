@@ -385,22 +385,42 @@ namespace Luden
         Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
         auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantRoot");
 
-        Entity closest;
+        Entity closestRoot;
         float minDist = m_MinElephantDistance;
 
-        for (auto target : targets)
+        for (auto root : targets)
         {
-            float dist = GameplayAPI::Distance(playerPos, GameplayAPI::GetPosition(target));
-            if (dist < minDist)
+            auto children = GameplayAPI::GetChildren(root);
+
+            if (children.size() > 0)
             {
-                minDist = dist;
-                closest = target;
+                Entity elephantEntity = children[0];
+
+                if (!elephantEntity.IsValid())
+                    continue;
+
+                Vec3 elephantPos = GameplayAPI::GetPosition(elephantEntity);
+                float dist = GameplayAPI::Distance(playerPos, elephantPos);
+
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closestRoot = root; 
+
+                    std::cout << "[Player] Found elephant at distance: " << dist << std::endl;
+                }
             }
         }
 
-        if (closest.IsValid())
+        if (closestRoot.IsValid())
         {
-            auto children = GameplayAPI::GetChildren(closest);
+            auto children = GameplayAPI::GetChildren(closestRoot);
+
+            if (children.size() < 2)
+            {
+                std::cout << "[Player] ElephantRoot doesn't have enough children!" << std::endl;
+                return;
+            }
 
             Entity elephantEntity = children[0];
             Entity elephantTargetEntity = children[1];
@@ -420,13 +440,14 @@ namespace Luden
                 auto elephant = GameplayAPI::GetScript<Elephant>(elephantEntity);
                 if (elephant)
                 {
-                    elephant->Toggle(); 
+                    elephant->Toggle();
+                    std::cout << "[Player] Toggled Elephant!" << std::endl;
                 }
             }
         }
         else
         {
-            std::cout << "[Player] No ElephantTarget in range!" << std::endl;
+            std::cout << "[Player] No Elephant in range (min distance: " << m_MinElephantDistance << ")" << std::endl;
         }
     }
 
