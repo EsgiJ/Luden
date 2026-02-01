@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class ElephantTarget : public ScriptableEntity
+    class ElephantTarget : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -14,22 +14,24 @@ namespace Luden
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
         void Activate();
-	public:
-        float DetectionRadius = 1000.0f;
+        void Deactivate();
+        void Toggle();
 
+    public:
         Vec3 StartPosition;
         Vec3 EndPosition;
         float DistanceBetweenPositions = 400.0f;
         float MoveSpeed = 2.0f;
         bool IsAtEnd = false;
-
         bool IsActivated = false;
-        float ActiveDuration = 5.0f;  
-        float TimeActive = 0.0f;
-	private:
+
+    private:
         void MoveTowardsEnd(TimeStep ts);
         void MoveTowardsStart(TimeStep ts);
+        void SpawnColliderAtCurrentPosition();
+        void DestroyCollider();
 
-        Vec3 m_CurrentTarget;
+        Entity m_ColliderEntity;
+        Vec2 m_ColliderSize = Vec2(500.0f, 500.0f); 
     };
 }

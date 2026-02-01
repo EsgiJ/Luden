@@ -1,0 +1,16 @@
+{
+    "FrameCount": 1,
+    "Frames": [
+        {
+            "Duration": 0.10000000149011612,
+            "Offset": [
+                0.0,
+                0.0
+            ],
+            "SpriteHandle": 10007530908520050940
+        }
+    ],
+    "Handle": 5882264386255241029,
+    "Loop": true,
+    "Name": "ElephantSquirtAnim"
+}

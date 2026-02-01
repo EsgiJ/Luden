@@ -405,18 +405,17 @@ namespace Luden
                 auto elephantTarget = GameplayAPI::GetScript<ElephantTarget>(elephantTargetEntity);
                 if (elephantTarget)
                 {
-                    elephantTarget->Activate();
-                    std::cout << "[Player] Activated ElephantTarget!" << std::endl;
+                    elephantTarget->Toggle();
+                    std::cout << "[Player] Toggled ElephantTarget!" << std::endl;
                 }
             }
 
             if (elephantEntity.IsValid())
             {
                 auto elephant = GameplayAPI::GetScript<Elephant>(elephantEntity);
-
                 if (elephant)
                 {
-                    elephant->Activate();
+                    elephant->Toggle(); 
                 }
             }
         }

@@ -17,13 +17,16 @@ namespace Luden
         AnimationRef m_ElephantPushAnim;
         AnimationRef m_ElephantPullAnim;
         AnimationRef m_EmptyAnim;
-
+        AnimationRef m_ElephantSquirtAnim;
         void Activate();
         void Deactivate();
+        void Toggle();
 
-        float m_AnimDuration = 5.0f;
-        float m_PassedTime = 0.0f;
+        bool IsActivated = false;
 
-        bool m_AnimTriggered = false;
+		float AnimDuration = 5.0f;
+        float PassedTime = 0.0f;
+
+        bool AnimTriggered = false;
     };
 }
