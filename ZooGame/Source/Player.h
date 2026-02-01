@@ -43,6 +43,7 @@ namespace Luden
 
         float m_MoveSpeed = 10.0f;
 
+        bool m_Bypass = false;
         WalkDirection m_WalkDirection = WalkDirection::Right;
 
         bool m_IsOnRabbitPlatform = false;

@@ -42,7 +42,8 @@ namespace Luden
 
     void CollectableMask::OnUpdate(TimeStep ts)
     {
-        /*Vec3 maskPosition = GameplayAPI::GetPosition(GetEntity());
+        /*
+        Vec3 maskPosition = GameplayAPI::GetPosition(GetEntity());
         Vec2 maskSize = GameplayAPI::GetEntitySize(GetEntity());
 
         Entity playerEntity = GameplayAPI::FindEntityWithTag("Player");

@@ -105,7 +105,33 @@ namespace Luden
         if (m_IsJumping || m_IsWalkingToMonkey)
             return;
 
-        if (m_IsOnRabbitPlatform)
+        m_Bypass = false;
+        // check for walkable platform pos + direction
+        // if true then byPass m_IsOnRabbitPlatform
+        Vector<Entity> entities = GameplayAPI::FindAllEntitiesWithTag("WalkablePlatform");
+        for (auto entity : entities)
+        {
+            Vec3 candidatePos = GameplayAPI::GetPosition(entity);
+            Vec2 candidateSize = GameplayAPI::GetScale(entity);
+
+            Vec3 lookForPoint = GameplayAPI::GetPosition(GetEntity());
+            Vec2 lookForSize = Vec2(400.0f, 400.0f);
+            if (m_WalkDirection == WalkDirection::Right)
+                lookForPoint += Vec3(200.0f, 0.0f, 0.0f);
+            else if (m_WalkDirection == WalkDirection::Left)
+                lookForPoint += Vec3(-200.0f, 0.0f, 0.0f);            
+        	else if (m_WalkDirection == WalkDirection::Up)
+                lookForPoint += Vec3(0.0f, -200.0f, 0.0f);
+            else if (m_WalkDirection == WalkDirection::Right)
+                lookForPoint += Vec3(0.0f, 200.0f, 0.0f);
+
+            m_Bypass = GameplayAPI::CheckAABBOverlap(lookForPoint, lookForSize, candidatePos, candidateSize);
+
+            if (m_Bypass == true)
+                break;
+        }
+
+        if (m_IsOnRabbitPlatform && !m_Bypass)
         {
             Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(0.0f, 0.0f));
 

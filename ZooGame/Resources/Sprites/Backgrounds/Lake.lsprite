@@ -1,0 +1,15 @@
+{
+    "Handle": 1355702882933432630,
+    "Name": "Lake",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 13658239281583941527,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

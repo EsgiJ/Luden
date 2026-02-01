@@ -60,9 +60,6 @@ namespace Luden
 
     void ElephantTarget::Toggle()
     {
-        std::cout << "[ElephantTarget] Toggle - Start: (" << StartPosition.x << "," << StartPosition.y
-            << ") End: (" << EndPosition.x << "," << EndPosition.y << ")" << std::endl;
-
         if (IsActivated)
             Deactivate();
         else
@@ -166,8 +163,6 @@ namespace Luden
         collider.Offset = Vec2(0.0f, 0.0f);
 
         GameplayAPI::GetCurrentScene()->GetPhysicsManager().RegisterEntity(m_ColliderEntity);
-
-        std::cout << "[ElephantTarget] Collider spawned at: " << spawnPos.x << ", " << spawnPos.y << std::endl;
     }
 
     void ElephantTarget::DestroyCollider()
@@ -176,7 +171,6 @@ namespace Luden
         {
             GameplayAPI::DestroyEntity(m_ColliderEntity);
             m_ColliderEntity = Entity();
-            std::cout << "[ElephantTarget] Collider destroyed" << std::endl;
         }
     }
 }

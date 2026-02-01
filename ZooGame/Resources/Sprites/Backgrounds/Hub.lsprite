@@ -1,0 +1,15 @@
+{
+    "Handle": 2924818749577421293,
+    "Name": "Hub",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 10415789770454615442,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

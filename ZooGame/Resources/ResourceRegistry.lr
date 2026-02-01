@@ -76,6 +76,16 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Images/key.png",
+      "Handle": 1314285516732466102,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/Lake.lsprite",
+      "Handle": 1355702882933432630,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Sprites/path.lsprite",
       "Handle": 1422560552232519601,
       "Type": "Sprite"
@@ -111,6 +121,11 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Sprites/Backgrounds/Key.lsprite",
+      "Handle": 1882005259174379979,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Sprites/Masks/MonkeyMask/m_mask_idle.lsprite",
       "Handle": 1961888035524585338,
       "Type": "Sprite"
@@ -134,6 +149,11 @@
       "FilePath": "Images/Masks/MonkeyMask/m_mask_side1.png",
       "Handle": 2861325408175918638,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/Hub.lsprite",
+      "Handle": 2924818749577421293,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Images/Background/mountains_day.png",
@@ -461,6 +481,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Images/Hub.png",
+      "Handle": 10415789770454615442,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Scripts/MonkeyArm.lns",
       "Handle": 10418794189064664274,
       "Type": "NativeScript"
@@ -634,6 +659,11 @@
       "FilePath": "Animations/Player/SideAnim.lanim",
       "Handle": 13581614685594068458,
       "Type": "Animation"
+    },
+    {
+      "FilePath": "Images/background_lake.png",
+      "Handle": 13658239281583941527,
+      "Type": "Texture"
     },
     {
       "FilePath": "Animations/Masks/MonkeyMaskIdleAnim.lanim",

@@ -15,9 +15,12 @@ namespace Luden
 
     void WalkablePlatform::OnUpdate(TimeStep ts)
     {
-        bool isPlayerOn = IsPlayerOnPlatform();
+        /*bool isPlayerOn = IsPlayerOnPlatform();
 
-        if (isPlayerOn && !m_PlayerWasOnPlatform)
+        std::cout << "[WalkablePlatform] IsPlayerOnPlatform: " << isPlayerOn << std::endl;
+        std::cout << "[WalkablePlatform] WasPlayerOnPlatform: " << m_PlayerWasOnPlatform << std::endl;
+
+        if (isPlayerOn)
         {
             Entity player = GameplayAPI::FindEntityWithTag("Player");
             if (player.IsValid())
@@ -26,6 +29,7 @@ namespace Luden
                 if (playerScript)
                 {
                     playerScript->m_IsOnRabbitPlatform = false;
+
                     playerScript->m_CurrentPlatform = Entity();
 
                     std::cout << "[WalkablePlatform] Player can walk freely!" << std::endl;
@@ -34,6 +38,7 @@ namespace Luden
         }
 
         m_PlayerWasOnPlatform = isPlayerOn;
+		*/
     }
 
     void WalkablePlatform::OnDestroy()
@@ -59,13 +64,11 @@ namespace Luden
         if (!player.IsValid())
             return false;
 
+        Vec2 platformSize = GameplayAPI::GetEntitySize(GetEntity());
         Vec3 platformPos = GameplayAPI::GetPosition(GetEntity());
         Vec3 playerPos = GameplayAPI::GetPosition(player);
         Vec2 playerSize = GameplayAPI::GetEntitySize(player);
 
-        return GameplayAPI::CheckAABBOverlap(
-            platformPos, PlatformSize,
-            playerPos, playerSize
-        );
+    	return GameplayAPI::IsPointInRect(playerPos, platformPos, platformSize);
     }
 }
