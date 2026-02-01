@@ -255,37 +255,28 @@ namespace Luden
             GameplayAPI::SetPosition(GetEntity(), m_MonkeyWalkTarget);
             m_IsWalkingToMonkey = false;
 
-            if (m_ActiveMonkeyArm.IsValid())
-            {
-                auto monkeyScript = GameplayAPI::GetScript<MonkeyArm>(m_ActiveMonkeyArm);
-                if (monkeyScript)
-                {
-                    monkeyScript->Deactivate();
-                }
-                m_ActiveMonkeyArm = Entity();
-            }
+            ActivateMonkeyArmInDirection(m_MonkeySourcePlatform, m_WalkDirection, true);
+            ActivateMonkeyArmInDirection(m_MonkeyTargetPlatform, GetOppositeDirection(m_WalkDirection), true);
 
-            m_IsOnRabbitPlatform = false;
-            m_CurrentPlatform = Entity();
+            m_CurrentPlatform = m_MonkeyTargetPlatform;
 
-            std::cout << "[Player] Reached destination - movement unlocked!" << std::endl;
+            m_MonkeySourcePlatform = Entity();
+            m_MonkeyTargetPlatform = Entity();
+
+            m_IsOnRabbitPlatform = true;
+
+            std::cout << "[Player] Monkey walk complete!" << std::endl;
             return;
         }
-    }
 
-    void Player::OnChangeMask(const InputValue& value)
-    {
-        int i = (int)m_Type;
-        i++;
+        float t = m_MonkeyWalkProgress;
+        Vec3 currentPos = MathAPI::Lerp(m_MonkeyWalkStart, m_MonkeyWalkTarget, t);
 
-        if (i > (int)MaskType::Monkey)
-        {
-            i = (int)MaskType::None;
-        }
+        GameplayAPI::SetPosition(GetEntity(), currentPos);
 
-        m_Type = (MaskType)i;
-
-        std::cout << "[Player] Mask changed to: " << i << std::endl;
+        Vec3 direction = m_MonkeyWalkTarget - m_MonkeyWalkStart;
+        Vec3 normalizedDir = MathAPI::Normalize(direction);
+        UpdateMovementAnimation(normalizedDir);
     }
 
     void Player::SetupInput()
@@ -311,7 +302,6 @@ namespace Luden
             TriggerConfig()
             });
 
-        // Use Ability
         InputAction UseAbilityAction("UseAbility");
         context->AddMapping({
             UseAbilityAction,
@@ -363,7 +353,6 @@ namespace Luden
             m_MaskScript->OnAbilityUse = [this]() { UseMonkeyAbility(); };
             m_MaskScript->MaxCooldown = 2.0f;
             break;
-
         case MaskType::None:
         default:
             m_MaskScript->OnAbilityUse = nullptr;
@@ -373,6 +362,81 @@ namespace Luden
         std::cout << "[Player] Mask ability setup for type: " << (int)m_Type << std::endl;
     }
 
+    void Player::CollectMask(MaskType type)
+    {
+        if (type == MaskType::None)
+            return;
+
+        m_CollectedMasks.insert(type);
+
+        std::cout << "[Player] Collected mask: " << (int)type << std::endl;
+        std::cout << "[Player] Total masks: " << m_CollectedMasks.size() << std::endl;
+
+        if (m_Type == MaskType::None)
+        {
+            m_Type = type;
+            std::cout << "[Player] Auto-equipped first mask!" << std::endl;
+        }
+    }
+
+    void Player::OnChangeMask(const InputValue& value)
+    {
+        MaskType nextMask = GetNextAvailableMask(m_Type);
+        m_Type = nextMask;
+
+        std::cout << "[Player] Mask changed to: " << (int)m_Type;
+
+        switch (m_Type)
+        {
+        case MaskType::None:     std::cout << " (None)" << std::endl; break;
+        case MaskType::Elephant: std::cout << " (Elephant)" << std::endl; break;
+        case MaskType::Rabbit:   std::cout << " (Rabbit)" << std::endl; break;
+        case MaskType::Monkey:   std::cout << " (Monkey)" << std::endl; break;
+        }
+    }
+
+    bool Player::HasMask(MaskType type) 
+    {
+        return m_CollectedMasks.find(type) != m_CollectedMasks.end();
+    }
+
+    MaskType Player::GetNextAvailableMask(MaskType current)
+    {
+        if (m_CollectedMasks.empty())
+            return MaskType::None;
+
+        std::vector<MaskType> maskOrder = {
+            MaskType::None,
+            MaskType::Elephant,
+            MaskType::Rabbit,
+            MaskType::Monkey
+        };
+
+        int currentIndex = 0;
+        for (int i = 0; i < maskOrder.size(); i++)
+        {
+            if (maskOrder[i] == current)
+            {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        for (int i = 1; i <= maskOrder.size(); i++)
+        {
+            int nextIndex = (currentIndex + i) % maskOrder.size();
+            MaskType nextType = maskOrder[nextIndex];
+
+            if (nextType == MaskType::None)
+                return MaskType::None;
+
+            if (HasMask(nextType))
+                return nextType;
+        }
+
+        return MaskType::None;
+    }
+
     void Player::UseElephantAbility()
     {
         std::cout << "[Player] Using Elephant Ability - Finding nearest target..." << std::endl;
@@ -380,22 +444,42 @@ namespace Luden
         Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
         auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantRoot");
 
-        Entity closest;
+        Entity closestRoot;
         float minDist = m_MinElephantDistance;
 
-        for (auto target : targets)
+        for (auto root : targets)
         {
-            float dist = GameplayAPI::Distance(playerPos, GameplayAPI::GetPosition(target));
-            if (dist < minDist)
+            auto children = GameplayAPI::GetChildren(root);
+
+            if (children.size() > 0)
             {
-                minDist = dist;
-                closest = target;
+                Entity elephantEntity = children[0];
+
+                if (!elephantEntity.IsValid())
+                    continue;
+
+                Vec3 elephantPos = GameplayAPI::GetPosition(elephantEntity);
+                float dist = GameplayAPI::Distance(playerPos, elephantPos);
+
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closestRoot = root; 
+
+                    std::cout << "[Player] Found elephant at distance: " << dist << std::endl;
+                }
             }
         }
 
-        if (closest.IsValid())
+        if (closestRoot.IsValid())
         {
-            auto children = GameplayAPI::GetChildren(closest);
+            auto children = GameplayAPI::GetChildren(closestRoot);
+
+            if (children.size() < 2)
+            {
+                std::cout << "[Player] ElephantRoot doesn't have enough children!" << std::endl;
+                return;
+            }
 
             Entity elephantEntity = children[0];
             Entity elephantTargetEntity = children[1];
@@ -415,13 +499,14 @@ namespace Luden
                 auto elephant = GameplayAPI::GetScript<Elephant>(elephantEntity);
                 if (elephant)
                 {
-                    elephant->Toggle(); 
+                    elephant->Toggle();
+                    std::cout << "[Player] Toggled Elephant!" << std::endl;
                 }
             }
         }
         else
         {
-            std::cout << "[Player] No ElephantTarget in range!" << std::endl;
+            std::cout << "[Player] No Elephant in range (min distance: " << m_MinElephantDistance << ")" << std::endl;
         }
     }
 
@@ -439,7 +524,7 @@ namespace Luden
             return;
         }
 
-        Entity targetPlatform = FindClosestPlatformInDirection();
+        Entity targetPlatform = FindClosestPlatformInDirection(50.0f);
 
         if (!targetPlatform.IsValid())
         {
@@ -466,78 +551,111 @@ namespace Luden
 
     void Player::UseMonkeyAbility()
     {
-        std::cout << "[Player] Using Monkey Ability - Finding nearest bridge..." << std::endl;
+        std::cout << "[Player] Using Monkey Ability..." << std::endl;
+
+        if (!m_IsOnRabbitPlatform || !m_CurrentPlatform.IsValid())
+        {
+            std::cout << "[Player] Must be on a RabbitPlatform!" << std::endl;
+            return;
+        }
+
+        if (m_IsWalkingToMonkey)
+        {
+            std::cout << "[Player] Already walking!" << std::endl;
+            return;
+        }
+
+        Entity targetPlatform = FindClosestPlatformInDirection(50.0f);
+
+        if (!targetPlatform.IsValid())
+        {
+            std::cout << "[Player] No platform in that direction!" << std::endl;
+            return;
+        }
+
+        ActivateMonkeyArmInDirection(m_CurrentPlatform, m_WalkDirection, false);
+        WalkDirection oppositeDir = GetOppositeDirection(m_WalkDirection);
+        ActivateMonkeyArmInDirection(targetPlatform, oppositeDir, false);
+
+        auto targetScript = GameplayAPI::GetScript<RabbitPlatform>(targetPlatform);
+        Vec3 targetPos = targetScript ? targetScript->GetLandingPosition() : GameplayAPI::GetPosition(targetPlatform);
 
         Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
-        auto bridges = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
+        m_MonkeyWalkStart = playerPos;
+        m_MonkeyWalkTarget = targetPos;  
+        m_MonkeyWalkProgress = 0.0f;
+        m_IsWalkingToMonkey = true;
 
-        Entity closest;
-        float minDist = m_MinMonkeyJumpDistance;
+        m_MonkeySourcePlatform = m_CurrentPlatform;
+        m_MonkeyTargetPlatform = targetPlatform;
 
-        for (auto bridge : bridges)
+        Physics2DAPI::SetLinearVelocity(GetEntity(), Vec2(0.0f, 0.0f));
+
+        std::cout << "[Player] Walking across monkey bridge!" << std::endl;
+    }
+
+    WalkDirection Player::GetOppositeDirection(WalkDirection dir)
+    {
+        switch (dir)
         {
-            float dist = GameplayAPI::Distance(playerPos, GameplayAPI::GetPosition(bridge));
-            if (dist < minDist)
-            {
-                minDist = dist;
-                closest = bridge;
-            }
-        }
-
-        if (closest.IsValid())
-        {
-            Vector<Entity> entities = GameplayAPI::GetChildren(closest);
-            
-            MonkeyArm* monkeyArm = nullptr;
-            switch (m_WalkDirection)
-            {
-            case WalkDirection::Right:
-                std::cout << "RightArm extended" << std::endl;
-                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[0]);
-                break;
-
-            case WalkDirection::Left:
-                std::cout << "LeftArm extended" << std::endl;
-
-                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[1]);
-                break;
-
-            case WalkDirection::Up:
-                std::cout << "UpArm extended" << std::endl;
-
-                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[2]);
-                break;
-
-            case WalkDirection::Down:
-                std::cout << "DownArm extended" << std::endl;
-
-                monkeyArm = GameplayAPI::GetScript<MonkeyArm>(entities[3]);
-                break;
-            }
-
-            if (monkeyArm)
-            {
-                if (!monkeyArm->IsActivated)
-                {
-                    std::cout << "monkeyArm->IsActivated" << std::endl;
-                    monkeyArm->Activate();
-                }
-                else
-                {
-                    std::cout << "monkeyBridge->AlreadyActivated" << std::endl;
-                    monkeyArm->Deactivate();
-                }
-
-                std::cout << "[Player] Toggled MonkeyBridge!" << std::endl;
-            }
-        }
-        else
-        {
-            std::cout << "[Player] No MonkeyBridge in range!" << std::endl;
+        case WalkDirection::Right: return WalkDirection::Left;
+        case WalkDirection::Left:  return WalkDirection::Right;
+        case WalkDirection::Up:    return WalkDirection::Down;
+        case WalkDirection::Down:  return WalkDirection::Up;
+        default: return dir;
         }
     }
 
-    Entity Player::FindClosestPlatformInDirection()
+    void Player::ActivateMonkeyArmInDirection(Entity platform, WalkDirection direction, bool deactivate)
+    {
+        if (!platform.IsValid())
+            return;
+
+        auto platformScript = GameplayAPI::GetScript<RabbitPlatform>(platform);
+        if (!platformScript)
+            return;
+
+        Entity monkeyArm;
+
+        switch (direction)
+        {
+        case WalkDirection::Right:
+            monkeyArm = platformScript->MonkeyArmRight;
+            break;
+        case WalkDirection::Left:
+            monkeyArm = platformScript->MonkeyArmLeft;
+            break;
+        case WalkDirection::Up:
+            monkeyArm = platformScript->MonkeyArmUp;
+            break;
+        case WalkDirection::Down:
+            monkeyArm = platformScript->MonkeyArmDown;
+            break;
+        }
+
+        if (!monkeyArm.IsValid())
+        {
+            std::cout << "[Player] No monkey arm in that direction!" << std::endl;
+            return;
+        }
+
+        auto monkeyScript = GameplayAPI::GetScript<MonkeyArm>(monkeyArm);
+        if (!monkeyScript)
+            return;
+
+        if (deactivate)
+        {
+            monkeyScript->Deactivate();
+            std::cout << "[Player] Deactivated monkey arm" << std::endl;
+        }
+        else
+        {
+            monkeyScript->Activate();
+            std::cout << "[Player] Activated monkey arm" << std::endl;
+        }
+    }
+
+    Entity Player::FindClosestPlatformInDirection(float greaterThan)
     {
         if (!m_CurrentPlatform.IsValid())
         {
@@ -549,8 +667,7 @@ namespace Luden
         auto allPlatforms = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
 
         Entity closestPlatform;
-        float minDistance = m_MinRabbitJumpDistance;
-
+        float minDistance = FLT_MAX;  
 
         for (auto platform : allPlatforms)
         {
@@ -565,19 +682,19 @@ namespace Luden
             switch (m_WalkDirection)
             {
             case WalkDirection::Right:
-                isInDirection = (direction.x > 50.0f && abs(direction.y) < 100.0f);
+                isInDirection = (direction.x > 50.0f && abs(direction.y) < 200.0f);  
                 break;
 
             case WalkDirection::Left:
-                isInDirection = (direction.x < -50.0f && abs(direction.y) < 100.0f);
+                isInDirection = (direction.x < -50.0f && abs(direction.y) < 200.0f);
                 break;
 
             case WalkDirection::Up:
-                isInDirection = (direction.y < -50.0f && abs(direction.x) < 100.0f);
+                isInDirection = (direction.y < -50.0f && abs(direction.x) < 200.0f);
                 break;
 
             case WalkDirection::Down:
-                isInDirection = (direction.y > 50.0f && abs(direction.x) < 100.0f);
+                isInDirection = (direction.y > 50.0f && abs(direction.x) < 200.0f);
                 break;
             }
 
@@ -585,7 +702,8 @@ namespace Luden
                 continue;
 
             float distance = GameplayAPI::Distance(playerPos, platformPos);
-            if (distance < minDistance)
+
+            if (distance > greaterThan && distance < minDistance)
             {
                 minDistance = distance;
                 closestPlatform = platform;
@@ -594,11 +712,11 @@ namespace Luden
 
         if (closestPlatform.IsValid())
         {
-            std::cout << "[Player] Found platform in direction at distance: " << minDistance << std::endl;
+            std::cout << "[Player] Found platform at distance: " << minDistance << std::endl;
         }
         else
         {
-            std::cout << "[Player] No platform found in facing direction!" << std::endl;
+            std::cout << "[Player] No platform found in direction!" << std::endl;
         }
 
         return closestPlatform;

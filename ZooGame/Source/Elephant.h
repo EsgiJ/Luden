@@ -23,10 +23,13 @@ namespace Luden
         void Toggle();
 
         bool IsActivated = false;
+        Vec2 m_StartPosition;
 
 		float AnimDuration = 5.0f;
         float PassedTime = 0.0f;
 
         bool AnimTriggered = false;
+
+        Entity m_ElephantTarget;
     };
 }

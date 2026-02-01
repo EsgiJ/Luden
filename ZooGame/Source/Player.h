@@ -24,6 +24,10 @@ namespace Luden
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
+        void CollectMask(MaskType type);
+        bool HasMask(MaskType type);
+        const std::unordered_set<MaskType>& GetCollectedMasks() { return m_CollectedMasks; }
+        MaskType GetNextAvailableMask(MaskType current);
     public:
         Mask* m_MaskScript = nullptr;
         Entity m_MaskEntity;
@@ -33,8 +37,6 @@ namespace Luden
         AnimationRef m_BackAnim = nullptr;
         AnimationRef m_FrontAnim = nullptr;
         AnimationRef m_SideAnim = nullptr;
-
-
 
         float m_MoveSpeed = 10.0f;
 
@@ -64,14 +66,18 @@ namespace Luden
         void UseMonkeyAbility();
 
         void UpdateRabbitJump(TimeStep ts);
-        Entity FindClosestPlatformInDirection();
+        Entity FindClosestPlatformInDirection(float greaterThan);
 
         void UpdateMonkeyWalk(TimeStep ts);
 
         void TakeDamage(int damage);
         void Die();
+        WalkDirection GetOppositeDirection(WalkDirection dir);
+        void ActivateMonkeyArmInDirection(Entity platform, WalkDirection direction, bool deactivate);
 
     private:
+        std::unordered_set<MaskType> m_CollectedMasks;
+
         Vec3 m_JumpStartPos;
         Vec3 m_JumpEndPos;
         float m_JumpProgress = 0.0f;
@@ -88,5 +94,7 @@ namespace Luden
         float m_MinElephantDistance = 500.0f;
         float m_MinMonkeyJumpDistance = 1000.0f;
 
+        Entity m_MonkeySourcePlatform; 
+        Entity m_MonkeyTargetPlatform;
     };
 }

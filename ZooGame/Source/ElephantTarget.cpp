@@ -7,17 +7,17 @@ namespace Luden
 {
     void ElephantTarget::OnCreate()
     {
-        StartPosition = GameplayAPI::GetPosition(GetEntity());
-        if (EndPosition == Vec3(0.0f, 0.0f, 0.0f))
-        {
-            EndPosition = StartPosition + Vec3(DistanceBetweenPositions, 0.0f, 0.0f);
-        }
-
-        SpawnColliderAtCurrentPosition();
+        std::cout << "[ElephantTarget] Created - waiting for Elephant to set positions" << std::endl;
     }
 
     void ElephantTarget::OnUpdate(TimeStep ts)
     {
+        if (!m_FirstColliderSpawned && StartPosition != Vec3(0.0f, 0.0f, 0.0f))
+        {
+            SpawnColliderAtCurrentPosition();
+            m_FirstColliderSpawned = true;
+        }
+
         if (IsActivated)
         {
             MoveTowardsEnd(ts);
@@ -39,6 +39,9 @@ namespace Luden
 
     void ElephantTarget::Toggle()
     {
+        std::cout << "[ElephantTarget] Toggle - Start: (" << StartPosition.x << "," << StartPosition.y
+            << ") End: (" << EndPosition.x << "," << EndPosition.y << ")" << std::endl;
+
         if (IsActivated)
             Deactivate();
         else
@@ -54,7 +57,6 @@ namespace Luden
         }
 
         IsActivated = true;
-
         DestroyCollider();
 
         std::cout << "[ElephantTarget] Activated! Moving to end position" << std::endl;
@@ -69,10 +71,9 @@ namespace Luden
         }
 
         IsActivated = false;
-
         SpawnColliderAtCurrentPosition();
 
-        std::cout << "[ElephantTarget] Deactivated! Collider spawned at current position" << std::endl;
+        std::cout << "[ElephantTarget] Deactivated! Collider spawned" << std::endl;
     }
 
     void ElephantTarget::MoveTowardsEnd(TimeStep ts)
@@ -88,8 +89,6 @@ namespace Luden
             IsAtEnd = true;
 
             SpawnColliderAtCurrentPosition();
-
-            std::cout << "[ElephantTarget] Reached end position - collider spawned" << std::endl;
         }
     }
 
@@ -111,8 +110,6 @@ namespace Luden
             IsAtEnd = false;
 
             SpawnColliderAtCurrentPosition();
-
-            std::cout << "[ElephantTarget] Reached start position - collider spawned" << std::endl;
         }
     }
 
@@ -120,9 +117,18 @@ namespace Luden
     {
         DestroyCollider();
 
-        Vec3 currentPos = GameplayAPI::GetPosition(GetEntity());
+        Vec3 spawnPos;
 
-        m_ColliderEntity = GameplayAPI::SpawnEntity("ElephantTargetCollider", currentPos);
+        if (IsAtEnd)
+        {
+            spawnPos = EndPosition;
+        }
+        else
+        {
+            spawnPos = StartPosition;
+        }
+
+        m_ColliderEntity = GameplayAPI::SpawnEntity("ElephantTargetCollider", spawnPos);
 
         if (!m_ColliderEntity.IsValid())
         {
@@ -140,7 +146,7 @@ namespace Luden
 
         GameplayAPI::GetCurrentScene()->GetPhysicsManager().RegisterEntity(m_ColliderEntity);
 
-        std::cout << "[ElephantTarget] Collider spawned at: " << currentPos.x << ", " << currentPos.y << std::endl;
+        std::cout << "[ElephantTarget] Collider spawned at: " << spawnPos.x << ", " << spawnPos.y << std::endl;
     }
 
     void ElephantTarget::DestroyCollider()

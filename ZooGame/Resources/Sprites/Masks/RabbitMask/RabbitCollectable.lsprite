@@ -1,0 +1,15 @@
+{
+    "Handle": 9557699136592779511,
+    "Name": "RabbitCollectable",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 4297387848671607067,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}
