@@ -14,6 +14,25 @@ namespace Luden
     {
         m_ColliderSize = GameplayAPI::GetEntitySize(GetEntity());
 
+        Vec3 ownerPos = GameplayAPI::GetPosition(GetEntity());
+        bool bOverlap = false;
+
+        Vector<Entity> platforms = GameplayAPI::FindAllEntitiesWithTag("RabbitPlatform");
+        for (auto platform : platforms)
+        {
+	        if (!platform.IsValid())
+				continue;
+
+            Vec2 platformSize = GameplayAPI::GetEntitySize(GetEntity());
+            Vec3 platformPos = GameplayAPI::GetPosition(platform);
+            bOverlap = GameplayAPI::CheckAABBOverlap(ownerPos, m_ColliderSize, platformPos, platformSize);
+
+	        if (bOverlap)
+	        {
+                GameplayAPI::SetPosition(platform, ownerPos);
+	        }
+        }
+
         if (!m_FirstColliderSpawned && StartPosition != Vec3(0.0f, 0.0f, 0.0f))
         {
             SpawnColliderAtCurrentPosition();
