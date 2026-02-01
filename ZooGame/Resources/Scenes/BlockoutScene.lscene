@@ -471,7 +471,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0,
+                "frameTimer": 0.0654349997639656,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -543,7 +543,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0,
+                "frameTimer": 0.0654349997639656,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2105,7 +2105,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.0,
+                "frameTimer": 0.0654349997639656,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -2330,7 +2330,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.0,
+                "frameTimer": 0.0654349997639656,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
