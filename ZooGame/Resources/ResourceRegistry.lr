@@ -276,6 +276,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Animations/ElephantSquirtAnim.lanim",
+      "Handle": 5882264386255241029,
+      "Type": "Animation"
+    },
+    {
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_front_2.lsprite",
       "Handle": 5912584632502220341,
       "Type": "Sprite"

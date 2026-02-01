@@ -9,20 +9,16 @@ namespace Luden
         m_EmptyAnim = GetResource<Animation>("ElephantIdleAnim");
         m_ElephantPushAnim = GetResource<Animation>("ElephantPushAnim");
         m_ElephantPullAnim = GetResource<Animation>("ElephantPullAnim");
+        m_ElephantSquirtAnim = GetResource<Animation>("ElephantSquirtAnim");
 
         AnimationAPI::PlayAnimation(GetEntity(), m_EmptyAnim);
     }
 
     void Elephant::OnUpdate(TimeStep ts)
     {
-	    if (m_AnimTriggered)
+	    if (AnimTriggered)
 	    {
-            m_PassedTime += ts;
-	    }
-
-	    if (m_AnimTriggered && m_PassedTime >= m_AnimDuration)
-	    {
-            Deactivate();
+            PassedTime += ts;
 	    }
     }
 
@@ -51,8 +47,8 @@ namespace Luden
 	    if (m_ElephantPushAnim)
 	    {
             AnimationAPI::PlayAnimation(GetEntity(), m_ElephantPushAnim);
-            m_AnimTriggered = true;
-            m_PassedTime = 0.0f;
+            AnimTriggered = true;
+            PassedTime = 0.0f;
 	    }
     }
 
@@ -61,8 +57,20 @@ namespace Luden
         if (m_ElephantPushAnim)
         {
             AnimationAPI::PlayAnimation(GetEntity(), m_ElephantPullAnim);
-            m_AnimTriggered = false;
+            AnimTriggered = false;
+            IsActivated = false;
         }
     }
 
+    void Elephant::Toggle()
+    {
+	    if (!IsActivated)
+	    {
+            Activate();
+	    }
+	    else
+	    {
+            Deactivate();
+	    }
+    }
 }

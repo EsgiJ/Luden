@@ -3,7 +3,7 @@
 
 namespace Luden
 {
-	class Elephant : public ScriptableEntity
+    class WalkablePlatform : public ScriptableEntity
     {
     public:
         virtual void OnCreate() override;
@@ -13,20 +13,11 @@ namespace Luden
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
-        //ElephantAnim
-        AnimationRef m_ElephantPushAnim;
-        AnimationRef m_ElephantPullAnim;
-        AnimationRef m_EmptyAnim;
-        AnimationRef m_ElephantSquirtAnim;
-        void Activate();
-        void Deactivate();
-        void Toggle();
+    public:
+        Vec2 PlatformSize = Vec2(200.0f, 50.0f);
 
-        bool IsActivated = false;
-
-		float AnimDuration = 5.0f;
-        float PassedTime = 0.0f;
-
-        bool AnimTriggered = false;
+    private:
+        bool IsPlayerOnPlatform();
+        bool m_PlayerWasOnPlatform = false;
     };
 }
