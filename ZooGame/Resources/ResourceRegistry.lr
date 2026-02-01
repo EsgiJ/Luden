@@ -426,6 +426,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Prefabs/WalkablePlatform.lprefab",
+      "Handle": 10959506959472237797,
+      "Type": "Prefab"
+    },
+    {
       "FilePath": "Animations/Player/IdleAnim.lanim",
       "Handle": 10990375467485372143,
       "Type": "Animation"
@@ -749,6 +754,11 @@
       "FilePath": "Images/Player/elephant mask/e_mask_front_1.png",
       "Handle": 16769329739303035999,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Scripts/WalkablePlatform.lns",
+      "Handle": 16895161210798914791,
+      "Type": "NativeScript"
     },
     {
       "FilePath": "Images/Player/front animation/front_1.png",

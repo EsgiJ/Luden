@@ -34,8 +34,6 @@ namespace Luden
         AnimationRef m_FrontAnim = nullptr;
         AnimationRef m_SideAnim = nullptr;
 
-
-
         float m_MoveSpeed = 10.0f;
 
         WalkDirection m_WalkDirection = WalkDirection::Right;
@@ -64,12 +62,14 @@ namespace Luden
         void UseMonkeyAbility();
 
         void UpdateRabbitJump(TimeStep ts);
-        Entity FindClosestPlatformInDirection();
+        Entity FindClosestPlatformInDirection(float greaterThan);
 
         void UpdateMonkeyWalk(TimeStep ts);
 
         void TakeDamage(int damage);
         void Die();
+        WalkDirection GetOppositeDirection(WalkDirection dir);
+        void ActivateMonkeyArmInDirection(Entity platform, WalkDirection direction, bool deactivate);
 
     private:
         Vec3 m_JumpStartPos;
@@ -88,5 +88,7 @@ namespace Luden
         float m_MinElephantDistance = 500.0f;
         float m_MinMonkeyJumpDistance = 1000.0f;
 
+        Entity m_MonkeySourcePlatform; 
+        Entity m_MonkeyTargetPlatform;
     };
 }
