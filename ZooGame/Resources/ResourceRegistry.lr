@@ -126,6 +126,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "grass-2.lsprite",
+      "Handle": 2977169651319675373,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Images/animal_fox_outline_captured.png",
       "Handle": 3010143249038272837,
       "Type": "Texture"
@@ -179,6 +184,11 @@
       "FilePath": "Animations/ElephantPushAnim.lanim",
       "Handle": 4063115052138678179,
       "Type": "Animation"
+    },
+    {
+      "FilePath": "Images/grass_2.png",
+      "Handle": 4067575763031892752,
+      "Type": "Texture"
     },
     {
       "FilePath": "Images/Masks/RabbitMask/r_front_2.png",
@@ -316,6 +326,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/elephantroom_bg.png",
+      "Handle": 7778787040618008597,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Sprites/Elephant/e_05.lsprite",
       "Handle": 8212120102741383904,
       "Type": "Sprite"
@@ -364,6 +379,11 @@
       "FilePath": "Images/Player/front animation/front_2.png",
       "Handle": 9109518652154890656,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/Backgrounds/elephant-room-bg.lsprite",
+      "Handle": 9182060730798231048,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Images/Masks/gem_onyx_0.png",
@@ -423,6 +443,11 @@
     {
       "FilePath": "Sprites/Elephant/e_04.lsprite",
       "Handle": 11366979000497834385,
+      "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/grass-2.lsprite",
+      "Handle": 11502401581741316502,
       "Type": "Sprite"
     },
     {
