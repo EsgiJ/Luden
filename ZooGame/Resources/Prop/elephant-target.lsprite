@@ -1,0 +1,15 @@
+{
+    "Handle": 5634639049802644815,
+    "Name": "elephant-target",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 549775497836359214,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}
