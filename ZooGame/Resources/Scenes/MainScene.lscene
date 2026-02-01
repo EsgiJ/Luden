@@ -495,6 +495,9 @@
             "UUID": 7977923351461327926
         },
         {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4536581106038574196
+            },
             "PrefabComponent": {
                 "EntityID": 4233169154072091646,
                 "PrefabID": 17239031210567999200
@@ -505,6 +508,31 @@
                     7607441048950415922
                 ],
                 "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteAnimatorComponent": {
+                "animationHandles": [
+                    4063115052138678179,
+                    13927744607971831506,
+                    16348366307340108880
+                ],
+                "currentAnimationIndex": 0,
+                "currentFrame": 0,
+                "frameTimer": 0.0,
+                "playbackSpeed": 1.0,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
             },
             "Tag": "ElephantRoot",
             "TransformComponent": {

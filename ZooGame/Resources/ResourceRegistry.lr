@@ -156,6 +156,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Images/grass_o_shape.png",
+      "Handle": 3246077833391696013,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Animations/Player/BackAnim.lanim",
       "Handle": 3416439760125896420,
       "Type": "Animation"
@@ -216,6 +221,11 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "grass-block-o.lsprite",
+      "Handle": 4927848764689519157,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Images/monkey_arm.png",
       "Handle": 4933973190888722764,
       "Type": "Texture"
@@ -244,6 +254,11 @@
       "FilePath": "Scripts/UIButton.lns",
       "Handle": 5483456309594446471,
       "Type": "NativeScript"
+    },
+    {
+      "FilePath": "Prop/elephant-target.lsprite",
+      "Handle": 5634639049802644815,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_side_2.lsprite",
@@ -541,6 +556,16 @@
       "Type": "Animation"
     },
     {
+      "FilePath": "Images/stone.png",
+      "Handle": 13953817825015462703,
+      "Type": "Texture"
+    },
+    {
+      "FilePath": "Images/Elephant/stone.png",
+      "Handle": 13985644261794493046,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Background/forest_middle.png",
       "Handle": 14208713286443846704,
       "Type": "Texture"
@@ -729,6 +754,11 @@
       "FilePath": "Images/Masks/ElephantMask/e_side_2.png",
       "Handle": 17421516889217627987,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "elephant-target.lsprite",
+      "Handle": 17437968927475946540,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Images/Elephant/11.png",
