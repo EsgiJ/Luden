@@ -280,6 +280,20 @@ namespace Luden
 			return entity.Get<TransformComponent>().Translation;
 		}
 
+		Vec3 GetWorldPosition(Entity entity)
+		{
+			Scene* scene = GetCurrentScene();
+			sf::Transform result;
+
+			if (scene && entity.IsValid())
+			{
+				result = scene->GetWorldTransform(entity);
+			}
+			const float* matrix = result.getMatrix();
+
+			return { matrix[12], matrix[13], 0.0f};
+		}
+
 		void Move(Entity entity, const Vec3& offset)
 		{
 			if (!entity.IsValid() || !entity.Has<TransformComponent>())

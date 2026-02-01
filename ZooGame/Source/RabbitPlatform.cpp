@@ -83,8 +83,8 @@ namespace Luden
         if (!player.IsValid())
             return false;
 
-        Vec3 platformPos = GameplayAPI::GetPosition(GetEntity());
-        Vec3 playerPos = GameplayAPI::GetPosition(player);
+        Vec3 platformPos = GameplayAPI::GetWorldPosition(GetEntity());
+        Vec3 playerPos = GameplayAPI::GetWorldPosition(player);
         Vec2 playerSize = GameplayAPI::GetEntitySize(player);
 
         return GameplayAPI::CheckAABBOverlap(
@@ -97,7 +97,7 @@ namespace Luden
     {
         Vec3 platformPos = GameplayAPI::GetPosition(GetEntity());
         platformPos += LandingOffset;
-        platformPos.z = 500.0f;
+        platformPos.z = 200.0f;
 
         return platformPos + LandingOffset;
     }

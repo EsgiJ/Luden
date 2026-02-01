@@ -576,6 +576,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Fonts/Minecraft.ttf",
+      "Handle": 12574412462348067972,
+      "Type": "Font"
+    },
+    {
       "FilePath": "Images/Player/side1.png",
       "Handle": 12593373174746851635,
       "Type": "Texture"
