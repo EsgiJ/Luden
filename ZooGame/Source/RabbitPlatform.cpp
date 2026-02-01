@@ -15,25 +15,26 @@ namespace Luden
 
         auto entities = GameplayAPI::GetChildren(GetEntity());
 
-        if (entities[0].IsValid())
+        for (int i = 0; i < entities.size(); ++i)
         {
-            MonkeyArmRight = entities[0];
+            if (i == 0)
+            {
+                MonkeyArmRight = entities[0];
+            }
+        	else if (i == 1)
+            {
+                MonkeyArmLeft = entities[1];
+            }
+        	else if (i == 2)
+            {
+                MonkeyArmUp = entities[2];
+            }
+        	else if (i == 3)
+            {
+                MonkeyArmDown = entities[3];
+            }
         }
 
-        if (entities[1].IsValid())
-        {
-            MonkeyArmLeft = entities[1];
-        }
-
-        if (entities[2].IsValid())
-        {
-            MonkeyArmUp = entities[2];
-        }
-
-        if (entities[3].IsValid())
-        {
-            MonkeyArmDown = entities[3];
-        }
     }
 
     void RabbitPlatform::OnUpdate(TimeStep ts)
