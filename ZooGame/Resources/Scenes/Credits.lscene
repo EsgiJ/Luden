@@ -1,0 +1,252 @@
+{
+    "Entities": [
+        {
+            "Camera2DComponent": {
+                "Primary": true,
+                "Type": "FollowXY"
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": -6323701083899873646
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "GameManager",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 9931282539192298973
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 18042617537002936825
+            },
+            "Tag": "Team",
+            "TextComponent": {
+                "characterSize": 128,
+                "fillColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "fontHandle": 13048467099254899179,
+                "letterSpacing": 0.5,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "outlineThickness": 5.0,
+                "style": 1,
+                "text": "\nCredits\n\nNo Brain Monkeys\n",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 5515999989550573399
+        },
+        {
+            "RelationshipComponent": {
+                "Children": [
+                    5515999989550573399,
+                    6654005059212803864,
+                    15240451872475198799,
+                    57027030295389904
+                ],
+                "ParentHandle": 0
+            },
+            "Tag": "Credits",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    832.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 18042617537002936825
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 18042617537002936825
+            },
+            "Tag": "Members",
+            "TextComponent": {
+                "characterSize": 64,
+                "fillColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "fontHandle": 13048467099254899179,
+                "letterSpacing": 0.5,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "outlineThickness": 5.0,
+                "style": 2,
+                "text": "Oguzhan Esgiyusufo - Engine Programmer \n\nIclal Baydur - 2D Artist/Animation \n\nAtaberk Akin - Game Designer",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    64.0,
+                    512.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 6654005059212803864
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 8546285306808769180,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "CreditsBackground",
+            "TransformComponent": {
+                "Scale": [
+                    0.3799999952316284,
+                    0.3799999952316284,
+                    0.3799999952316284
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    -100.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 16730133594047318005
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 18042617537002936825
+            },
+            "Tag": "Luden",
+            "TextComponent": {
+                "characterSize": 128,
+                "fillColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "fontHandle": 13048467099254899179,
+                "letterSpacing": 1.0,
+                "lineAlignment": 2,
+                "lineSpacing": 1.0,
+                "outlineColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "outlineThickness": 5.0,
+                "style": 1,
+                "text": "Powered by Luden Engine",
+                "textOrientation": 0
+            },
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    896.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 15240451872475198799
+        },
+        {
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 18042617537002936825
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 1750359319657015477,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "TeamPhoto",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    -0.0,
+                    1536.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 57027030295389904
+        }
+    ],
+    "Name": "",
+    "UUID": 10043238152735968777
+}

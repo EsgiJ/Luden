@@ -64,21 +64,23 @@ namespace Luden
         switch (m_Type)
         {
         case MaskType::Elephant:
-            DebugAPI::DrawDebugCircle(playerPos, m_MinElephantDistance, sf::Color::Blue, 0.0f);
+            //DebugAPI::DrawDebugCircle(playerPos, m_MinElephantDistance, sf::Color::Blue, 0.0f);
             break;
 
         case MaskType::Rabbit:
-            DebugAPI::DrawDebugCircle(playerPos, m_MinRabbitJumpDistance, sf::Color::Blue, 0.0f);
+            //DebugAPI::DrawDebugCircle(playerPos, m_MinRabbitJumpDistance, sf::Color::Blue, 0.0f);
             break;
 
         case MaskType::Monkey:
-            DebugAPI::DrawDebugCircle(playerPos, m_MinMonkeyJumpDistance, sf::Color::Blue, 0.0f);
+            //DebugAPI::DrawDebugCircle(playerPos, m_MinMonkeyJumpDistance, sf::Color::Blue, 0.0f);
             break;
 
         case MaskType::None:
         default:
             break;
         }
+
+        GlowClosestEntity();
     }
 
     void Player::OnDestroy()
@@ -461,6 +463,101 @@ namespace Luden
         }
 
         return MaskType::None;
+    }
+
+    void Player::GlowClosestEntity()
+    {
+        switch (m_Type)
+        {
+        case MaskType::Elephant:
+        {
+            Vec3 playerPos = GameplayAPI::GetPosition(GetEntity());
+            auto targets = GameplayAPI::FindAllEntitiesWithTag("ElephantRoot");
+
+            Entity closestRoot;
+            float minDist = m_MinElephantDistance;
+
+            for (auto root : targets)
+            {
+                auto children = GameplayAPI::GetChildren(root);
+
+                if (children.size() > 0)
+                {
+                    Entity elephantEntity = children[0];
+
+                    if (!elephantEntity.IsValid())
+                        continue;
+
+                    Vec3 elephantPos = GameplayAPI::GetPosition(elephantEntity);
+                    float dist = GameplayAPI::Distance(playerPos, elephantPos);
+
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        closestRoot = root;
+                    }
+                }
+            }
+
+            if (closestRoot.IsValid())
+            {
+                auto children = GameplayAPI::GetChildren(closestRoot);
+
+                Entity elephantEntity = children[0];
+
+                if (elephantEntity.IsValid())
+                {
+                    auto& shader = elephantEntity.Get<ShaderComponent>();
+                    shader.vec3Uniforms["glowColor"] = glm::vec3(1.0f, 0.5f, 0.0f);
+                    shader.floatUniforms["intensity"] = 0.3f;
+                    shader.floatUniforms["time"] = GameplayAPI::GetGameTime();
+                }
+            }
+            else
+            {
+                std::cout << "[Player] No Elephant in range (min distance: " << m_MinElephantDistance << ")" << std::endl;
+            }
+
+			break;
+        }
+        case MaskType::Monkey:
+        {
+            Entity targetPlatform = FindClosestPlatformInDirection(50.0f);
+
+            if (!targetPlatform.IsValid())
+            {
+                std::cout << "[Player] No platform in that direction!" << std::endl;
+                return;
+            }
+            auto& shader = targetPlatform.Get<ShaderComponent>();
+            shader.vec3Uniforms["glowColor"] = glm::vec3(1.0f, 0.5f, 0.0f);
+            shader.floatUniforms["intensity"] = 0.3f;
+            shader.floatUniforms["time"] = GameplayAPI::GetGameTime();
+
+            break;
+        }
+        case MaskType::Rabbit:    
+        {
+            Entity targetPlatform = FindClosestPlatformInDirection(50.0f);
+
+            if (!targetPlatform.IsValid())
+            {
+                std::cout << "[Player] No platform in that direction!" << std::endl;
+                return;
+            }
+            auto& shader = targetPlatform.Get<ShaderComponent>();
+            shader.vec3Uniforms["glowColor"] = glm::vec3(1.0f, 0.5f, 0.0f);
+            shader.floatUniforms["intensity"] = 0.3f;
+            shader.floatUniforms["time"] = GameplayAPI::GetGameTime();
+
+            break;
+        }
+        case MaskType::None:  
+        {
+            break;
+        }
+        default: break;
+        }
     }
 
     void Player::UseElephantAbility()

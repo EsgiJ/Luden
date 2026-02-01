@@ -31,6 +31,8 @@ namespace Luden
 
         void CollectKey() { m_HasKey = true; }
         bool HasKey() const { return m_HasKey; }
+
+        void GlowClosestEntity();
     public:
         Mask* m_MaskScript = nullptr;
         Entity m_MaskEntity;

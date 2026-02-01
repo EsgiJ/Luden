@@ -18,6 +18,7 @@
 #include "ExitGate.h"
 #include "WalkablePlatform.h"
 #include "CollectableKey.h"
+#include "CreditsGameManager.h"
 
 namespace Luden
 {
@@ -49,6 +50,7 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<WalkablePlatform>("WalkablePlatform", resourceManager);
 		NativeScriptRegistry::RegisterScript<CollectableKey>("CollectableKey", resourceManager);
 		NativeScriptRegistry::RegisterScript<ExitGate>("ExitGate", resourceManager);
+		NativeScriptRegistry::RegisterScript<CreditsGameManager>("CreditsGameManager", resourceManager);
 
 	}
 

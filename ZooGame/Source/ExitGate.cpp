@@ -35,7 +35,7 @@ namespace Luden
                     return;
                 }
                 std::cout << "[Gate] Opening gate and loading end scene" << std::endl;
-                GameplayAPI::ChangeScene("EndScene");
+                GameplayAPI::ChangeScene("Credits");
             }
         }
     }

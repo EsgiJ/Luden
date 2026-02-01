@@ -1,0 +1,15 @@
+{
+    "Handle": 8546285306808769180,
+    "Name": "CreditsBackground",
+    "Pivot": {
+        "x": 0.5,
+        "y": 0.5
+    },
+    "TextureHandle": 15554738767244299710,
+    "TextureRect": {
+        "height": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+    }
+}

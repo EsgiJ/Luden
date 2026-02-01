@@ -196,6 +196,30 @@
                 "angle": 0.0
             },
             "UUID": 16287175144638299154
+        },
+        {
+            "NativeScriptComponent": {
+                "ScriptHandle": -4032297394750075137
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "Tag": "GameManager",
+            "TransformComponent": {
+                "Scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 3550282278451252914
         }
     ],
     "Name": "MainMenuScene",

@@ -14,7 +14,7 @@ namespace Luden
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
 	private:
-
+        MusicRef m_MainMusic;
         Vec2 worldGravity = {0.0f, 0.0f};
-    };
+    };  
 }

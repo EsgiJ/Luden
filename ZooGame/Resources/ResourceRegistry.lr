@@ -111,6 +111,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Sprites/TeamSprite.lsprite",
+      "Handle": 1750359319657015477,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Sprites/Masks/RabbitMask/r_mask_front_2.lsprite",
       "Handle": 1755268662265653054,
       "Type": "Sprite"
@@ -216,6 +221,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Musics/MainMusic.wav",
+      "Handle": 3718683434916125304,
+      "Type": "Music"
+    },
+    {
       "FilePath": "Sprites/Elephant/e_02.lsprite",
       "Handle": 3729416804329789506,
       "Type": "Sprite"
@@ -301,6 +311,11 @@
       "Type": "NativeScript"
     },
     {
+      "FilePath": "Images/door.png",
+      "Handle": 5134323675193919473,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Player/elephant mask/e_mask_front_3.png",
       "Handle": 5265281303041672096,
       "Type": "Texture"
@@ -309,6 +324,11 @@
       "FilePath": "Animations/ElephantSquirtAnim.lanim",
       "Handle": 5367552301453052070,
       "Type": "Animation"
+    },
+    {
+      "FilePath": "Sprites/Door.lsprite",
+      "Handle": 5433150134027958622,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Images/Masks/MonkeyMask/m_front_3.png",
@@ -339,6 +359,11 @@
       "FilePath": "Animations/Masks/MonkeyMaskSideAnim.lanim",
       "Handle": 6275384229511597737,
       "Type": "Animation"
+    },
+    {
+      "FilePath": "Shaders/Glow.lshader",
+      "Handle": 6282942590187499989,
+      "Type": "Shader"
     },
     {
       "FilePath": "Scenes/BlockoutScene.lscene",
@@ -404,6 +429,11 @@
       "FilePath": "Images/Player/elephant mask/e_side_2.png",
       "Handle": 8543264321547862578,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Sprites/CreditsBackground.lsprite",
+      "Handle": 8546285306808769180,
+      "Type": "Sprite"
     },
     {
       "FilePath": "Prefabs/MazeBlock.lprefab",
@@ -566,6 +596,11 @@
       "Type": "Texture"
     },
     {
+      "FilePath": "Scripts/CreditsGameManager.lns",
+      "Handle": 12123042989809677970,
+      "Type": "NativeScript"
+    },
+    {
       "FilePath": "Sprites/MonkeyHead.lsprite",
       "Handle": 12189214047291068214,
       "Type": "Sprite"
@@ -606,6 +641,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Sprites/Masks/ElephantMask/ElephantCollectable.lsprite",
+      "Handle": 12559142002286057501,
+      "Type": "Sprite"
+    },
+    {
       "FilePath": "Fonts/Minecraft.ttf",
       "Handle": 12574412462348067972,
       "Type": "Font"
@@ -621,9 +661,19 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Musics/Credits.wav",
+      "Handle": 12725401540369032960,
+      "Type": "Music"
+    },
+    {
       "FilePath": "Images/Masks/ElephantMask/e_mask_side1.png",
       "Handle": 12801816965356081933,
       "Type": "Texture"
+    },
+    {
+      "FilePath": "Fonts/AlbertSans-Regular.ttf",
+      "Handle": 13048467099254899179,
+      "Type": "Font"
     },
     {
       "FilePath": "Scripts/ExitGate.lns",
@@ -746,6 +796,11 @@
       "Type": "Prefab"
     },
     {
+      "FilePath": "Scenes/Credits.lscene",
+      "Handle": 14987241964687271700,
+      "Type": "Scene"
+    },
+    {
       "FilePath": "Sprites/Elephant/e_09.lsprite",
       "Handle": 15237329244684746227,
       "Type": "Sprite"
@@ -766,6 +821,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Images/WhatsApp Image 2026-02-01 at 14.18.41.jpeg",
+      "Handle": 15369734028412944277,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Images/Elephant/6.png",
       "Handle": 15434059130126427878,
       "Type": "Texture"
@@ -781,6 +841,11 @@
       "Type": "Sprite"
     },
     {
+      "FilePath": "Images/credit.png",
+      "Handle": 15554738767244299710,
+      "Type": "Texture"
+    },
+    {
       "FilePath": "Animations/Masks/ElephantMaskSide.lanim",
       "Handle": 15668835922991334784,
       "Type": "Animation"
@@ -794,6 +859,11 @@
       "FilePath": "Sprites/Masks/ElephantMask/e_mask_front_03.lsprite",
       "Handle": 15706906639259634923,
       "Type": "Sprite"
+    },
+    {
+      "FilePath": "Images/TeamPhoto.jpeg",
+      "Handle": 15971590924915486426,
+      "Type": "Texture"
     },
     {
       "FilePath": "Sprites/Player/back animation/back_4.lsprite",
