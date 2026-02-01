@@ -3,6 +3,7 @@
 #include "NativeScript/NativeScriptRegistry.h"
 #include <iostream>
 
+#include "CollectableMask.h"
 #include "Elephant.h"
 #include "ElephantTarget.h"
 #include "MainMenu.h"
@@ -13,6 +14,7 @@
 #include "UIButton.h"
 #include "Room.h"
 #include "MonkeyArm.h"
+#include "CollectableMask.h"
 
 namespace Luden
 {
@@ -40,7 +42,7 @@ namespace Luden
 		NativeScriptRegistry::RegisterScript<ElephantTarget>("ElephantTarget", resourceManager);
 		NativeScriptRegistry::RegisterScript<MonkeyArm>("MonkeyArm", resourceManager);
 		NativeScriptRegistry::RegisterScript<Elephant>("Elephant", resourceManager);
-
+		NativeScriptRegistry::RegisterScript<CollectableMask>("CollectableMask", resourceManager);
 
 	}
 

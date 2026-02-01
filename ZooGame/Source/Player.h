@@ -24,6 +24,10 @@ namespace Luden
         virtual void OnCollisionEnd(const CollisionContact& contact) override;
         virtual void OnCollisionHit(const CollisionContact& contact) override;
 
+        void CollectMask(MaskType type);
+        bool HasMask(MaskType type);
+        const std::unordered_set<MaskType>& GetCollectedMasks() { return m_CollectedMasks; }
+        MaskType GetNextAvailableMask(MaskType current);
     public:
         Mask* m_MaskScript = nullptr;
         Entity m_MaskEntity;
@@ -72,6 +76,8 @@ namespace Luden
         void ActivateMonkeyArmInDirection(Entity platform, WalkDirection direction, bool deactivate);
 
     private:
+        std::unordered_set<MaskType> m_CollectedMasks;
+
         Vec3 m_JumpStartPos;
         Vec3 m_JumpEndPos;
         float m_JumpProgress = 0.0f;

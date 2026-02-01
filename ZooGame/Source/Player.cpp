@@ -279,21 +279,6 @@ namespace Luden
         UpdateMovementAnimation(normalizedDir);
     }
 
-    void Player::OnChangeMask(const InputValue& value)
-    {
-        int i = (int)m_Type;
-        i++;
-
-        if (i > (int)MaskType::Monkey)
-        {
-            i = (int)MaskType::None;
-        }
-
-        m_Type = (MaskType)i;
-
-        std::cout << "[Player] Mask changed to: " << i << std::endl;
-    }
-
     void Player::SetupInput()
     {
         auto context = std::make_shared<InputContext>("Gameplay", 100);
@@ -368,7 +353,6 @@ namespace Luden
             m_MaskScript->OnAbilityUse = [this]() { UseMonkeyAbility(); };
             m_MaskScript->MaxCooldown = 2.0f;
             break;
-
         case MaskType::None:
         default:
             m_MaskScript->OnAbilityUse = nullptr;
@@ -376,6 +360,81 @@ namespace Luden
         }
 
         std::cout << "[Player] Mask ability setup for type: " << (int)m_Type << std::endl;
+    }
+
+    void Player::CollectMask(MaskType type)
+    {
+        if (type == MaskType::None)
+            return;
+
+        m_CollectedMasks.insert(type);
+
+        std::cout << "[Player] Collected mask: " << (int)type << std::endl;
+        std::cout << "[Player] Total masks: " << m_CollectedMasks.size() << std::endl;
+
+        if (m_Type == MaskType::None)
+        {
+            m_Type = type;
+            std::cout << "[Player] Auto-equipped first mask!" << std::endl;
+        }
+    }
+
+    void Player::OnChangeMask(const InputValue& value)
+    {
+        MaskType nextMask = GetNextAvailableMask(m_Type);
+        m_Type = nextMask;
+
+        std::cout << "[Player] Mask changed to: " << (int)m_Type;
+
+        switch (m_Type)
+        {
+        case MaskType::None:     std::cout << " (None)" << std::endl; break;
+        case MaskType::Elephant: std::cout << " (Elephant)" << std::endl; break;
+        case MaskType::Rabbit:   std::cout << " (Rabbit)" << std::endl; break;
+        case MaskType::Monkey:   std::cout << " (Monkey)" << std::endl; break;
+        }
+    }
+
+    bool Player::HasMask(MaskType type) 
+    {
+        return m_CollectedMasks.find(type) != m_CollectedMasks.end();
+    }
+
+    MaskType Player::GetNextAvailableMask(MaskType current)
+    {
+        if (m_CollectedMasks.empty())
+            return MaskType::None;
+
+        std::vector<MaskType> maskOrder = {
+            MaskType::None,
+            MaskType::Elephant,
+            MaskType::Rabbit,
+            MaskType::Monkey
+        };
+
+        int currentIndex = 0;
+        for (int i = 0; i < maskOrder.size(); i++)
+        {
+            if (maskOrder[i] == current)
+            {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        for (int i = 1; i <= maskOrder.size(); i++)
+        {
+            int nextIndex = (currentIndex + i) % maskOrder.size();
+            MaskType nextType = maskOrder[nextIndex];
+
+            if (nextType == MaskType::None)
+                return MaskType::None;
+
+            if (HasMask(nextType))
+                return nextType;
+        }
+
+        return MaskType::None;
     }
 
     void Player::UseElephantAbility()

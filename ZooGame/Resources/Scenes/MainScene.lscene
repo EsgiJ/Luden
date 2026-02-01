@@ -218,7 +218,7 @@
             },
             "RelationshipComponent": {
                 "Children": null,
-                "ParentHandle": 0
+                "ParentHandle": 8940412848283742930
             },
             "Tag": "Room_04",
             "TransformComponent": {
@@ -229,8 +229,8 @@
                 ],
                 "Translation": [
                     1920.0,
-                    1080.0,
-                    -100.0
+                    1088.0,
+                    -170.0
                 ],
                 "angle": 0.0
             },
@@ -397,7 +397,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0,
+                "frameTimer": 0.034703999757766724,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -414,8 +414,8 @@
                     0.20000000298023224
                 ],
                 "Translation": [
-                    128.0,
-                    384.0,
+                    -768.0,
+                    320.0,
                     100.0
                 ],
                 "angle": 0.0
@@ -469,7 +469,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 0,
-                "frameTimer": 0.0,
+                "frameTimer": 0.034703999757766724,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -488,7 +488,7 @@
                 "Translation": [
                     0.0,
                     0.0,
-                    500.0
+                    100.0
                 ],
                 "angle": 0.0
             },
@@ -1717,7 +1717,7 @@
                 ],
                 "currentAnimationIndex": 0,
                 "currentFrame": 11,
-                "frameTimer": 0.0,
+                "frameTimer": 0.034703999757766724,
                 "playbackSpeed": 1.0,
                 "tint": [
                     255,
@@ -1734,8 +1734,8 @@
                     1.0
                 ],
                 "Translation": [
-                    -384.0,
-                    704.0,
+                    64.0,
+                    1152.0,
                     0.0
                 ],
                 "angle": 90.0
@@ -1791,13 +1791,196 @@
                     1.0
                 ],
                 "Translation": [
-                    -320.0,
-                    704.0,
+                    64.0,
+                    1152.0,
                     0.0
                 ],
                 "angle": 0.0
             },
             "UUID": 4854072851919103977
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 128,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 8008903677062029701
+            },
+            "PrefabComponent": {
+                "EntityID": 922455271356529065,
+                "PrefabID": 6911114420210330578
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 16195621475342852555,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "CollectableElephantMask",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    -832.0,
+                    -128.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 922455271356529065
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 128,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 8008903677062029701
+            },
+            "PrefabComponent": {
+                "EntityID": 13840712373613189995,
+                "PrefabID": 3431549241172199393
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 9557699136592779511,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "CollectableRabbitMask",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    -640.0,
+                    -128.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 13840712373613189995
+        },
+        {
+            "BoxCollider2DComponent": {
+                "CategoryBits": 128,
+                "Density": 1.0,
+                "Friction": 1.0,
+                "GroupIndex": 0,
+                "MaskBits": 2,
+                "Offset": [
+                    0.0,
+                    0.0
+                ],
+                "Restitution": 0.0,
+                "Size": [
+                    500.0,
+                    500.0
+                ]
+            },
+            "NativeScriptComponent": {
+                "ScriptHandle": 8008903677062029701
+            },
+            "PrefabComponent": {
+                "EntityID": 12024656299978356699,
+                "PrefabID": 3972791420708612375
+            },
+            "RelationshipComponent": {
+                "Children": null,
+                "ParentHandle": 0
+            },
+            "RigidBody2DComponent": {
+                "AngularDrag": 0.05000000074505806,
+                "BodyType": 0,
+                "FixedRotation": true,
+                "GravityScale": 1.0,
+                "LinearDrag": 0.009999999776482582,
+                "Mass": 1.0
+            },
+            "SpriteRendererComponent": {
+                "spriteHandle": 3858288495149638203,
+                "tint": [
+                    255,
+                    255,
+                    255,
+                    255
+                ]
+            },
+            "Tag": "CollectableMonkeyMask",
+            "TransformComponent": {
+                "Scale": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "Translation": [
+                    -384.0,
+                    -128.0,
+                    0.0
+                ],
+                "angle": 0.0
+            },
+            "UUID": 12024656299978356699
         }
     ],
     "Name": "MainScene",
