@@ -396,7 +396,7 @@ namespace Luden {
 			{
 				auto& nsc = entity.Get<NativeScriptComponent>();
 
-				nsc.CreateInstance(entity);
+ 				nsc.CreateInstance(entity);
 			}
 		}
 	}

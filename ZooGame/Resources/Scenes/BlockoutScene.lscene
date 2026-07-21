@@ -293,7 +293,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -4032297394750075137
+                "ScriptHandle": 14414446678959476479
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -1726,7 +1726,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -8377493969291345193
+                "ScriptHandle": 10069250104418206423
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -1795,7 +1795,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
+                "ScriptHandle": 13910162967670977420
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -1868,7 +1868,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
+                "ScriptHandle": 13486512418273902581
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -1937,7 +1937,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
+                "ScriptHandle": 13910162967670977420
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2010,7 +2010,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
+                "ScriptHandle": 13486512418273902581
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2067,7 +2067,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -8377493969291345193
+                "ScriptHandle": 10069250104418206423
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2136,7 +2136,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
+                "ScriptHandle": 13910162967670977420
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2209,7 +2209,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
+                "ScriptHandle": 13486512418273902581
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2250,7 +2250,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 14760039549234203548,
@@ -2294,7 +2294,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 15285333686312766000,
@@ -2338,7 +2338,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 6807535870749960544,
@@ -2382,7 +2382,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 8487322200059022940,
@@ -2426,7 +2426,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 17533346559535149483,
@@ -2498,7 +2498,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
+                "ScriptHandle": 13910162967670977420
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2571,7 +2571,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
+                "ScriptHandle": 13486512418273902581
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2612,7 +2612,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 12824733940547708866,
@@ -2656,7 +2656,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 4034534745257928209,
@@ -2700,7 +2700,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 12993080831694169671,
@@ -2744,7 +2744,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 16587741114895822190,
@@ -2816,7 +2816,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -4536581106038574196
+                "ScriptHandle": 13910162967670977420
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2889,7 +2889,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -4960231655435649035
+                "ScriptHandle": 13486512418273902581
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -2930,7 +2930,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 7552258109339230374,
@@ -2977,7 +2977,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -8027949884644887342
+                "ScriptHandle": 10418794189064664274
             },
             "RelationshipComponent": {
                 "Children": [
@@ -3064,7 +3064,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -8027949884644887342
+                "ScriptHandle": 10418794189064664274
             },
             "RelationshipComponent": {
                 "Children": [
@@ -3151,7 +3151,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 1706315475196819140,
@@ -3198,7 +3198,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -8027949884644887342
+                "ScriptHandle": 10418794189064664274
             },
             "RelationshipComponent": {
                 "Children": [
@@ -3285,7 +3285,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -8027949884644887342
+                "ScriptHandle": 10418794189064664274
             },
             "RelationshipComponent": {
                 "Children": [
@@ -3372,7 +3372,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -2333808518275202909
+                "ScriptHandle": 16112935555434348707
             },
             "PrefabComponent": {
                 "EntityID": 10148950899252694262,
@@ -3418,7 +3418,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -8027949884644887342
+                "ScriptHandle": 10418794189064664274
             },
             "RelationshipComponent": {
                 "Children": [
@@ -3521,7 +3521,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -8377493969291345193
+                "ScriptHandle": 10069250104418206423
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -3635,7 +3635,7 @@
                 ]
             },
             "NativeScriptComponent": {
-                "ScriptHandle": -5302114642437199610
+                "ScriptHandle": 13144629431272352006
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -4568,7 +4568,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1899463034577410086
+                "ScriptHandle": 16547281039132141530
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -4631,7 +4631,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1899463034577410086
+                "ScriptHandle": 16547281039132141530
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -4664,7 +4664,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1899463034577410086
+                "ScriptHandle": 16547281039132141530
             },
             "RelationshipComponent": {
                 "Children": null,
@@ -4697,7 +4697,7 @@
         },
         {
             "NativeScriptComponent": {
-                "ScriptHandle": -1899463034577410086
+                "ScriptHandle": 16547281039132141530
             },
             "RelationshipComponent": {
                 "Children": null,

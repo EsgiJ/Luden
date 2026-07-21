@@ -7,7 +7,7 @@ namespace Luden
 	{
 	public:
 		PaddleGameRuntimeApp(const ApplicationSpecification& spec);
-		~PaddleGameRuntimeApp() override = default;
+		~PaddleGameRuntimeApp() override;
 
 		void OnUpdate(TimeStep ts) override;
 

@@ -9,6 +9,10 @@ namespace Luden
 		std::cout << "[PaddleGameRuntimeApp] Custom runtime application created!" << std::endl;
 	}
 
+	PaddleGameRuntimeApp::~PaddleGameRuntimeApp()
+	{
+	}
+
 	void PaddleGameRuntimeApp::OnUpdate(TimeStep ts)
 	{
 		RuntimeApplication::OnUpdate(ts);

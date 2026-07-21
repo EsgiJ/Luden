@@ -37,6 +37,12 @@ namespace Luden
 		if (!script)
 			return;
 
+		if (!InstantiateScript)
+		{
+			InstantiateScript = script->GetInstantiateFunc();
+			DestroyScript = script->GetDestroyFunc();
+		}
+
 		if (!(script->GetInstantiateFunc()))
 			return;
 

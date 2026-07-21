@@ -170,7 +170,7 @@ namespace Luden
 			if (e.Has<NativeScriptComponent>())
 			{
 				const auto& c = e.Get<NativeScriptComponent>();
-				jEntity["NativeScriptComponent"]["ScriptHandle"] = static_cast<int64_t>(c.ScriptHandle);
+				jEntity["NativeScriptComponent"]["ScriptHandle"] = static_cast<uint64_t>(c.ScriptHandle);
 			}
 
 			if (e.Has<SpriteRendererComponent>())
@@ -413,9 +413,9 @@ namespace Luden
 				c.Density = jEntity["CircleCollider2DComponent"]["Density"].get<float>();
 				c.Friction = jEntity["CircleCollider2DComponent"]["Friction"].get<float>();
 				c.Restitution = jEntity["CircleCollider2DComponent"]["Restitution"].get<float>();
-				c.CategoryBits = jEntity["BoxCollider2DComponent"].value("CategoryBits", 1);  
-				c.MaskBits = jEntity["BoxCollider2DComponent"].value("MaskBits", 1);         
-				c.GroupIndex = jEntity["BoxCollider2DComponent"].value("GroupIndex", 0);
+				c.CategoryBits = jEntity["CircleCollider2DComponent"].value("CategoryBits", 1);  
+				c.MaskBits = jEntity["CircleCollider2DComponent"].value("MaskBits", 1);         
+				c.GroupIndex = jEntity["CircleCollider2DComponent"].value("GroupIndex", 0);
 			}
 
 			if (jEntity.contains("InvincibilityComponent"))
