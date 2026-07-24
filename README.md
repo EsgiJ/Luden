@@ -8,7 +8,8 @@ It’s designed to be data-driven, and easy to extend, ideal for learning engine
 ## Repository Layout
 Engine/ – Core engine source and headers
 Editor/ – ImGui-based scene editor built on the engine
-MyGame/ – Minimal example game using the engine
+PaddleGame/ – Minimal paddle example game using the engine
+ZooGame/ – Game we made in GGJ 2026 using the engine
 extern/ – Third-party dependencies (SFML, ImGui, etc.)
 premake5.lua – Premake build configuration script
 setup-extern.bat – Downloads and sets up external dependencies
@@ -26,7 +27,7 @@ generate.bat – Generates Visual Studio solution files using Premake
 
 1. **Clone the repository and its submodules:**
    ```bash
-   git clone --recursive https://github.com/yourname/LudenEngine.git
+   git clone --recursive https://github.com/EsgiJ/LudenEngine.git
 
 2. **Run the external setup script (Windows):**
    ```bash
