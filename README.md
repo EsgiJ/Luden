@@ -27,7 +27,7 @@ It’s designed to be data-driven, and easy to extend, ideal for learning engine
 
 1. **Clone the repository and its submodules:**
    ```bash
-   git clone --recursive https://github.com/EsgiJ/LudenEngine.git
+   git clone --recursive https://github.com/EsgiJ/Luden.git
 
 2. **Run the external setup script (Windows):**
    ```bash
