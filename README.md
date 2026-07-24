@@ -6,14 +6,14 @@ It’s designed to be data-driven, and easy to extend, ideal for learning engine
 ---
 
 ## Repository Layout
-Engine/ – Core engine source and headers
-Editor/ – ImGui-based scene editor built on the engine
-PaddleGame/ – Minimal paddle example game using the engine
-ZooGame/ – Game we made in GGJ 2026 using the engine
-extern/ – Third-party dependencies (SFML, ImGui, etc.)
-premake5.lua – Premake build configuration script
-setup-extern.bat – Downloads and sets up external dependencies
-generate.bat – Generates Visual Studio solution files using Premake
+- `Engine/` – Core engine source and headers
+- `Editor/` – ImGui-based scene editor built on the engine
+- `PaddleGame/` – Minimal paddle example game using the engine
+- `ZooGame/` – Game we made in GGJ 2026 using the engine
+- `extern/` – Third-party dependencies (SFML, ImGui, etc.)
+- `premake5.lua` – Premake build configuration script
+- `setup-extern.bat` – Downloads and sets up external dependencies
+- `generate.bat` – Generates Visual Studio solution files using Premake
 
 ## Prerequisites
 
